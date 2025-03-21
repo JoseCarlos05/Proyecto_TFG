@@ -24,4 +24,8 @@ public class Comunicado {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad")
     private Comunidad comunidad;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vecino")
+    private Vecino vecino;
 }

@@ -1,10 +1,12 @@
 package org.example.backend_tfg.Repositorios;
 
-import org.example.backend_tfg.Modelos.Votacion;
+import org.example.backend_tfg.Modelos.Comunicado;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VotacionRepositorio extends JpaRepository<Votacion, Integer> {
+public interface IComunicadoRepositorio extends JpaRepository<Comunicado, Integer> {
 
 }
+
+

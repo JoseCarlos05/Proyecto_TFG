@@ -1,4 +1,4 @@
-package org.example.backend_tfg.Enum;
+package org.example.backend_tfg.Enumerados;
 
 public enum TipoNotificacion {
     SOLICITUD, COMUNICADO, DEUDA, RESERVA

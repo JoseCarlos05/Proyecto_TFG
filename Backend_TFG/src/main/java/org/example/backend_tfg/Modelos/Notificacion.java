@@ -2,9 +2,8 @@ package org.example.backend_tfg.Modelos;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.backend_tfg.Enum.TipoNotificacion;
+import org.example.backend_tfg.Enumerados.TipoNotificacion;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
