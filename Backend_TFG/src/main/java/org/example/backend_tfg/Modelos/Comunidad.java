@@ -34,5 +34,8 @@ public class Comunidad {
     @Column(name = "CIF", nullable = false)
     private String CIF;
 
-
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Usuario usuario;
 }

@@ -46,4 +46,9 @@ public class Vecino {
 
     @Column(name = "numero_residentes", nullable = false)
     private String numResidentes;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Usuario usuario;
 }
