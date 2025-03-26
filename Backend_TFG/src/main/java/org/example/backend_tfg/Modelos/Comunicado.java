@@ -18,8 +18,8 @@ public class Comunicado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "descripciop", nullable = false)
-    private String descripciop;
+    @Column(name = "descripcion", nullable = false)
+    private String descripcion;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad")
