@@ -34,6 +34,14 @@ public class Comunidad {
     @Column(name = "CIF", nullable = false)
     private String CIF;
 
+    @Column(name = "codigoComunidad")
+    private String codigoComunidad;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Vecino presidente;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
