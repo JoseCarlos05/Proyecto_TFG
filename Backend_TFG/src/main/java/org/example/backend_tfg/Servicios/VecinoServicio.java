@@ -2,16 +2,27 @@ package org.example.backend_tfg.Servicios;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
+import org.example.backend_tfg.DTOs.UsuarioDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
+import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Modelos.Vecino;
+import org.example.backend_tfg.Repositorios.IUsuarioRepositorio;
 import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class VecinoServicio {
 
     private IVecinoRepositorio iVecinoRepositorio;
+
+    private IUsuarioRepositorio iUsuarioRepositorio;
 
     public VecinoDTO buscarVecinoID(Integer id){
         Vecino vecino = iVecinoRepositorio.findById(id)
@@ -20,9 +31,20 @@ public class VecinoServicio {
         return getVecinoDTO(vecino);
     }
 
-    public VecinoDTO busccarClienteUsuarioID(Integer idUsuario) {
+    public VecinoDTO busccarVecinoUsuarioID(Integer idUsuario) {
         Vecino vecino = iVecinoRepositorio.findByUsuario_Id(idUsuario);
         return getVecinoDTO(vecino);
+    }
+
+    public List<VecinoDTO> listarVecino(){
+        List<Vecino> vecinos = iVecinoRepositorio.findAll();
+        List<VecinoDTO> vecinoDTOS = new ArrayList<>();
+
+        for (Vecino vecino: vecinos){
+            vecinoDTOS.add(getVecinoDTO(vecino));
+        }
+
+        return vecinoDTOS;
     }
 
     public static VecinoDTO getVecinoDTO(Vecino vecino){
@@ -38,5 +60,35 @@ public class VecinoServicio {
         dtoNuevo.setNumeroCuenta(vecino.getNumCuenta());
 
         return dtoNuevo;
+    }
+
+    private VecinoDTO actualizarClienteInterno(VecinoDTO vecinoDTO, UsuarioDTO usuarioDTO) {
+        Vecino vecino = iVecinoRepositorio.findById(vecinoDTO.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe un vecino con este ID."));
+        vecino.setNombre(vecinoDTO.getNombre());
+        vecino.setApellidos(vecinoDTO.getApellidos());
+        vecino.setDNI(vecinoDTO.getDNI());
+        vecino.setTelefono(vecinoDTO.getTelefono());
+        vecino.setFechaNacimiento(vecinoDTO.getFechaNacimiento());
+        vecino.setNumCuenta(vecinoDTO.getNumeroCuenta());
+        vecino.setDireccionPersonal(vecinoDTO.getDireccionPersonal());
+
+        if (usuarioDTO != null && vecinoDTO.getCorreo() != null) {
+            Usuario usuario = vecino.getUsuario();
+            if (usuario != null) {
+                String nuevoCorreo = vecinoDTO.getCorreo().trim().toLowerCase();
+                String correoActual = usuario.getCorreo() != null ? usuario.getCorreo().trim().toLowerCase() : "";
+                if (!nuevoCorreo.equals(correoActual)) {
+                    Optional<Usuario> usuarioExistente = iUsuarioRepositorio.findOtherByCorreoIgnoreCase(nuevoCorreo, usuario.getId());
+                    if (usuarioExistente.isPresent()) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El correo ya está en uso por otro usuario.");
+                    }
+                    usuario.setCorreo(nuevoCorreo);
+                    iUsuarioRepositorio.save(usuario);
+                }
+            }
+        }
+        Vecino vecinoActualizado = iVecinoRepositorio.save(vecino);
+        return getVecinoDTO(vecinoActualizado);
     }
 }

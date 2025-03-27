@@ -53,7 +53,7 @@ public class Vecino {
     @ToString.Exclude
     private Set<Vivienda> viviendas = new HashSet<>(0);
 
-    @OneToMany(mappedBy = "comunidades", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "comunidad", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Comunidad> comunidades = new HashSet<>(0);
