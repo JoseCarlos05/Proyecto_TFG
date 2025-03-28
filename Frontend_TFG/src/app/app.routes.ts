@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import {IniciosesionComponent} from "./iniciosesion/iniciosesion.component";
+import {RegistroComponent} from "./registro/registro.component";
 
 export const routes: Routes = [
   {
@@ -14,5 +15,9 @@ export const routes: Routes = [
   {
     path: 'iniciosesion',
     loadComponent: () => import('./iniciosesion/iniciosesion.component').then((m) => m.IniciosesionComponent),
+  },
+  {
+    path: 'registro',
+    loadComponent: () => import('./registro/registro.component').then((m) => m.RegistroComponent),
   },
 ];

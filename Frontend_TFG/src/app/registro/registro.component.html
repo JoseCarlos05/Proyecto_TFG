@@ -1,0 +1,73 @@
+<ion-content class="login-container">
+
+  <h2 class="title">Registro</h2>
+  <h4 class="subtitle">Rellena los siguientes datos personales</h4>
+
+  <ion-grid>
+    <ion-col>
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">Usuario</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input type="email" placeholder="Introduce tu usuario"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">Email</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input type="password" placeholder="Introduce tu Email"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">Contraseña</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input type="password" placeholder="Introduce tu contraseña"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">Confimar contraseña</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input type="password" placeholder="Vuelve a introducir tu contraseña"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-grid>
+
+
+  <div class="register-link">
+    <span>¿Ya tienes cuenta?</span>
+    <a routerLink="/iniciarsesion">Iniciar Sesión</a>
+  </div>
+
+
+  <ion-row>
+    <ion-button>Siguiente</ion-button>
+  </ion-row>
+</ion-content>
