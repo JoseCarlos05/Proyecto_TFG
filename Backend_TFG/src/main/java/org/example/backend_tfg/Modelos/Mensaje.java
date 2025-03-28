@@ -3,7 +3,9 @@ package org.example.backend_tfg.Modelos;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "mensaje")
@@ -31,6 +33,15 @@ public class Mensaje {
     @Column(name = "texto", nullable = false)
     private String texto;
 
+    @Column(name = "hora", nullable = false)
+    private LocalTime hora;
+
     @Column(name = "fecha", nullable = false)
-    private LocalDateTime fecha;
+    private LocalDate fecha;
+
+    @Column(name = "editado", nullable = false)
+    private boolean editado = false;
+
+    @Column(name = "borrado", nullable = false)
+    private boolean borrado = false;
 }

@@ -62,7 +62,7 @@ public class VecinoServicio {
         return dtoNuevo;
     }
 
-    private VecinoDTO actualizarClienteInterno(VecinoDTO vecinoDTO, UsuarioDTO usuarioDTO) {
+    private VecinoDTO actualizarVecino(VecinoDTO vecinoDTO, UsuarioDTO usuarioDTO) {
         Vecino vecino = iVecinoRepositorio.findById(vecinoDTO.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe un vecino con este ID."));
         vecino.setNombre(vecinoDTO.getNombre());

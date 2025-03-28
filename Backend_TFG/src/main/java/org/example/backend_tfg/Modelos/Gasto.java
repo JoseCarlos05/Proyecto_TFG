@@ -20,8 +20,8 @@ public class Gasto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "nombre", nullable = false)
-    private String nombre;
+    @Column(name = "concepto", nullable = false)
+    private String concepto;
 
     @Column(name = "total", nullable = false)
     private Double total;
