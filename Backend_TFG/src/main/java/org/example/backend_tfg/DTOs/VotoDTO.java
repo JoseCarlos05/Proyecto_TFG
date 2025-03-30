@@ -3,12 +3,12 @@ package org.example.backend_tfg.DTOs;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.backend_tfg.Enumerados.Voto;
+import org.example.backend_tfg.Enumerados.TipoVoto;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VotacionDTO {
-    private Voto voto;
+public class VotoDTO {
+    private TipoVoto voto;
     private Integer idEleccion;
 }

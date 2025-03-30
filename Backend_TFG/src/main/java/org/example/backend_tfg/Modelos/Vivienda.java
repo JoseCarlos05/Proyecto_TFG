@@ -3,6 +3,9 @@ package org.example.backend_tfg.Modelos;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "vivienda")
 @Getter
@@ -32,4 +35,9 @@ public class Vivienda {
     @JoinColumn(name = "comunidad")
     private Comunidad comunidad;
 
+    @ManyToMany(mappedBy = "viviendas",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Vecino> vecinos = new HashSet<>(0);
 }

@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-
-public interface IViviendaRepositorio extends JpaRepository<Integer, Vivienda> {
+public interface IViviendaRepositorio extends JpaRepository<Vivienda, Integer> {
 
 }

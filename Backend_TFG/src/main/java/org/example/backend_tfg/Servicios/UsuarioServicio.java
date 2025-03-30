@@ -2,11 +2,14 @@ package org.example.backend_tfg.Servicios;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.LoginDTO;
+import org.example.backend_tfg.DTOs.RegistrarComunidadDTO;
 import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
 import org.example.backend_tfg.DTOs.RespuestaDTO;
 import org.example.backend_tfg.Enumerados.Rol;
+import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Modelos.Vecino;
+import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IUsuarioRepositorio;
 import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
 import org.example.backend_tfg.Seguridad.JWTService;
@@ -38,6 +41,10 @@ public class UsuarioServicio implements UserDetailsService {
     private JWTService jwtService;
 
     private IVecinoRepositorio iVecinoRepositorio;
+
+    private IComunidadRepositorio iComunidadRepositorio;
+
+    private ComunidadService comunidadService;
 
 
     @Override
@@ -87,21 +94,43 @@ public class UsuarioServicio implements UserDetailsService {
         vecino.setApellidos(dto.getApellidos());
         vecino.setDNI(dto.getDNI());
 
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate fechaNacimiento = LocalDate.parse(dto.getFechaNacimiento(), formatter);
         vecino.setFechaNacimiento(fechaNacimiento);
 
         vecino.setTelefono(dto.getTelefono());
 
-        vecino.setDireccionPersonal(dto.getDireccionPersonal());
-
         Usuario usuarioGuardado = usuarioRepositorio.save(nuevoUsuario);
         vecino.setUsuario(usuarioGuardado);
 
         iVecinoRepositorio.save(vecino);
         return usuarioGuardado;
+    }
 
+    public Usuario registrarComunidad(RegistrarComunidadDTO dto){
+
+        Usuario nuevoUsuario = new Usuario();
+        Comunidad comunidad = new Comunidad();
+
+        nuevoUsuario.setCorreo(dto.getCorreo());
+        nuevoUsuario.setContrasena(passwordEncoder.encode(dto.getContrasena()));
+        nuevoUsuario.setRol(Rol.COMUNIDAD);
+
+        comunidad.setNombre(dto.getNombre());
+        comunidad.setDireccion(dto.getDireccion());
+        comunidad.setNumeroCuenta(dto.getNum_cuenta());
+        comunidad.setBanco(dto.getBanco());
+        comunidad.setCIF(dto.getCif());
+        comunidad.setCodigoComunidad(comunidadService.regenerarCodigo());
+
+        Vecino presidente = iVecinoRepositorio.findById(dto.getId_presidente()).orElseThrow(()-> new RuntimeException("No existe un presidente con este ID."));
+        comunidad.setPresidente(presidente);
+
+        Usuario usuarioGuardado = usuarioRepositorio.save(nuevoUsuario);
+        comunidad.setUsuario(usuarioGuardado);
+
+        iComunidadRepositorio.save(comunidad);
+        return usuarioGuardado;
     }
 }
 

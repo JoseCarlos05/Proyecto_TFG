@@ -1,10 +1,10 @@
 package org.example.backend_tfg.Servicios;
 
 import lombok.AllArgsConstructor;
-import org.example.backend_tfg.DTOs.VotacionDTO;
-import org.example.backend_tfg.Enumerados.Voto;
+import org.example.backend_tfg.DTOs.VotoDTO;
+import org.example.backend_tfg.Enumerados.TipoVoto;
 import org.example.backend_tfg.Modelos.Eleccion;
-import org.example.backend_tfg.Modelos.Votacion;
+import org.example.backend_tfg.Modelos.Voto;
 import org.example.backend_tfg.Repositorios.IEleccionRepositorio;
 import org.example.backend_tfg.Repositorios.IVotacionRepositorio;
 import org.springframework.stereotype.Service;
@@ -17,23 +17,22 @@ public class VotacionServicio {
 
     private IEleccionRepositorio iEleccionRepositorio;
 
-    public void votar(VotacionDTO votacionDTO){
+    public void votar(VotoDTO votoDTO){
 
-        Votacion votacion = new Votacion();
-        votacion.setVoto(votacionDTO.getVoto());
+        Voto voto = new Voto();
+        voto.setVoto(votoDTO.getVoto());
 
-        Eleccion eleccion = iEleccionRepositorio.findById(votacionDTO.getIdEleccion())
+        Eleccion eleccion = iEleccionRepositorio.findById(votoDTO.getIdEleccion())
                 .orElseThrow(()-> new RuntimeException("No existe una eleccion con este ID."));
-        votacion.setEleccion(eleccion);
-        votacion.setDescripcion(eleccion.getMotivo());
+        voto.setEleccion(eleccion);
 
-        iVotacionRepositorio.save(votacion);
+        iVotacionRepositorio.save(voto);
 
-        if (votacionDTO.getVoto() == Voto.A_FAVOR) {
+        if (votoDTO.getVoto() == TipoVoto.A_FAVOR) {
             eleccion.setTotalAFavor(eleccion.getTotalAFavor() + 1);
-        } else if (votacionDTO.getVoto() == Voto.EN_CONTRA) {
+        } else if (votoDTO.getVoto() == TipoVoto.EN_CONTRA) {
             eleccion.setTotalEnContra(eleccion.getTotalEnContra() + 1);
-        } else if (votacionDTO.getVoto() == Voto.ABTENCION) {
+        } else if (votoDTO.getVoto() == TipoVoto.ABTENCION) {
             eleccion.setTotalAbstencion(eleccion.getTotalAbstencion() + 1);
         }
 

@@ -4,18 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistrarVecinoDTO {
+public class RegistrarComunidadDTO {
     private String nombre;
-    private String apellidos;
-    private String telefono;
-    private String fechaNacimiento;
-    private String numeroCuenta;
-    private String DNI;
+    private String direccion;
+    private String num_cuenta;
+    private String banco;
+    private String cif;
+    private Integer id_presidente;
 
     private String correo;
     private String contrasena;

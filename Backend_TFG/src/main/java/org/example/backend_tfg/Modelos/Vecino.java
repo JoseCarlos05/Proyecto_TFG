@@ -34,27 +34,20 @@ public class Vecino {
     @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimiento;
 
-    @Column(name = "direccion_personal", nullable = false)
-    private String direccionPersonal;
-
     @Column(name = "numero_cuenta")
     private String numCuenta;
 
     @Column(name = "dni", nullable = false)
     private String DNI;
 
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(name = "vecinos_viviendas",
+            joinColumns = {@JoinColumn(name = "idVecino", nullable = false)} ,
+            inverseJoinColumns ={@JoinColumn(name = "idVivienda", nullable = false)})
+    private Set<Vivienda> viviendas = new HashSet<>(0);
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Usuario usuario;
-
-    @OneToMany(mappedBy = "viviendas", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Set<Vivienda> viviendas = new HashSet<>(0);
-
-    @OneToMany(mappedBy = "comunidad", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Set<Comunidad> comunidades = new HashSet<>(0);
 }

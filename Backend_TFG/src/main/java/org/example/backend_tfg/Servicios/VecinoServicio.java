@@ -47,21 +47,6 @@ public class VecinoServicio {
         return vecinoDTOS;
     }
 
-    public static VecinoDTO getVecinoDTO(Vecino vecino){
-        VecinoDTO dtoNuevo  = new VecinoDTO();
-
-        dtoNuevo.setId(vecino.getId());
-        dtoNuevo.setNombre(vecino.getNombre());
-        dtoNuevo.setApellidos(vecino.getApellidos());
-        dtoNuevo.setDNI(vecino.getDNI());
-        dtoNuevo.setTelefono(vecino.getTelefono());
-        dtoNuevo.setDireccionPersonal(vecino.getDireccionPersonal());
-        dtoNuevo.setFechaNacimiento(vecino.getFechaNacimiento());
-        dtoNuevo.setNumeroCuenta(vecino.getNumCuenta());
-
-        return dtoNuevo;
-    }
-
     private VecinoDTO actualizarVecino(VecinoDTO vecinoDTO, UsuarioDTO usuarioDTO) {
         Vecino vecino = iVecinoRepositorio.findById(vecinoDTO.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe un vecino con este ID."));
@@ -71,7 +56,6 @@ public class VecinoServicio {
         vecino.setTelefono(vecinoDTO.getTelefono());
         vecino.setFechaNacimiento(vecinoDTO.getFechaNacimiento());
         vecino.setNumCuenta(vecinoDTO.getNumeroCuenta());
-        vecino.setDireccionPersonal(vecinoDTO.getDireccionPersonal());
 
         if (usuarioDTO != null && vecinoDTO.getCorreo() != null) {
             Usuario usuario = vecino.getUsuario();
@@ -90,5 +74,23 @@ public class VecinoServicio {
         }
         Vecino vecinoActualizado = iVecinoRepositorio.save(vecino);
         return getVecinoDTO(vecinoActualizado);
+    }
+
+    public void unirseComunidad() {
+
+    }
+
+    public static VecinoDTO getVecinoDTO(Vecino vecino){
+        VecinoDTO dtoNuevo  = new VecinoDTO();
+
+        dtoNuevo.setId(vecino.getId());
+        dtoNuevo.setNombre(vecino.getNombre());
+        dtoNuevo.setApellidos(vecino.getApellidos());
+        dtoNuevo.setDNI(vecino.getDNI());
+        dtoNuevo.setTelefono(vecino.getTelefono());
+        dtoNuevo.setFechaNacimiento(vecino.getFechaNacimiento());
+        dtoNuevo.setNumeroCuenta(vecino.getNumCuenta());
+
+        return dtoNuevo;
     }
 }
