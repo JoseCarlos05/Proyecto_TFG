@@ -3,33 +3,33 @@ package org.example.backend_tfg.Modelos;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "gasto")
+@Table(name = "vivienda")
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-public class Gasto {
+public class Vivienda {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "concepto", nullable = false)
-    private String concepto;
+    @Column(name = "numero_residentes")
+    private Integer numResidentes;
 
-    @Column(name = "total", nullable = false)
-    private Double total;
+    @Column(name = "direccion_personal", nullable = false)
+    private String direccionPersonal;
 
-    @Column(name = "fechaHora", nullable = false)
-    private LocalDateTime fechaHora;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "propietario")
+    private Vecino propietario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad")
     private Comunidad comunidad;
+
 }

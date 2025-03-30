@@ -1,5 +1,5 @@
 package org.example.backend_tfg.Enumerados;
 
 public enum TipoNotificacion {
-    COMUNICADO, DEUDA, RESERVA, SANCION
+    COMUNICADO, DEUDA, RESERVA, SANCION, SOLICITUD
 }
