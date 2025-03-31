@@ -81,8 +81,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    public Usuario registrarVecino(RegistrarVecinoDTO dto){
-
+    public Usuario registrarVecino(RegistrarVecinoDTO dto) {
         Usuario nuevoUsuario = new Usuario();
         Vecino vecino = new Vecino();
 
@@ -92,21 +91,20 @@ public class UsuarioServicio implements UserDetailsService {
 
         vecino.setNombre(dto.getNombre());
         vecino.setApellidos(dto.getApellidos());
-        vecino.setDNI(dto.getDNI());
+        vecino.setDni(dto.getDni());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate fechaNacimiento = LocalDate.parse(dto.getFechaNacimiento(), formatter);
         vecino.setFechaNacimiento(fechaNacimiento);
 
         vecino.setTelefono(dto.getTelefono());
+        vecino.setNumCuenta(dto.getNumeroCuenta());
 
-        Usuario usuarioGuardado = usuarioRepositorio.save(nuevoUsuario);
-        vecino.setUsuario(usuarioGuardado);
-
+        vecino.setUsuario(nuevoUsuario);
         iVecinoRepositorio.save(vecino);
-        return usuarioGuardado;
-    }
 
+        return nuevoUsuario;
+    }
     public Usuario registrarComunidad(RegistrarComunidadDTO dto){
 
         Usuario nuevoUsuario = new Usuario();
@@ -122,9 +120,6 @@ public class UsuarioServicio implements UserDetailsService {
         comunidad.setBanco(dto.getBanco());
         comunidad.setCIF(dto.getCif());
         comunidad.setCodigoComunidad(comunidadService.regenerarCodigo());
-
-        Vecino presidente = iVecinoRepositorio.findById(dto.getId_presidente()).orElseThrow(()-> new RuntimeException("No existe un presidente con este ID."));
-        comunidad.setPresidente(presidente);
 
         Usuario usuarioGuardado = usuarioRepositorio.save(nuevoUsuario);
         comunidad.setUsuario(usuarioGuardado);
