@@ -2,7 +2,7 @@ package org.example.backend_tfg.Controladores;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunidadDTO;
-import org.example.backend_tfg.Servicios.ComunidadService;
+import org.example.backend_tfg.Servicios.ComunidadServicio;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ComunidadControlador {
 
-    private ComunidadService comunidadService;
+    private ComunidadServicio comunidadService;
 
     @GetMapping("/vecino/ver/comunidad/{idComunidad}")
     public ComunidadDTO verComunidadID(@PathVariable Integer idComunidad){
