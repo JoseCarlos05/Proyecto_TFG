@@ -44,7 +44,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     private IComunidadRepositorio iComunidadRepositorio;
 
-    private ComunidadService comunidadService;
+    private ComunidadServicio comunidadService;
 
 
     @Override
@@ -121,7 +121,6 @@ public class UsuarioServicio implements UserDetailsService {
         comunidad.setNumeroCuenta(dto.getNum_cuenta());
         comunidad.setBanco(dto.getBanco());
         comunidad.setCIF(dto.getCif());
-        comunidad.setCodigoComunidad(comunidadService.regenerarCodigo());
 
         Vecino presidente = iVecinoRepositorio.findById(dto.getId_presidente()).orElseThrow(()-> new RuntimeException("No existe un presidente con este ID."));
         comunidad.setPresidente(presidente);

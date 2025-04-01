@@ -35,6 +35,9 @@ public class Eleccion {
     @Column(name = "fechaHora", nullable = false)
     private LocalDateTime fechaHora;
 
+    @Column(name = "abierta", nullable = false)
+    private boolean abierta;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad")
     private Comunidad comunidad;

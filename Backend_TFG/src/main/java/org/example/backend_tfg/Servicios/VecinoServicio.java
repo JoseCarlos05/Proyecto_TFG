@@ -4,16 +4,15 @@ import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
 import org.example.backend_tfg.DTOs.UsuarioDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
-import org.example.backend_tfg.Modelos.Usuario;
-import org.example.backend_tfg.Modelos.Vecino;
-import org.example.backend_tfg.Repositorios.IUsuarioRepositorio;
-import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
+import org.example.backend_tfg.Modelos.*;
+import org.example.backend_tfg.Repositorios.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,6 +22,12 @@ public class VecinoServicio {
     private IVecinoRepositorio iVecinoRepositorio;
 
     private IUsuarioRepositorio iUsuarioRepositorio;
+
+    private IViviendaRepositorio iViviendaRepositorio;
+
+    private IComunidadRepositorio iComunidadRepositorio;
+
+    private ISolicitudRepositorio iSolicitudRepositorio;
 
     public VecinoDTO buscarVecinoID(Integer id){
         Vecino vecino = iVecinoRepositorio.findById(id)
@@ -76,7 +81,47 @@ public class VecinoServicio {
         return getVecinoDTO(vecinoActualizado);
     }
 
-    public void unirseComunidad() {
+    public void solicitarIngresoComunidad(Integer idVivienda, Integer idComunidad, Integer idVecino) {
+
+        Solicitud solicitud = new Solicitud();
+        solicitud.setIdComunidad(idComunidad);
+        solicitud.setIdVecino(idVecino);
+        solicitud.setIdVivienda(idVivienda);
+        iSolicitudRepositorio.save(solicitud);
+
+    }
+
+    public void insertarCodigoComunidad(String codigoComunidad, Integer idVecino) {
+        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+        for (Comunidad comunidad : iComunidadRepositorio.findAll()) {
+            if (comunidad.getCodigoComunidad().equals(codigoComunidad)) {
+                String dirViviendaHex = codigoComunidad.substring(6);
+                StringBuilder dirViviendaSB = new StringBuilder();
+                for (int i = 0; i < dirViviendaHex.length(); i += 2) {
+                    String strByte = dirViviendaHex.substring(i, i + 2);
+                    int decimal = Integer.parseInt(strByte, 16);
+                    dirViviendaSB.append((char) decimal);
+                }
+                String dirVivienda = dirViviendaSB.toString();
+                for (Vivienda vivienda : iViviendaRepositorio.findAll()) {
+                    if (vivienda.getDireccionPersonal().equals(dirVivienda)) {
+                        vivienda.getVecinos().add(vecino);
+                        iViviendaRepositorio.save(vivienda);
+                        vecino.getViviendas().add(vivienda);
+                        iVecinoRepositorio.save(vecino);
+                        break;
+                    }
+                }
+                comunidad.setCodigoComunidad(null);
+                iComunidadRepositorio.save(comunidad);
+                break;
+            } else {
+                throw new RuntimeException("Código incorrecto.");
+            }
+
+        }
 
     }
 
