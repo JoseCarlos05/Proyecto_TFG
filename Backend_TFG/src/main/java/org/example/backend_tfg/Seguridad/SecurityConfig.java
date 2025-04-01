@@ -31,6 +31,7 @@ public class SecurityConfig {
                         .requestMatchers("/autorizacion/**").permitAll()
                         .requestMatchers("/verify/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/vecino/**").hasAuthority("VECINO")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)

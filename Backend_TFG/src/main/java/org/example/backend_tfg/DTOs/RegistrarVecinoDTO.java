@@ -15,7 +15,7 @@ public class RegistrarVecinoDTO {
     private String telefono;
     private String fechaNacimiento;
     private String numeroCuenta;
-    private String DNI;
+    private String dni;
 
     private String correo;
     private String contrasena;

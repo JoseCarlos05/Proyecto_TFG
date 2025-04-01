@@ -3,6 +3,8 @@ package org.example.backend_tfg.Modelos;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "empleado")
 @Getter
@@ -24,14 +26,20 @@ public class Empleado {
     @Column(name = "apellidos", nullable = false)
     private String apellidos;
 
-    @Column(name = "DNI", nullable = false)
-    private String DNI;
+    @Column(name = "dni", nullable = false)
+    private String dni;
 
     @Column(name = "telefono", nullable = false)
     private String telefono;
 
-    @Column(name = "horario", nullable = false)
-    private String horario;
+    @Column(name = "horasTotales", nullable = false)
+    private Integer horasTotales;
+
+    @Column(name = "horaEntrada", nullable = false)
+    private LocalTime horaEntrada;
+
+    @Column(name = "horaSalida", nullable = false)
+    private LocalTime horaSalida;
 
     @Column(name = "oficio", nullable = false)
     private String oficio;

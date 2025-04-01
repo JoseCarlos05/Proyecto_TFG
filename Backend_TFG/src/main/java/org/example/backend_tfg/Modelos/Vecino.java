@@ -38,7 +38,7 @@ public class Vecino {
     private String numCuenta;
 
     @Column(name = "dni", nullable = false)
-    private String DNI;
+    private String dni;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "vecinos_viviendas",
