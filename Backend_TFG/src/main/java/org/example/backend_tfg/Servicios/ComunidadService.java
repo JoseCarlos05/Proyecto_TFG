@@ -1,5 +1,6 @@
 package org.example.backend_tfg.Servicios;
 
+import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunidadDTO;
 import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
@@ -10,9 +11,23 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@AllArgsConstructor
 public class ComunidadService {
 
     private IComunidadRepositorio comunidadRepositorio;
+
+    public ComunidadDTO verComunidadID(Integer idComunidad){
+        Comunidad comunidad = comunidadRepositorio.findById(idComunidad)
+                .orElseThrow(()-> new RuntimeException("No existe una comunidad con este ID."));
+
+        return getComunidadDTO(comunidad);
+    }
+
+    public ComunidadDTO verComunidadUsuarioID(Integer idUsuario){
+        Comunidad comunidad = comunidadRepositorio.findByUsuario_Id(idUsuario);
+
+        return getComunidadDTO(comunidad);
+    }
 
     public List<ComunidadDTO> listarComunidades() {
         List<Comunidad> listaComunidades = comunidadRepositorio.findAll();
@@ -43,7 +58,10 @@ public class ComunidadService {
         dto.setBanco(c.getBanco());
         dto.setCif(c.getCIF());
         dto.setCodigo_comunidad(c.getCodigoComunidad());
-        dto.setId_presidente(c.getPresidente().getId());
+
+        if (c.getPresidente() != null) {
+            dto.setId_presidente(c.getPresidente().getId());
+        }
         return dto;
     }
 }
