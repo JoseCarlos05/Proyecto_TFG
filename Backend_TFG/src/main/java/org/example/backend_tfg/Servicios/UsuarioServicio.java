@@ -2,9 +2,16 @@ package org.example.backend_tfg.Servicios;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.LoginDTO;
+import org.example.backend_tfg.DTOs.RegistrarComunidadDTO;
+import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
 import org.example.backend_tfg.DTOs.RespuestaDTO;
+import org.example.backend_tfg.Enumerados.Rol;
+import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Usuario;
+import org.example.backend_tfg.Modelos.Vecino;
+import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IUsuarioRepositorio;
+import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
 import org.example.backend_tfg.Seguridad.JWTService;
 import org.example.backend_tfg.Seguridad.UsuarioAdapter;
 import org.springframework.http.HttpStatus;
@@ -16,13 +23,29 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class UsuarioServicio implements UserDetailsService {
 
     private IUsuarioRepositorio usuarioRepositorio;
+
     private final PasswordEncoder passwordEncoder;
+
     private JWTService jwtService;
+
+    private IVecinoRepositorio iVecinoRepositorio;
+
+    private IComunidadRepositorio iComunidadRepositorio;
+
+    private ComunidadService comunidadService;
+
 
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
@@ -56,6 +79,58 @@ public class UsuarioServicio implements UserDetailsService {
         } else {
             throw new BadCredentialsException("Contraseña incorrecta");
         }
+    }
+
+    public Usuario registrarVecino(RegistrarVecinoDTO dto){
+
+        Usuario nuevoUsuario = new Usuario();
+        Vecino vecino = new Vecino();
+
+        nuevoUsuario.setCorreo(dto.getCorreo());
+        nuevoUsuario.setContrasena(passwordEncoder.encode(dto.getContrasena()));
+        nuevoUsuario.setRol(Rol.VECINO);
+
+        vecino.setNombre(dto.getNombre());
+        vecino.setApellidos(dto.getApellidos());
+        vecino.setDNI(dto.getDNI());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fechaNacimiento = LocalDate.parse(dto.getFechaNacimiento(), formatter);
+        vecino.setFechaNacimiento(fechaNacimiento);
+
+        vecino.setTelefono(dto.getTelefono());
+
+        Usuario usuarioGuardado = usuarioRepositorio.save(nuevoUsuario);
+        vecino.setUsuario(usuarioGuardado);
+
+        iVecinoRepositorio.save(vecino);
+        return usuarioGuardado;
+    }
+
+    public Usuario registrarComunidad(RegistrarComunidadDTO dto){
+
+        Usuario nuevoUsuario = new Usuario();
+        Comunidad comunidad = new Comunidad();
+
+        nuevoUsuario.setCorreo(dto.getCorreo());
+        nuevoUsuario.setContrasena(passwordEncoder.encode(dto.getContrasena()));
+        nuevoUsuario.setRol(Rol.COMUNIDAD);
+
+        comunidad.setNombre(dto.getNombre());
+        comunidad.setDireccion(dto.getDireccion());
+        comunidad.setNumeroCuenta(dto.getNum_cuenta());
+        comunidad.setBanco(dto.getBanco());
+        comunidad.setCIF(dto.getCif());
+        comunidad.setCodigoComunidad(comunidadService.regenerarCodigo());
+
+        Vecino presidente = iVecinoRepositorio.findById(dto.getId_presidente()).orElseThrow(()-> new RuntimeException("No existe un presidente con este ID."));
+        comunidad.setPresidente(presidente);
+
+        Usuario usuarioGuardado = usuarioRepositorio.save(nuevoUsuario);
+        comunidad.setUsuario(usuarioGuardado);
+
+        iComunidadRepositorio.save(comunidad);
+        return usuarioGuardado;
     }
 }
 

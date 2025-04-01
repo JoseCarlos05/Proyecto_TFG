@@ -2,28 +2,25 @@ package org.example.backend_tfg.Modelos;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.backend_tfg.Enumerados.Voto;
+import org.example.backend_tfg.Enumerados.TipoVoto;
 
 @Entity
-@Table(name = "votacion")
+@Table(name = "voto")
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-public class Votacion {
+public class Voto {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "descripciop", nullable = false)
-    private String descripcion;
-
     @Column(name = "voto", nullable = false)
-    private Voto voto;
+    private TipoVoto voto;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eleccion")
