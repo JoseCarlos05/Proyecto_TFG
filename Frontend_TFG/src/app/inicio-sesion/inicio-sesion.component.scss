@@ -24,44 +24,58 @@ ion-content {
   text-align: center;
 }
 
-ion-button {
-  --background: #0E8008;
-  margin: 80px auto 0 auto;
+.input-container {
+  display: flex;
+  flex-direction: column; /* Mantiene el texto y el input alineados verticalmente */
   width: 80%;
-  display: block;
+  max-width: 400px; /* Limita el ancho en pantallas grandes */
+  margin: 0 auto;
 }
 
 ion-text {
   color: #0E8008;
-  margin-left: 45px;
-  display: block;
+  font-weight: bold;
+  margin-bottom: 5px; /* Espaciado entre el texto y el input */
 }
 
 ion-input {
   background: #FFFFFF;
-  width: 80%;
-  margin: 10px auto;
-  display: block;
+  width: 100%;
+  height: 50px;
   border: 2px solid #0E8008;
   border-radius: 10px;
   --padding-start: 15px;
   --placeholder-color: #0E8008;
-  height: 55px;
 }
 
 ion-input[type="email"] {
   margin-bottom: 45px;
 }
 
-.registro-texto {
+.registro-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 80%;
-  margin: 10px auto 0 auto;
+  max-width: 400px;
+  margin: 10px auto;
+}
+
+.registro-texto {
   color: #0E8008;
+  font-size: 14px;
 }
 
 .crear-cuenta {
   font-weight: 900;
   cursor: pointer;
+}
+
+ion-button {
+  --background: #0E8008;
+  margin: 80px auto 20px auto;
+  width: 80%;
+  max-width: 400px;
+  display: block;
+  font-weight: bold;
 }

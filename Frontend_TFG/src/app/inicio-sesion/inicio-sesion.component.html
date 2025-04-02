@@ -4,15 +4,20 @@
     <ion-title class="titulo">BIENVENIDO A LIVETOGETHER</ion-title>
   </div>
 
-  <ion-text>Email</ion-text>
-  <ion-input type="email" placeholder="Introduce tu email"></ion-input>
+  <div class="input-container">
+    <ion-text>Email</ion-text>
+    <ion-input type="email" placeholder="Introduce tu email"></ion-input>
+  </div>
 
-  <ion-text>Contraseña</ion-text>
-  <ion-input type="password" placeholder="Introduce tu contraseña"></ion-input>
+  <div class="input-container">
+    <ion-text>Contraseña</ion-text>
+    <ion-input type="password" placeholder="Introduce tu contraseña"></ion-input>
+  </div>
 
-  <ion-text class="registro-texto">
-    ¿No tienes una cuenta? <span class="crear-cuenta">Crear cuenta</span>
-  </ion-text>
+  <div class="registro-container">
+    <ion-text class="registro-texto">¿No tienes una cuenta?</ion-text>
+    <ion-text class="crear-cuenta" (click)="navigateToRegistro()">Crear cuenta</ion-text>
+  </div>
 
-  <ion-button expand="block">Inicio Sesión</ion-button>
+  <ion-button expand="block">INICIO SESIÓN</ion-button>
 </ion-content>
