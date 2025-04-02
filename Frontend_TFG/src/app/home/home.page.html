@@ -1,21 +1,22 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="contenido">
+    <ion-img src="assets/icon/logo.png" class="logo"></ion-img>
+    <ion-title class="titulo">BIENVENIDO A LIVETOGETHER</ion-title>
   </div>
 
+  <div class="input-container">
+    <ion-text>Email</ion-text>
+    <ion-input type="email" placeholder="Introduce tu email"></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Contraseña</ion-text>
+    <ion-input type="password" placeholder="Introduce tu contraseña"></ion-input>
+  </div>
+
+  <ion-text class="registro-texto">
+    ¿No tienes una cuenta? <span class="crear-cuenta">Crear cuenta</span>
+  </ion-text>
+
+  <ion-button expand="block">Inicio Sesión</ion-button>
 </ion-content>
