@@ -24,6 +24,7 @@ public class VotacionServicio {
 
         Eleccion eleccion = iEleccionRepositorio.findById(votoDTO.getIdEleccion())
                 .orElseThrow(()-> new RuntimeException("No existe una eleccion con este ID."));
+
         voto.setEleccion(eleccion);
 
         iVotacionRepositorio.save(voto);
