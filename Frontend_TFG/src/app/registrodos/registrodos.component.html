@@ -1,0 +1,99 @@
+<ion-content class="login-container">
+
+  <h2 class="title">Configurar Perfil</h2>
+  <h4 class="subtitle">Rellena los siguientes datos personales</h4>
+
+  <ion-grid>
+    <ion-col>
+
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">Nombre</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input placeholder="Introduce tu Nombre"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">Apellidos</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input placeholder="Introduce tu apellido"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">Teléfono</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input placeholder="Introduce su teléfono"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">Fecha Nacimiento</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input [type]="Date" placeholder="Introduce su fecha de nacimiento"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">Número de cuenta bancaria</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input placeholder="Introduce su cuenta bancaria"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-row style="margin-left: 20px; color: black; font-weight: bold">
+            <ion-label class="labelLogin">DNI</ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-item>
+              <ion-input placeholder="Introduce su DNI"></ion-input>
+            </ion-item>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-grid>
+
+
+  <div class="register-link">
+    <span>¿Ya tienes cuenta?</span>
+    <a routerLink="/iniciarsesion">Iniciar Sesión</a>
+  </div>
+
+  <ion-row class="bottom-container">
+    <ion-button>Siguiente</ion-button>
+  </ion-row>
+</ion-content>
