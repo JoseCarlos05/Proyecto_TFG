@@ -1,5 +1,6 @@
 package org.example.backend_tfg.Servicios;
 
+import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunidadDTO;
 import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Solicitud;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@AllArgsConstructor
 public class ComunidadServicio {
 
     private IVecinoRepositorio iVecinoRepositorio;
