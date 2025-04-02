@@ -1,0 +1,67 @@
+ion-content {
+  --background: #7CDF68;
+}
+
+.contenido {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 250px;
+  height: auto;
+}
+
+.titulo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #0E8008;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+ion-button {
+  --background: #0E8008;
+  margin: 80px auto 0 auto;
+  width: 80%;
+  display: block;
+}
+
+ion-text {
+  color: #0E8008;
+  margin-left: 45px;
+  display: block;
+}
+
+ion-input {
+  background: #FFFFFF;
+  width: 80%;
+  margin: 10px auto;
+  display: block;
+  border: 2px solid #0E8008;
+  border-radius: 10px;
+  --padding-start: 15px;
+  --placeholder-color: #0E8008;
+  height: 55px;
+}
+
+ion-input[type="email"] {
+  margin-bottom: 45px;
+}
+
+.registro-texto {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 10px auto 0 auto;
+  color: #0E8008;
+}
+
+.crear-cuenta {
+  font-weight: 900;
+  cursor: pointer;
+}
