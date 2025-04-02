@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 
 @Component({
-    selector: 'app-registrodos',
-    templateUrl: './registrodos.component.html',
-    styleUrls: ['./registrodos.component.scss'],
+    selector: 'app-config-perfil-vecino',
+    templateUrl: './config-perfil-vecino.html',
+    styleUrls: ['./config-perfil-vecino.scss'],
     standalone: true,
     imports: [
         IonicModule
     ]
 })
-export class RegistrodosComponent  implements OnInit {
+export class ConfigPerfilVecino implements OnInit {
 
   constructor() { }
 

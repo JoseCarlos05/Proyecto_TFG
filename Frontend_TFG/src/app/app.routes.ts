@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
-import {IniciosesionComponent} from "./iniciosesion/iniciosesion.component";
-import {RegistroComponent} from "./registro/registro.component";
-import {RegistrodosComponent} from "./registrodos/registrodos.component";
+import {InicioSesionComponent} from "./inicio-sesion/inicio-sesion.component";
 
 export const routes: Routes = [
   {
@@ -10,19 +8,19 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'inicio-sesion',
     pathMatch: 'full',
   },
   {
-    path: 'iniciosesion',
-    loadComponent: () => import('./iniciosesion/iniciosesion.component').then((m) => m.IniciosesionComponent),
+    path: 'inicio-sesion',
+    loadComponent: () => import('./inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent),
   },
   {
     path: 'registro',
     loadComponent: () => import('./registro/registro.component').then((m) => m.RegistroComponent),
   },
   {
-    path: 'registrodos',
-    loadComponent: () => import('./registrodos/registrodos.component').then((m) => m.RegistrodosComponent),
+    path: 'config-perfil-vecino',
+    loadComponent: () => import('./config-perfil-vecino/config-perfil-vecino').then((m) => m.ConfigPerfilVecino),
   },
 ];
