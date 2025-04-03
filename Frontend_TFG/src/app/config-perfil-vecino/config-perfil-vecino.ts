@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-config-perfil-vecino',
@@ -12,9 +13,11 @@ import {IonicModule} from "@ionic/angular";
 })
 export class ConfigPerfilVecino implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {}
 
-  protected readonly Date = Date;
+  navigateToInicioSesion() {
+    this.router.navigate(['/inicio-sesion']);
+  }
 }

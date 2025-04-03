@@ -1,10 +1,5 @@
-.login-container {
+ion-content {
   --background: #7CDF68;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  padding: 30px;
 }
 
 .title {
@@ -13,65 +8,79 @@
   color: #0E8008;
   margin-bottom: 20px;
   text-align: left;
-  margin-left: 35px;
 }
 
 .subtitle {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #0E8008;
   margin-bottom: 20px;
-  text-alisgn: left;
-  margin-left: 35px;
+  text-align: left;
   width: 100%;
 }
 
-ion-item {
-  width: 100%;
-  max-width: 300px;
-  --background: white;
-  --border-radius: 8px;
-  margin-bottom: 5px;
-  margin-left: 20px;
-  --inner-padding-end: 0;
-  --inner-padding-start: 0;
+.titulo-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 400px;
+  margin: 15px auto 20px auto;
+  text-align: left;
+}
 
+.input-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+ion-text {
+  color: #0E8008;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 ion-input {
+  background: #FFFFFF;
   width: 100%;
-  border: 1px solid black;
-  box-sizing: border-box;
-  max-width: 100%;
-  padding: 0;
+  height: 50px;
+  border: 2px solid #0E8008;
+  border-radius: 10px;
+  --padding-start: 15px;
+  --placeholder-color: #0E8008;
+  color: #0E8008;
 }
 
-.register-link {
-  justify-content: space-between;
-  width: 100%;
-  max-width: 300px;
-  font-size: 0.9rem;
-  margin: 0 auto;
-  color: #0E8008;
+ion-input[type="nombre"], ion-input[type="apellidos"], ion-input[type="telefono"], ion-input[type="date"], ion-input[type="cuenta"], ion-input[type="dni"] {
+  margin-bottom: 30px;
+}
 
-  a {
-    font-weight: bold;
-    color: #0E8008;
-    text-decoration: none;
-    margin-left: 55px;
-  }
+.registro-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  max-width: 400px;
+  margin: -20px auto 0 auto;
+}
+
+.registro-texto {
+  color: #0E8008;
+  font-size: 14px;
+}
+
+.iniciar-sesion {
+  font-weight: 900;
+  cursor: pointer;
 }
 
 ion-button {
-  --background: #57BF48;
-  --border-radius: 10px;
-  margin: 0 auto;
-  margin-top: 10px;
-  width: 300px;
-  color: white;
-  font-weight: bold;
-}
-
-ion-label.labelLogin {
-  color: black;
+  --background: #0E8008;
+  margin: 40px auto 20px auto;
+  width: 80%;
+  max-width: 400px;
+  height: 40px;
+  display: block;
   font-weight: bold;
 }
