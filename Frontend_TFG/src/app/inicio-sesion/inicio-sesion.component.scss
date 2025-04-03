@@ -26,16 +26,16 @@ ion-content {
 
 .input-container {
   display: flex;
-  flex-direction: column; /* Mantiene el texto y el input alineados verticalmente */
+  flex-direction: column;
   width: 80%;
-  max-width: 400px; /* Limita el ancho en pantallas grandes */
+  max-width: 400px;
   margin: 0 auto;
 }
 
 ion-text {
   color: #0E8008;
   font-weight: bold;
-  margin-bottom: 5px; /* Espaciado entre el texto y el input */
+  margin-bottom: 5px;
 }
 
 ion-input {
@@ -76,6 +76,7 @@ ion-button {
   margin: 80px auto 20px auto;
   width: 80%;
   max-width: 400px;
+  height: 40px;
   display: block;
   font-weight: bold;
 }
