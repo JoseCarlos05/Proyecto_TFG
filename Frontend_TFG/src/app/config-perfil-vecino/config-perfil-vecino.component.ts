@@ -20,4 +20,8 @@ export class ConfigPerfilVecinoComponent implements OnInit {
   navigateToInicioSesion() {
     this.router.navigate(['/inicio-sesion']);
   }
+
+  navigateToPantallaPrincipal() {
+    this.router.navigate(['/pantalla-principal']);
+  }
 }

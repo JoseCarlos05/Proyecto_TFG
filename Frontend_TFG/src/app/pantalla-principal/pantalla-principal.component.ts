@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {CommonModule} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-pantalla-principal',
@@ -11,8 +12,11 @@ import {CommonModule} from "@angular/common";
 })
 export class PantallaPrincipalComponent  implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {}
 
+  navigateToInicioSesion() {
+    this.router.navigate(['/inicio-sesion']);
+  }
 }

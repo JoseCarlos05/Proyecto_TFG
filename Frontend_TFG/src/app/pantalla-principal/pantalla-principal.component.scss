@@ -1,5 +1,5 @@
 ion-toolbar {
-  --background: #0E8008;
+  --background: #339F28;
 }
 
 ion-content {
@@ -15,7 +15,7 @@ ion-content {
 
 .buscador {
   background-color: white;
-  width: 97%;
+  width: 98%;
   border-radius: 40px ;
   margin: 20px auto;
 }
@@ -35,4 +35,33 @@ ion-content {
 
 .salir {
   width: 60px;
+}
+
+.footer-center {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.añadir {
+  width: 50px;
+}
+
+.tarjeta {
+  background-color: #57BF48;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px;
+  color: white;
+}
+
+.tarjeta-titulo {
+  margin: 0;
+  font-size: 24px;
+}
+
+.tarjeta-subtitulo {
+  margin: 0;
+  font-size: 14px;
 }
