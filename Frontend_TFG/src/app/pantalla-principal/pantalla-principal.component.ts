@@ -19,4 +19,8 @@ export class PantallaPrincipalComponent  implements OnInit {
   navigateToInicioSesion() {
     this.router.navigate(['/inicio-sesion']);
   }
+
+  navigateToPerfil() {
+    this.router.navigate(['/perfil']);
+  }
 }

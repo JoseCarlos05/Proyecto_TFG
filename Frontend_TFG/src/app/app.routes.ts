@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import {InicioSesionComponent} from "./inicio-sesion/inicio-sesion.component";
 
 export const routes: Routes = [
   {
@@ -26,5 +25,9 @@ export const routes: Routes = [
   {
     path: 'pantalla-principal',
     loadComponent: () => import('./pantalla-principal/pantalla-principal.component').then((m) => m.PantallaPrincipalComponent),
+  },
+  {
+    path: 'perfil',
+    loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
   },
 ];
