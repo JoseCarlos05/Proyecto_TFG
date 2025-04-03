@@ -4,14 +4,14 @@ import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-config-perfil-vecino',
-    templateUrl: './config-perfil-vecino.html',
-    styleUrls: ['./config-perfil-vecino.scss'],
+    templateUrl: './config-perfil-vecino.component.html',
+    styleUrls: ['./config-perfil-vecino.component.scss'],
     standalone: true,
     imports: [
         IonicModule
     ]
 })
-export class ConfigPerfilVecino implements OnInit {
+export class ConfigPerfilVecinoComponent implements OnInit {
 
   constructor(private router: Router) { }
 

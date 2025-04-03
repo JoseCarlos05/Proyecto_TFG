@@ -21,6 +21,10 @@ export const routes: Routes = [
   },
   {
     path: 'config-perfil-vecino',
-    loadComponent: () => import('./config-perfil-vecino/config-perfil-vecino').then((m) => m.ConfigPerfilVecino),
+    loadComponent: () => import('./config-perfil-vecino/config-perfil-vecino.component').then((m) => m.ConfigPerfilVecinoComponent),
+  },
+  {
+    path: 'pantalla-principal',
+    loadComponent: () => import('./pantalla-principal/pantalla-principal.component').then((m) => m.PantallaPrincipalComponent),
   },
 ];

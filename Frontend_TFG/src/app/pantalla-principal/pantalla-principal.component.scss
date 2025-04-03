@@ -1,0 +1,38 @@
+ion-toolbar {
+  --background: #0E8008;
+}
+
+ion-content {
+  --background: #E7F4E7;
+}
+
+.searchbar-blanco {
+  --background: #FFFFFF;
+  --box-shadow: none;
+  --border: none;
+  border-radius: 40px;
+}
+
+.buscador {
+  background-color: white;
+  width: 97%;
+  border-radius: 40px ;
+  margin: 20px auto;
+}
+
+.logo {
+  width: 60px;
+  height: auto;
+  margin: 10px;
+}
+
+.logo-circulo {
+  background-color: white;
+  border-radius: 50%;
+  padding: 3px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.salir {
+  width: 60px;
+}
