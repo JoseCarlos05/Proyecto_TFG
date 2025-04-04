@@ -1,6 +1,7 @@
 package org.example.backend_tfg.Controladores;
 
 import lombok.AllArgsConstructor;
+import org.example.backend_tfg.DTOs.InsertarCodigoDTO;
 import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
 import org.example.backend_tfg.Modelos.Vecino;
@@ -35,5 +36,17 @@ public class VecinoControlador {
     public void actualizarVecino(@RequestBody RegistrarVecinoDTO dto, @PathVariable Integer idVecino){
         vecinoServicio.actualizarVecino(dto, idVecino);
     }
+
+    @PostMapping("/solicitar/{idVivienda}/{idComunidad}/{idVecino}")
+    public void solicitarIngresoComunidad(@PathVariable Integer idVivienda, @PathVariable Integer idComunidad,
+                                          @PathVariable Integer idVecino){
+        vecinoServicio.solicitarIngresoComunidad(idVivienda, idComunidad, idVecino);
+    }
+
+    @PostMapping("/insertar/codigo")
+    public void insertarCodigoComunidad(@RequestBody InsertarCodigoDTO dto){
+        vecinoServicio.insertarCodigoComunidad(dto);
+    }
+
 
 }

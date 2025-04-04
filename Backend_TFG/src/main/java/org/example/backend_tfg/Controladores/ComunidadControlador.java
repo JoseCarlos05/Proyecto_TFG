@@ -32,9 +32,9 @@ public class ComunidadControlador {
         return comunidadService.listarComunidades();
     }
 
-    @GetMapping("/comunidad/generar/codigo/{idComunidad}")
-    public String generarCodigo(@PathVariable Integer idComunidad){
-        return comunidadService.generarCodigo(idComunidad);
+    @GetMapping("/comunidad/generar/codigo/{idVivienda}")
+    public String generarCodigo(@PathVariable Integer idVivienda){
+        return comunidadService.generarCodigo(idVivienda);
     }
 
 
