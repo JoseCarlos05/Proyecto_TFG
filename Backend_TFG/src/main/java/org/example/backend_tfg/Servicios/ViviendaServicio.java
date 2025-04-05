@@ -12,7 +12,10 @@ import org.example.backend_tfg.Repositorios.IViviendaRepositorio;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 
 @Service
 @AllArgsConstructor
@@ -47,6 +50,22 @@ public class ViviendaServicio {
 
     }
 
+    public Set<VecinoDTO> listarResidentes(Integer idVivienda){
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+
+        Set<Vecino> residentes = vivienda.getVecinos();
+        Set<VecinoDTO> vecinoDTOS = new HashSet<>();
+
+
+        for (Vecino vecino: residentes){
+            vecinoDTOS.add(getVecinoDTO(vecino));
+        }
+
+        return vecinoDTOS;
+
+    }
+
     public static ViviendaDTO getViviendaDTO(Vivienda v) {
         ViviendaDTO vivienda = new ViviendaDTO();
         vivienda.setNumResidentes(v.getNumResidentes());
@@ -69,5 +88,19 @@ public class ViviendaServicio {
             vivienda.setIdVecinos(idVecinos);
         }
         return vivienda;
+    }
+
+    public static VecinoDTO getVecinoDTO(Vecino vecino){
+        VecinoDTO dtoNuevo  = new VecinoDTO();
+
+        dtoNuevo.setId(vecino.getId());
+        dtoNuevo.setNombre(vecino.getNombre());
+        dtoNuevo.setApellidos(vecino.getApellidos());
+        dtoNuevo.setDni(vecino.getDni());
+        dtoNuevo.setTelefono(vecino.getTelefono());
+        dtoNuevo.setFechaNacimiento(vecino.getFechaNacimiento());
+        dtoNuevo.setNumeroCuenta(vecino.getNumCuenta());
+
+        return dtoNuevo;
     }
 }

@@ -49,7 +49,7 @@ public class ComunidadServicio {
         return getComunidadDTO(comunidad);
     }
 
-    public String generarCodigo(Integer idVivienda) {
+    public void generarCodigo(Integer idVivienda, Integer idComunidad) {
         Random random = new Random();
         StringBuilder resultado = new StringBuilder();
 
@@ -58,6 +58,9 @@ public class ComunidadServicio {
             resultado.append(number);
         }
 
+        Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)
+                .orElseThrow(() -> new RuntimeException("No existe una comunidad con este ID."));
+
         Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
                 .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
 
@@ -65,7 +68,9 @@ public class ComunidadServicio {
             resultado.append(String.format("%02X", b));
         }
 
-        return resultado.toString();
+        comunidad.setCodigoComunidad(resultado.toString());
+
+        iComunidadRepositorio.save(comunidad);
     }
 
     public void aceptarSolicitudEntrada(Solicitud solicitud) {

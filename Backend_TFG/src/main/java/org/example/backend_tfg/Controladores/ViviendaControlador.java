@@ -1,15 +1,12 @@
 package org.example.backend_tfg.Controladores;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
-import org.example.backend_tfg.DTOs.ComunidadDTO;
-import org.example.backend_tfg.DTOs.CrearGastoDTO;
-import org.example.backend_tfg.DTOs.RegistrarViviendaDTO;
-import org.example.backend_tfg.DTOs.ViviendaDTO;
+import org.example.backend_tfg.DTOs.*;
 import org.example.backend_tfg.Servicios.ViviendaServicio;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping()
@@ -33,4 +30,13 @@ public class ViviendaControlador {
         return viviendaServicio.listarViviendas(idComunidad);
     }
 
+    @GetMapping("/vecino/listar/residentes/{idVivienda}")
+    public Set<VecinoDTO> listarResidentes(@PathVariable Integer idVivienda){
+        return viviendaServicio.listarResidentes(idVivienda);
+    }
+
+    @GetMapping("/comunidad/listar/residentes/{idVivienda}")
+    public Set<VecinoDTO> listarResidentesComunidad(@PathVariable Integer idVivienda){
+        return viviendaServicio.listarResidentes(idVivienda);
+    }
 }

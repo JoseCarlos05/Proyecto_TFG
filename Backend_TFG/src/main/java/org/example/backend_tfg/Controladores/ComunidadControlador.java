@@ -2,11 +2,9 @@ package org.example.backend_tfg.Controladores;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunidadDTO;
+import org.example.backend_tfg.Modelos.Solicitud;
 import org.example.backend_tfg.Servicios.ComunidadServicio;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,11 +30,14 @@ public class ComunidadControlador {
         return comunidadService.listarComunidades();
     }
 
-    @GetMapping("/comunidad/generar/codigo/{idVivienda}")
-    public String generarCodigo(@PathVariable Integer idVivienda){
-        return comunidadService.generarCodigo(idVivienda);
+    @PostMapping("/comunidad/generar/codigo/{idVivienda}/{idComunidad}")
+    public void generarCodigo(@PathVariable Integer idVivienda, @PathVariable Integer idComunidad){
+        comunidadService.generarCodigo(idVivienda, idComunidad);
     }
 
-
+    @PostMapping("/comunidad/aceptar/solicitud")
+    public void aceptarSolicitud(@RequestBody Solicitud solicitud){
+        comunidadService.aceptarSolicitudEntrada(solicitud);
+    }
 
 }
