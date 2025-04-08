@@ -23,11 +23,15 @@ export const routes: Routes = [
     loadComponent: () => import('./config-perfil-vecino/config-perfil-vecino.component').then((m) => m.ConfigPerfilVecinoComponent),
   },
   {
-    path: 'pantalla-principal',
-    loadComponent: () => import('./pantalla-principal/pantalla-principal.component').then((m) => m.PantallaPrincipalComponent),
+    path: 'comunidades',
+    loadComponent: () => import('./comunidades/comunidades.component').then((m) => m.ComunidadesComponent),
   },
   {
     path: 'perfil',
     loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
+  },
+  {
+    path: 'elecciones',
+    loadComponent: () => import('./elecciones/elecciones.component').then((m) => m.EleccionesComponent),
   },
 ];

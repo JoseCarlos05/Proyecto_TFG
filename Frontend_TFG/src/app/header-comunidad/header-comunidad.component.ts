@@ -3,23 +3,19 @@ import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
 
 @Component({
-    selector: 'app-config-perfil-vecino',
-    templateUrl: './config-perfil-vecino.component.html',
-    styleUrls: ['./config-perfil-vecino.component.scss'],
+    selector: 'app-header-comunidad',
+    templateUrl: './header-comunidad.component.html',
+    styleUrls: ['./header-comunidad.component.scss'],
     standalone: true,
     imports: [
         IonicModule
     ]
 })
-export class ConfigPerfilVecinoComponent implements OnInit {
+export class HeaderComunidadComponent  implements OnInit {
 
   constructor(private router: Router) { }
 
   ngOnInit() {}
-
-  navigateToInicioSesion() {
-    this.router.navigate(['/inicio-sesion']);
-  }
 
   navigateToComunidades() {
     this.router.navigate(['/comunidades']);

@@ -20,8 +20,8 @@ export class InicioSesionComponent  implements OnInit {
     this.router.navigate(['/registro']);
   }
 
-  navigateToPantallaPrincipal() {
-    this.router.navigate(['/pantalla-principal']);
+  navigateToComunidades() {
+    this.router.navigate(['/comunidades']);
   }
 
 }

@@ -1,0 +1,40 @@
+ion-img {
+  cursor: pointer;
+}
+
+.btn-chat {
+  width: 75%;
+  height: 75%;
+}
+
+.btn-notif {
+  width: 65%;
+  height: 65%;
+}
+
+.btn-back {
+  width: 45%;
+  height: 45%;
+  margin-left: 10px;
+}
+
+ion-col {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+ion-row {
+  display: flex;
+  align-items: center;
+}
+
+ion-text {
+  font-size: 24px;
+  color: #57BF48
+}
+
+ion-grid {
+  border-bottom: 1px solid black;
+  padding: 0;
+  --background: #E7F4E7;
+}
