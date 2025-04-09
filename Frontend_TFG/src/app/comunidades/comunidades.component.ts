@@ -18,11 +18,7 @@ export class ComunidadesComponent implements OnInit {
 
   ngOnInit() {}
 
-  navigateToInicioSesion() {
-    this.router.navigate(['/inicio-sesion']);
-  }
-
-  navigateToPerfil() {
-    this.router.navigate(['/perfil']);
+  navigateToComunidad() {
+    this.router.navigate(['/comunidad/elecciones']);
   }
 }

@@ -31,7 +31,7 @@ export const routes: Routes = [
     loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
   },
   {
-    path: 'elecciones',
+    path: 'comunidad/elecciones',
     loadComponent: () => import('./elecciones/elecciones.component').then((m) => m.EleccionesComponent),
   },
   {
