@@ -3,19 +3,19 @@
     <ion-grid>
       <ion-row>
         <ion-col size="2.4">
-          <ion-img src="assets/icon/footer-comunidad/propiedades.png"></ion-img>
+          <ion-img [src]="propiedadesImgSrc"></ion-img>
         </ion-col>
         <ion-col size="2.4">
-          <ion-img src="assets/icon/footer-comunidad/gastos.png"></ion-img>
+          <ion-img [src]="gastosImgSrc"></ion-img>
         </ion-col>
         <ion-col size="2.4">
-          <ion-img src="assets/icon/footer-comunidad/perfil.png"></ion-img>
+          <ion-img [src]="perfilImgSrc"></ion-img>
         </ion-col>
         <ion-col size="2.4">
-          <ion-img src="assets/icon/footer-comunidad/elecciones.png"></ion-img>
+          <ion-img (click)="navigateToElecciones()" [src]="eleccionesImgSrc"></ion-img>
         </ion-col>
         <ion-col size="2.4">
-          <ion-img src="assets/icon/footer-comunidad/documentacion.png"></ion-img>
+          <ion-img (click)="navigateToDocumentacion()" [src]="documentacionImgSrc"></ion-img>
         </ion-col>
       </ion-row>
     </ion-grid>

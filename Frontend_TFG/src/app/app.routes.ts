@@ -35,6 +35,10 @@ export const routes: Routes = [
     loadComponent: () => import('./elecciones/elecciones.component').then((m) => m.EleccionesComponent),
   },
   {
+    path: 'comunidad/documentacion',
+    loadComponent: () => import('./documentacion/documentacion.component').then((m) => m.DocumentacionComponent),
+  },
+  {
     path: 'crear-comunidad',
     loadComponent: () => import('./crear-comunidad/crear-comunidad.component').then((m) => m.CrearComunidadComponent),
   },
@@ -42,4 +46,4 @@ export const routes: Routes = [
     path: 'crear-comunidad-2',
     loadComponent: () => import('./crear-comunidad-2/crear-comunidad-2.component').then((m) => m.CrearComunidad2Component),
   },
-];
+]
