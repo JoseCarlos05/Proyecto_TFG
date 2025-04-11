@@ -34,4 +34,8 @@ export const routes: Routes = [
     path: 'elecciones',
     loadComponent: () => import('./elecciones/elecciones.component').then((m) => m.EleccionesComponent),
   },
+  {
+    path: 'plantilla-web',
+    loadComponent: () => import('./plantilla-web/plantilla-web.component').then((m) => m.PlantillaWebComponent),
+  },
 ];
