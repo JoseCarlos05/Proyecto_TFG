@@ -1,0 +1,44 @@
+ion-content {
+  --background: #E7F4E7;
+  font-weight: bold;
+
+  .eleccion {
+    background-color: #7CDF68;
+    border-radius: 7px;
+    border: 5px #FFFFFF solid;
+    padding: 15px;
+    margin: 35px;
+    margin-block: 45px;
+
+    p {
+      color: white;
+      margin: 0 auto 10px;
+      font-size: 18px;
+    }
+
+  }
+
+  .textoMedio{
+    color: #0E8008;
+    font-size: 38px;
+    text-align: center;
+  }
+
+  .votos{
+    background-color: #7CDF68;
+    border-radius: 7px;
+    padding: 15px;
+    margin: 35px;
+    margin-block: 45px;
+    p {
+      color: white;
+      margin: 0 auto 10px;
+      font-size: 18px;
+    }
+  }
+  .logo {
+    width: 40px;
+    height: auto;
+  }
+
+}
