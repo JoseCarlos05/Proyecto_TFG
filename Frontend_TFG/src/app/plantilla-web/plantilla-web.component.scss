@@ -6,7 +6,6 @@
 
 .layout {
   display: flex;
-  height: calc(100vh - 56px); // Rezta la altur del header
 }
 
 .header-personalizado {
@@ -48,10 +47,11 @@
     --color: white;
     font-weight: 500;
 
+
     ion-label {
       margin-left: 5px;
-      margin-bottom: 70px;
-      margin-top: 70px;
+      margin-bottom: 90px;
+      margin-top: 88px;
     }
 
     .icono-lateral {
