@@ -1,0 +1,28 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="buscador">
+    <ion-searchbar
+      class="searchbar-blanco"
+      placeholder="Buscar en LiveTogether..."
+      showCancelButton="focus"
+    ></ion-searchbar>
+  </div>
+
+  <div class="tarjeta" (click)="navigateToComunidad()">
+    <p class="tarjeta-titulo">Comunidad 1</p>
+    <p class="tarjeta-subtitulo">(Dirección 1)</p>
+  </div>
+
+  <div class="tarjeta">
+    <p class="tarjeta-titulo">Comunidad 2</p>
+    <p class="tarjeta-subtitulo">(Dirección 2)</p>
+  </div>
+
+  <div class="tarjeta">
+    <p class="tarjeta-titulo">Comunidad 3</p>
+    <p class="tarjeta-subtitulo">(Dirección 3)</p>
+  </div>
+</ion-content>
+
+<app-footer></app-footer>

@@ -1,7 +1,4 @@
 import { Routes } from '@angular/router';
-import {IniciosesionComponent} from "./iniciosesion/iniciosesion.component";
-import {RegistroComponent} from "./registro/registro.component";
-import {RegistrodosComponent} from "./registrodos/registrodos.component";
 
 export const routes: Routes = [
   {
@@ -10,19 +7,43 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'inicio-sesion',
     pathMatch: 'full',
   },
   {
-    path: 'iniciosesion',
-    loadComponent: () => import('./iniciosesion/iniciosesion.component').then((m) => m.IniciosesionComponent),
+    path: 'inicio-sesion',
+    loadComponent: () => import('./inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent),
   },
   {
     path: 'registro',
     loadComponent: () => import('./registro/registro.component').then((m) => m.RegistroComponent),
   },
   {
-    path: 'registrodos',
-    loadComponent: () => import('./registrodos/registrodos.component').then((m) => m.RegistrodosComponent),
+    path: 'config-perfil-vecino',
+    loadComponent: () => import('./config-perfil-vecino/config-perfil-vecino.component').then((m) => m.ConfigPerfilVecinoComponent),
   },
-];
+  {
+    path: 'comunidades',
+    loadComponent: () => import('./comunidades/comunidades.component').then((m) => m.ComunidadesComponent),
+  },
+  {
+    path: 'perfil',
+    loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
+  },
+  {
+    path: 'comunidad/elecciones',
+    loadComponent: () => import('./elecciones/elecciones.component').then((m) => m.EleccionesComponent),
+  },
+  {
+    path: 'comunidad/documentacion',
+    loadComponent: () => import('./documentacion/documentacion.component').then((m) => m.DocumentacionComponent),
+  },
+  {
+    path: 'crear-comunidad',
+    loadComponent: () => import('./crear-comunidad/crear-comunidad.component').then((m) => m.CrearComunidadComponent),
+  },
+  {
+    path: 'crear-comunidad-2',
+    loadComponent: () => import('./crear-comunidad-2/crear-comunidad-2.component').then((m) => m.CrearComunidad2Component),
+  },
+]

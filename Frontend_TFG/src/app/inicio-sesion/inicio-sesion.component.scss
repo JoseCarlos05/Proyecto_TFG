@@ -2,29 +2,26 @@ ion-content {
   --background: #7CDF68;
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #0E8008;
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-.subtitle {
-  font-size: 0.9rem;
-  color: #0E8008;
-  margin-bottom: 20px;
-  text-align: left;
-  width: 100%;
-}
-
-.titulo-container {
+.contenido {
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
-  width: 80%;
-  max-width: 400px;
-  margin: 50px auto 100px auto;
-  text-align: left;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 250px;
+  height: auto;
+}
+
+.titulo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #0E8008;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .input-container {
@@ -53,11 +50,7 @@ ion-input {
 }
 
 ion-input[type="email"] {
-  margin-bottom: 30px;
-}
-
-ion-input[type="password"] {
-  margin-bottom: 30px;
+  margin-bottom: 45px;
 }
 
 .registro-container {
@@ -66,7 +59,7 @@ ion-input[type="password"] {
   align-items: center;
   width: 80%;
   max-width: 400px;
-  margin: 10px auto 0 auto;
+  margin: 10px auto;
 }
 
 .registro-texto {
@@ -74,33 +67,17 @@ ion-input[type="password"] {
   font-size: 14px;
 }
 
-.iniciar-sesion {
+.crear-cuenta {
   font-weight: 900;
   cursor: pointer;
 }
 
 ion-button {
   --background: #0E8008;
-  margin: 160px auto 20px auto;
+  margin: 80px auto 20px auto;
   width: 80%;
   max-width: 400px;
   height: 40px;
   display: block;
   font-weight: bold;
-}
-
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  margin-top: -10px;
-}
-
-.checkbox-container ion-checkbox {
-  margin-right: 10px;
-  --ion-color-primary: #0E8008;
-}
-
-.checkbox-text {
-  margin-bottom: 0;
-  font-size: 0.8rem;
 }

@@ -1,0 +1,18 @@
+ion-grid {
+  padding: 0;
+
+  ion-row {
+    background-color: #7CDF68;
+    padding: 15px;
+    border: 1px solid black;
+    border-top: none;
+
+    &:first-child {
+      border-top: 1px solid black;
+    }
+
+    span {
+      color: #FFFFFF;
+    }
+  }
+}

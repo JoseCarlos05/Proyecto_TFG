@@ -1,0 +1,17 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+
+<ion-content>
+  <ion-segment [(ngModel)]="seccion" mode="ios">
+    <ion-segment-button value="comunicados">
+      <ion-label>Comunicados</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="sanciones">
+      <ion-label>Sanciones</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <app-comunicados *ngIf="seccion === 'comunicados'"></app-comunicados>
+  <app-sanciones *ngIf="seccion === 'sanciones'"></app-sanciones>
+</ion-content>
+
+<app-footer-comunidad></app-footer-comunidad>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registro',
@@ -12,8 +13,15 @@ import {IonicModule} from "@ionic/angular";
 })
 export class RegistroComponent  implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {}
 
+  navigateToInicioSesion() {
+    this.router.navigate(['/inicio-sesion']);
+  }
+
+  navigateToConfigPerfilVecino() {
+    this.router.navigate(['/config-perfil-vecino']);
+  }
 }

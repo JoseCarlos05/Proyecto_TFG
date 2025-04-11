@@ -1,0 +1,27 @@
+<ion-content class="login-container">
+  <div class="titulo-container">
+    <h2 class="title">Crear comunidad</h2>
+    <h3 class="subtitle">Rellena lo siguiente para crear tu comunidad</h3>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Dirección</ion-text>
+    <ion-input type="direccion" placeholder="Introduce tu dirección"></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Número de cuenta bancaria</ion-text>
+    <ion-input type="cuenta" placeholder="Introduce tu número de cuenta bancaria"></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>CIF</ion-text>
+    <ion-input type="CIF" placeholder="Introduce tu CIF"></ion-input>
+  </div>
+
+  <div class="image-container">
+    <ion-img src="assets/icon/tarjetaCredito.png" alt="Tarjeta de Crédito" />
+  </div>
+
+  <ion-button expand="block" (click)="navigateToComunidades()">CREAR COMUNIDAD</ion-button>
+</ion-content>
