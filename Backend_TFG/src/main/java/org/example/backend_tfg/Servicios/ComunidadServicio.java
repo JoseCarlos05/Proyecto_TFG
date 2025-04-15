@@ -36,20 +36,20 @@ public class ComunidadServicio {
         return comunidades;
     }
 
-    public ComunidadDTO verComunidadID(Integer idComunidad){
+    public ComunidadDTO verComunidadID(Integer idComunidad) {
         Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)
-                .orElseThrow(()-> new RuntimeException("No existe una comunidad con este ID."));
+                .orElseThrow(() -> new RuntimeException("No existe una comunidad con este ID."));
 
         return getComunidadDTO(comunidad);
     }
 
-    public ComunidadDTO verComunidadUsuarioID(Integer idUsuario){
+    public ComunidadDTO verComunidadUsuarioID(Integer idUsuario) {
         Comunidad comunidad = iComunidadRepositorio.findByUsuario_Id(idUsuario);
 
         return getComunidadDTO(comunidad);
     }
 
-    public String generarCodigo(Integer idVivienda) {
+    public void generarCodigo(Integer idVivienda, Integer idComunidad) {
         Random random = new Random();
         StringBuilder resultado = new StringBuilder();
 
@@ -58,6 +58,9 @@ public class ComunidadServicio {
             resultado.append(number);
         }
 
+        Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)
+                .orElseThrow(() -> new RuntimeException("No existe una comunidad con este ID."));
+
         Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
                 .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
 
@@ -65,7 +68,9 @@ public class ComunidadServicio {
             resultado.append(String.format("%02X", b));
         }
 
-        return resultado.toString();
+        comunidad.setCodigoComunidad(resultado.toString());
+
+        iComunidadRepositorio.save(comunidad);
     }
 
     public void aceptarSolicitudEntrada(Solicitud solicitud) {
@@ -97,7 +102,10 @@ public class ComunidadServicio {
         dto.setBanco(c.getBanco());
         dto.setCif(c.getCIF());
         dto.setCodigo_comunidad(c.getCodigoComunidad());
-        dto.setId_presidente(c.getPresidente().getId());
+
+        if (c.getPresidente() != null) {
+            dto.setId_presidente(c.getPresidente().getId());
+        }
         return dto;
     }
 }
