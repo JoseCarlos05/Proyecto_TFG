@@ -40,11 +40,11 @@ export class FooterComunidadComponent  implements OnInit {
   }
 
   navigateToGastos() {
-
+    this.router.navigate(['comunidad/gastos'])
   }
 
   navigateToPerfil() {
-
+    this.router.navigate(['comunidad/perfil'])
   }
 
   navigateToElecciones() {

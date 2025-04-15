@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {HeaderComponent} from "../header/header.component";
-import {FooterComponent} from "../footer/footer.component";
+import {HeaderComponent} from "../../header/header.component";
+import {FooterComponent} from "../../footer/footer.component";
 import {IonicModule} from "@ionic/angular";
-import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
+import {HeaderComunidadComponent} from "../../header-comunidad/header-comunidad.component";
+import {FooterComunidadComponent} from "../../footer-comunidad/footer-comunidad.component";
 
 @Component({
     selector: 'app-votacion',
@@ -11,9 +12,9 @@ import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.com
     standalone: true,
   imports: [
     HeaderComponent,
-    FooterComponent,
     IonicModule,
-    HeaderComunidadComponent
+    HeaderComunidadComponent,
+    FooterComunidadComponent
   ]
 })
 export class VotacionComponent  implements OnInit {
