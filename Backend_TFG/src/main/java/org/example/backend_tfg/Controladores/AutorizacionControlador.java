@@ -21,7 +21,7 @@ public class AutorizacionControlador {
     private UsuarioServicio usuarioServicio;
 
     @PostMapping("/login")
-    public ResponseEntity<RespuestaDTO> registro(@RequestBody LoginDTO dto){
+    public ResponseEntity<RespuestaDTO> login(@RequestBody LoginDTO dto){
         return usuarioServicio.login(dto);
     }
 
