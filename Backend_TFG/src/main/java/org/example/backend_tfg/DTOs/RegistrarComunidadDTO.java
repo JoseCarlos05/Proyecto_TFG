@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class RegistrarComunidadDTO {
     private String nombre;
     private String direccion;
-    private String num_cuenta;
+    private String numCuenta;
     private String banco;
     private String cif;
 
