@@ -3,6 +3,7 @@ import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../servicios/auth.service";
+import {Login} from "../modelos/Login";
 
 @Component({
   selector: 'app-registro',
@@ -16,14 +17,13 @@ import {AuthService} from "../servicios/auth.service";
   ]
 })
 export class RegistroComponent  implements OnInit {
-  registroForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
-    this.registroForm = this.fb.group({
-      correo: ['', [Validators.required, Validators.email]],
-      contrasena: ['', Validators.required]
-    });
+  datosRegistro: Login = {
+    correo: "",
+    contrasena: ""
   }
+
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {}
 
@@ -32,10 +32,7 @@ export class RegistroComponent  implements OnInit {
   }
 
   navigateToConfigPerfilVecino() {
-    if (this.registroForm.valid) {
-      this.authService.setDatos(this.registroForm.value);
-      console.log(this.registroForm)
-      this.router.navigate(['/config-perfil-vecino']);
-    }
+    this.authService.setDatos(this.datosRegistro);
+    this.router.navigate(['/config-perfil-vecino']);
   }
 }

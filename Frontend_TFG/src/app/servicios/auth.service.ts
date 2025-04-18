@@ -16,11 +16,14 @@ export class AuthService {
   private authState = new BehaviorSubject<boolean>(!!sessionStorage.getItem('authToken'));
   authState$ = this.authState.asObservable();
 
-  private datosRegistro: any = {};
+  datosRegistro: Login = {
+    correo: "",
+    contrasena: ""
+  };
 
   constructor(private http: HttpClient) { }
 
-  setDatos(datos: any) {
+  setDatos(datos: Login) {
     this.datosRegistro = datos;
   }
 
