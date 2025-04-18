@@ -39,7 +39,6 @@ export class InicioSesionComponent  implements OnInit {
         const token = data.token;
         sessionStorage.setItem("authToken", token);
         this.authService.setAuthState(true);
-        console.log("Usuario logueado: " + data)
         this.navigateToComunidades()
       }, error: err => {
         console.log(err)

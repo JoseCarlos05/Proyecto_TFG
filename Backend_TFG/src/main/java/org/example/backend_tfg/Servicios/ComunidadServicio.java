@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -27,14 +28,27 @@ public class ComunidadServicio {
 
     private ISolicitudRepositorio iSolicitudRepositorio;
 
-    public List<ComunidadDTO> listarComunidades() {
+    public List<ComunidadDTO> listarComunidades(Integer idVecino) {
+        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID"));
+
         List<Comunidad> listaComunidades = iComunidadRepositorio.findAll();
         List<ComunidadDTO> comunidades = new ArrayList<>();
+
+        Set<Vivienda> viviendasVecino = vecino.getViviendas();
+
         for (Comunidad comunidad : listaComunidades) {
-            comunidades.add(getComunidadDTO(comunidad));
+            boolean tieneViviendaEnComunidad = comunidad.getViviendas().stream()
+                    .anyMatch(viviendasVecino::contains);
+
+            if (tieneViviendaEnComunidad) {
+                comunidades.add(getComunidadDTO(comunidad));
+            }
         }
+
         return comunidades;
     }
+
 
     public ComunidadDTO verComunidadID(Integer idComunidad) {
         Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)
@@ -96,15 +110,16 @@ public class ComunidadServicio {
 
     public static ComunidadDTO getComunidadDTO(Comunidad c) {
         ComunidadDTO dto = new ComunidadDTO();
+        dto.setId(c.getId());
         dto.setNombre(c.getNombre());
         dto.setDireccion(c.getDireccion());
-        dto.setNum_cuenta(c.getNumeroCuenta());
+        dto.setNumCuenta(c.getNumeroCuenta());
         dto.setBanco(c.getBanco());
         dto.setCif(c.getCIF());
-        dto.setCodigo_comunidad(c.getCodigoComunidad());
+        dto.setCodigoComunidad(c.getCodigoComunidad());
 
         if (c.getPresidente() != null) {
-            dto.setId_presidente(c.getPresidente().getId());
+            dto.setIdPresidente(c.getPresidente().getId());
         }
         return dto;
     }

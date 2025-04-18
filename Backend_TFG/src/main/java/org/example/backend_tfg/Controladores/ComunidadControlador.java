@@ -25,9 +25,9 @@ public class ComunidadControlador {
         return comunidadService.verComunidadUsuarioID(idUsuario);
     }
 
-    @GetMapping("/vecino/listar/comunidades")
-    public List<ComunidadDTO> listarComunidades(){
-        return comunidadService.listarComunidades();
+    @GetMapping("/vecino/listar/comunidades/{idVecino}")
+    public List<ComunidadDTO> listarComunidades(@PathVariable Integer idVecino){
+        return comunidadService.listarComunidades(idVecino);
     }
 
     @PostMapping("/comunidad/generar/codigo/{idVivienda}/{idComunidad}")

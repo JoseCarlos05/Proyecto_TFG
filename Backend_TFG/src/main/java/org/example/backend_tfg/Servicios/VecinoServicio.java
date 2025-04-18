@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.InsertarCodigoDTO;
 import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
-import org.example.backend_tfg.DTOs.UsuarioDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
 import org.example.backend_tfg.Modelos.*;
 import org.example.backend_tfg.Repositorios.*;
@@ -43,7 +42,7 @@ public class VecinoServicio {
         return getVecinoDTO(vecino);
     }
 
-    public VecinoDTO busccarVecinoUsuarioID(Integer idUsuario) {
+    public VecinoDTO buscarVecinoUsuarioID(Integer idUsuario) {
         Vecino vecino = iVecinoRepositorio.findByUsuario_Id(idUsuario);
         return getVecinoDTO(vecino);
     }

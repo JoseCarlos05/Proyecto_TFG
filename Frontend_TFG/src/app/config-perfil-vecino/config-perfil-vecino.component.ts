@@ -45,10 +45,9 @@ export class ConfigPerfilVecinoComponent implements OnInit {
   navigateToInicioSesion() {
     if (this.registroVecino) {
       this.authService.registroVecino(this.registroVecino).subscribe({
-        next: data => console.log("Usuario registrado: " + data),
-        error: error => console.log(this.registroVecino),
+        next: () => this.router.navigate(['/inicio-sesion']),
+        error: error => console.log(error),
       })
     }
-    this.router.navigate(['/inicio-sesion']);
   }
 }
