@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
-import {RegistrarVecino} from "../modelos/RegistrarVecino";
-import {AuthService} from "../servicios/auth.service";
-import {Login} from "../modelos/Login";
+import {RegistrarVecino} from "../../modelos/RegistrarVecino";
+import {AuthService} from "../../servicios/auth.service";
+import {Login} from "../../modelos/Login";
 import {FormsModule} from "@angular/forms";
 
 @Component({

@@ -16,11 +16,11 @@ export const routes: Routes = [
   },
   {
     path: 'registro',
-    loadComponent: () => import('./registro/registro.component').then((m) => m.RegistroComponent),
+    loadComponent: () => import('./registro-vecino/registro/registro.component').then((m) => m.RegistroComponent),
   },
   {
     path: 'config-perfil-vecino',
-    loadComponent: () => import('./config-perfil-vecino/config-perfil-vecino.component').then((m) => m.ConfigPerfilVecinoComponent),
+    loadComponent: () => import('./registro-vecino/config-perfil-vecino/config-perfil-vecino.component').then((m) => m.ConfigPerfilVecinoComponent),
   },
   {
     path: 'comunidades',
@@ -44,11 +44,11 @@ export const routes: Routes = [
   },
   {
     path: 'crear-comunidad',
-    loadComponent: () => import('./crear-comunidad/crear-comunidad.component').then((m) => m.CrearComunidadComponent),
+    loadComponent: () => import('./registro-comunidad/crear-comunidad/crear-comunidad.component').then((m) => m.CrearComunidadComponent),
   },
   {
     path: 'crear-comunidad-2',
-    loadComponent: () => import('./crear-comunidad-2/crear-comunidad-2.component').then((m) => m.CrearComunidad2Component),
+    loadComponent: () => import('./registro-comunidad/crear-comunidad-2/crear-comunidad-2.component').then((m) => m.CrearComunidad2Component),
   },
   {
     path: 'comunidad/perfil',

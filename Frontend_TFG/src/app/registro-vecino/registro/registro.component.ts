@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {AuthService} from "../servicios/auth.service";
-import {Login} from "../modelos/Login";
+import {AuthService} from "../../servicios/auth.service";
+import {Login} from "../../modelos/Login";
 
 @Component({
   selector: 'app-registro',

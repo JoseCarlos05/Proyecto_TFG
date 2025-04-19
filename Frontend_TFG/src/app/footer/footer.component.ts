@@ -24,4 +24,10 @@ export class FooterComponent  implements OnInit {
   navigateToComunidades() {
     this.router.navigate(['/comunidades']);
   }
+
+  navigateToCrearComunidad() {
+    this.router.navigate(['/crear-comunidad']);
+  }
+
+  navigateToUnirseComunidad() {}
 }
