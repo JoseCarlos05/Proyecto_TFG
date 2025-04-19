@@ -6,17 +6,17 @@
 
   <div class="input-container">
     <ion-text>Nombre de comunidad</ion-text>
-    <ion-input type="nombre" placeholder="Introduce el nombre de tu comunidad"></ion-input>
+    <ion-input [(ngModel)]="registroComunidad.nombre" type="nombre" placeholder="Introduce el nombre de tu comunidad"></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Email</ion-text>
-    <ion-input type="email" placeholder="Introduce tu email"></ion-input>
+    <ion-input [(ngModel)]="datosRegistro.correo" type="email" placeholder="Introduce tu email"></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Contraseña</ion-text>
-    <ion-input type="password" placeholder="Introduce tu contraseña"></ion-input>
+    <ion-input [(ngModel)]="datosRegistro.contrasena" type="password" placeholder="Introduce tu contraseña"></ion-input>
   </div>
 
   <div class="input-container">
@@ -26,13 +26,23 @@
 
   <div class="input-container">
     <ion-text>Dirección</ion-text>
-    <ion-input type="direccion" placeholder="Introduce tu dirección"></ion-input>
+    <ion-input [(ngModel)]="registroComunidad.direccion" type="direccion" placeholder="Introduce tu dirección"></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Número de cuenta bancaria</ion-text>
-    <ion-input type="cuenta" placeholder="Introduce tu número de cuenta bancaria"></ion-input>
+    <ion-input [(ngModel)]="registroComunidad.numCuenta" type="cuenta" placeholder="Introduce tu número de cuenta bancaria"></ion-input>
   </div>
 
-  <ion-button expand="block" (click)="navigateToCrearComunidad2()">SIGUIENTE</ion-button>
+  <div class="input-container">
+    <ion-text>Banco</ion-text>
+    <ion-input [(ngModel)]="registroComunidad.banco" type="banco" placeholder="Introduce tu banco"></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>CIF</ion-text>
+    <ion-input [(ngModel)]="registroComunidad.cif" type="CIF" placeholder="Introduce tu CIF"></ion-input>
+  </div>
+
+  <ion-button expand="block" (click)="navigateToComunidades()">SIGUIENTE</ion-button>
 </ion-content>

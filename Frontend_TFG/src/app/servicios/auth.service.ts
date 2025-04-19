@@ -44,6 +44,6 @@ export class AuthService {
   }
 
   registroComunidad(registroComunidad: RegistrarComunidad): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/autorizacion/registro/vecino`, registroComunidad)
+    return this.http.post<any>(`${this.apiUrl}/autorizacion/registro/comunidad`, registroComunidad)
   }
 }
