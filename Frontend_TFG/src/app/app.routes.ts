@@ -42,4 +42,8 @@ export const routes: Routes = [
     path: 'crear-comunidad-2',
     loadComponent: () => import('./crear-comunidad-2/crear-comunidad-2.component').then((m) => m.CrearComunidad2Component),
   },
+  {
+    path: 'unirse-comunidad',
+    loadComponent: () => import('./unirse-comunidad/unirse-comunidad.component').then((m) => m.UnirseComunidadComponent),
+  },
 ];
