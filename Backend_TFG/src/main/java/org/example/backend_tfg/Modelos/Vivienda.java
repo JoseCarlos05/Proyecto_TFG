@@ -21,7 +21,7 @@ public class Vivienda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "numero_residentes")
+    @Column(name = "numero_residentes", nullable = false)
     private Integer numResidentes;
 
     @Column(name = "direccion_personal", nullable = false)
@@ -32,7 +32,7 @@ public class Vivienda {
     private Vecino propietario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comunidad")
+    @JoinColumn(name = "comunidad", nullable = false)
     private Comunidad comunidad;
 
     @ManyToMany(mappedBy = "viviendas",

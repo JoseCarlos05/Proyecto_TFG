@@ -2,8 +2,8 @@ package org.example.backend_tfg.Servicios;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.example.backend_tfg.DTOs.InsertarCodigoDTO;
 import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
-import org.example.backend_tfg.DTOs.UsuarioDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
 import org.example.backend_tfg.Modelos.*;
 import org.example.backend_tfg.Repositorios.*;
@@ -42,7 +42,7 @@ public class VecinoServicio {
         return getVecinoDTO(vecino);
     }
 
-    public VecinoDTO busccarVecinoUsuarioID(Integer idUsuario) {
+    public VecinoDTO buscarVecinoUsuarioID(Integer idUsuario) {
         Vecino vecino = iVecinoRepositorio.findByUsuario_Id(idUsuario);
         return getVecinoDTO(vecino);
     }
@@ -112,13 +112,13 @@ public class VecinoServicio {
 
     }
 
-    public void insertarCodigoComunidad(String codigoComunidad, Integer idVecino) {
-        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+    public void insertarCodigoComunidad(InsertarCodigoDTO insertarCodigoDTO) {
+        Vecino vecino = iVecinoRepositorio.findById(insertarCodigoDTO.getIdVecino())
                 .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
 
         for (Comunidad comunidad : iComunidadRepositorio.findAll()) {
-            if (comunidad.getCodigoComunidad().equals(codigoComunidad)) {
-                String dirViviendaHex = codigoComunidad.substring(6);
+            if (comunidad.getCodigoComunidad().equals(insertarCodigoDTO.getCodigoComunidad())) {
+                String dirViviendaHex = insertarCodigoDTO.getCodigoComunidad().substring(6);
                 StringBuilder dirViviendaSB = new StringBuilder();
                 for (int i = 0; i < dirViviendaHex.length(); i += 2) {
                     String strByte = dirViviendaHex.substring(i, i + 2);

@@ -17,6 +17,4 @@ public class VecinoDTO {
     private LocalDate fechaNacimiento;
     private String numeroCuenta;
     private String dni;
-    private String correo;
-
 }

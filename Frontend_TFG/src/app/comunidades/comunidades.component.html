@@ -1,13 +1,6 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-img src="assets/icon/header/logo.png" class="logo logo-circulo"></ion-img>
-    <ion-buttons slot="end">
-      <ion-img src="assets/icon/header/salir.png" class="salir" (click)="navigateToInicioSesion()"></ion-img>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <div class="buscador">
     <ion-searchbar
       class="searchbar-blanco"
@@ -16,19 +9,9 @@
     ></ion-searchbar>
   </div>
 
-  <div class="tarjeta">
-    <p class="tarjeta-titulo">Comunidad 1</p>
-    <p class="tarjeta-subtitulo">(Dirección 1)</p>
-  </div>
-
-  <div class="tarjeta">
-    <p class="tarjeta-titulo">Comunidad 2</p>
-    <p class="tarjeta-subtitulo">(Dirección 2)</p>
-  </div>
-
-  <div class="tarjeta">
-    <p class="tarjeta-titulo">Comunidad 3</p>
-    <p class="tarjeta-subtitulo">(Dirección 3)</p>
+  <div class="tarjeta" (click)="navigateToComunidad(comunidad.id)" *ngFor="let comunidad of listaComunidades">
+    <p class="tarjeta-titulo">{{ comunidad.nombre }}</p>
+    <p class="tarjeta-subtitulo">{{ comunidad.direccion }}</p>
   </div>
 </ion-content>
 

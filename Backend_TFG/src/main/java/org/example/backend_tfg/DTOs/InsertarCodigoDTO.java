@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioDTO {
-    private String correo;
-    private String contrasena;
-    private String repetirContrasena;
+public class InsertarCodigoDTO {
+    private String codigoComunidad;
+    private Integer idVecino;
 }

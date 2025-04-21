@@ -16,11 +16,11 @@ export const routes: Routes = [
   },
   {
     path: 'registro',
-    loadComponent: () => import('./registro/registro.component').then((m) => m.RegistroComponent),
+    loadComponent: () => import('./registro-vecino/registro/registro.component').then((m) => m.RegistroComponent),
   },
   {
     path: 'config-perfil-vecino',
-    loadComponent: () => import('./config-perfil-vecino/config-perfil-vecino.component').then((m) => m.ConfigPerfilVecinoComponent),
+    loadComponent: () => import('./registro-vecino/config-perfil-vecino/config-perfil-vecino.component').then((m) => m.ConfigPerfilVecinoComponent),
   },
   {
     path: 'comunidades',
@@ -31,8 +31,36 @@ export const routes: Routes = [
     loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
   },
   {
-    path: 'elecciones',
+    path: 'comunidad/:id/elecciones',
     loadComponent: () => import('./elecciones/elecciones.component').then((m) => m.EleccionesComponent),
+  },
+  {
+    path: 'comunidad/elecciones/votacion',
+    loadComponent: () => import('./elecciones/votacion/votacion.component').then((m) => m.VotacionComponent),
+  },
+  {
+    path: 'comunidad/documentacion',
+    loadComponent: () => import('./documentacion/documentacion.component').then((m) => m.DocumentacionComponent),
+  },
+  {
+    path: 'crear-comunidad',
+    loadComponent: () => import('./registro-comunidad/crear-comunidad/crear-comunidad.component').then((m) => m.CrearComunidadComponent),
+  },
+  {
+    path: 'crear-comunidad-2',
+    loadComponent: () => import('./registro-comunidad/crear-comunidad-2/crear-comunidad-2.component').then((m) => m.CrearComunidad2Component),
+  },
+  {
+    path: 'comunidad/perfil',
+    loadComponent: () => import('./perfil-comunidad/perfil-comunidad.component').then((m) => m.PerfilComunidadComponent),
+  },
+  {
+    path: 'comunidad/gastos',
+    loadComponent: () => import('./gastos/gastos.component').then((m) => m.GastosComponent),
+  },
+  {
+    path: 'comunidad/gastos/gasto',
+    loadComponent: () => import('./gastos/gasto/gasto.component').then((m) => m.GastoComponent),
   },
   {
     path: 'plantilla-web',

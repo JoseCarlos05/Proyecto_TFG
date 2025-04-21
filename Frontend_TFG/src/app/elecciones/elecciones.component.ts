@@ -22,4 +22,8 @@ export class EleccionesComponent  implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {}
+
+  navigateToElecciones() {
+    this.router.navigate(['comunidad/elecciones/votacion'])
+  }
 }

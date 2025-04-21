@@ -116,7 +116,7 @@ public class UsuarioServicio implements UserDetailsService {
 
         comunidad.setNombre(dto.getNombre());
         comunidad.setDireccion(dto.getDireccion());
-        comunidad.setNumeroCuenta(dto.getNum_cuenta());
+        comunidad.setNumeroCuenta(dto.getNumCuenta());
         comunidad.setBanco(dto.getBanco());
         comunidad.setCIF(dto.getCif());
 

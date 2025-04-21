@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-footer-comunidad',
@@ -12,8 +13,45 @@ import {IonicModule} from "@ionic/angular";
 })
 export class FooterComunidadComponent  implements OnInit {
 
-  constructor() { }
+  propiedadesImgSrc: string = 'assets/icon/footer-comunidad/propiedades.png'
+  gastosImgSrc: string = 'assets/icon/footer-comunidad/gastos.png'
+  perfilImgSrc: string = 'assets/icon/footer-comunidad/perfil.png'
+  eleccionesImgSrc: string = 'assets/icon/footer-comunidad/elecciones.png'
+  documentacionImgSrc: string = 'assets/icon/footer-comunidad/documentacion.png'
 
-  ngOnInit() {}
+  constructor(private router: Router) { }
 
+  ngOnInit() {
+    if (this.router.url.includes('/propiedades')) {
+      this.propiedadesImgSrc = 'assets/icon/footer-comunidad/propiedadesActive.png'
+    } else if (this.router.url.includes('/gastos')) {
+      this.gastosImgSrc = 'assets/icon/footer-comunidad/gastosActive.png'
+    } else if (this.router.url.includes('/perfil')) {
+      this.perfilImgSrc = 'assets/icon/footer-comunidad/perfilActive.png'
+    } else if (this.router.url.includes('/elecciones')) {
+      this.eleccionesImgSrc = 'assets/icon/footer-comunidad/eleccionesActive.png'
+    } else if (this.router.url.includes('/documentacion')) {
+      this.documentacionImgSrc = 'assets/icon/footer-comunidad/documentacionActive.png'
+    }
+  }
+
+  navigateToPropiedades() {
+
+  }
+
+  navigateToGastos() {
+    this.router.navigate(['comunidad/gastos'])
+  }
+
+  navigateToPerfil() {
+    this.router.navigate(['comunidad/perfil'])
+  }
+
+  navigateToElecciones() {
+    this.router.navigate(['comunidad/elecciones'])
+  }
+
+  navigateToDocumentacion() {
+    this.router.navigate(['comunidad/documentacion'])
+  }
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {AuthService} from "../../servicios/auth.service";
+import {Login} from "../../modelos/Login";
 
 @Component({
   selector: 'app-registro',
@@ -8,12 +11,19 @@ import {Router} from "@angular/router";
   styleUrls: ['./registro.component.scss'],
   standalone: true,
   imports: [
-    IonicModule
+    IonicModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class RegistroComponent  implements OnInit {
 
-  constructor(private router: Router) { }
+  datosRegistro: Login = {
+    correo: "",
+    contrasena: ""
+  }
+
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {}
 
@@ -22,6 +32,7 @@ export class RegistroComponent  implements OnInit {
   }
 
   navigateToConfigPerfilVecino() {
+    this.authService.setDatos(this.datosRegistro);
     this.router.navigate(['/config-perfil-vecino']);
   }
 }

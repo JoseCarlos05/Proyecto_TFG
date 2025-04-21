@@ -10,11 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ComunidadDTO {
+    private Integer id;
     private String nombre;
     private String direccion;
-    private String num_cuenta;
+    private String numCuenta;
     private String banco;
     private String cif;
-    private String codigo_comunidad;
-    private Integer id_presidente;
+    private String codigoComunidad;
+    private Integer idPresidente;
 }

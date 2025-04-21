@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -27,29 +28,42 @@ public class ComunidadServicio {
 
     private ISolicitudRepositorio iSolicitudRepositorio;
 
-    public List<ComunidadDTO> listarComunidades() {
+    public List<ComunidadDTO> listarComunidades(Integer idVecino) {
+        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID"));
+
         List<Comunidad> listaComunidades = iComunidadRepositorio.findAll();
         List<ComunidadDTO> comunidades = new ArrayList<>();
+
+        Set<Vivienda> viviendasVecino = vecino.getViviendas();
+
         for (Comunidad comunidad : listaComunidades) {
-            comunidades.add(getComunidadDTO(comunidad));
+            boolean tieneViviendaEnComunidad = comunidad.getViviendas().stream()
+                    .anyMatch(viviendasVecino::contains);
+
+            if (tieneViviendaEnComunidad) {
+                comunidades.add(getComunidadDTO(comunidad));
+            }
         }
+
         return comunidades;
     }
 
-    public ComunidadDTO verComunidadID(Integer idComunidad){
+
+    public ComunidadDTO verComunidadID(Integer idComunidad) {
         Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)
-                .orElseThrow(()-> new RuntimeException("No existe una comunidad con este ID."));
+                .orElseThrow(() -> new RuntimeException("No existe una comunidad con este ID."));
 
         return getComunidadDTO(comunidad);
     }
 
-    public ComunidadDTO verComunidadUsuarioID(Integer idUsuario){
+    public ComunidadDTO verComunidadUsuarioID(Integer idUsuario) {
         Comunidad comunidad = iComunidadRepositorio.findByUsuario_Id(idUsuario);
 
         return getComunidadDTO(comunidad);
     }
 
-    public String generarCodigo(Integer idVivienda) {
+    public void generarCodigo(Integer idVivienda, Integer idComunidad) {
         Random random = new Random();
         StringBuilder resultado = new StringBuilder();
 
@@ -58,6 +72,9 @@ public class ComunidadServicio {
             resultado.append(number);
         }
 
+        Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)
+                .orElseThrow(() -> new RuntimeException("No existe una comunidad con este ID."));
+
         Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
                 .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
 
@@ -65,7 +82,9 @@ public class ComunidadServicio {
             resultado.append(String.format("%02X", b));
         }
 
-        return resultado.toString();
+        comunidad.setCodigoComunidad(resultado.toString());
+
+        iComunidadRepositorio.save(comunidad);
     }
 
     public void aceptarSolicitudEntrada(Solicitud solicitud) {
@@ -91,13 +110,17 @@ public class ComunidadServicio {
 
     public static ComunidadDTO getComunidadDTO(Comunidad c) {
         ComunidadDTO dto = new ComunidadDTO();
+        dto.setId(c.getId());
         dto.setNombre(c.getNombre());
         dto.setDireccion(c.getDireccion());
-        dto.setNum_cuenta(c.getNumeroCuenta());
+        dto.setNumCuenta(c.getNumeroCuenta());
         dto.setBanco(c.getBanco());
         dto.setCif(c.getCIF());
-        dto.setCodigo_comunidad(c.getCodigoComunidad());
-        dto.setId_presidente(c.getPresidente().getId());
+        dto.setCodigoComunidad(c.getCodigoComunidad());
+
+        if (c.getPresidente() != null) {
+            dto.setIdPresidente(c.getPresidente().getId());
+        }
         return dto;
     }
 }

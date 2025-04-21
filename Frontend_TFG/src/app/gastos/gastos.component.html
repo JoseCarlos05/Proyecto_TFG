@@ -1,0 +1,21 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+
+<ion-content>
+  <div class="gastos">
+    <div class="gasto" (click)="navigateToGasto()">
+      <span>Pintura de las barandillas. 30€/Vecino.</span>
+      <div class="estado">
+        <span>Pagado</span>
+      </div>
+    </div>
+    <div class="gasto">
+      <span>Pintura de las barandillas. 30€/Vecino.</span>
+      <div class="estado" style="background-color: red; color: white">
+        <span>Pendiente</span>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<app-footer-comunidad></app-footer-comunidad>

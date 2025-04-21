@@ -1,16 +1,17 @@
 ion-toolbar {
   --background: #339F28;
-}
 
-ion-img {
-  width: 60%;
-  height: 60%;
-  margin: 0 auto;
-}
+  ion-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
 
-ion-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto
+    ion-img {
+      width: 55px;
+      height: 55px;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+  }
 }
