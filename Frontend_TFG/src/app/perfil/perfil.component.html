@@ -1,14 +1,37 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-img src="assets/icon/header/logo.png" class="logo logo-circulo"></ion-img>
-    <ion-buttons slot="end">
-      <ion-img src="assets/icon/header/salir.png" class="salir" (click)="navigateToInicioSesion()"></ion-img>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 
 <ion-content [fullscreen]="true">
+  <div class="contenido">
+    <ion-img src="assets/icon/perfiles/26.png" class="imagen-redondeada"></ion-img>
+      <ion-img src="assets/icon/perfiles/img.png" class="icono-boton"></ion-img>
+  </div>
 
+  <div class="input-container">
+    <ion-text>Nombre</ion-text>
+    <ion-input type="text" placeholder="Introduce tu nombre"></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Apellido</ion-text>
+    <ion-input type="text" placeholder="Introduce tu apellido"></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Teléfono</ion-text>
+    <ion-input type="email" placeholder="Introduce tu telefono"></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Fecha Nacimiento</ion-text>
+    <ion-input type="date" placeholder="Fecha de Nacimiento"></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Email</ion-text>
+    <ion-input placeholder="Introduce tu email"></ion-input>
+  </div>
+
+  <ion-button expand="block" class="guardar-boton">Guardar</ion-button>
 </ion-content>
 
 <app-footer></app-footer>
