@@ -28,7 +28,7 @@ public class ViviendaServicio {
     public void crearVivienda(RegistrarViviendaDTO dto) {
         Vivienda vivienda = new Vivienda();
         vivienda.setDireccionPersonal(dto.getDireccionPersonal());
-
+        vivienda.setNumResidentes(0);
         Comunidad comunidad = iComunidadRepositorio.findById(dto.getIdComunidad())
                 .orElseThrow(() -> new RuntimeException("No existe una comunidad con este ID."));
         vivienda.setComunidad(comunidad);

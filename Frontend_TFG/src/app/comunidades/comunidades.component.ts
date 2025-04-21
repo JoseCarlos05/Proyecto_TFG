@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {FooterComponent} from "../footer/footer.component";
 import {HeaderComponent} from "../header/header.component";
 import { jwtDecode } from "jwt-decode";
-import {TokenData} from "../modelos/TokenData";
+import {TokenDataDTO} from "../modelos/TokenData";
 import {UsuarioService} from "../servicios/usuario.service";
 import {Usuario} from "../modelos/Usuario";
 import {VecinoService} from "../servicios/vecino.service";
@@ -25,6 +25,7 @@ export class ComunidadesComponent implements OnInit {
   private usuario: Usuario = {}
   private vecino: Vecino = {}
   listaComunidades: Comunidad[] = []
+  correo?: string;
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,
@@ -32,40 +33,46 @@ export class ComunidadesComponent implements OnInit {
               private comunidadService: ComunidadService) { }
 
   ngOnInit() {
-    this.decodificarToken()
-  }
-
-  decodificarToken() {
-    const token = sessionStorage.getItem('token');
-
-    try {
-      if (token) {
-        const decodedToken = jwtDecode(token) as { tokenData: TokenData };
-        this.cargarUsuario(decodedToken?.tokenData.correo)
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<{ tokenDataDTO: TokenDataDTO }>(token);
+        const tokenDataDTO = decodedToken?.tokenDataDTO;
+        if (tokenDataDTO && tokenDataDTO.correo) {
+          this.correo = tokenDataDTO.correo;
+          this.cargarUsuario(this.correo);
+        }
+      } catch (e) {
+        console.error('Error al decodificar el token:', e);
       }
-    } catch (e) {
-      console.error('Error al decodificar el token:');
     }
   }
 
-  cargarUsuario(correo: string) {
+  cargarUsuario(correo: string): void {
     this.usuarioService.cargarUsuario(correo).subscribe({
-      next: data => {
-        this.usuario = data
-        if (this.usuario.id)
-        this.cargarVecino(this.usuario.id)
+      next: (usuario: Usuario) => {
+        this.usuario = usuario;
+        if (usuario && usuario.id) {
+          this.cargarVecino(this.usuario.id)
+          console.log(usuario)
+        }
+      },
+      error: (e) => {
+        console.error("Error al cargar el usuario:", e);
       }
-    })
+    });
   }
 
-  cargarVecino(idUsuario: number) {
-    if (this.usuario.id)
-    this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
-      next: data => {
-        this.vecino = data
-        this.listarComunidades()
-      }
-    })
+
+  cargarVecino(idUsuario: number | undefined) {
+    if (this.usuario.id) {
+      this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
+        next: data => {
+          this.vecino = data
+          this.listarComunidades()
+        }
+      })
+    }
   }
 
   listarComunidades() {
