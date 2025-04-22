@@ -33,8 +33,8 @@
 
   <div class="subtitulo-container">
     <ion-text class="subtitle">Código de la comunidad</ion-text>
-    <ion-input type="text" placeholder="Introduce el código de la comunidad"></ion-input>
+    <ion-input type="text" placeholder="Introduce el código de la comunidad" [(ngModel)]="insertarCodigo.codigoComunidad"></ion-input>
   </div>
 
-  <ion-button class="ion-button2" expand="block">UNIRSE</ion-button>
+  <ion-button class="ion-button2" expand="block" (click)="insertarCodigoComunidad()">UNIRSE</ion-button>
 </ion-content>
