@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import {NotificacionesComponent} from "./notificaciones/notificaciones.component";
 
 export const routes: Routes = [
   {
@@ -69,5 +70,9 @@ export const routes: Routes = [
   {
     path: 'unirse-comunidad',
     loadComponent: () => import('./unirse-comunidad/unirse-comunidad.component').then((m) => m.UnirseComunidadComponent),
+  },
+  {
+    path: 'notificaciones',
+    loadComponent: () => import('./notificaciones/notificaciones.component').then((m) => m.NotificacionesComponent),
   },
 ];
