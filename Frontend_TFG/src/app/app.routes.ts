@@ -66,4 +66,8 @@ export const routes: Routes = [
     path: 'plantilla-web',
     loadComponent: () => import('./plantilla-web/plantilla-web.component').then((m) => m.PlantillaWebComponent),
   },
+  {
+    path: 'unirse-comunidad',
+    loadComponent: () => import('./unirse-comunidad/unirse-comunidad.component').then((m) => m.UnirseComunidadComponent),
+  },
 ];
