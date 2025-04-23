@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import {NotificacionesComponent} from "./notificaciones/notificaciones.component";
+import {ContratoEmpleadoComponent} from "./contrato-empleado/contrato-empleado.component";
 
 export const routes: Routes = [
   {
@@ -82,5 +83,9 @@ export const routes: Routes = [
   {
     path: 'propiedades-comunidades',
     loadComponent: () => import('./propiedades-comunidades/propiedades-comunidades.component').then((m) => m.PropiedadesComunidadesComponent),
+  },
+  {
+    path: 'contrato-empleado',
+    loadComponent: () => import('./contrato-empleado/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent),
   },
 ];
