@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import {NotificacionesComponent} from "./notificaciones/notificaciones.component";
 import {ContratoEmpleadoComponent} from "./contrato-empleado/contrato-empleado.component";
 import {PonerComunicadosComponent} from "./poner-comunicados/poner-comunicados.component";
+import {PonerSancionesComponent} from "./poner-sanciones/poner-sanciones.component";
 
 export const routes: Routes = [
   {
@@ -92,5 +93,9 @@ export const routes: Routes = [
   {
     path: 'poner-comunicados',
     loadComponent: () => import('./poner-comunicados/poner-comunicados.component').then((m) => m.PonerComunicadosComponent),
+  },
+  {
+    path: 'poner-sanciones',
+    loadComponent: () => import('./poner-sanciones/poner-sanciones.component').then((m) => m.PonerSancionesComponent),
   },
 ];
