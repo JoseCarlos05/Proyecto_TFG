@@ -79,4 +79,8 @@ export const routes: Routes = [
     path: 'propiedades',
     loadComponent: () => import('./propiedades/propiedades.component').then((m) => m.PropiedadesComponent),
   },
+  {
+    path: 'propiedades-comunidades',
+    loadComponent: () => import('./propiedades-comunidades/propiedades-comunidades.component').then((m) => m.PropiedadesComunidadesComponent),
+  },
 ];
