@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import {NotificacionesComponent} from "./notificaciones/notificaciones.component";
 import {ContratoEmpleadoComponent} from "./contrato-empleado/contrato-empleado.component";
+import {PonerComunicadosComponent} from "./poner-comunicados/poner-comunicados.component";
 
 export const routes: Routes = [
   {
@@ -87,5 +88,9 @@ export const routes: Routes = [
   {
     path: 'contrato-empleado',
     loadComponent: () => import('./contrato-empleado/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent),
+  },
+  {
+    path: 'poner-comunicados',
+    loadComponent: () => import('./poner-comunicados/poner-comunicados.component').then((m) => m.PonerComunicadosComponent),
   },
 ];

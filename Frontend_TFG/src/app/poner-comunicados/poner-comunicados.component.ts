@@ -5,10 +5,10 @@ import {IonicModule} from "@ionic/angular";
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 
 @Component({
-    selector: 'app-contrato-empleado',
-    templateUrl: './contrato-empleado.component.html',
-    styleUrls: ['./contrato-empleado.component.scss'],
-    standalone: true,
+  selector: 'app-poner-comunicados',
+  templateUrl: './poner-comunicados.component.html',
+  styleUrls: ['./poner-comunicados.component.scss'],
+  standalone: true,
   imports: [
     FooterComponent,
     HeaderComponent,
@@ -16,7 +16,7 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
     FooterComunidadComponent
   ]
 })
-export class ContratoEmpleadoComponent  implements OnInit {
+export class PonerComunicadosComponent  implements OnInit {
 
   constructor() { }
 
