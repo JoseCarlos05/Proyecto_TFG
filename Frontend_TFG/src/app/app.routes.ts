@@ -4,6 +4,7 @@ import {ContratoEmpleadoComponent2} from "./contrato-empleado2/contrato-empleado
 import {PonerComunicadosComponent} from "./poner-comunicados/poner-comunicados.component";
 import {PonerSancionesComponent} from "./poner-sanciones/poner-sanciones.component";
 import {ContratoEmpleadoComponent} from "./contrato-empleado/contrato-empleado.component";
+import {AniadirGastoComponent} from "./aniadir-gasto/aniadir-gasto.component";
 
 export const routes: Routes = [
   {
@@ -103,4 +104,10 @@ export const routes: Routes = [
     path: 'contrato-empleado',
     loadComponent: () => import('./contrato-empleado/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent),
   },
+  {
+    path: 'aniadir-gasto',
+    loadComponent: () => import('./aniadir-gasto/aniadir-gasto.component').then((m) => m.AniadirGastoComponent),
+  },
+
+
 ];
