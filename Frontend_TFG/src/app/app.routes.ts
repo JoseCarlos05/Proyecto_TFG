@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import {NotificacionesComponent} from "./notificaciones/notificaciones.component";
-import {ContratoEmpleadoComponent} from "./contrato-empleado/contrato-empleado.component";
+import {ContratoEmpleadoComponent2} from "./contrato-empleado2/contrato-empleado.component";
 import {PonerComunicadosComponent} from "./poner-comunicados/poner-comunicados.component";
 import {PonerSancionesComponent} from "./poner-sanciones/poner-sanciones.component";
+import {ContratoEmpleadoComponent} from "./contrato-empleado/contrato-empleado.component";
 
 export const routes: Routes = [
   {
@@ -87,8 +88,8 @@ export const routes: Routes = [
     loadComponent: () => import('./propiedades-comunidades/propiedades-comunidades.component').then((m) => m.PropiedadesComunidadesComponent),
   },
   {
-    path: 'contrato-empleado',
-    loadComponent: () => import('./contrato-empleado/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent),
+    path: 'contrato-empleado2',
+    loadComponent: () => import('./contrato-empleado2/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent2),
   },
   {
     path: 'poner-comunicados',
@@ -97,5 +98,9 @@ export const routes: Routes = [
   {
     path: 'poner-sanciones',
     loadComponent: () => import('./poner-sanciones/poner-sanciones.component').then((m) => m.PonerSancionesComponent),
+  },
+  {
+    path: 'contrato-empleado',
+    loadComponent: () => import('./contrato-empleado/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent),
   },
 ];

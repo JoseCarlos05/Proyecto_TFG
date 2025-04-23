@@ -4,12 +4,13 @@ import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {FooterComponent} from "../footer/footer.component";
 import {HeaderComponent} from "../header/header.component";
+import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 
 @Component({
     selector: 'app-perfil',
     templateUrl: './perfil.component.html',
     styleUrls: ['./perfil.component.scss'],
-  imports: [IonicModule, CommonModule, FooterComponent, HeaderComponent],
+  imports: [IonicModule, CommonModule, FooterComponent, HeaderComponent, FooterComunidadComponent],
     standalone: true,
 })
 export class PerfilComponent  implements OnInit {

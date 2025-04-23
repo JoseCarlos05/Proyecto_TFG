@@ -42,7 +42,7 @@ ion-content {
   align-items: flex-end;
   justify-content: center;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 50px;
 }
 
 .imagen-redondeada {
@@ -91,7 +91,6 @@ ion-input {
   --padding-start: 15px;
   --placeholder-color: #0E8008;
   color: #0E8008;
-  margin-bottom: 10px;
 }
 
 .guardar-boton {
@@ -103,9 +102,10 @@ ion-input {
   margin: 20px auto;
   font-weight: bold;
   border-radius: 25%;
-  margin-top: 90px;
+  margin-top: 60px;
 }
 
-#primerDiv{
-  margin-top: 150px;
+ion-text{
+  margin-top: 20px;
 }
+
