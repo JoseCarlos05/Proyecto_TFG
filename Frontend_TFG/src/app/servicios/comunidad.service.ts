@@ -27,7 +27,7 @@ export class ComunidadService {
 
   solicitadUnion(idVivienda: number, idComunidad: number, idVecino: number): Observable<any> {
     const options = this.comunService.autorizarPeticion();
-    return this.http.post(`${this.apiUrl}/vecino/solicitar/${idVivienda}/${idComunidad}/${idVecino}`, options);
+    return this.http.post(`${this.apiUrl}/vecino/solicitar/${idVivienda}/${idComunidad}/${idVecino}`, {},options);
   }
 
   listarTodasComunidades(): Observable<Comunidad[]> {

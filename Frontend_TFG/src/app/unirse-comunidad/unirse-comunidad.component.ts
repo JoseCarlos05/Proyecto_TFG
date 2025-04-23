@@ -104,9 +104,9 @@ export class UnirseComunidadComponent  implements OnInit {
     }
   }
 
-  solicitarUnion(idVivienda: number, idComunidad: number) {
+  solicitarUnion() {
     if (this.idVivienda && this.idComunidad && this.vecino.id) {
-      this.comunidadService.solicitadUnion(idVivienda, idComunidad, this.vecino.id).subscribe({
+      this.comunidadService.solicitadUnion(this.idVivienda, this.idComunidad, this.vecino.id).subscribe({
         next: () => {
           this.router.navigate(['/comunidades']);
         },
@@ -118,6 +118,7 @@ export class UnirseComunidadComponent  implements OnInit {
       console.warn('Faltan datos para solicitar unión.');
     }
   }
+
 
   cargarComunidades() {
     this.comunidadService.listarTodasComunidades().subscribe({
