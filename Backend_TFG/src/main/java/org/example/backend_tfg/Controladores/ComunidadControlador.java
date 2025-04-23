@@ -40,4 +40,8 @@ public class ComunidadControlador {
         comunidadService.aceptarSolicitudEntrada(solicitud);
     }
 
+    @GetMapping("/vecino/listar/todas/comunidades")
+    public List<ComunidadDTO> listarTodasComunidades(){
+        return comunidadService.listarTodasComunidades();
+    }
 }

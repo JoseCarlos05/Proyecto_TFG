@@ -49,6 +49,15 @@ public class ComunidadServicio {
         return comunidades;
     }
 
+    public List<ComunidadDTO> listarTodasComunidades(){
+        List<Comunidad> comunidadades = iComunidadRepositorio.findAll();
+        List<ComunidadDTO> comunidadDTOS = new ArrayList<>();
+
+        for (Comunidad comunidad: comunidadades){
+            comunidadDTOS.add(getComunidadDTO(comunidad));
+        }
+        return comunidadDTOS;
+    }
 
     public ComunidadDTO verComunidadID(Integer idComunidad) {
         Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)

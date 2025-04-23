@@ -24,4 +24,14 @@ export class ComunidadService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/vecino/insertar/codigo`, insertarCodigo, options);
   }
+
+  solicitadUnion(idVivienda: number, idComunidad: number, idVecino: number): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/vecino/solicitar/${idVivienda}/${idComunidad}/${idVecino}`, options);
+  }
+
+  listarTodasComunidades(): Observable<Comunidad[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Comunidad[]>(`${this.apiUrl}/vecino/listar/todas/comunidades`, options)
+  }
 }

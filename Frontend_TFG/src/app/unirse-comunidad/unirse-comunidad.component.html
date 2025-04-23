@@ -5,19 +5,20 @@
 
   <div class="subtitulo-container">
     <ion-text class="subtitle">Comunidades</ion-text>
-    <ion-select placeholder="Selecciona una comunidad">
-      <ion-select-option value="comunidad1">Comunidad 1</ion-select-option>
-      <ion-select-option value="comunidad2">Comunidad 2</ion-select-option>
-      <ion-select-option value="comunidad3">Comunidad 3</ion-select-option>
+    <ion-select placeholder="Selecciona una comunidad" [(ngModel)]="idComunidad" (ionChange)="cargarVivienda(idComunidad)">
+      <ion-select-option *ngFor="let comunidad of comunidades" [value]="comunidad.id">
+        {{ comunidad.nombre }} - {{ comunidad.direccion }}
+      </ion-select-option>
     </ion-select>
+
   </div>
 
   <div class="subtitulo-container" style="margin-top: 40px">
     <ion-text class="subtitle">Vivienda a elegir</ion-text>
-    <ion-select placeholder="Selecciona una vivienda">
-      <ion-select-option value="vivienda1">Vivienda 1</ion-select-option>
-      <ion-select-option value="vivienda2">Vivienda 2</ion-select-option>
-      <ion-select-option value="vivienda3">Vivienda 3</ion-select-option>
+    <ion-select placeholder="Selecciona una vivienda" [(ngModel)]="idVivienda">
+      <ion-select-option *ngFor="let vivienda of viviendas" [value]="vivienda.idComunidad">
+        {{ vivienda.direccionPersonal }}
+      </ion-select-option>
     </ion-select>
   </div>
 

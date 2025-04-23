@@ -11,6 +11,10 @@ import {TokenDataDTO} from "../modelos/TokenData";
 import {Usuario} from "../modelos/Usuario";
 import {UsuarioService} from "../servicios/usuario.service";
 import {VecinoService} from "../servicios/vecino.service";
+import {Comunidad} from "../modelos/Comunidad";
+import {NgForOf} from "@angular/common";
+import {Vivienda} from "../modelos/Vivienda";
+import {ViviendaService} from "../servicios/vivienda.service";
 
 @Component({
     selector: 'app-unirse-comunidad',
@@ -19,13 +23,21 @@ import {VecinoService} from "../servicios/vecino.service";
     standalone: true,
   imports: [
     IonicModule,
-    FormsModule
+    FormsModule,
+    NgForOf
   ]
 })
 export class UnirseComunidadComponent  implements OnInit {
   correo?: string;
   private usuario: Usuario = {}
   private vecino: Vecino = {}
+  comunidades: Comunidad[] = [];
+  viviendas: Vivienda[] = [];
+
+  idVivienda?: number;
+  idComunidad?: number;
+  idVecino?: number;
+
   insertarCodigo: InsertarCodigo = {
     codigoComunidad: "",
     idVecino: undefined
@@ -33,7 +45,8 @@ export class UnirseComunidadComponent  implements OnInit {
   constructor(private comunidadService: ComunidadService,
               private router: Router,
               private usuarioService: UsuarioService,
-              private vecinoService: VecinoService) { }
+              private vecinoService: VecinoService,
+              private viviendaService: ViviendaService) { }
 
   ngOnInit() {
     const token = sessionStorage.getItem('authToken');
@@ -49,6 +62,8 @@ export class UnirseComunidadComponent  implements OnInit {
         console.error('Error al decodificar el token:', e);
       }
     }
+
+    this.cargarComunidades();
   }
 
   insertarCodigoComunidad() {
@@ -89,4 +104,40 @@ export class UnirseComunidadComponent  implements OnInit {
     }
   }
 
+  solicitarUnion(idVivienda: number, idComunidad: number) {
+    if (this.idVivienda && this.idComunidad && this.vecino.id) {
+      this.comunidadService.solicitadUnion(idVivienda, idComunidad, this.vecino.id).subscribe({
+        next: () => {
+          this.router.navigate(['/comunidades']);
+        },
+        error: () => {
+          console.log('Error al solicitar unión.');
+        }
+      });
+    } else {
+      console.warn('Faltan datos para solicitar unión.');
+    }
+  }
+
+  cargarComunidades() {
+    this.comunidadService.listarTodasComunidades().subscribe({
+      next: (data: Comunidad[]) => {
+        this.comunidades = data;
+      },
+      error: () => {
+        console.log("Error al cargar comunidades");
+      }
+    });
+  }
+
+  cargarVivienda(idComunidad: number | undefined) {
+    this.viviendaService.listarVviendas(idComunidad).subscribe({
+      next: (data: Vivienda[]) => {
+        this.viviendas = data;
+      },
+      error: () => {
+        console.log("Error al cargar comunidades");
+      }
+    });
+  }
 }
