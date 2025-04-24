@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {CommonModule} from "@angular/common";
 import {Router} from "@angular/router";
@@ -25,7 +25,7 @@ export class ComunidadesComponent implements OnInit {
   private usuario!: Usuario
   private vecino!: Vecino
   listaComunidades: Comunidad[] = []
-  correo?: string;
+  correo?: string
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,
@@ -70,7 +70,6 @@ export class ComunidadesComponent implements OnInit {
     });
   }
 
-
   cargarVecino() {
     if (this.usuario.id) {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
@@ -91,6 +90,7 @@ export class ComunidadesComponent implements OnInit {
 
   navigateToComunidad(id: number | undefined) {
     if (id)
-    this.router.navigate(['/comunidad', id, 'elecciones']);
+    this.router.navigate(['/comunidad', id, 'elecciones'])
   }
+
 }
