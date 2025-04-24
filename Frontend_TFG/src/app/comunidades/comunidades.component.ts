@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {CommonModule} from "@angular/common";
 import {Router} from "@angular/router";
@@ -22,8 +22,8 @@ import {Comunidad} from "../modelos/Comunidad";
 })
 export class ComunidadesComponent implements OnInit {
 
-  private usuario: Usuario = {}
-  private vecino: Vecino = {}
+  private usuario!: Usuario
+  private vecino!: Vecino
   listaComunidades: Comunidad[] = []
   correo?: string;
 
@@ -33,6 +33,14 @@ export class ComunidadesComponent implements OnInit {
               private comunidadService: ComunidadService) { }
 
   ngOnInit() {
+    this.inicio()
+  }
+
+  ionViewWillEnter() {
+    this.inicio()
+  }
+
+  inicio() {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
@@ -52,9 +60,8 @@ export class ComunidadesComponent implements OnInit {
     this.usuarioService.cargarUsuario(correo).subscribe({
       next: (usuario: Usuario) => {
         this.usuario = usuario;
-        if (usuario && usuario.id) {
-          this.cargarVecino(this.usuario.id)
-          console.log(usuario)
+        if (this.usuario && this.usuario.id) {
+          this.cargarVecino()
         }
       },
       error: (e) => {
@@ -64,7 +71,7 @@ export class ComunidadesComponent implements OnInit {
   }
 
 
-  cargarVecino(idUsuario: number | undefined) {
+  cargarVecino() {
     if (this.usuario.id) {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
