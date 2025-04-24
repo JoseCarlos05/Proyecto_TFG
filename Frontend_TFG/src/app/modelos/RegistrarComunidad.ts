@@ -4,6 +4,7 @@ export interface RegistrarComunidad {
     numCuenta: string;
     banco: string;
     cif: string;
+    idPresidente: number;
     correo: string;
     contrasena: string;
 }

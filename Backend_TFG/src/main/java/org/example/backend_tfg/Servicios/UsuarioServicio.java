@@ -120,6 +120,11 @@ public class UsuarioServicio implements UserDetailsService {
         comunidad.setBanco(dto.getBanco());
         comunidad.setCIF(dto.getCif());
 
+        Vecino presidente = iVecinoRepositorio.findById(dto.getIdPresidente())
+                .orElseThrow(() -> new RuntimeException("No existe un presidente con este ID."));
+
+        comunidad.setPresidente(presidente);
+
         Usuario usuarioGuardado = usuarioRepositorio.save(nuevoUsuario);
         comunidad.setUsuario(usuarioGuardado);
 

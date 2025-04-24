@@ -40,9 +40,8 @@ public class Comunidad {
     @Column(name = "codigoComunidad")
     private String codigoComunidad;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "presidente_id")
     private Vecino presidente;
 
     @OneToMany(mappedBy = "comunidad", cascade = CascadeType.ALL)

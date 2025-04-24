@@ -1,6 +1,6 @@
-export class Vivienda {
-  numResidentes?: number;
-  direccionPersonal?: string;
-  idComunidad?: number;
-  idVecinos?: number[];
+export interface Vivienda {
+  numResidentes: number;
+  direccionPersonal: string;
+  idComunidad: number;
+  idVecinos: number[];
 }

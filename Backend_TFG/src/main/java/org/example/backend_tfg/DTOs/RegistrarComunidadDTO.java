@@ -13,7 +13,7 @@ public class RegistrarComunidadDTO {
     private String numCuenta;
     private String banco;
     private String cif;
-
+    private Integer idPresidente;
 
     private String correo;
     private String contrasena;

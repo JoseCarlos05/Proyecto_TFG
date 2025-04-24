@@ -29,8 +29,8 @@ import {ViviendaService} from "../servicios/vivienda.service";
 })
 export class UnirseComunidadComponent  implements OnInit {
   correo?: string;
-  private usuario: Usuario = {}
-  private vecino: Vecino = {}
+  private usuario!: Usuario
+  private vecino!: Vecino
   comunidades: Comunidad[] = [];
   viviendas: Vivienda[] = [];
 

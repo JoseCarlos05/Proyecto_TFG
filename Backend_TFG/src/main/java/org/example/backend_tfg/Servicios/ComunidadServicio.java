@@ -41,7 +41,10 @@ public class ComunidadServicio {
             boolean tieneViviendaEnComunidad = comunidad.getViviendas().stream()
                     .anyMatch(viviendasVecino::contains);
 
-            if (tieneViviendaEnComunidad) {
+            boolean esPresidente = comunidad.getPresidente() != null &&
+                    comunidad.getPresidente().getId().equals(idVecino);
+
+            if (tieneViviendaEnComunidad || esPresidente) {
                 comunidades.add(getComunidadDTO(comunidad));
             }
         }
