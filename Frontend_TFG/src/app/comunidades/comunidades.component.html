@@ -9,7 +9,7 @@
     ></ion-searchbar>
   </div>
 
-  <div class="tarjeta" (click)="navigateToComunidad(comunidad.id)" *ngFor="let comunidad of listaComunidades">
+  <div class="tarjeta" (click)="navigateToComunidad(comunidad)" *ngFor="let comunidad of listaComunidades">
     <p class="tarjeta-titulo">{{ comunidad.nombre }}</p>
     <p class="tarjeta-subtitulo">{{ comunidad.direccion }}</p>
   </div>

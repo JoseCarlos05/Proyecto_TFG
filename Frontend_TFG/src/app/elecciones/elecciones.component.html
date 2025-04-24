@@ -1,13 +1,12 @@
 <app-header></app-header>
-
 <app-header-comunidad></app-header-comunidad>
 
 <ion-content>
-  <div class="eleccion" (click)="navigateToElecciones()">
-    <p>Aprobación de derrama para contratar seguridad. 50€/Vecino.</p>
+  <div *ngFor="let eleccion of listaElecciones" class="eleccion" (click)="navigateToElecciones()">
+    <p>{{ eleccion.motivo }}</p>
     <div class="eleccion-info">
-      <span class="fecha">Ayer</span>
-      <span class="estado">Abierta</span>
+      <span class="fecha">{{calcularFecha(eleccion)}}</span>
+      <span class="estado">{{ eleccion.abierta }}</span>
     </div>
   </div>
 </ion-content>

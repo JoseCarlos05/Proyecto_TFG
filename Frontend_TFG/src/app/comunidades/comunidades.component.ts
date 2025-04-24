@@ -82,8 +82,11 @@ export class ComunidadesComponent implements OnInit {
     })
   }
 
-  navigateToComunidad(id: number | undefined) {
-    if (id)
-    this.router.navigate(['/comunidad', id, 'elecciones']);
+  navigateToComunidad(comunidad: Comunidad) {
+    if (comunidad?.id) {
+      sessionStorage.setItem('comunidad', JSON.stringify(comunidad));
+      this.router.navigate(['/comunidad', comunidad.id, 'elecciones']);
+    }
   }
+
 }

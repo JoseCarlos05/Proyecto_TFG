@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
+import {Comunidad} from "../modelos/Comunidad";
 
 @Component({
     selector: 'app-header-comunidad',
@@ -13,9 +14,16 @@ import {Router} from "@angular/router";
 })
 export class HeaderComunidadComponent  implements OnInit {
 
+  comunidadObjeto?: Comunidad
   constructor(private router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const comunidad = sessionStorage.getItem('comunidad');
+    if (comunidad) {
+      this.comunidadObjeto = JSON.parse(comunidad);
+    }
+  }
+
 
   navigateToComunidades() {
     this.router.navigate(['/comunidades']);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
+import {Comunidad} from "../modelos/Comunidad";
 
 @Component({
     selector: 'app-footer-comunidad',
@@ -18,10 +19,17 @@ export class FooterComunidadComponent  implements OnInit {
   perfilImgSrc: string = 'assets/icon/footer-comunidad/perfil.png'
   eleccionesImgSrc: string = 'assets/icon/footer-comunidad/elecciones.png'
   documentacionImgSrc: string = 'assets/icon/footer-comunidad/documentacion.png'
+  comunidadObjeto?: Comunidad
 
   constructor(private router: Router) { }
 
   ngOnInit() {
+
+    const comunidad = sessionStorage.getItem('comunidad');
+    if (comunidad) {
+      this.comunidadObjeto = JSON.parse(comunidad);
+    }
+
     if (this.router.url.includes('/propiedades')) {
       this.propiedadesImgSrc = 'assets/icon/footer-comunidad/propiedadesActive.png'
     } else if (this.router.url.includes('/gastos')) {
@@ -47,8 +55,8 @@ export class FooterComunidadComponent  implements OnInit {
     this.router.navigate(['comunidad/perfil'])
   }
 
-  navigateToElecciones() {
-    this.router.navigate(['comunidad/elecciones'])
+  navigateToElecciones(id: number | undefined) {
+    this.router.navigate(['/comunidad', id, 'elecciones']);
   }
 
   navigateToDocumentacion() {
