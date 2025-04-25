@@ -13,6 +13,7 @@ import {HeaderComponent} from "../header/header.component";
   import {Vecino} from "../modelos/Vecino";
   import {Comunidad} from "../modelos/Comunidad";
   import {FormsModule} from "@angular/forms";
+  import {RegistrarVecino} from "../modelos/RegistrarVecino";
 
 @Component({
     selector: 'app-perfil',
@@ -22,10 +23,21 @@ import {HeaderComponent} from "../header/header.component";
     standalone: true,
 })
 export class PerfilComponent  implements OnInit {
-  usuario!: Usuario
-  vecino!: Vecino
-  listaComunidades: Comunidad[] = []
+  usuario: Usuario = {} as Usuario;
+  vecino: Vecino = {} as Vecino;
   correo?: string
+  editable: boolean = false;
+
+  editarVecino: RegistrarVecino = {
+    nombre: "",
+    apellidos: "",
+    telefono: "",
+    fechaNacimiento: "",
+    numeroCuenta: "",
+    dni: "",
+    correo: this.usuario.correo,
+    contrasena: this.usuario.contrasena,
+  }
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,
@@ -66,9 +78,40 @@ export class PerfilComponent  implements OnInit {
     if (this.usuario.id) {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
-          this.vecino = data
+          this.vecino = data;
+          this.editarVecino = {
+            nombre: this.vecino.nombre,
+            apellidos: this.vecino.apellidos,
+            telefono: this.vecino.telefono,
+            fechaNacimiento: this.vecino.fechaNacimiento,
+            numeroCuenta: this.vecino.numeroCuenta,
+            dni: this.vecino.dni,
+            correo: this.usuario.correo,
+            contrasena: this.usuario.contrasena,
+          }
         }
       })
     }
   }
+  visibleInput() {
+    if (!this.editable){
+      this.editable = true;
+    }else {
+      this.editable = false;
+    }
+
+  }
+  actualizarVecino(idVecino: number) {
+    this.vecinoService.editarPerfil(this.editarVecino, idVecino).subscribe({
+      next: () => {
+        this.editable = false;
+        this.cargarVecino();
+      },
+      error: () => {
+        console.log('Error al insertar código.');
+      }
+    });
+  }
+
+
 }

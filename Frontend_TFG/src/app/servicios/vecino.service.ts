@@ -4,6 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Vecino} from "../modelos/Vecino";
 import {ComunService} from "./comun.service";
+import {InsertarCodigo} from "../modelos/InsertarCodigo";
+import {RegistrarVecino} from "../modelos/RegistrarVecino";
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +19,10 @@ export class VecinoService {
   cargarVecinoPorIdUsuario(idUsuario: number): Observable<Vecino> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Vecino>(`${this.apiUrl}/vecino/ver/vecino/usuario/${idUsuario}`, options)
+  }
+
+  editarPerfil(vecino: RegistrarVecino, idVecino: number): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.put(`${this.apiUrl}/vecino/actualizar/${idVecino}`, vecino, options);
   }
 }

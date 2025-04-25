@@ -3,36 +3,36 @@
 <ion-content [fullscreen]="true">
   <div class="contenido">
     <ion-img src="assets/icon/perfiles/26.png" class="imagen-redondeada"></ion-img>
-      <ion-img src="assets/icon/perfiles/img.png" class="icono-boton"></ion-img>
+    <ion-img src="assets/icon/perfiles/img.png" class="icono-boton" (click)="visibleInput()"></ion-img>
   </div>
 
   <div class="input-container">
     <ion-text>Nombre</ion-text>
-    <ion-input type="text" placeholder="Introduce tu nombre" [(ngModel)]="vecino.nombre"></ion-input>
+    <ion-input type="text" placeholder="Introduce tu nombre" [(ngModel)]="editarVecino.nombre" [readonly]="!editable"></ion-input>
   </div>
-
 
   <div class="input-container">
     <ion-text>Apellido</ion-text>
-    <ion-input type="text" placeholder="Introduce tu apellido" [(ngModel)]="vecino.apellidos"></ion-input>
+    <ion-input type="text" placeholder="Introduce tu apellido" [(ngModel)]="editarVecino.apellidos" [readonly]="!editable"></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Teléfono</ion-text>
-    <ion-input type="email" placeholder="Introduce tu telefono" [(ngModel)]="vecino.telefono"></ion-input>
+    <ion-input type="text" placeholder="Introduce tu teléfono" [(ngModel)]="editarVecino.telefono" [readonly]="!editable"></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Fecha Nacimiento</ion-text>
-    <ion-input type="date" placeholder="Fecha de Nacimiento" [(ngModel)]="vecino.fechaNacimiento"></ion-input>
+    <ion-input type="date" placeholder="Fecha de Nacimiento" [(ngModel)]="editarVecino.fechaNacimiento" [readonly]="!editable"></ion-input>
   </div>
 
   <div class="input-container">
-    <ion-text>Email</ion-text>
-    <ion-input placeholder="Introduce tu email" [(ngModel)]="usuario.correo"></ion-input>
+    <ion-text>Foto perfil</ion-text>
+    <ion-input placeholder="Introduce tu foto" [(ngModel)]="editarVecino.correo" [readonly]="!editable"></ion-input>
   </div>
 
-  <ion-button expand="block" class="guardar-boton">Guardar</ion-button>
+  <ion-button expand="block" class="guardar-boton" [disabled]="!editable" (click)="actualizarVecino(vecino.id)">Editar</ion-button>
 </ion-content>
+
 
 <app-footer></app-footer>
