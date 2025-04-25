@@ -18,6 +18,8 @@ export class HeaderComponent  implements OnInit {
   ngOnInit() {}
 
   navigateToInicioSesion() {
+    sessionStorage.removeItem('comunidad');
+    sessionStorage.removeItem('authToken')
     this.router.navigate(["/inicio-sesion"])
   }
 

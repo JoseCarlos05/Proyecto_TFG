@@ -57,13 +57,14 @@ export class UnirseComunidadComponent  implements OnInit {
         if (tokenDataDTO && tokenDataDTO.correo) {
           this.correo = tokenDataDTO.correo;
           this.cargarUsuario(this.correo);
+          this.cargarComunidades();
         }
       } catch (e) {
         console.error('Error al decodificar el token:', e);
       }
+    } else {
+      this.router.navigate(['/']);
     }
-
-    this.cargarComunidades();
   }
 
   insertarCodigoComunidad() {

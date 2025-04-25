@@ -14,7 +14,7 @@ import {Comunidad} from "../modelos/Comunidad";
 })
 export class HeaderComunidadComponent  implements OnInit {
 
-  comunidadObjeto?: Comunidad
+  comunidadObjeto!: Comunidad
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -24,8 +24,8 @@ export class HeaderComunidadComponent  implements OnInit {
     }
   }
 
-
   navigateToComunidades() {
+    sessionStorage.removeItem('comunidad');
     this.router.navigate(['/comunidades']);
   }
 }

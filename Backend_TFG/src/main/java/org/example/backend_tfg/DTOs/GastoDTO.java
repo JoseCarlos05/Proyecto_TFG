@@ -1,0 +1,19 @@
+package org.example.backend_tfg.DTOs;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Set;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class GastoDTO {
+    private Integer id;
+    private String concepto;
+    private Double total;
+    private Double cantidadPagada;
+    private Set<Integer> pagados;
+    private Integer idComunidad;
+}

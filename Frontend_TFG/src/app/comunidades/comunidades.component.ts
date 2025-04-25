@@ -53,6 +53,8 @@ export class ComunidadesComponent implements OnInit {
       } catch (e) {
         console.error('Error al decodificar el token:', e);
       }
+    } else {
+      this.router.navigate(['/']);
     }
   }
 
@@ -91,7 +93,7 @@ export class ComunidadesComponent implements OnInit {
   navigateToComunidad(comunidad: Comunidad) {
     if (comunidad?.id) {
       sessionStorage.setItem('comunidad', JSON.stringify(comunidad));
-      this.router.navigate(['/comunidad', comunidad.id, 'elecciones']);
+      this.router.navigate(['/comunidad/elecciones']);
     }
   }
 

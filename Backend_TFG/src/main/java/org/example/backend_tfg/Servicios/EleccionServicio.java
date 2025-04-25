@@ -30,6 +30,7 @@ public class EleccionServicio {
         nuevaEleccion.setTotalAFavor(0);
         nuevaEleccion.setTotalAbstencion(0);
         nuevaEleccion.setTotalEnContra(0);
+        nuevaEleccion.setAbierta(true);
 
         Comunidad comunidad = iComunidadRepositorio.findById(crearEleccionDTO.getIdComunidad())
                 .orElseThrow(()-> new RuntimeException("No existe una comunidad con este ID."));

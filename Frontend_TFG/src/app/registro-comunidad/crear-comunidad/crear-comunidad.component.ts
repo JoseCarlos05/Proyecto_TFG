@@ -54,6 +54,8 @@ export class CrearComunidadComponent  implements OnInit {
       } catch (e) {
         console.error('Error al decodificar el token:', e);
       }
+    } else {
+      this.router.navigate(['/']);
     }
   }
 

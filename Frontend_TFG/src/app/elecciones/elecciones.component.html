@@ -2,11 +2,11 @@
 <app-header-comunidad></app-header-comunidad>
 
 <ion-content>
-  <div *ngFor="let eleccion of listaElecciones" class="eleccion" (click)="navigateToElecciones()">
+  <div *ngFor="let eleccion of listaElecciones" class="eleccion" (click)="navigateToVotacion()">
     <p>{{ eleccion.motivo }}</p>
     <div class="eleccion-info">
       <span class="fecha">{{calcularFecha(eleccion)}}</span>
-      <span class="estado">{{ calcularAbierta(eleccion) }}</span>
+      <span [ngClass]="comprobarEstado(eleccion)">{{ comprobarEstado(eleccion) }}</span>
     </div>
   </div>
 </ion-content>
