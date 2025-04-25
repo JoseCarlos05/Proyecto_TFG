@@ -59,7 +59,7 @@ public class ViviendaServicio {
 
 
         for (Vecino vecino: residentes){
-            vecinoDTOS.add(getVecinoDTO(vecino));
+            vecinoDTOS.add(VecinoServicio.getVecinoDTO(vecino));
         }
 
         return vecinoDTOS;
@@ -67,16 +67,17 @@ public class ViviendaServicio {
     }
 
     public static ViviendaDTO getViviendaDTO(Vivienda v) {
-        ViviendaDTO vivienda = new ViviendaDTO();
-        vivienda.setNumResidentes(v.getNumResidentes());
-        vivienda.setDireccionPersonal(v.getDireccionPersonal());
+        ViviendaDTO dto = new ViviendaDTO();
+        dto.setId(v.getId());
+        dto.setNumResidentes(v.getNumResidentes());
+        dto.setDireccionPersonal(v.getDireccionPersonal());
 
         if (v.getPropietario() != null) {
-            vivienda.setIdPropietario(v.getPropietario().getId());
+            dto.setIdPropietario(v.getPropietario().getId());
         }
 
         if (v.getComunidad() != null) {
-            vivienda.setIdComunidad(v.getComunidad().getId());
+            dto.setIdComunidad(v.getComunidad().getId());
         }
 
         List<Integer> idVecinos = new ArrayList<>();
@@ -85,22 +86,8 @@ public class ViviendaServicio {
         }
 
         if (!idVecinos.isEmpty()) {
-            vivienda.setIdVecinos(idVecinos);
+            dto.setIdVecinos(idVecinos);
         }
-        return vivienda;
-    }
-
-    public static VecinoDTO getVecinoDTO(Vecino vecino){
-        VecinoDTO dtoNuevo  = new VecinoDTO();
-
-        dtoNuevo.setId(vecino.getId());
-        dtoNuevo.setNombre(vecino.getNombre());
-        dtoNuevo.setApellidos(vecino.getApellidos());
-        dtoNuevo.setDni(vecino.getDni());
-        dtoNuevo.setTelefono(vecino.getTelefono());
-        dtoNuevo.setFechaNacimiento(vecino.getFechaNacimiento());
-        dtoNuevo.setNumeroCuenta(vecino.getNumCuenta());
-
-        return dtoNuevo;
+        return dto;
     }
 }

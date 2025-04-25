@@ -3,6 +3,17 @@ import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
 import {IonicModule} from "@ionic/angular";
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
+import {jwtDecode} from "jwt-decode";
+import {TokenDataDTO} from "../modelos/TokenData";
+import {Usuario} from "../modelos/Usuario";
+import {Vecino} from "../modelos/Vecino";
+import {Router} from "@angular/router";
+import {UsuarioService} from "../servicios/usuario.service";
+import {VecinoService} from "../servicios/vecino.service";
+import {NgForOf, NgIf} from "@angular/common";
+import {Comunidad} from "../modelos/Comunidad";
+import {ViviendaService} from "../servicios/vivienda.service";
+import {Vivienda} from "../modelos/Vivienda";
 
 @Component({
   selector: 'app-perfil-comunidad',
@@ -13,13 +24,180 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
     HeaderComponent,
     HeaderComunidadComponent,
     IonicModule,
-    FooterComunidadComponent
+    FooterComunidadComponent,
+    NgIf,
+    NgForOf
   ]
 })
 export class PerfilComunidadComponent  implements OnInit {
 
-  constructor() { }
+  private usuario?: Usuario
+  vecino?: Vecino
+  private correo!: string
+  private comunidad!: Comunidad
+  private viviendas?: Vivienda[] = []
+  residentesEnPropiedad: Vecino[] = []
 
-  ngOnInit() {}
+  constructor(private router: Router,
+              private usuarioService: UsuarioService,
+              private vecinoService: VecinoService,
+              private viviendaService: ViviendaService) { }
 
+  ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.inicio()
+  }
+
+  inicio() {
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<{ tokenDataDTO: TokenDataDTO }>(token);
+        const tokenDataDTO = decodedToken?.tokenDataDTO;
+        if (tokenDataDTO && tokenDataDTO.correo) {
+          this.correo = tokenDataDTO.correo;
+          this.cargarUsuario(this.correo);
+          this.cargarComunidad()
+        }
+      } catch (e) {
+        console.error('Error al decodificar el token:', e);
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
+
+  cargarUsuario(correo: string): void {
+    this.usuarioService.cargarUsuario(correo).subscribe({
+      next: (usuario: Usuario) => {
+        this.usuario = usuario;
+        if (this.usuario && this.usuario.id) {
+          this.cargarVecino()
+        }
+      },
+      error: (e) => {
+        console.error("Error al cargar el usuario:", e);
+      }
+    });
+  }
+
+  cargarVecino() {
+    if (this.usuario) {
+      this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
+        next: data => {
+          this.vecino = data
+          this.cargarComunidad()
+        }
+      })
+    }
+  }
+
+  cargarComunidad() {
+    const comunidadStorage = sessionStorage.getItem('comunidad');
+    if (comunidadStorage) {
+      this.comunidad = JSON.parse(comunidadStorage);
+      this.cargarViviendas()
+    }
+  }
+
+  cargarViviendas() {
+    this.viviendaService.listarViviendas(this.comunidad.id).subscribe({
+      next: data => {
+        this.viviendas = data
+        this.listarResidentes()
+      }
+    })
+  }
+
+  listarResidentes() {
+    this.residentesEnPropiedad = []
+    let resultado = []
+    for (const vivienda of this.propiedadesVecino()) {
+      this.viviendaService.listarResidentes(vivienda.id).subscribe({
+        next: data => {
+          for (const vecino of data) {
+            if (this.vecino !== vecino) {
+              resultado.push(vecino)
+            }
+          }
+          this.residentesEnPropiedad = resultado.filter((obj, index, self) =>
+            index === self.findIndex(o => o.id === obj.id))
+        }
+      })
+    }
+  }
+
+  propiedadesVecino(): Vivienda[] {
+    let listaViviendas: Vivienda[] = []
+    if (this.viviendas) {
+      for (const vivienda of this.viviendas) {
+        if (this.vecino) {
+          if (vivienda.idPropietario === this.vecino.id) {
+            listaViviendas.push(vivienda)
+          }
+        }
+      }
+    }
+    return listaViviendas
+  }
+
+  residenciasVecino(): Vivienda[] {
+    let listaViviendas: Vivienda[] = []
+    if (this.viviendas) {
+      for (const vivienda of this.viviendas) {
+        if (this.vecino && vivienda.idVecinos) {
+          if (vivienda.idVecinos.includes(this.vecino.id) && !(vivienda.idPropietario === this.vecino.id)) {
+            listaViviendas.push(vivienda)
+          }
+        }
+      }
+    }
+    return listaViviendas
+  }
+
+  comprobarIdentidad(): string {
+    const propiedades = this.propiedadesVecino().length
+    const residencias = this.residenciasVecino().length
+
+    if (this.vecino) {
+      if (this.vecino.id === this.comunidad.idPresidente) {
+        return "Presidente de la comunidad"
+
+      } else if (propiedades > 0) {
+        let listaViviendas = this.propiedadesVecino()
+
+        if (propiedades === 1) {
+          return "Propietario de la vivienda " + listaViviendas[0].direccionPersonal
+        } else {
+          let texto = "Propietario de las viviendas: "
+          for (let i = 0; i < listaViviendas.length; i++) {
+            texto += listaViviendas[i].direccionPersonal;
+            if (i < listaViviendas.length - 1) {
+              texto += ", ";
+            }
+          }
+          return texto
+        }
+
+      } else {
+        let listaViviendas = this.residenciasVecino()
+
+        if (residencias === 1) {
+          return "Residiendo en la vivienda " + listaViviendas[0].direccionPersonal
+        } else {
+          let texto = "Residiendo en las viviendas: "
+          for (let i = 0; i < listaViviendas.length; i++) {
+            texto += listaViviendas[i].direccionPersonal;
+            if (i < listaViviendas.length - 1) {
+              texto += ", ";
+            }
+          }
+          return texto
+        }
+      }
+    }
+    return ""
+  }
 }

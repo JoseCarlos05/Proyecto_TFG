@@ -1,21 +1,19 @@
 package org.example.backend_tfg.DTOs;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ViviendaDTO {
+public class GastoDTO {
     private Integer id;
-    private Integer numResidentes;
-    private String direccionPersonal;
-    private Integer idPropietario;
+    private String concepto;
+    private Double total;
+    private Double cantidadPagada;
+    private Set<Integer> pagados;
     private Integer idComunidad;
-    private List<Integer> idVecinos;
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "gasto")
@@ -26,8 +28,15 @@ public class Gasto {
     @Column(name = "total", nullable = false)
     private Double total;
 
+    @Column(name = "cantidad_pagada", nullable = false)
+    private Double cantidadPagada;
+
     @Column(name = "fechaHora", nullable = false)
     private LocalDateTime fechaHora;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pagados")
+    private Set<Vecino> pagados = new HashSet<>(0);
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad")

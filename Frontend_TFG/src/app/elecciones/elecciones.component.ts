@@ -7,7 +7,7 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
 import {Comunidad} from "../modelos/Comunidad";
 import {EleccionesService} from "../servicios/elecciones.service";
 import {Eleccion} from "../modelos/Eleccion";
-import {NgForOf} from "@angular/common";
+import {NgClass, NgForOf} from "@angular/common";
 
 @Component({
     selector: 'app-elecciones',
@@ -19,11 +19,12 @@ import {NgForOf} from "@angular/common";
     HeaderComponent,
     HeaderComunidadComponent,
     FooterComunidadComponent,
-    NgForOf
+    NgForOf,
+    NgClass
   ]
 })
 export class EleccionesComponent  implements OnInit {
-  comunidadObjeto?: Comunidad
+  comunidadObjeto!: Comunidad
   listaElecciones: Eleccion[] = []
 
   constructor(private router: Router,
@@ -44,7 +45,7 @@ export class EleccionesComponent  implements OnInit {
       })
   }
 
-  navigateToElecciones() {
+  navigateToVotacion() {
     this.router.navigate(['comunidad/elecciones/votacion'])
   }
 
@@ -83,7 +84,7 @@ export class EleccionesComponent  implements OnInit {
     }
   }
 
-  calcularAbierta(eleccion: Eleccion): string {
+  comprobarEstado(eleccion: Eleccion): string {
     if (!eleccion.abierta) {
       return "Cerrada";
     }else {

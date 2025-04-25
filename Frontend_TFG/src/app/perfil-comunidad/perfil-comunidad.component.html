@@ -11,35 +11,28 @@
       <ion-col size="9">
         <ion-grid>
           <ion-row>
-            <span class="nombre-usuario">Sergio Canales Madrazo</span>
+            <span class="nombre-usuario" *ngIf="vecino">{{ vecino.nombre }} {{ vecino.apellidos }}</span>
           </ion-row>
           <ion-row>
-            <span class="info-usuario">Propietario de la vivienda 3ºB</span>
+            <span class="info-usuario">{{ comprobarIdentidad() }}</span>
           </ion-row>
         </ion-grid>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <div class="interlineado">Residentes en tu propiedad</div>
+  <div class="interlineado" *ngIf="propiedadesVecino().length !== 0">
+    {{ propiedadesVecino().length === 1 ? 'Residentes en tu propiedad' : 'Residentes en tus propiedades' }}
+  </div>
 
-  <ion-grid class="grid-principal">
+  <ion-grid class="grid-principal" *ngIf="propiedadesVecino().length !== 0">
 
-    <ion-row class="row-residente">
+    <ion-row class="row-residente" *ngFor="let residente of residentesEnPropiedad">
       <ion-col size="3">
         <ion-img src="assets/icon/perfiles/26.png"></ion-img>
       </ion-col>
       <ion-col size="9">
-        <span class="nombre-usuario">Beñat Etxebarria Urkiaga</span>
-      </ion-col>
-    </ion-row>
-
-    <ion-row class="row-residente">
-      <ion-col size="3">
-        <ion-img src="assets/icon/perfiles/26.png"></ion-img>
-      </ion-col>
-      <ion-col size="9">
-        <span class="nombre-usuario">Éver Maximiliano David Banega Hernández</span>
+        <span class="nombre-usuario">{{ residente.nombre }} {{ residente.apellidos }}</span>
       </ion-col>
     </ion-row>
 
