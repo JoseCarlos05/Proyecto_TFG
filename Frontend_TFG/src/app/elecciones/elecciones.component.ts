@@ -82,4 +82,13 @@ export class EleccionesComponent  implements OnInit {
       return "Hace un momento";
     }
   }
+
+  calcularAbierta(eleccion: Eleccion): string {
+    if (!eleccion.abierta) {
+      return "Cerrada";
+    }else {
+      return "Abierta"
+    }
+
+  }
 }

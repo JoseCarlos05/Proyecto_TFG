@@ -6,7 +6,7 @@
     <p>{{ eleccion.motivo }}</p>
     <div class="eleccion-info">
       <span class="fecha">{{calcularFecha(eleccion)}}</span>
-      <span class="estado">{{ eleccion.abierta }}</span>
+      <span class="estado">{{ calcularAbierta(eleccion) }}</span>
     </div>
   </div>
 </ion-content>
