@@ -29,10 +29,14 @@ public class Vivienda {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "propietario")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Vecino propietario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad", nullable = false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Comunidad comunidad;
 
     @ManyToMany(mappedBy = "viviendas",

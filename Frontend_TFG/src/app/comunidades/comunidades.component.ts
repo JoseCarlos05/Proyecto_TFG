@@ -25,7 +25,7 @@ export class ComunidadesComponent implements OnInit {
   private usuario!: Usuario
   private vecino!: Vecino
   listaComunidades: Comunidad[] = []
-  correo?: string
+  correo!: string
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,

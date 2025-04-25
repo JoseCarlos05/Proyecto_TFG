@@ -44,6 +44,8 @@ public class Vecino {
     @JoinTable(name = "vecinos_viviendas",
             joinColumns = {@JoinColumn(name = "idVecino", nullable = false)} ,
             inverseJoinColumns ={@JoinColumn(name = "idVivienda", nullable = false)})
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Vivienda> viviendas = new HashSet<>(0);
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ViviendaDTO {
+    private Integer id;
     private Integer numResidentes;
     private String direccionPersonal;
     private Integer idPropietario;

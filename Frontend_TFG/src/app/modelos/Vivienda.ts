@@ -1,6 +1,8 @@
 export interface Vivienda {
-  numResidentes: number;
-  direccionPersonal: string;
-  idComunidad: number;
-  idVecinos: number[];
+  id: number
+  numResidentes: number
+  direccionPersonal: string
+  idPropietario: number
+  idComunidad: number
+  idVecinos: number[]
 }

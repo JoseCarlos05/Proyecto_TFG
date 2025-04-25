@@ -133,7 +133,7 @@ export class UnirseComunidadComponent  implements OnInit {
   }
 
   cargarVivienda(idComunidad: number | undefined) {
-    this.viviendaService.listarVviendas(idComunidad).subscribe({
+    this.viviendaService.listarViviendas(idComunidad).subscribe({
       next: (data: Vivienda[]) => {
         this.viviendas = data;
       },
