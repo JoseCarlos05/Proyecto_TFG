@@ -8,27 +8,28 @@
 
   <div class="input-container">
     <ion-text>Nombre</ion-text>
-    <ion-input type="text" placeholder="Introduce tu nombre"></ion-input>
+    <ion-input type="text" placeholder="Introduce tu nombre" [(ngModel)]="vecino.nombre"></ion-input>
   </div>
+
 
   <div class="input-container">
     <ion-text>Apellido</ion-text>
-    <ion-input type="text" placeholder="Introduce tu apellido"></ion-input>
+    <ion-input type="text" placeholder="Introduce tu apellido" [(ngModel)]="vecino.apellidos"></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Teléfono</ion-text>
-    <ion-input type="email" placeholder="Introduce tu telefono"></ion-input>
+    <ion-input type="email" placeholder="Introduce tu telefono" [(ngModel)]="vecino.telefono"></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Fecha Nacimiento</ion-text>
-    <ion-input type="date" placeholder="Fecha de Nacimiento"></ion-input>
+    <ion-input type="date" placeholder="Fecha de Nacimiento" [(ngModel)]="vecino.fechaNacimiento"></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Email</ion-text>
-    <ion-input placeholder="Introduce tu email"></ion-input>
+    <ion-input placeholder="Introduce tu email" [(ngModel)]="usuario.correo"></ion-input>
   </div>
 
   <ion-button expand="block" class="guardar-boton">Guardar</ion-button>

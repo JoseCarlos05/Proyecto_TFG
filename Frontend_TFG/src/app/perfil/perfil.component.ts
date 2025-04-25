@@ -4,26 +4,71 @@ import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {FooterComponent} from "../footer/footer.component";
 import {HeaderComponent} from "../header/header.component";
+  import {jwtDecode} from "jwt-decode";
+  import {TokenDataDTO} from "../modelos/TokenData";
+  import {Usuario} from "../modelos/Usuario";
+  import {UsuarioService} from "../servicios/usuario.service";
+  import {VecinoService} from "../servicios/vecino.service";
+  import {ComunidadService} from "../servicios/comunidad.service";
+  import {Vecino} from "../modelos/Vecino";
+  import {Comunidad} from "../modelos/Comunidad";
+  import {FormsModule} from "@angular/forms";
 
 @Component({
     selector: 'app-perfil',
     templateUrl: './perfil.component.html',
     styleUrls: ['./perfil.component.scss'],
-  imports: [IonicModule, CommonModule, FooterComponent, HeaderComponent],
+  imports: [IonicModule, CommonModule, FooterComponent, HeaderComponent, FormsModule],
     standalone: true,
 })
 export class PerfilComponent  implements OnInit {
-  formLogin: any;
+  usuario!: Usuario
+  vecino!: Vecino
+  listaComunidades: Comunidad[] = []
+  correo?: string
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private usuarioService: UsuarioService,
+              private vecinoService: VecinoService,
+              private comunidadService: ComunidadService) { }
 
-  ngOnInit() {}
-
-  navigateToInicioSesion() {
-    this.router.navigate(['/inicio-sesion']);
+  ngOnInit() {
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<{ tokenDataDTO: TokenDataDTO }>(token);
+        const tokenDataDTO = decodedToken?.tokenDataDTO;
+        if (tokenDataDTO && tokenDataDTO.correo) {
+          this.correo = tokenDataDTO.correo;
+          this.cargarUsuario(this.correo);
+        }
+      } catch (e) {
+        console.error('Error al decodificar el token:', e);
+      }
+    }
   }
 
-  navigateToPantallaPrincipal() {
-    this.router.navigate(['/pantalla-principal']);
+  cargarUsuario(correo: string): void {
+    this.usuarioService.cargarUsuario(correo).subscribe({
+      next: (usuario: Usuario) => {
+        this.usuario = usuario;
+        if (this.usuario && this.usuario.id) {
+          this.cargarVecino()
+        }
+      },
+      error: (e) => {
+        console.error("Error al cargar el usuario:", e);
+      }
+    });
+  }
+
+  cargarVecino() {
+    if (this.usuario.id) {
+      this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
+        next: data => {
+          this.vecino = data
+        }
+      })
+    }
   }
 }

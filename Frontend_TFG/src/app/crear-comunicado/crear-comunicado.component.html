@@ -1,0 +1,16 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+<ion-content class="login-container">
+  <div class="titulo-container">
+    <h2 class="title">Crear comunicado</h2>
+    <h3 class="subtitle">Describa la información que desseas mostrar en su comunicado</h3>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Descripción</ion-text>
+    <ion-input type="nombre" [(ngModel)]="crearComunicado.descripcion" placeholder="Introduce la descripción"></ion-input>
+  </div>
+
+  <ion-button expand="block" (click)="crearComunicadoMetodo()">Crear</ion-button>
+</ion-content>
+<app-footer-comunidad></app-footer-comunidad>

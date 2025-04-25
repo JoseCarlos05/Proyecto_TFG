@@ -1,44 +1,50 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {jwtDecode} from "jwt-decode";
-import {TokenDataDTO} from "../../modelos/TokenData";
-import {Usuario} from "../../modelos/Usuario";
-import {Vecino} from "../../modelos/Vecino";
-import {Comunidad} from "../../modelos/Comunidad";
+import {FormsModule} from "@angular/forms";
+import {HeaderComponent} from "../header/header.component";
+import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
+import {FooterComponent} from "../footer/footer.component";
+import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
+import {Usuario} from "../modelos/Usuario";
+import {Vecino} from "../modelos/Vecino";
+import {Comunicado} from "../modelos/Comunicado";
+import {Comunidad} from "../modelos/Comunidad";
+import {CrearComunicado} from "../modelos/CrearComunicado";
 import {Router} from "@angular/router";
-import {UsuarioService} from "../../servicios/usuario.service";
-import {VecinoService} from "../../servicios/vecino.service";
-import {ComunidadService} from "../../servicios/comunidad.service";
-import {ComunicadoService} from "../../servicios/comunicado.service";
-import {NgForOf} from "@angular/common";
-import {Comunicado} from "../../modelos/Comunicado";
-import {InsertarCodigo} from "../../modelos/InsertarCodigo";
-import {Observable} from "rxjs";
-import {RegistrarVecino} from "../../modelos/RegistrarVecino";
-import {CrearComunicado} from "../../modelos/CrearComunicado";
+import {UsuarioService} from "../servicios/usuario.service";
+import {VecinoService} from "../servicios/vecino.service";
+import {ComunidadService} from "../servicios/comunidad.service";
+import {ComunicadoService} from "../servicios/comunicado.service";
+import {jwtDecode} from "jwt-decode";
+import {TokenDataDTO} from "../modelos/TokenData";
 
 @Component({
-    selector: 'app-comunicados',
-    templateUrl: './comunicados.component.html',
-    styleUrls: ['./comunicados.component.scss'],
+    selector: 'app-crear-comunicado',
+    templateUrl: './crear-comunicado.component.html',
+    styleUrls: ['./crear-comunicado.component.scss'],
     standalone: true,
   imports: [
     IonicModule,
-    NgForOf
+    FormsModule,
+    HeaderComponent,
+    HeaderComunidadComponent,
+    FooterComponent,
+    FooterComunidadComponent
   ]
 })
-export class ComunicadosComponent  implements OnInit {
+export class CrearComunicadoComponent  implements OnInit {
+
   private usuario!: Usuario
   private vecino!: Vecino
-  listaComunicado: Comunicado[] = []
   correo?: string
   comunidadObjeto?: Comunidad
 
   crearComunicado: CrearComunicado = {
     descripcion: "",
-    idComunidad: this.comunidadObjeto?.id,
-    idVecino: this.vecino?.id
-  }
+    idComunidad: undefined,
+    idVecino: undefined
+  };
+
 
 
   constructor(private router: Router,
@@ -66,8 +72,8 @@ export class ComunicadosComponent  implements OnInit {
         console.error('Error al decodificar el token:', e);
       }
     }
-  }
 
+  }
 
   cargarUsuario(correo: string): void {
     this.usuarioService.cargarUsuario(correo).subscribe({
@@ -87,34 +93,31 @@ export class ComunicadosComponent  implements OnInit {
     if (this.usuario.id) {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
-          this.vecino = data
-          this.listarComunicados()
+          this.vecino = data;
+          this.crearComunicado.idVecino = this.vecino?.id;
+          this.crearComunicado.idComunidad = this.comunidadObjeto?.id;
         }
-      })
+      });
     }
   }
 
-  listarComunicados() {
-    if (this.comunidadObjeto?.id)
-      this.comunicadoService.listarComunicados(this.comunidadObjeto.id).subscribe({
-        next: data => this.listaComunicado = data
-      })
-  }
 
   crearComunicadoMetodo() {
+    if (!this.crearComunicado.descripcion || !this.crearComunicado.idComunidad || !this.crearComunicado.idVecino) {
+      console.log("Faltan datos para crear el comunicado.");
+      return;
+    }
+
     this.comunicadoService.crearComunicado(this.crearComunicado).subscribe({
       next: () => {
+        this.crearComunicado.descripcion = "";
         this.router.navigate(['/comunidad/documentacion']);
       },
       error: () => {
-        console.log('Error al insertar codigo.');
+        console.log('Error al insertar comunicado.');
       }
     });
   }
 
-  navigateToCrearComunicado(){
-    this.router.navigate(['crear-comunicado']);
-
-  }
 
 }

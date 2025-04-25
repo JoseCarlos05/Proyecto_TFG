@@ -66,4 +66,8 @@ export const routes: Routes = [
     path: 'unirse-comunidad',
     loadComponent: () => import('./unirse-comunidad/unirse-comunidad.component').then((m) => m.UnirseComunidadComponent),
   },
+  {
+    path: 'crear-comunicado',
+    loadComponent: () => import('./crear-comunicado/crear-comunicado.component').then((m) => m.CrearComunicadoComponent),
+  },
 ];

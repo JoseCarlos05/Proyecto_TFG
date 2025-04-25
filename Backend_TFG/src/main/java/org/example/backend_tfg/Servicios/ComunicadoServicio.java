@@ -2,6 +2,7 @@ package org.example.backend_tfg.Servicios;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunicadoDTO;
+import org.example.backend_tfg.DTOs.CrearComunicadoComunidadDTO;
 import org.example.backend_tfg.Modelos.Comunicado;
 import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Vecino;
@@ -45,6 +46,18 @@ public class ComunicadoServicio {
                 .orElseThrow(() -> new RuntimeException("No existe una comunidad con ese ID."));
 
         comunicado.setVecino(vecino);
+        comunicado.setComunidad(comunidad);
+
+        iComunicadoRepositorio.save(comunicado);
+    }
+
+    public void crearComunicadoComunidad(CrearComunicadoComunidadDTO comunicadoDTO) {
+        Comunicado comunicado = new Comunicado();
+        comunicado.setDescripcion(comunicadoDTO.getDescripcion());
+
+        Comunidad comunidad = iComunidadRepositorio.findById(comunicadoDTO.getIdComunidad())
+                .orElseThrow(() -> new RuntimeException("No existe una comunidad con ese ID."));
+
         comunicado.setComunidad(comunidad);
 
         iComunicadoRepositorio.save(comunicado);

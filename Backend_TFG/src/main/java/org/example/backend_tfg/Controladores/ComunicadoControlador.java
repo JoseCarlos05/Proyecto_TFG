@@ -2,6 +2,7 @@ package org.example.backend_tfg.Controladores;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunicadoDTO;
+import org.example.backend_tfg.DTOs.CrearComunicadoComunidadDTO;
 import org.example.backend_tfg.DTOs.CrearEleccionDTO;
 import org.example.backend_tfg.DTOs.EleccionDTO;
 import org.example.backend_tfg.Servicios.ComunicadoServicio;
@@ -31,4 +32,8 @@ public class ComunicadoControlador {
         comunicadoServicio.crearComunicado(comunicadoDTO);
     }
 
+    @PostMapping("/comunidad/crear/comunicado")
+    public void crearComunicadoComunidad(@RequestBody CrearComunicadoComunidadDTO comunicadoDTO) {
+        comunicadoServicio.crearComunicadoComunidad(comunicadoDTO);
+    }
 }
