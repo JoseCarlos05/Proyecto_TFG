@@ -5,6 +5,7 @@ import {PonerComunicadosComponent} from "./poner-comunicados/poner-comunicados.c
 import {PonerSancionesComponent} from "./poner-sanciones/poner-sanciones.component";
 import {ContratoEmpleadoComponent} from "./contrato-empleado/contrato-empleado.component";
 import {AniadirGastoComponent} from "./aniadir-gasto/aniadir-gasto.component";
+import {ChatComponent} from "./chat/chat.component";
 
 export const routes: Routes = [
   {
@@ -108,6 +109,9 @@ export const routes: Routes = [
     path: 'aniadir-gasto',
     loadComponent: () => import('./aniadir-gasto/aniadir-gasto.component').then((m) => m.AniadirGastoComponent),
   },
-
+  {
+    path: 'chat',
+    loadComponent: () => import('./chat/chat.component').then((m) => m.ChatComponent),
+  },
 
 ];

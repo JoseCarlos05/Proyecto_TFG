@@ -1,0 +1,156 @@
+ion-toolbar {
+  --background: #339F28;
+  height: 80px;
+  --min-height: 80px;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+.icono-foto {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 40px;
+}
+
+.username {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.salir {
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+}
+
+ion-content.chat-content {
+  --background: #E7F4E7;
+}
+
+.mensajes {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mensaje {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: white;
+  position: relative;
+}
+
+.mensaje-recibido {
+  background-color: #57BF48;
+  align-self: flex-start;
+}
+
+.mensaje-enviado {
+  background-color: #339F28;
+  align-self: flex-end;
+}
+
+.pico {
+  position: absolute;
+  bottom: -1px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  display: block;
+  margin-right: 4px;
+}
+
+.mensaje-recibido .pico {
+  left: -6px;
+  border-top: 10px solid #57BF48;
+  transform: rotate(45deg);
+}
+
+.mensaje-enviado .pico {
+  right: -10px;
+  border-top: 10px solid #339F28;
+  transform: rotate(-45deg);
+}
+
+.hora {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 5px;
+  text-align: right;
+}
+
+.chat-input-container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #339F28;
+}
+
+.chat-input {
+  flex: 1;
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-size: 1rem;
+  background: #fff;
+  color: black;
+  height: 60px;
+}
+
+.botonEnviar {
+  background-color: #ffffff;
+  margin-right: 10px;
+  margin-left: -30px;
+  border-radius: 20px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.botonEnviar ion-img {
+  width: 45px;
+  height: 45px;
+  margin-right: 10px;
+}
+
+.separador-dia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  color: black;
+}
+
+.linea {
+  flex: 1;
+  height: 1px;
+  background-color: #000000;
+}
+
+.texto-dia {
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
+  white-space: nowrap;
+}
