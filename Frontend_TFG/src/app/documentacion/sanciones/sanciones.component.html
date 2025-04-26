@@ -1,8 +1,6 @@
 <ion-grid>
-  <ion-row>
-    <span>3 juntas de suspensión al propietario de la residencia 3ºB, por reiteración de protestas.</span>
-  </ion-row>
-  <ion-row>
-    <span>Expulsión de reunión al propietario 1ºA por decir textualmente: "Me c*** en tus muertos".</span>
+  <ion-row *ngFor="let sancion of listaSanciones">
+    <span><b>Motivo:</b> {{sancion.motivo}}, <b>sanción:</b> {{sancion.sancion}}, <b>vecino afectado:
+    </b> {{sancion?.nombreVecino}}</span>
   </ion-row>
 </ion-grid>
