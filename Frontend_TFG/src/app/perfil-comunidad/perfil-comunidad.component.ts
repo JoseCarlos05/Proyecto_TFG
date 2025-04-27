@@ -118,7 +118,7 @@ export class PerfilComunidadComponent  implements OnInit {
       this.viviendaService.listarResidentes(vivienda.id).subscribe({
         next: data => {
           for (const vecino of data) {
-            if (this.vecino !== vecino) {
+            if (this.vecino?.id !== vecino.id) {
               resultado.push(vecino)
             }
           }

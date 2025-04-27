@@ -13,6 +13,8 @@ import {Router} from "@angular/router";
 })
 export class FooterComponent  implements OnInit {
 
+  popoverId = 'popover-agregar-' + Math.random().toString(36).substring(2, 11);
+
   constructor(private router: Router) { }
 
   ngOnInit() {}

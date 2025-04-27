@@ -9,8 +9,8 @@
           <ion-img src="assets/icon/footer/casa.png" (click)="navigateToComunidades()" class="casa"></ion-img>
         </ion-col>
         <ion-col size="4">
-          <ion-img id="popover-agregar" src="assets/icon/footer/añadir.png" class="añadir"></ion-img>
-          <ion-popover trigger="popover-agregar" triggerAction="click" [dismissOnSelect]="true">
+          <ion-img [id]="popoverId" src="assets/icon/footer/añadir.png" class="añadir"></ion-img>
+          <ion-popover [trigger]="popoverId" triggerAction="click" [dismissOnSelect]="true">
             <ng-template>
               <ion-list>
                 <ion-item button (click)="navigateToUnirseComunidad()">Unirse a una comunidad</ion-item>

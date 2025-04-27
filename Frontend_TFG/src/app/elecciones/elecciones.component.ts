@@ -39,10 +39,15 @@ export class EleccionesComponent  implements OnInit {
   }
 
   listarElecciones() {
-    if (this.comunidadObjeto?.id)
+    if (this.comunidadObjeto?.id) {
       this.eleccionesService.listarElecciones(this.comunidadObjeto.id).subscribe({
-        next: data => this.listaElecciones = data
-      })
+        next: data => {
+          this.listaElecciones = data.sort((a, b) => {
+            return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+          });
+        }
+      });
+    }
   }
 
   navigateToVotacion() {
