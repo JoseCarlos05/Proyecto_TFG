@@ -28,7 +28,6 @@ import {TokenDataDTO} from "../modelos/TokenData";
     FormsModule,
     HeaderComponent,
     HeaderComunidadComponent,
-    FooterComponent,
     FooterComunidadComponent
   ]
 })

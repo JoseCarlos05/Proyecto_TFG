@@ -14,6 +14,8 @@ import {NgForOf, NgIf} from "@angular/common";
 import {Comunidad} from "../modelos/Comunidad";
 import {ViviendaService} from "../servicios/vivienda.service";
 import {Vivienda} from "../modelos/Vivienda";
+import {Sancion} from "../modelos/Sancion";
+import {SancionService} from "../servicios/sancion.service";
 
 @Component({
   selector: 'app-perfil-comunidad',
@@ -37,11 +39,13 @@ export class PerfilComunidadComponent  implements OnInit {
   private comunidad!: Comunidad
   private viviendas?: Vivienda[] = []
   residentesEnPropiedad: Vecino[] = []
+  sancionesVecino: Sancion[] = []
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
-              private viviendaService: ViviendaService) { }
+              private viviendaService: ViviendaService,
+              private sancionService: SancionService) { }
 
   ngOnInit() {
   }
@@ -99,6 +103,15 @@ export class PerfilComunidadComponent  implements OnInit {
     if (comunidadStorage) {
       this.comunidad = JSON.parse(comunidadStorage);
       this.cargarViviendas()
+      this.cargarSanciones()
+    }
+  }
+
+  cargarSanciones() {
+    if (this.vecino) {
+      this.sancionService.listarSancionesVecino(this.comunidad.id, this.vecino.id).subscribe({
+        next: data => this.sancionesVecino = data
+      })
     }
   }
 

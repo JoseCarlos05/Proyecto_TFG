@@ -127,4 +127,13 @@ ion-content {
   .interlineado:not(:empty)::after {
     margin-left: 10px;
   }
+
+  .div-sin-saciones {
+    margin: 0 auto;
+    text-align: center;
+
+    span {
+      font-weight: bold
+    }
+  }
 }

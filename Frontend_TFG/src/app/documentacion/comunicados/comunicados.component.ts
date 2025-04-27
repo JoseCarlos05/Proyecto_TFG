@@ -1,21 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {jwtDecode} from "jwt-decode";
-import {TokenDataDTO} from "../../modelos/TokenData";
-import {Usuario} from "../../modelos/Usuario";
-import {Vecino} from "../../modelos/Vecino";
 import {Comunidad} from "../../modelos/Comunidad";
-import {Router} from "@angular/router";
-import {UsuarioService} from "../../servicios/usuario.service";
-import {VecinoService} from "../../servicios/vecino.service";
-import {ComunidadService} from "../../servicios/comunidad.service";
+import {NavigationEnd, Router} from "@angular/router";
 import {ComunicadoService} from "../../servicios/comunicado.service";
 import {NgForOf} from "@angular/common";
 import {Comunicado} from "../../modelos/Comunicado";
-import {InsertarCodigo} from "../../modelos/InsertarCodigo";
-import {Observable} from "rxjs";
-import {RegistrarVecino} from "../../modelos/RegistrarVecino";
-import {CrearComunicado} from "../../modelos/CrearComunicado";
+import {filter} from "rxjs";
 
 @Component({
     selector: 'app-comunicados',
@@ -28,69 +18,31 @@ import {CrearComunicado} from "../../modelos/CrearComunicado";
   ]
 })
 export class ComunicadosComponent  implements OnInit {
-  private usuario!: Usuario
-  private vecino!: Vecino
+
   listaComunicado: Comunicado[] = []
   correo?: string
   comunidadObjeto?: Comunidad
 
-  crearComunicado: CrearComunicado = {
-    descripcion: "",
-    idComunidad: this.comunidadObjeto?.id,
-    idVecino: this.vecino?.id
+  constructor(private router: Router,
+              private comunicadoService: ComunicadoService) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (event.urlAfterRedirects === '/comunidad/documentacion') {
+          this.inicio()
+        }
+      });
   }
 
-
-  constructor(private router: Router,
-              private usuarioService: UsuarioService,
-              private vecinoService: VecinoService,
-              private comunidadService: ComunidadService,
-              private comunicadoService: ComunicadoService) { }
-
   ngOnInit() {
+    this.inicio()
+  }
+
+  inicio() {
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
-    }
-
-    const token = sessionStorage.getItem('authToken');
-    if (token) {
-      try {
-        const decodedToken = jwtDecode<{ tokenDataDTO: TokenDataDTO }>(token);
-        const tokenDataDTO = decodedToken?.tokenDataDTO;
-        if (tokenDataDTO && tokenDataDTO.correo) {
-          this.correo = tokenDataDTO.correo;
-          this.cargarUsuario(this.correo);
-        }
-      } catch (e) {
-        console.error('Error al decodificar el token:', e);
-      }
-    }
-  }
-
-
-  cargarUsuario(correo: string): void {
-    this.usuarioService.cargarUsuario(correo).subscribe({
-      next: (usuario: Usuario) => {
-        this.usuario = usuario;
-        if (this.usuario && this.usuario.id) {
-          this.cargarVecino()
-        }
-      },
-      error: (e) => {
-        console.error("Error al cargar el usuario:", e);
-      }
-    });
-  }
-
-  cargarVecino() {
-    if (this.usuario.id) {
-      this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
-        next: data => {
-          this.vecino = data
-          this.listarComunicados()
-        }
-      })
+      this.listarComunicados();
     }
   }
 
@@ -99,17 +51,6 @@ export class ComunicadosComponent  implements OnInit {
       this.comunicadoService.listarComunicados(this.comunidadObjeto.id).subscribe({
         next: data => this.listaComunicado = data
       })
-  }
-
-  crearComunicadoMetodo() {
-    this.comunicadoService.crearComunicado(this.crearComunicado).subscribe({
-      next: () => {
-        this.router.navigate(['/comunidad/documentacion']);
-      },
-      error: () => {
-        console.log('Error al insertar codigo.');
-      }
-    });
   }
 
   navigateToCrearComunicado(){

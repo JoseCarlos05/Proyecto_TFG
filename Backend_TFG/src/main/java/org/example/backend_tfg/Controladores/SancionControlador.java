@@ -25,6 +25,11 @@ public class SancionControlador {
         return sancionServicio.listarSanciones(idComunidad);
     }
 
+    @GetMapping("/vecino/listar/sanciones/vecino/{idComunidad}/{idVecino}")
+    public List<SancionDTO> listarSancionVecino (@PathVariable Integer idComunidad, @PathVariable Integer idVecino){
+        return sancionServicio.listarSancionesVecino(idComunidad, idVecino);
+    }
+
     @PostMapping("comunidad/crear/sancion")
     public void crearSancion(@RequestBody SancionDTO sancionDTO){
         sancionServicio.crearSancion(sancionDTO);

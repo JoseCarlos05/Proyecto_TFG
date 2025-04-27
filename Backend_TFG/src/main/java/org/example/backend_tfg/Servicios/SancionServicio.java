@@ -5,6 +5,7 @@ import org.example.backend_tfg.DTOs.SancionDTO;
 import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Sancion;
 import org.example.backend_tfg.Modelos.Vecino;
+import org.example.backend_tfg.Modelos.Vivienda;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.ISancionRepositorio;
 import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -44,10 +46,30 @@ public class SancionServicio {
         Comunidad comunidad = iComunidadRepositorio.findById(sancionDTO.getIdComunidad())
                 .orElseThrow(() -> new RuntimeException("No existe una comunidad con ese ID."));
 
-        sancion.setVecinoAfectado(vecino);
-        sancion.setComunidad(comunidad);
+        Set<Vivienda> viviendasVecino = vecino.getViviendas();
 
-        iSancionRepositorio.save(sancion);
+        for (Comunidad c : iComunidadRepositorio.findAll()) {
+
+            boolean tieneViviendaEnComunidad = c.getViviendas().stream()
+                    .anyMatch(viviendasVecino::contains);
+
+            if (tieneViviendaEnComunidad) {
+                sancion.setVecinoAfectado(vecino);
+                sancion.setComunidad(comunidad);
+
+                iSancionRepositorio.save(sancion);
+            }
+        }
+    }
+
+    public List<SancionDTO> listarSancionesVecino(Integer idComunidad, Integer idVecino) {
+        List<SancionDTO> listaSanciones = new ArrayList<>();
+        for (Sancion sancion : iSancionRepositorio.findAll()) {
+            if (sancion.getComunidad().getId().equals(idComunidad) && sancion.getVecinoAfectado().getId().equals(idVecino)) {
+                listaSanciones.add(getSancionoDTO(sancion));
+            }
+        }
+        return listaSanciones;
     }
 
     public static SancionDTO getSancionoDTO(Sancion s) {

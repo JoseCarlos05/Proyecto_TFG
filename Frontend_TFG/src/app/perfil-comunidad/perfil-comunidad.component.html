@@ -40,11 +40,16 @@
 
   <div class="interlineado">Tus sanciones</div>
 
-  <ion-grid class="grid-principal">
-    <ion-row class="sancion">
-      <span>3 juntas de suspension al propietario de la residencia 3B; 2ºA, por reiteración de protestas.</span>
+  <ion-grid class="grid-principal" *ngIf="sancionesVecino.length > 0">
+    <ion-row class="sancion" *ngFor="let sancion of sancionesVecino">
+      <span>Motivo: {{ sancion.motivo }}</span>
+      <span>Sanción: {{ sancion.sancion }}</span>
     </ion-row>
   </ion-grid>
+
+  <div class="div-sin-saciones" *ngIf="sancionesVecino.length === 0">
+    <span>No se te ha impuesto ningún tipo de sanción.</span>
+  </div>
 
   <div class="interlineado">Tus deudas</div>
 
