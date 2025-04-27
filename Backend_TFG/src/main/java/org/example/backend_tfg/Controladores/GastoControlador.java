@@ -24,4 +24,14 @@ public class GastoControlador {
     public List<GastoDTO> listarGastos(@PathVariable Integer idComunidad){
         return gastoServicio.listarGastos(idComunidad);
     }
+
+    @GetMapping("/vecino/ver/gasto/{idGasto}")
+    public GastoDTO verGasto(@PathVariable Integer idGasto){
+        return gastoServicio.verGasto(idGasto);
+    }
+
+    @GetMapping("/calcular/porcentaje/{idGasto}")
+    public double calcularPorcentajePagado(@PathVariable Integer idGasto){
+        return gastoServicio.calcularPorcentajePagado(idGasto);
+    }
 }

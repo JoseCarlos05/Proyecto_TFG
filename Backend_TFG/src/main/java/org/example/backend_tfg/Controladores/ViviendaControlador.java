@@ -39,4 +39,13 @@ public class ViviendaControlador {
     public Set<VecinoDTO> listarResidentesComunidad(@PathVariable Integer idVivienda){
         return viviendaServicio.listarResidentes(idVivienda);
     }
+
+    @GetMapping("/numero/viviendas/{idComunidad}")
+    public Integer numeroViviendas(@PathVariable Integer idComunidad){
+        return viviendaServicio.numeroViviendas(idComunidad);
+    }
+    @GetMapping("/comunidad/numero/viviendas/{idComunidad}")
+    public Integer numeroViviendasComunidad(@PathVariable Integer idComunidad){
+        return viviendaServicio.numeroViviendas(idComunidad);
+    }
 }

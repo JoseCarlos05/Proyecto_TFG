@@ -3,7 +3,7 @@
 
 <ion-content>
   <div class="gastos" *ngFor="let gasto of listaGastos">
-    <div class="gasto" (click)="navigateToGasto()">
+    <div class="gasto" (click)="navigateToGasto(gasto.id)">
       <span>{{ gasto.concepto }}</span>
       <div class="estado" [ngClass]="comprobarEstado(gasto)">
         <span>{{ comprobarEstado(gasto) }}</span>

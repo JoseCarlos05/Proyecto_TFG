@@ -55,7 +55,7 @@ export const routes: Routes = [
     loadComponent: () => import('./gastos/gastos.component').then((m) => m.GastosComponent),
   },
   {
-    path: 'comunidad/gastos/gasto',
+    path: 'comunidad/gastos/gasto/:id',
     loadComponent: () => import('./gastos/gasto/gasto.component').then((m) => m.GastoComponent),
   },
   {

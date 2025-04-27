@@ -66,6 +66,17 @@ public class ViviendaServicio {
 
     }
 
+    public Integer numeroViviendas(Integer idComunidad){
+       List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
+        int viviendasTotales = 0;
+
+       for (int i = 1; i<= viviendas.size(); i++){
+            viviendasTotales++;
+       }
+
+       return viviendasTotales;
+    }
+
     public static ViviendaDTO getViviendaDTO(Vivienda v) {
         ViviendaDTO dto = new ViviendaDTO();
         dto.setId(v.getId());

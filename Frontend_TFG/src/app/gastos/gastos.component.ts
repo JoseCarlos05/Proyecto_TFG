@@ -27,7 +27,8 @@ export class GastosComponent  implements OnInit {
   comunidadObjeto!: Comunidad
   listaGastos: Gasto[] = []
 
-  constructor(private router: Router, private gastosService: GastosService) { }
+  constructor(private router: Router,
+              private gastosService: GastosService) { }
 
   ngOnInit() {
     const comunidad = sessionStorage.getItem('comunidad');
@@ -51,7 +52,7 @@ export class GastosComponent  implements OnInit {
     return "Pendiente"
   }
 
-  navigateToGasto() {
-    this.router.navigate(['comunidad/gastos/gasto'])
+  navigateToGasto(idGasto: number) {
+    this.router.navigate(['comunidad/gastos/gasto', idGasto])
   }
 }

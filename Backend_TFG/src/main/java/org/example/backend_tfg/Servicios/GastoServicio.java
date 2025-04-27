@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.CrearGastoDTO;
 import org.example.backend_tfg.DTOs.EleccionDTO;
 import org.example.backend_tfg.DTOs.GastoDTO;
-import org.example.backend_tfg.Modelos.Comunidad;
-import org.example.backend_tfg.Modelos.Eleccion;
-import org.example.backend_tfg.Modelos.Gasto;
-import org.example.backend_tfg.Modelos.Vecino;
+import org.example.backend_tfg.Modelos.*;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IGastoRepositorio;
+import org.example.backend_tfg.Repositorios.IViviendaRepositorio;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,8 @@ public class GastoServicio {
     private IGastoRepositorio iGastoRepositorio;
 
     private IComunidadRepositorio iComunidadRepositorio;
+
+    private IViviendaRepositorio iViviendaRepositorio;
 
     public void crearGasto(CrearGastoDTO crearGastoDTO){
 
@@ -44,6 +44,13 @@ public class GastoServicio {
         iGastoRepositorio.save(nuevoGasto);
     }
 
+    public GastoDTO verGasto(Integer idGasto){
+        Gasto gasto = iGastoRepositorio.findById(idGasto)
+                .orElseThrow(()-> new RuntimeException("No existe un gasto con este ID."));
+
+        return getGastoDTO(gasto);
+    }
+
     public List<GastoDTO> listarGastos(Integer idComunidad) {
         Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)
                 .orElseThrow(()-> new RuntimeException("No existe una comunidad con este ID."));
@@ -58,6 +65,30 @@ public class GastoServicio {
 
         return listaGastos;
     }
+
+    public double calcularPorcentajePagado(Integer idGasto) {
+        Gasto gasto = iGastoRepositorio.findById(idGasto)
+                .orElseThrow(() -> new RuntimeException("No existe un gasto con este ID."));
+
+        List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(gasto.getComunidad().getId());
+
+        int totalVecinos = 0;
+        for (Vivienda vivienda : viviendas) {
+            if (vivienda.getPropietario() != null) {
+                totalVecinos++;
+            }
+        }
+
+        int vecinosPagados = gasto.getPagados().size();
+
+        if (totalVecinos == 0) {
+            return 0.0;
+        }
+
+        return (vecinosPagados * 100.0) / totalVecinos;
+    }
+
+
 
     public static GastoDTO getGastoDTO(Gasto g) {
         GastoDTO dto = new GastoDTO();

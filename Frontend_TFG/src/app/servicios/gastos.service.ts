@@ -19,4 +19,14 @@ export class GastosService {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Gasto[]>(`${this.apiUrl}/vecino/listar/gastos/${idComunidad}`, options)
   }
+
+  verGasto(idGasto: number): Observable<Gasto> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Gasto>(`${this.apiUrl}/vecino/ver/gasto/${idGasto}`, options)
+  }
+
+  calcularPorcentajePagado(idGasto: number): Observable<number> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<number>(`${this.apiUrl}/calcular/porcentaje/${idGasto}`, options)
+  }
 }
