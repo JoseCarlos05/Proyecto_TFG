@@ -70,4 +70,13 @@ export const routes: Routes = [
     path: 'crear-comunicado',
     loadComponent: () => import('./crear-comunicado/crear-comunicado.component').then((m) => m.CrearComunicadoComponent),
   },
+  {
+    path: 'exito',
+    loadComponent: () => import('./exito/exito.component').then(m => m.ExitoComponent),
+  },
+  {
+    path: 'cancelado',
+    loadComponent: () => import('./cancelado/cancelado.component').then(m => m.CanceladoComponent),
+  },
+
 ];

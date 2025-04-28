@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.CrearGastoDTO;
 import org.example.backend_tfg.DTOs.EleccionDTO;
 import org.example.backend_tfg.DTOs.GastoDTO;
+import org.example.backend_tfg.DTOs.MarcarPagadoDTO;
 import org.example.backend_tfg.Modelos.*;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IGastoRepositorio;
+import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
 import org.example.backend_tfg.Repositorios.IViviendaRepositorio;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class GastoServicio {
     private IComunidadRepositorio iComunidadRepositorio;
 
     private IViviendaRepositorio iViviendaRepositorio;
+
+    private IVecinoRepositorio iVecinoRepositorio;
 
     public void crearGasto(CrearGastoDTO crearGastoDTO){
 
@@ -88,6 +92,21 @@ public class GastoServicio {
         return (vecinosPagados * 100.0) / totalVecinos;
     }
 
+    public void marcarPagado(MarcarPagadoDTO dto){
+        Gasto gasto = iGastoRepositorio.findById(dto.getIdGasto())
+                .orElseThrow(() -> new RuntimeException("No existe un gasto con este ID."));
+
+        Vecino vecino = iVecinoRepositorio.findById(dto.getIdVecino())
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+        if (gasto.getPagados() == null) {
+            gasto.setPagados(new HashSet<>());
+        }
+
+        gasto.getPagados().add(vecino);
+
+        iGastoRepositorio.save(gasto);
+    }
 
 
     public static GastoDTO getGastoDTO(Gasto g) {
