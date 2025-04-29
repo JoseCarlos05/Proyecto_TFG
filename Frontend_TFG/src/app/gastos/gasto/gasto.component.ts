@@ -10,6 +10,13 @@ import {Gasto} from "../../modelos/Gasto";
 import {Vecino} from "../../modelos/Vecino";
 import {ViviendaService} from "../../servicios/vivienda.service";
 import {loadStripe} from "@stripe/stripe-js";
+import {Eleccion} from "../../modelos/Eleccion";
+import {jwtDecode} from "jwt-decode";
+import {TokenDataDTO} from "../../modelos/TokenData";
+import {Usuario} from "../../modelos/Usuario";
+import {UsuarioService} from "../../servicios/usuario.service";
+import {VecinoService} from "../../servicios/vecino.service";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-gasto',
@@ -20,7 +27,8 @@ import {loadStripe} from "@stripe/stripe-js";
     HeaderComponent,
     HeaderComunidadComponent,
     IonicModule,
-    FooterComunidadComponent
+    FooterComunidadComponent,
+    NgIf
   ]
 })
 export class GastoComponent implements OnInit {
@@ -30,10 +38,15 @@ export class GastoComponent implements OnInit {
   numeroVivenda: number = 0;
   totalPorVecino: number = 0;
   porcentajePagado: number = 0;
+  usuario: Usuario = {} as Usuario;
+  vecino: Vecino = {} as Vecino;
+  correo?: string
   constructor(private router: Router,
               private gastosService: GastosService,
               private activateRoute: ActivatedRoute,
-              private viviendaService: ViviendaService) {
+              private viviendaService: ViviendaService,
+              private usuarioService: UsuarioService,
+              private vecinoService: VecinoService) {
   }
 
   ngOnInit() {
@@ -45,8 +58,46 @@ export class GastoComponent implements OnInit {
       this.comunidadObjeto = JSON.parse(comunidad);
       this.numeroViviendas(this.comunidadObjeto.id)
     }
+
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<{ tokenDataDTO: TokenDataDTO }>(token);
+        const tokenDataDTO = decodedToken?.tokenDataDTO;
+        if (tokenDataDTO && tokenDataDTO.correo) {
+          this.correo = tokenDataDTO.correo;
+          this.cargarUsuario(this.correo);
+        }
+      } catch (e) {
+        console.error('Error al decodificar el token:', e);
+      }
+    }
     this.verGasto(this.idGasto)
     this.calcularPorcentajePagado(this.idGasto)
+  }
+
+  cargarUsuario(correo: string): void {
+    this.usuarioService.cargarUsuario(correo).subscribe({
+      next: (usuario: Usuario) => {
+        this.usuario = usuario;
+        if (this.usuario && this.usuario.id) {
+          this.cargarVecino()
+        }
+      },
+      error: (e) => {
+        console.error("Error al cargar el usuario:", e);
+      }
+    });
+  }
+
+  cargarVecino() {
+    if (this.usuario.id) {
+      this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
+        next: data => {
+          this.vecino = data;
+        }
+      })
+    }
   }
 
   verGasto(idGasto: number) {
@@ -104,6 +155,14 @@ export class GastoComponent implements OnInit {
     const datos = await respuesta.json();
     return datos.idSesion;
   }
+
+  estaPagado(gasto: Gasto): boolean {
+    if (!gasto || !Array.isArray(gasto.pagados) || this.vecino.id == null) {
+      return false;
+    }
+    return gasto.pagados.includes(this.vecino.id);
+  }
+
 
 
 }

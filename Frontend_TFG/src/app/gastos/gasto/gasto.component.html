@@ -18,7 +18,12 @@
       </div>
     </div>
     <div class="contenedor-boton">
-      <button (click)="iniciarPago()">Pagar</button>
+      <button
+        [disabled]="estaPagado(gasto)"
+        (click)="iniciarPago()">
+        {{ estaPagado(gasto) ? 'Pagado' : 'Pagar' }}
+      </button>
+
     </div>
   </div>
 </ion-content>
