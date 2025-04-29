@@ -54,6 +54,7 @@ export class GastoComponent implements OnInit {
       this.gastosService.verGasto(idGasto).subscribe({
         next: data => {
           this.gasto = data;
+          sessionStorage.setItem('gastoStorage', JSON.stringify(this.gasto));
           if (this.numeroVivenda > 0) {
             this.totalPorVecino = this.gasto.total / this.numeroVivenda;
           }

@@ -5,6 +5,8 @@ import {ComunService} from "./comun.service";
 import {Eleccion} from "../modelos/Eleccion";
 import {Observable} from "rxjs";
 import {Gasto} from "../modelos/Gasto";
+import {InsertarCodigo} from "../modelos/InsertarCodigo";
+import {MarcarPagado} from "../modelos/MarcarPagado";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +30,10 @@ export class GastosService {
   calcularPorcentajePagado(idGasto: number): Observable<number> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<number>(`${this.apiUrl}/calcular/porcentaje/${idGasto}`, options)
+  }
+
+  marcarPagado(marcarPagado: MarcarPagado): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/marcar/pagado`, marcarPagado, options);
   }
 }
