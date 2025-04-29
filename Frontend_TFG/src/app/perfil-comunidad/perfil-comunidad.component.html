@@ -42,8 +42,14 @@
 
   <ion-grid class="grid-principal" *ngIf="sancionesVecino.length > 0">
     <ion-row class="sancion" *ngFor="let sancion of sancionesVecino">
-      <span>Motivo: {{ sancion.motivo }}</span>
-      <span>Sanción: {{ sancion.sancion }}</span>
+      <div class="sancion-div">
+        <span>Sanción: </span>
+        <span>{{ sancion.sancion }}</span>
+      </div>
+      <div class="motivo-div">
+        <span>Motivo: </span>
+        <span>{{ sancion.motivo }}</span>
+      </div>
     </ion-row>
   </ion-grid>
 

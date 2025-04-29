@@ -113,7 +113,7 @@ public class GastoServicio {
         }
 
         gasto.getPagados().add(vecino);
-        gasto.setCantidadPagada(totalPorVecino);
+        gasto.setCantidadPagada(gasto.getCantidadPagada() + totalPorVecino);
 
         iGastoRepositorio.save(gasto);
     }

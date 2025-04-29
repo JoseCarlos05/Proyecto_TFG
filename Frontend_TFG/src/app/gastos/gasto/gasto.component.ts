@@ -27,8 +27,7 @@ import {NgIf} from "@angular/common";
     HeaderComponent,
     HeaderComunidadComponent,
     IonicModule,
-    FooterComunidadComponent,
-    NgIf
+    FooterComunidadComponent
   ]
 })
 export class GastoComponent implements OnInit {

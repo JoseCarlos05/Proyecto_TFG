@@ -52,8 +52,35 @@ ion-content {
         border-top: 1px solid black;
       }
 
-      span {
-        color: #FFFFFF;
+      .sancion-div {
+        background-color: red;
+        border: 2px solid white;
+        border-radius: 30px;
+        padding: 15px;
+        color: white;
+        font-weight: bold;
+
+        span {
+          &:first-child {
+            font-style: italic;
+          }
+        }
+      }
+
+      .motivo-div {
+        text-align: center;
+        color: white;
+        margin: 15px auto 0;
+        font-weight: bold;
+        background-color: #57BF48;
+        border-radius: 30px;
+        padding: 15px;
+
+        span {
+          &:first-child {
+            font-style: italic;
+          }
+        }
       }
     }
 

@@ -3,6 +3,8 @@ package org.example.backend_tfg.Modelos;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "comunicado")
 @Getter
@@ -20,6 +22,9 @@ public class Comunicado {
 
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
+
+    @Column(name = "fechaHora", nullable = false)
+    private LocalDateTime fechaHora;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad")

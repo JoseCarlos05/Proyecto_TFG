@@ -44,6 +44,7 @@ public class ViviendaControlador {
     public Integer numeroViviendas(@PathVariable Integer idComunidad){
         return viviendaServicio.numeroViviendas(idComunidad);
     }
+
     @GetMapping("/comunidad/numero/viviendas/{idComunidad}")
     public Integer numeroViviendasComunidad(@PathVariable Integer idComunidad){
         return viviendaServicio.numeroViviendas(idComunidad);

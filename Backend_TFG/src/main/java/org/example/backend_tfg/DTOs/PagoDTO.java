@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PagoDTO {
-    private String producto;
-    private Long monto;
+    private String gasto;
+    private Long cantidad;
 }

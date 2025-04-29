@@ -1,6 +1,26 @@
-<ion-grid>
-  <ion-row *ngFor="let sancion of listaSanciones">
-    <span><b>Motivo:</b> {{sancion.motivo}}, <b>sanción:</b> {{sancion.sancion}}, <b>vecino afectado:
-    </b> {{sancion?.nombreVecino}}</span>
+<ion-grid class="grid-principal">
+  <ion-row class="row-principal" *ngFor="let sancion of listaSanciones">
+    <ion-grid class="grid-secundario">
+      <ion-row>
+        <ion-col size="6">
+          <div class="sancion-div">
+            <span>Sanción: </span>
+            <span>{{sancion.sancion}}</span>
+          </div>
+        </ion-col>
+        <ion-col size="6" class="col-vecino">
+          <div>
+            <span>Vecino afectado: </span>
+            <span>{{sancion?.nombreVecino}}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <div class="motivo-div">
+          <span>Motivo: </span>
+          <span>{{sancion.motivo}}</span>
+        </div>
+      </ion-row>
+    </ion-grid>
   </ion-row>
 </ion-grid>

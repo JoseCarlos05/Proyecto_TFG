@@ -36,10 +36,10 @@ public class PagoServicio {
                                     .setPriceData(
                                             SessionCreateParams.LineItem.PriceData.builder()
                                                     .setCurrency("eur")
-                                                    .setUnitAmount(dto.getMonto())
+                                                    .setUnitAmount(dto.getCantidad())
                                                     .setProductData(
                                                             SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                    .setName(dto.getProducto())
+                                                                    .setName(dto.getGasto())
                                                                     .build()
                                                     )
                                                     .build()
