@@ -31,6 +31,8 @@ public class GastoServicio {
 
     private IVecinoRepositorio iVecinoRepositorio;
 
+    private ViviendaServicio viviendaServicio;
+
     public void crearGasto(CrearGastoDTO crearGastoDTO){
 
         Gasto nuevoGasto = new Gasto();
@@ -103,7 +105,15 @@ public class GastoServicio {
             gasto.setPagados(new HashSet<>());
         }
 
+        Integer numeroViviendas = viviendaServicio.numeroViviendas(gasto.getComunidad().getId());
+        double totalPorVecino = 0.0;
+
+        if (numeroViviendas > 0){
+            totalPorVecino = gasto.getTotal() /numeroViviendas;
+        }
+
         gasto.getPagados().add(vecino);
+        gasto.setCantidadPagada(totalPorVecino);
 
         iGastoRepositorio.save(gasto);
     }
