@@ -3,14 +3,14 @@
 
 <ion-content>
   <div class="eleccion">
-    <p>Aprobación de derrama para contratar seguridad. 50€/Vecino.</p>
+    <p>{{eleccion.motivo}}</p>
   </div>
   <div class="textoMedio">
     <p>VOTACIÓN</p>
   </div>
   <div class="votos ">
     <ion-grid>
-      <ion-row class="fila-voto">
+      <ion-row class="fila-voto" (click)="emitirVoto('A_FAVOR')">
         <ion-col size="2">
           <ion-img src="assets/icon/votacion/votoFavor.png" class="logo"></ion-img>
         </ion-col>
@@ -22,7 +22,7 @@
   </div>
   <div class="votos">
     <ion-grid>
-      <ion-row class="fila-voto">
+      <ion-row class="fila-voto" (click)="emitirVoto('EN_CONTRA')">
         <ion-col size="2">
           <ion-img src="assets/icon/votacion/votoContra.png" class="logo logo-circulo"></ion-img>
         </ion-col>
@@ -34,7 +34,7 @@
   </div>
   <div class="votos">
     <ion-grid>
-      <ion-row class="fila-voto">
+      <ion-row class="fila-voto" (click)="emitirVoto('ABTENCION')">
         <ion-col size="2">
           <ion-img src="assets/icon/votacion/votoBlanco.png" class="logo logo-circulo"></ion-img>
         </ion-col>
@@ -45,7 +45,7 @@
     </ion-grid>
   </div>
   <div class="textoVoto">
-    <p >Numeros de votos: 7</p>
+    <p >Numeros de votos: {{totalVoto}}</p>
   </div>
 </ion-content>
 

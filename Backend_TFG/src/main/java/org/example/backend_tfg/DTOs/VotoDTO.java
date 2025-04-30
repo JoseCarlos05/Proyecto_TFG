@@ -11,4 +11,5 @@ import org.example.backend_tfg.Enumerados.TipoVoto;
 public class VotoDTO {
     private TipoVoto voto;
     private Integer idEleccion;
+    private Integer idVecino;
 }
