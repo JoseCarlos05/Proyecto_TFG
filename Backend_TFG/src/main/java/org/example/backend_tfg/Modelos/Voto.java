@@ -26,4 +26,8 @@ public class Voto {
     @JoinColumn(name = "eleccion")
     private Eleccion eleccion;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_vecino")
+    private Vecino vecino;
+
 }

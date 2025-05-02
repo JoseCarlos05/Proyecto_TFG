@@ -35,7 +35,7 @@ export const routes: Routes = [
     loadComponent: () => import('./elecciones/elecciones.component').then((m) => m.EleccionesComponent),
   },
   {
-    path: 'comunidad/elecciones/votacion',
+    path: 'comunidad/elecciones/votacion/:id',
     loadComponent: () => import('./elecciones/votacion/votacion.component').then((m) => m.VotacionComponent),
   },
   {

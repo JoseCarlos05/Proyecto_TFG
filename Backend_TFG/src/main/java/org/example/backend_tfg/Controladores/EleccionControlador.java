@@ -31,4 +31,9 @@ public class EleccionControlador {
         return eleccionServicio.getEleccion(idEleccion);
     }
 
+    @GetMapping("/vecino/ver/total/voto/{idEleccion}")
+    public Integer totalVoto(@PathVariable Integer idEleccion){
+        return eleccionServicio.votosTotales(idEleccion);
+    }
+
 }

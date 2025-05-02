@@ -19,4 +19,14 @@ export class EleccionesService {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Eleccion[]>(`${this.apiUrl}/vecino/listar/elecciones/${idComunidad}`, options)
   }
+
+  getEleccion(idEleccion: number): Observable<Eleccion> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Eleccion>(`${this.apiUrl}/vecino/ver/eleccion/${idEleccion}`, options)
+  }
+
+  totalVoto(idEleccion: number): Observable<number> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<number>(`${this.apiUrl}/vecino/ver/total/voto/${idEleccion}`, options)
+  }
 }

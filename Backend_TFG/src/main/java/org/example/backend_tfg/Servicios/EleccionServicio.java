@@ -55,6 +55,11 @@ public class EleccionServicio {
         return listaElecciones;
     }
 
+    public Integer votosTotales(Integer idEleccion){
+        Eleccion eleccion = iEleccionRepositorio.findById(idEleccion)
+                .orElseThrow(()-> new RuntimeException("No existe una elección con este ID."));
+        return eleccion.getTotalAFavor() + eleccion.getTotalEnContra() + eleccion.getTotalAbstencion();
+    }
     public EleccionDetDTO getEleccion(Integer idEleccion) {
         Eleccion eleccion = iEleccionRepositorio.findById(idEleccion)
                 .orElseThrow(()-> new RuntimeException("No existe una elección con este ID."));

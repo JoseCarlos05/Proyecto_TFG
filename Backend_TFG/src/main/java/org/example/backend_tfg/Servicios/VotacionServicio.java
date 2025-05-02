@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.VotoDTO;
 import org.example.backend_tfg.Enumerados.TipoVoto;
 import org.example.backend_tfg.Modelos.Eleccion;
+import org.example.backend_tfg.Modelos.Vecino;
 import org.example.backend_tfg.Modelos.Voto;
 import org.example.backend_tfg.Repositorios.IEleccionRepositorio;
+import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
 import org.example.backend_tfg.Repositorios.IVotacionRepositorio;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,18 @@ public class VotacionServicio {
 
     private IEleccionRepositorio iEleccionRepositorio;
 
+    private IVecinoRepositorio iVecinoRepositorio;
+
+
     public void votar(VotoDTO votoDTO){
 
         Voto voto = new Voto();
         voto.setVoto(votoDTO.getVoto());
+
+        Vecino vecino = iVecinoRepositorio.findById(votoDTO.getIdVecino())
+                .orElseThrow(()-> new RuntimeException("No existe un vecino con este ID."));
+
+        voto.setVecino(vecino);
 
         Eleccion eleccion = iEleccionRepositorio.findById(votoDTO.getIdEleccion())
                 .orElseThrow(()-> new RuntimeException("No existe una eleccion con este ID."));
