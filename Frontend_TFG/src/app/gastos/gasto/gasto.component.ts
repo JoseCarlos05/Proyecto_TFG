@@ -146,8 +146,8 @@ export class GastoComponent implements OnInit {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        producto: 'Pago de gasto comunidad: '+ this.gasto.concepto,
-        monto: Math.round(this.totalPorVecino * 100)
+        gasto: 'Pago de gasto de comunidad: '+ this.gasto.concepto,
+        cantidad: Math.round(this.totalPorVecino * 100)
       })
     });
 

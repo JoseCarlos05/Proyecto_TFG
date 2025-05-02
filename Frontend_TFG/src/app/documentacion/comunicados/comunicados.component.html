@@ -1,7 +1,10 @@
 <ion-content>
   <ion-grid>
     <ion-row *ngFor="let comunicado of listaComunicado">
-      <span>{{ comunicado.descripcion }}</span>
+      <div style="width: 100%; font-size: 18px; margin-bottom: 15px">
+        <span>{{ comunicado.descripcion }}</span>
+      </div>
+      <span style="font-size: 15px; font-weight: bold">{{ formatearFecha(comunicado.fecha) }}</span>
     </ion-row>
   </ion-grid>
 </ion-content>

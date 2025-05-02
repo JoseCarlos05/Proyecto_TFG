@@ -1,10 +1,7 @@
 package org.example.backend_tfg.Controladores;
 
 import lombok.AllArgsConstructor;
-import org.example.backend_tfg.DTOs.ComunicadoDTO;
-import org.example.backend_tfg.DTOs.CrearComunicadoComunidadDTO;
-import org.example.backend_tfg.DTOs.CrearEleccionDTO;
-import org.example.backend_tfg.DTOs.EleccionDTO;
+import org.example.backend_tfg.DTOs.*;
 import org.example.backend_tfg.Servicios.ComunicadoServicio;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +25,7 @@ public class ComunicadoControlador {
     }
 
     @PostMapping("/vecino/crear/comunicado")
-    public void crearComunicado(@RequestBody ComunicadoDTO comunicadoDTO) {
+    public void crearComunicado(@RequestBody CrearComunicadoDTO comunicadoDTO) {
         comunicadoServicio.crearComunicado(comunicadoDTO);
     }
 

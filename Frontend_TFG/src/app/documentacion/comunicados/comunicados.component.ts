@@ -49,13 +49,41 @@ export class ComunicadosComponent  implements OnInit {
   listarComunicados() {
     if (this.comunidadObjeto?.id)
       this.comunicadoService.listarComunicados(this.comunidadObjeto.id).subscribe({
-        next: data => this.listaComunicado = data
+        next: data => this.listaComunicado = data.sort((a, b) => {
+          return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+        })
       })
+  }
+
+  formatearFecha(fechaISO: string): string {
+    const fecha = new Date(fechaISO);
+    const hoy = new Date();
+    const ayer = new Date();
+    ayer.setDate(hoy.getDate() - 1);
+
+    const esMismaFecha = (a: Date, b: Date): boolean =>
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate();
+
+    if (esMismaFecha(fecha, hoy)) {
+      return 'Hoy';
+    } else if (esMismaFecha(fecha, ayer)) {
+      return 'Ayer';
+    } else {
+      const meses = [
+        'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+      ];
+      const dia = fecha.getDate();
+      const mes = meses[fecha.getMonth()];
+      const año = fecha.getFullYear();
+      return `${dia} de ${mes} de ${año}`;
+    }
   }
 
   navigateToCrearComunicado(){
     this.router.navigate(['crear-comunicado']);
 
   }
-
 }
