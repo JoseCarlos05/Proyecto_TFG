@@ -7,7 +7,6 @@ ion-toolbar {
 
 ion-content {
   --background: #E7F4E7;
-  height: 67%;
 }
 
 .logo {
@@ -95,12 +94,18 @@ ion-input {
 }
 
 .guardar-boton {
-  --background: #57BF48;
+  --background: #0E8008;
   --color: #FFFFFF;
-  width: 80%;
+  width: 40%;
   max-width: 400px;
   height: 50px;
   margin: 20px auto;
   font-weight: bold;
-  border-radius: 10px;
+  border-radius: 25%;
+  margin-top: 60px;
 }
+
+ion-text{
+  margin-top: 20px;
+}
+

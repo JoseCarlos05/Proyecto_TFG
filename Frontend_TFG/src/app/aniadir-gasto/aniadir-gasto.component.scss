@@ -1,0 +1,73 @@
+ion-content {
+  --background: #E7F4E7;
+
+  .gastos {
+    padding-inline: 50px;
+    margin: 0 auto;
+
+    .gasto {
+      margin-block: 40px;
+      padding: 15px 15px 20px;
+      background-color: white;
+      border: 5px solid #57BF48;
+      color: black;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 10px;
+
+      .estado {
+        border-radius: 15px;
+        background-color: white;
+        padding: 10px;
+        margin: 15px auto 0;
+        color: black;
+        float: right;
+        border: 1px solid black;
+      }
+    }
+  }
+}
+
+.textoMedio {
+  p {
+    margin: 25px auto;
+    text-align: center;
+    font-size: 20px;
+    color: #0E8008;
+    font-weight: bold;
+  }
+}
+
+.deudores {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  img {
+    width: 30px;
+    height: auto;
+  }
+
+  p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #0E8008;
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
+    background-color: #0E8008;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 120px;
+    height: 40px;
+    text-align: center;
+    margin-top: 10px;
+  }
+}
