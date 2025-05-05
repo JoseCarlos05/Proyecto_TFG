@@ -1,14 +1,42 @@
 <app-header></app-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
 
   <div class="input-container" id="primerDiv">
     <ion-text>¿Qúe votación quieres lanzar?</ion-text>
-    <ion-input type="text" placeholder=""></ion-input>
+    <ion-input type="text" [(ngModel)]="crearEleccion.motivo" placeholder="¿Qúe votación quieres lanzar?"></ion-input>
+
+    <ion-text>Día de finalización</ion-text>
+    <ion-input type="date" [(ngModel)]="fecha" (ionChange)="actualizarFechaHora()" placeholder=""></ion-input>
+
+    <ion-text>Hora de finalización</ion-text>
+    <ion-datetime locale="es" [(ngModel)]="hora" (ionChange)="actualizarFechaHora()" presentation="time" displayFormat="HH:mm" pickerFormat="HH:mm"  name="horaFinalizacion"></ion-datetime>
+
   </div>
+  <ion-button expand="block" class="guardar-boton" (click)="crearEleccionMetodo()" >Lanzar</ion-button>
 
 
-  <ion-button expand="block" class="guardar-boton">Lanzar</ion-button>
 </ion-content>
 
-<app-footer-comunidad></app-footer-comunidad>
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>
+<ion-toast
+  id="diaIncorrecto"
+  message="La fecha no puede ser anterior de la actual."
+  duration="3000"
+  position="top"
+  color="danger"
+></ion-toast>
+<ion-toast
+  id="campoVacio"
+  message="Por favor, completa todos los campos"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+<ion-toast
+  id="exitoCreacion"
+  message="Elección creada con éxito"
+  duration="3000"
+  position="top"
+  color="success"
+></ion-toast>

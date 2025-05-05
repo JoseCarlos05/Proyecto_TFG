@@ -21,6 +21,11 @@ export class ViviendaService {
     return this.http.get<Vivienda[]>(`${this.apiUrl}/vecino/listar/viviendas/${idComunidad}`, options)
   }
 
+  listarViviendasComunidad(idComunidad: number): Observable<Vivienda[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Vivienda[]>(`${this.apiUrl}/comunidad/listar/viviendas/${idComunidad}`, options)
+  }
+
   listarResidentes(idVivienda: number): Observable<Vecino[]> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Vecino[]>(`${this.apiUrl}/vecino/listar/residentes/${idVivienda}`, options)

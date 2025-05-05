@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Comunidad} from "../modelos/Comunidad";
 import {ComunService} from "./comun.service";
 import {InsertarCodigo} from "../modelos/InsertarCodigo";
+import {Vecino} from "../modelos/Vecino";
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,10 @@ export class ComunidadService {
   listarTodasComunidades(): Observable<Comunidad[]> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Comunidad[]>(`${this.apiUrl}/vecino/listar/todas/comunidades`, options)
+  }
+
+  cargarComunidadPorIdUsuario(idUsuario: number): Observable<Comunidad> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Comunidad>(`${this.apiUrl}/comunidad/ver/comunidad/usuario/${idUsuario}`, options)
   }
 }

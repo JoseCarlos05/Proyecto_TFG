@@ -28,4 +28,12 @@ export class HeaderComunidadComponent  implements OnInit {
     sessionStorage.removeItem('comunidad');
     this.router.navigate(['/comunidades']);
   }
+
+  navigateToChat() {
+    this.router.navigate(['/chat']);
+  }
+
+  navigateToNotificaciones() {
+    this.router.navigate(['/notificaciones']);
+  }
 }

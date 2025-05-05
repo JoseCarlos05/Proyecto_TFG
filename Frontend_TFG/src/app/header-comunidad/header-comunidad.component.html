@@ -7,10 +7,10 @@
       <ion-text>{{comunidadObjeto.nombre}}</ion-text>
     </ion-col>
     <ion-col size="2">
-      <ion-img class="btn-notif" src="assets/icon/header-comunidad/notificacion.png"></ion-img>
+      <ion-img class="btn-notif" (click)="navigateToNotificaciones()" src="assets/icon/header-comunidad/notificacion.png"></ion-img>
     </ion-col>
     <ion-col size="2">
-      <ion-img class="btn-chat" src="assets/icon/header-comunidad/chat.png"></ion-img>
+      <ion-img class="btn-chat" (click)="navigateToChat()" src="assets/icon/header-comunidad/chat.png"></ion-img>
     </ion-col>
   </ion-row>
 </ion-grid>

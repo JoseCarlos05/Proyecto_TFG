@@ -108,8 +108,8 @@ export const routes: Routes = [
     loadComponent: () => import('./contrato-empleado/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent),
   },
   {
-    path: 'aniadir-gasto',
-    loadComponent: () => import('./aniadir-gasto/aniadir-gasto.component').then((m) => m.AniadirGastoComponent),
+    path: 'anadir-gasto',
+    loadComponent: () => import('./anadir-gasto/anadir-gasto.component').then((m) => m.AnadirGastoComponent),
   },
   {
     path: 'chat',
@@ -119,5 +119,12 @@ export const routes: Routes = [
     path: 'lanzar-eleccion',
     loadComponent: () => import('./lanzar-eleccion/lanzar-eleccion.component').then((m) => m.LanzarEleccionComponent),
   },
-
+  {
+    path: 'lista-viviendas',
+    loadComponent: () => import('./lista-viviendas/lista-viviendas.component').then((m) => m.ListaViviendasComponent),
+  },
+  {
+    path: 'anadir-gasto-formulario',
+    loadComponent: () => import('./anadir-gasto-formulario/anadir-gasto-formulario.component').then((m) => m.AnadirGastoFormularioComponent),
+  },
 ];
