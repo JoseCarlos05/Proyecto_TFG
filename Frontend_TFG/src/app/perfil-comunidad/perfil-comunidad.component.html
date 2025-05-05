@@ -38,6 +38,10 @@
 
   </ion-grid>
 
+  <div class="div-sin" *ngIf="residentesEnPropiedad.length === 0">
+    <span>Actualmente no hay residentes en ninguna de tus propiedades.</span>
+  </div>
+
   <div class="interlineado">Tus sanciones</div>
 
   <ion-grid class="grid-principal" *ngIf="sancionesVecino.length > 0">
@@ -53,15 +57,20 @@
     </ion-row>
   </ion-grid>
 
-  <div class="div-sin-saciones" *ngIf="sancionesVecino.length === 0">
+  <div class="div-sin" *ngIf="sancionesVecino.length === 0">
     <span>No se te ha impuesto ningún tipo de sanción.</span>
   </div>
 
   <div class="interlineado">Tus deudas</div>
 
   <div class="deudas">
-    <div>Pintura de las barandillas. 30€/Vecino.</div>
-    <div>Pintura de las barandillas. 30€/Vecino.</div>
+    <div (click)="irGasto(gasto.id)" *ngFor="let gasto of deudasVecino">
+      <span>{{ gasto.concepto }}</span>
+    </div>
+  </div>
+
+  <div class="div-sin" *ngIf="deudasVecino.length === 0">
+    <span>No tienes deudas pendientes con la comunidad.</span>
   </div>
 
   <div class="interlineado">Plaza de garaje</div>

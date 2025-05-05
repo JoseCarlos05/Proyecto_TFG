@@ -16,6 +16,8 @@ import {ViviendaService} from "../servicios/vivienda.service";
 import {Vivienda} from "../modelos/Vivienda";
 import {Sancion} from "../modelos/Sancion";
 import {SancionService} from "../servicios/sancion.service";
+import {GastosService} from "../servicios/gastos.service";
+import {Gasto} from "../modelos/Gasto";
 
 @Component({
   selector: 'app-perfil-comunidad',
@@ -40,12 +42,14 @@ export class PerfilComunidadComponent  implements OnInit {
   private viviendas?: Vivienda[] = []
   residentesEnPropiedad: Vecino[] = []
   sancionesVecino: Sancion[] = []
+  deudasVecino: Gasto[] = []
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
               private viviendaService: ViviendaService,
-              private sancionService: SancionService) { }
+              private sancionService: SancionService,
+              private gastosService: GastosService) { }
 
   ngOnInit() {
   }
@@ -104,6 +108,7 @@ export class PerfilComunidadComponent  implements OnInit {
       this.comunidad = JSON.parse(comunidadStorage);
       this.cargarViviendas()
       this.cargarSanciones()
+      this.cargarGastos()
     }
   }
 
@@ -120,6 +125,19 @@ export class PerfilComunidadComponent  implements OnInit {
       next: data => {
         this.viviendas = data
         this.listarResidentes()
+      }
+    })
+  }
+
+  cargarGastos() {
+    this.deudasVecino = []
+    this.gastosService.listarGastos(this.comunidad.id).subscribe({
+      next: data => {
+        for (const gasto of data) {
+          if (this.vecino && !gasto.pagados.includes(this.vecino?.id)) {
+            this.deudasVecino.push(gasto)
+          }
+        }
       }
     })
   }
@@ -212,5 +230,9 @@ export class PerfilComunidadComponent  implements OnInit {
       }
     }
     return ""
+  }
+
+  irGasto(idGasto: number) {
+    this.router.navigate([`/comunidad/gastos/gasto/${idGasto}`])
   }
 }

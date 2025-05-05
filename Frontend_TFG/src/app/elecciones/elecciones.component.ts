@@ -7,7 +7,7 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
 import {Comunidad} from "../modelos/Comunidad";
 import {EleccionesService} from "../servicios/elecciones.service";
 import {Eleccion} from "../modelos/Eleccion";
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
     selector: 'app-elecciones',
@@ -20,7 +20,8 @@ import {NgClass, NgForOf} from "@angular/common";
     HeaderComunidadComponent,
     FooterComunidadComponent,
     NgForOf,
-    NgClass
+    NgClass,
+    NgIf
   ]
 })
 export class EleccionesComponent  implements OnInit {

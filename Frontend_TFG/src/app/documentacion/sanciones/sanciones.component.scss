@@ -1,61 +1,53 @@
-.grid-principal {
+ion-grid {
   padding: 0;
 
-  .row-principal {
+  ion-row {
     background-color: #7CDF68;
-    padding: 15px;
     border: 1px solid black;
     border-top: none;
+    padding: 0;
 
     &:first-child {
       border-top: 1px solid black;
     }
-  }
 
-  .grid-secundario {
+    .contenedor {
 
-    .sancion-div {
-      background-color: red;
-      border-radius: 20px;
-      padding: 10px;
-      font-weight: bold;
-      color: white;
-
-      span {
-        &:first-child {
-          font-style: italic;
-        }
-      }
-    }
-
-    .motivo-div {
-      text-align: center;
-      margin: 15px auto 0;
-      font-weight: bold;
-      background-color: white;
-      border-radius: 20px;
-      padding: 10px;
-      color: black;
-
-      span {
-        &:first-child {
-          font-style: italic;
-        }
-      }
-    }
-
-    .col-vecino {
-      display: flex;
-      align-items: center;
-
-      div {
-        text-align: center;
+      .vecino-div {
         background-color: #57BF48;
         border-radius: 20px;
-        font-weight: bold;
         padding: 10px;
+        font-weight: bold;
         color: white;
+        margin: 15px;
       }
+
+      .sancion-div {
+        background-color: red;
+        border-radius: 20px;
+        padding: 10px;
+        font-weight: bold;
+        color: white;
+        margin: 15px;
+
+        span:first-child {
+          font-style: italic;
+        }
+      }
+
+      .motivo-div {
+        text-align: center;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px;
+        color: black;
+        border-top: 2px solid black;
+
+        span:first-child {
+          font-style: italic;
+        }
+      }
+
     }
   }
 }

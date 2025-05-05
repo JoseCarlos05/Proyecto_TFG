@@ -9,6 +9,10 @@
       <span [ngClass]="comprobarEstado(eleccion)">{{ comprobarEstado(eleccion) }}</span>
     </div>
   </div>
+
+  <div class="div-sin" *ngIf="listaElecciones.length === 0">
+    <span>No hay votaciones en curso en tu comunidad.</span>
+  </div>
 </ion-content>
 
 <app-footer-comunidad></app-footer-comunidad>

@@ -161,7 +161,4 @@ export class GastoComponent implements OnInit {
     }
     return gasto.pagados.includes(this.vecino.id);
   }
-
-
-
 }
