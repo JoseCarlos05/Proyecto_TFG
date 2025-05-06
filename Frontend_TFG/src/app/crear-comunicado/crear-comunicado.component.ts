@@ -1,22 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {FormsModule} from "@angular/forms";
 import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
-import {FooterComponent} from "../footer/footer.component";
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {Usuario} from "../modelos/Usuario";
 import {Vecino} from "../modelos/Vecino";
-import {Comunicado} from "../modelos/Comunicado";
 import {Comunidad} from "../modelos/Comunidad";
 import {CrearComunicado} from "../modelos/CrearComunicado";
 import {Router} from "@angular/router";
 import {UsuarioService} from "../servicios/usuario.service";
 import {VecinoService} from "../servicios/vecino.service";
-import {ComunidadService} from "../servicios/comunidad.service";
 import {ComunicadoService} from "../servicios/comunicado.service";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
+import {QuillModule} from "ngx-quill";
+import Quill from "quill";
+import {ColorAttributor} from "quill/formats/color"
+import {FontType} from "../enum/TipoFuente";
+
+const font: any = Quill.import('formats/font')
+const FontStyle: any = Quill.import('attributors/style/font');
+const SizeStyle: any = Quill.import('attributors/style/size');
+const Parchment = Quill.import('parchment')
+const BaseColor = Quill.import('formats/color') as any
+
+const CustomColor = new ColorAttributor('color', 'color', {scope: Parchment.Scope.INLINE})
+
+Object.assign(BaseColor, CustomColor)
+
+FontStyle.whitelist = ['verdana', 'arial', 'couriernew', 'georgia', 'tahoma', 'timesnewroman']
+SizeStyle.whitelist = ['8px', '12px', '16px', '24px']
+
+const customColors = [
+  'rgb(0, 163, 255)',
+  'rgb(42, 227, 236)',
+  'rgb(250, 196, 8)',
+  'rgb(135, 191, 47)',
+  'rgb(228, 49, 135)',
+  'rgb(139, 85, 201)',
+  'rgb(147, 240, 245)',
+  'rgb(252, 225, 130)',
+  'rgb(194, 222, 150)',
+  'rgb(241, 151, 194)',
+  'rgb(196, 169, 227)',
+  'rgb(200, 247, 250)',
+  'rgb(253, 240, 192)',
+  'rgb(224, 238, 202)',
+  'rgb(248, 202, 224)',
+  'rgb(225, 211, 241)',
+  'rgb(0, 0, 0)',
+  'rgb(128, 128, 128)',
+  'rgb(173, 173, 173)',
+  'rgb(240, 240, 240)',
+  'rgb(255, 255, 255)'
+]
 
 @Component({
     selector: 'app-crear-comunicado',
@@ -28,10 +66,27 @@ import {TokenDataDTO} from "../modelos/TokenData";
     FormsModule,
     HeaderComponent,
     HeaderComunidadComponent,
-    FooterComunidadComponent
+    FooterComunidadComponent,
+    QuillModule
   ]
 })
 export class CrearComunicadoComponent  implements OnInit {
+
+  @ViewChild('quillEditor', {static: false}) quillEditor: any
+
+  fontType: FontType[] = ['Verdana', 'Arial', 'Courier New', 'Georgia', 'Tahoma', 'Times New Roman']
+
+  formatos = [
+    'font',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'color',
+    'align',
+    'link',
+    'image'
+  ]
 
   private usuario!: Usuario
   private vecino!: Vecino
@@ -44,15 +99,17 @@ export class CrearComunicadoComponent  implements OnInit {
     idVecino: undefined
   };
 
-
-
   constructor(private router: Router,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
-              private comunidadService: ComunidadService,
               private comunicadoService: ComunicadoService) { }
 
   ngOnInit() {
+    this.inicio()
+    this.quillSetUp()
+  }
+
+  inicio() {
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
@@ -71,7 +128,23 @@ export class CrearComunicadoComponent  implements OnInit {
         console.error('Error al decodificar el token:', e);
       }
     }
+  }
 
+  quillSetUp() {
+    font.whitelist = [...this.fontType.map(type => type.toLowerCase().replace(/\s+/g, ''))]
+    Quill.register(font, true)
+    Quill.register(FontStyle, true)
+    Quill.register(SizeStyle, true)
+  }
+
+  quillConfig = {
+    toolbar: [
+      [{font: [...this.fontType.map(type => type.toLowerCase().replace(/\s+/g, ''))]}, {size: ['8px', '12px', '16px', '24px']}],
+      ['bold', 'italic', 'underline'],
+      [{color: customColors}, {align: ['center', '', 'right']}],
+      ['link'],
+      ['image']
+    ]
   }
 
   cargarUsuario(correo: string): void {
@@ -117,6 +190,4 @@ export class CrearComunicadoComponent  implements OnInit {
       }
     });
   }
-
-
 }

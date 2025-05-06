@@ -6,6 +6,8 @@ import {ComunicadoService} from "../../servicios/comunicado.service";
 import {NgForOf} from "@angular/common";
 import {Comunicado} from "../../modelos/Comunicado";
 import {filter} from "rxjs";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {QuillModule} from "ngx-quill";
 
 @Component({
     selector: 'app-comunicados',
@@ -14,7 +16,8 @@ import {filter} from "rxjs";
     standalone: true,
   imports: [
     IonicModule,
-    NgForOf
+    NgForOf,
+    QuillModule
   ]
 })
 export class ComunicadosComponent  implements OnInit {
@@ -24,7 +27,8 @@ export class ComunicadosComponent  implements OnInit {
   comunidadObjeto?: Comunidad
 
   constructor(private router: Router,
-              private comunicadoService: ComunicadoService) {
+              private comunicadoService: ComunicadoService,
+              private sanitizer: DomSanitizer) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -36,6 +40,10 @@ export class ComunicadosComponent  implements OnInit {
 
   ngOnInit() {
     this.inicio()
+  }
+
+  htmlSeguro(descripcion: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(descripcion)
   }
 
   inicio() {
