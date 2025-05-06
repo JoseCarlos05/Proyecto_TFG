@@ -36,4 +36,8 @@ public class EleccionControlador {
         return eleccionServicio.votosTotales(idEleccion);
     }
 
+    @GetMapping("/comunidad/listar/elecciones/{idComunidad}")
+    public List<EleccionDTO> listarEleccionesComunidad(@PathVariable Integer idComunidad){
+        return eleccionServicio.listarElecciones(idComunidad);
+    }
 }

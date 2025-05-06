@@ -24,11 +24,11 @@ export class MenuInferiorComunidadComponent  implements OnInit {
   ngOnInit() {
     if (this.router.url.includes('/propiedades-comunidades')) {
       this.propiedadesImgSrc = 'assets/icon/footer-comunidad/propiedadesActive.png'
-    } else if (this.router.url.includes('/anadir-gasto')) {
+    } else if (this.router.url.includes('/gastos/comunidad')) {
       this.gastosImgSrc = 'assets/icon/footer-comunidad/gastosActive.png'
     } else if (this.router.url.includes('/lista-viviendas')) {
       this.viviendaImgSrc = 'assets/icon/footer/casa.png'
-    } else if (this.router.url.includes('/lanzar-eleccion')) {
+    } else if (this.router.url.includes('/eleccion/comunidad')) {
       this.eleccionesImgSrc = 'assets/icon/footer-comunidad/eleccionesActive.png'
     } else if (this.router.url.includes('/documentacion')) {
       this.documentacionImgSrc = 'assets/icon/footer-comunidad/documentacionActive.png'
@@ -41,7 +41,7 @@ export class MenuInferiorComunidadComponent  implements OnInit {
   }
 
   navigateToGastos() {
-    this.router.navigate(['anadir-gasto'])
+    this.router.navigate(['gastos/comunidad'])
   }
 
   navigateToVivienda() {
@@ -49,7 +49,7 @@ export class MenuInferiorComunidadComponent  implements OnInit {
   }
 
   navigateToElecciones() {
-    this.router.navigate(['lanzar-eleccion']);
+    this.router.navigate(['eleccion/comunidad']);
   }
 
   navigateToDocumentacion() {

@@ -108,23 +108,19 @@ export const routes: Routes = [
     loadComponent: () => import('./contrato-empleado/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent),
   },
   {
-    path: 'anadir-gasto',
-    loadComponent: () => import('./anadir-gasto/anadir-gasto.component').then((m) => m.AnadirGastoComponent),
+    path: 'gastos/comunidad',
+    loadComponent: () => import('./gastos-comunidad/gastos-comunidad.component').then((m) => m.GastosComunidadComponent),
   },
   {
     path: 'chat',
     loadComponent: () => import('./chat/chat.component').then((m) => m.ChatComponent),
   },
   {
-    path: 'lanzar-eleccion',
-    loadComponent: () => import('./lanzar-eleccion/lanzar-eleccion.component').then((m) => m.LanzarEleccionComponent),
+    path: 'eleccion/comunidad',
+    loadComponent: () => import('./elecciones-comunidad/elecciones-comunidad.component').then((m) => m.EleccionesComunidadComponent),
   },
   {
     path: 'lista-viviendas',
     loadComponent: () => import('./lista-viviendas/lista-viviendas.component').then((m) => m.ListaViviendasComponent),
-  },
-  {
-    path: 'anadir-gasto-formulario',
-    loadComponent: () => import('./anadir-gasto-formulario/anadir-gasto-formulario.component').then((m) => m.AnadirGastoFormularioComponent),
   },
 ];

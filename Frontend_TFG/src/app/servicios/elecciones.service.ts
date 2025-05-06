@@ -36,4 +36,9 @@ export class EleccionesService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/comunidad/crear/eleccion`, crearEleccion, options);
   }
+
+  listarEleccionesComunidad(idComunidad: number): Observable<Eleccion[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Eleccion[]>(`${this.apiUrl}/comunidad/listar/elecciones/${idComunidad}`, options)
+  }
 }

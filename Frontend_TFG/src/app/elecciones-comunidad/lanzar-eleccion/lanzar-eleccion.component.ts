@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
-import {HeaderComponent} from "../header/header.component";
+import {FooterComunidadComponent} from "../../footer-comunidad/footer-comunidad.component";
+import {HeaderComponent} from "../../header/header.component";
 import {IonicModule} from "@ionic/angular";
-import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
-import {ComunidadService} from "../servicios/comunidad.service";
+import {MenuInferiorComunidadComponent} from "../../menu-inferior-comunidad/menu-inferior-comunidad.component";
+import {ComunidadService} from "../../servicios/comunidad.service";
 import {Router} from "@angular/router";
-import {UsuarioService} from "../servicios/usuario.service";
-import {VecinoService} from "../servicios/vecino.service";
-import {ViviendaService} from "../servicios/vivienda.service";
-import {Usuario} from "../modelos/Usuario";
-import {Vecino} from "../modelos/Vecino";
-import {Comunidad} from "../modelos/Comunidad";
-import {Vivienda} from "../modelos/Vivienda";
-import {InsertarCodigo} from "../modelos/InsertarCodigo";
-import {CrearEleccion} from "../modelos/CrearEleccion";
-import {EleccionesService} from "../servicios/elecciones.service";
+import {UsuarioService} from "../../servicios/usuario.service";
+import {VecinoService} from "../../servicios/vecino.service";
+import {ViviendaService} from "../../servicios/vivienda.service";
+import {Usuario} from "../../modelos/Usuario";
+import {Vecino} from "../../modelos/Vecino";
+import {Comunidad} from "../../modelos/Comunidad";
+import {Vivienda} from "../../modelos/Vivienda";
+import {InsertarCodigo} from "../../modelos/InsertarCodigo";
+import {CrearEleccion} from "../../modelos/CrearEleccion";
+import {EleccionesService} from "../../servicios/elecciones.service";
 import {jwtDecode} from "jwt-decode";
-import {TokenDataDTO} from "../modelos/TokenData";
+import {TokenDataDTO} from "../../modelos/TokenData";
 import {FormsModule} from "@angular/forms";
 
 @Component({

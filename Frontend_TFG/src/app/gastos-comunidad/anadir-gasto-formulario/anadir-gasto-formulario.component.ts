@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {HeaderComponent} from "../header/header.component";
+import {HeaderComponent} from "../../header/header.component";
 import {IonicModule} from "@ionic/angular";
-import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
-import {Usuario} from "../modelos/Usuario";
-import {Comunidad} from "../modelos/Comunidad";
-import {CrearEleccion} from "../modelos/CrearEleccion";
-import {ComunidadService} from "../servicios/comunidad.service";
+import {MenuInferiorComunidadComponent} from "../../menu-inferior-comunidad/menu-inferior-comunidad.component";
+import {Usuario} from "../../modelos/Usuario";
+import {Comunidad} from "../../modelos/Comunidad";
+import {CrearEleccion} from "../../modelos/CrearEleccion";
+import {ComunidadService} from "../../servicios/comunidad.service";
 import {Router} from "@angular/router";
-import {UsuarioService} from "../servicios/usuario.service";
-import {EleccionesService} from "../servicios/elecciones.service";
+import {UsuarioService} from "../../servicios/usuario.service";
+import {EleccionesService} from "../../servicios/elecciones.service";
 import {jwtDecode} from "jwt-decode";
-import {TokenDataDTO} from "../modelos/TokenData";
-import {CrearGasto} from "../modelos/CrearGasto";
-import {GastosService} from "../servicios/gastos.service";
+import {TokenDataDTO} from "../../modelos/TokenData";
+import {CrearGasto} from "../../modelos/CrearGasto";
+import {GastosService} from "../../servicios/gastos.service";
 import {FormsModule} from "@angular/forms";
 
 @Component({

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
-import {HeaderComponent} from "../header/header.component";
-import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
+import {FooterComunidadComponent} from "../../footer-comunidad/footer-comunidad.component";
+import {HeaderComponent} from "../../header/header.component";
+import {HeaderComunidadComponent} from "../../header-comunidad/header-comunidad.component";
 import {IonicModule} from "@ionic/angular";
-import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
+import {MenuInferiorComunidadComponent} from "../../menu-inferior-comunidad/menu-inferior-comunidad.component";
 import {Route, Router} from "@angular/router";
 
 @Component({
@@ -21,11 +21,9 @@ import {Route, Router} from "@angular/router";
 })
 export class AnadirGastoComponent  implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   ngOnInit() {}
 
-  navigateToNuevoGasto() {
-    this.router.navigate(['/anadir-gasto-formulario']);
-  }
+
 }
