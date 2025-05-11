@@ -9,7 +9,7 @@
     ></ion-searchbar>
   </div>
 
-  <div class="tarjeta" *ngFor="let vivienda of listaViviendas">
+  <div class="tarjeta" *ngFor="let vivienda of listaViviendas" (click)="verInfoVvivienda(vivienda.id)">
     <p class="tarjeta-titulo">{{ vivienda.direccionPersonal }}</p>
   </div>
 </ion-content>

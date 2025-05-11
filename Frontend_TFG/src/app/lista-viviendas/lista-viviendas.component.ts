@@ -91,4 +91,8 @@ export class ListaViviendasComponent  implements OnInit {
       })
   }
 
+  verInfoVvivienda(idVivienda: number) {
+    this.router.navigate(["/info-vivienda", idVivienda])
+  }
+
 }

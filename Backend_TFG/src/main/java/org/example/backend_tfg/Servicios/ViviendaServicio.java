@@ -25,6 +25,12 @@ public class ViviendaServicio {
 
     private IComunidadRepositorio iComunidadRepositorio;
 
+    public ViviendaDTO verViviendaID(Integer idVvienda){
+        Vivienda vivienda = iViviendaRepositorio.findById(idVvienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+        return getViviendaDTO(vivienda);
+
+    }
     public void crearVivienda(RegistrarViviendaDTO dto) {
         Vivienda vivienda = new Vivienda();
         vivienda.setDireccionPersonal(dto.getDireccionPersonal());

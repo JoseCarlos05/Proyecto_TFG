@@ -2,11 +2,13 @@ package org.example.backend_tfg.Controladores;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunidadDTO;
+import org.example.backend_tfg.DTOs.VecinoDTO;
 import org.example.backend_tfg.Modelos.Solicitud;
 import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Seguridad.UsuarioAdapter;
 import org.example.backend_tfg.Servicios.ComunidadServicio;
 import org.example.backend_tfg.Servicios.UsuarioServicio;
+import org.example.backend_tfg.Servicios.VecinoServicio;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,8 @@ public class ComunidadControlador {
     private ComunidadServicio comunidadService;
 
     private UsuarioServicio usuarioServicio;
+
+    private VecinoServicio vecinoServicio;
 
     @GetMapping("/vecino/ver/comunidad/{idComunidad}")
     public ComunidadDTO verComunidadID(@PathVariable Integer idComunidad){
@@ -63,5 +67,10 @@ public class ComunidadControlador {
     @GetMapping("/vecino/listar/todas/comunidades")
     public List<ComunidadDTO> listarTodasComunidades(){
         return comunidadService.listarTodasComunidades();
+    }
+
+    @GetMapping("/comunidad/ver/vecino/{idVecino}")
+    public VecinoDTO verVecinoID(@PathVariable Integer idVecino){
+        return vecinoServicio.buscarVecinoID(idVecino);
     }
 }

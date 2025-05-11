@@ -35,4 +35,19 @@ export class ViviendaService {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<number>(`${this.apiUrl}/numero/viviendas/${idComunidad}`, options)
   }
+
+  listarResidentesComunidad(idVivienda: number): Observable<Vecino[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Vecino[]>(`${this.apiUrl}/comunidad/listar/residentes/${idVivienda}`, options)
+  }
+
+  verInfoVivienda(idVivienda: number): Observable<Vivienda> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Vivienda>(`${this.apiUrl}/comunidad/ver/info/vivienda/${idVivienda}`, options)
+  }
+
+  verPropietario(idPropietario: number): Observable<Vecino> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Vecino>(`${this.apiUrl}/comunidad/ver/vecino/${idPropietario}`, options)
+  }
 }
