@@ -127,4 +127,8 @@ export const routes: Routes = [
     path: 'info-vivienda/:id',
     loadComponent: () => import('./info-vivienda/info-vivienda.component').then((m) => m.InfoViviendaComponent)
   },
+  {
+    path: 'documentacion/comunidad',
+    loadComponent: () => import('./documentacion-comunidad/documentacion-comunidad.component').then((m) => m.DocumentacionComunidadComponent)
+  }
 ];

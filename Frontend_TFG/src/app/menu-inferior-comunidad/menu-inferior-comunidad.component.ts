@@ -53,7 +53,7 @@ export class MenuInferiorComunidadComponent  implements OnInit {
   }
 
   navigateToDocumentacion() {
-    this.router.navigate(['comunidad/documentacion'])
+    this.router.navigate(['documentacion/comunidad'])
   }
 
 }
