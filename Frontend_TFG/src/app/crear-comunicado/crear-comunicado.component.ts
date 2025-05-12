@@ -83,7 +83,6 @@ export class CrearComunicadoComponent  implements OnInit {
     'italic',
     'underline',
     'color',
-    'align',
     'link',
     'image'
   ]
@@ -141,7 +140,7 @@ export class CrearComunicadoComponent  implements OnInit {
     toolbar: [
       [{font: [...this.fontType.map(type => type.toLowerCase().replace(/\s+/g, ''))]}, {size: ['8px', '12px', '16px', '24px']}],
       ['bold', 'italic', 'underline'],
-      [{color: customColors}, {align: ['center', '', 'right']}],
+      [{color: customColors}],
       ['link'],
       ['image']
     ]
