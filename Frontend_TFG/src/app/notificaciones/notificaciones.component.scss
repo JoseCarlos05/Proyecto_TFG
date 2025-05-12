@@ -1,0 +1,48 @@
+.notificaciones {
+  ion-item {
+    --background: #E7F4E7;
+    --ion-item-border-color: transparent;
+    border: 1px solid #339F28;
+    display: flex;
+    align-items: center;
+
+    &:nth-child(odd) {
+      --background: #E7F4E7;
+    }
+
+    &:nth-child(even) {
+      --background: #FFFFFF;
+    }
+
+    ion-img.imagen-redonda {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    h2 {
+      color: #339F28;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    p {
+      color: #339F28;
+      margin: 0;
+    }
+  }
+}
+
+ion-content{
+  --background: #FFFFFF;
+  padding: 0;
+}
+
+.list-md {
+  background: #FFFFFF;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+

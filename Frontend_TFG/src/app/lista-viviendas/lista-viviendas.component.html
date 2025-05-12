@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<ion-content>
+  <div class="buscador">
+    <ion-searchbar
+      class="searchbar-blanco"
+      placeholder="Buscar en LiveTogether..."
+      showCancelButton="focus"
+    ></ion-searchbar>
+  </div>
+
+  <div class="tarjeta" *ngFor="let vivienda of listaViviendas" (click)="verInfoVvivienda(vivienda.id)">
+    <p class="tarjeta-titulo">{{ vivienda.direccionPersonal }}</p>
+  </div>
+</ion-content>
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

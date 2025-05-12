@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="seccion" mode="ios">
+    <ion-segment-button value="anadir-gasto-formulario">
+      <ion-label>Añadir gasto</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="anadir-gasto">
+      <ion-label>Deudores</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <app-anadir-gasto-formulario *ngIf="seccion === 'anadir-gasto-formulario'"></app-anadir-gasto-formulario>
+  <app-anadir-gasto *ngIf="seccion === 'anadir-gasto'"></app-anadir-gasto>
+</ion-content>
+
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

@@ -7,6 +7,8 @@ import {Observable} from "rxjs";
 import {Gasto} from "../modelos/Gasto";
 import {InsertarCodigo} from "../modelos/InsertarCodigo";
 import {MarcarPagado} from "../modelos/MarcarPagado";
+import {CrearEleccion} from "../modelos/CrearEleccion";
+import {CrearGasto} from "../modelos/CrearGasto";
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +38,10 @@ export class GastosService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/marcar/pagado`, marcarPagado, options);
   }
+
+  crearGasto(crearGasto: CrearGasto): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/comunidad/crear/gasto`, crearGasto, options);
+  }
+
 }

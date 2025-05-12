@@ -5,6 +5,8 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {ComunService} from "./comun.service";
 import {Eleccion} from "../modelos/Eleccion";
+import {InsertarCodigo} from "../modelos/InsertarCodigo";
+import {CrearEleccion} from "../modelos/CrearEleccion";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +30,15 @@ export class EleccionesService {
   totalVoto(idEleccion: number): Observable<number> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<number>(`${this.apiUrl}/vecino/ver/total/voto/${idEleccion}`, options)
+  }
+
+  crearEleccion(crearEleccion: CrearEleccion): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/comunidad/crear/eleccion`, crearEleccion, options);
+  }
+
+  listarEleccionesComunidad(idComunidad: number): Observable<Eleccion[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Eleccion[]>(`${this.apiUrl}/comunidad/listar/elecciones/${idComunidad}`, options)
   }
 }

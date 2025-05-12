@@ -79,4 +79,52 @@ export const routes: Routes = [
     loadComponent: () => import('./cancelado/cancelado.component').then(m => m.CanceladoComponent),
   },
 
+  {
+    path: 'notificaciones',
+    loadComponent: () => import('./notificaciones/notificaciones.component').then((m) => m.NotificacionesComponent),
+  },
+  {
+    path: 'propiedades',
+    loadComponent: () => import('./propiedades/propiedades.component').then((m) => m.PropiedadesComponent),
+  },
+  {
+    path: 'propiedades-comunidades',
+    loadComponent: () => import('./propiedades-comunidades/propiedades-comunidades.component').then((m) => m.PropiedadesComunidadesComponent),
+  },
+  {
+    path: 'contrato-empleado2',
+    loadComponent: () => import('./contrato-empleado2/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent2),
+  },
+  {
+    path: 'poner-comunicados',
+    loadComponent: () => import('./poner-comunicados/poner-comunicados.component').then((m) => m.PonerComunicadosComponent),
+  },
+  {
+    path: 'poner-sanciones',
+    loadComponent: () => import('./poner-sanciones/poner-sanciones.component').then((m) => m.PonerSancionesComponent),
+  },
+  {
+    path: 'contrato-empleado',
+    loadComponent: () => import('./contrato-empleado/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent),
+  },
+  {
+    path: 'gastos/comunidad',
+    loadComponent: () => import('./gastos-comunidad/gastos-comunidad.component').then((m) => m.GastosComunidadComponent),
+  },
+  {
+    path: 'chat',
+    loadComponent: () => import('./chat/chat.component').then((m) => m.ChatComponent),
+  },
+  {
+    path: 'eleccion/comunidad',
+    loadComponent: () => import('./elecciones-comunidad/elecciones-comunidad.component').then((m) => m.EleccionesComunidadComponent),
+  },
+  {
+    path: 'lista-viviendas',
+    loadComponent: () => import('./lista-viviendas/lista-viviendas.component').then((m) => m.ListaViviendasComponent),
+  },
+  {
+    path: 'info-vivienda/:id',
+    loadComponent: () => import('./info-vivienda/info-vivienda.component').then((m) => m.InfoViviendaComponent)
+  },
 ];

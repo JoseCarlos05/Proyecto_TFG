@@ -18,4 +18,9 @@ export class UsuarioService {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Usuario>(`${this.apiUrl}/vecino/usuario/correo/${correo}`, options);
   }
+
+  cargarUsuarioComunidad(correo: string): Observable<Usuario> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Usuario>(`${this.apiUrl}/comunidad/usuario/correo/${correo}`, options);
+  }
 }
