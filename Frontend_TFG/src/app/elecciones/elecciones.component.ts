@@ -56,12 +56,12 @@ export class EleccionesComponent  implements OnInit {
   }
 
   calcularFecha(eleccion: Eleccion): string {
-    if (!eleccion.fecha) {
+    if (!eleccion.fechaHoraCreacion) {
       return "";
     }
 
     const fechaActual = new Date();
-    const fechaPublicacion = new Date(eleccion.fecha);
+    const fechaPublicacion = new Date(eleccion.fechaHoraCreacion);
     const milisegundos = fechaActual.getTime() - fechaPublicacion.getTime();
 
     const minutos = 1000 * 60;

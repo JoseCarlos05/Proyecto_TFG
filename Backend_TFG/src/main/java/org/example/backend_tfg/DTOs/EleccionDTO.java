@@ -13,5 +13,6 @@ public class EleccionDTO {
     private Integer id;
     private String motivo;
     private LocalDateTime fecha;
+    private LocalDateTime fechaHoraCreacion;
     private boolean abierta;
 }

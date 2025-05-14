@@ -35,6 +35,9 @@ public class Eleccion {
     @Column(name = "fechaHora", nullable = false)
     private LocalDateTime fechaHora;
 
+    @Column(name = "fechaHoraCreacion", nullable = false)
+    private LocalDateTime fechaHoraCreacion;
+
     @Column(name = "abierta", nullable = false)
     private boolean abierta;
 

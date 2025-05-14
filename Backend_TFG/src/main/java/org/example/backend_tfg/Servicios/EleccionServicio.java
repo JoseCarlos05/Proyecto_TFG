@@ -11,6 +11,7 @@ import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IEleccionRepositorio;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class EleccionServicio {
         Eleccion nuevaEleccion = new Eleccion();
         nuevaEleccion.setMotivo(crearEleccionDTO.getMotivo());
         nuevaEleccion.setFechaHora(crearEleccionDTO.getFechaHora());
+        nuevaEleccion.setFechaHoraCreacion(LocalDateTime.now());
         nuevaEleccion.setTotalAFavor(0);
         nuevaEleccion.setTotalAbstencion(0);
         nuevaEleccion.setTotalEnContra(0);
@@ -72,6 +74,7 @@ public class EleccionServicio {
         dto.setId(e.getId());
         dto.setMotivo(e.getMotivo());
         dto.setFecha(e.getFechaHora());
+        dto.setFechaHoraCreacion(e.getFechaHoraCreacion());
         dto.setAbierta(e.isAbierta());
         return dto;
     }
