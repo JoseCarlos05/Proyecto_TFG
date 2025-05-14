@@ -13,7 +13,6 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
   imports: [
     FooterComunidadComponent,
     HeaderComponent,
-    HeaderComunidadComponent,
     IonicModule,
     MenuInferiorComunidadComponent
   ]

@@ -42,6 +42,15 @@ export class ConfigPerfilVecinoComponent implements OnInit {
     this.registroVecino.contrasena = this.datos.contrasena;
   }
 
+  ionViewWillEnter() {
+    this.registroVecino.nombre = ""
+    this.registroVecino.apellidos = ""
+    this.registroVecino.telefono = ""
+    this.registroVecino.fechaNacimiento = ""
+    this.registroVecino.numeroCuenta = ""
+    this.registroVecino.dni = ""
+  }
+
   navigateToInicioSesion() {
     if (this.registroVecino) {
       this.authService.registroVecino(this.registroVecino).subscribe({

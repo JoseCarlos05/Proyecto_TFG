@@ -23,9 +23,17 @@ export class RegistroComponent  implements OnInit {
     contrasena: ""
   }
 
+  repetirContrasena: string = ""
+
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.datosRegistro.correo = ""
+    this.datosRegistro.contrasena = ""
+    this.repetirContrasena = ""
+  }
 
   navigateToInicioSesion() {
     this.router.navigate(['/inicio-sesion']);
