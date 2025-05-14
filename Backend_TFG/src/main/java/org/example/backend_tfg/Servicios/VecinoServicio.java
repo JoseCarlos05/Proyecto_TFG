@@ -2,6 +2,7 @@ package org.example.backend_tfg.Servicios;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.example.backend_tfg.DTOs.EditarVecinoDTO;
 import org.example.backend_tfg.DTOs.InsertarCodigoDTO;
 import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
@@ -58,20 +59,13 @@ public class VecinoServicio {
         return vecinoDTOS;
     }
 
-    public void actualizarVecino(RegistrarVecinoDTO dto, Integer idVecino) {
+    public void actualizarVecino(EditarVecinoDTO dto, Integer idVecino) {
         Vecino vecino = iVecinoRepositorio.findById(idVecino)
                 .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
 
         Usuario usuario = vecino.getUsuario();
         if (usuario == null) {
             throw new IllegalStateException("El vecino no tiene un usuario asociado.");
-        }
-
-        if (dto.getCorreo() != null && !dto.getCorreo().isEmpty()) {
-            usuario.setCorreo(dto.getCorreo());
-        }
-        if (dto.getContrasena() != null && !dto.getContrasena().isEmpty()) {
-            usuario.setContrasena(passwordEncoder.encode(dto.getContrasena()));
         }
 
         if (dto.getNombre() != null) {

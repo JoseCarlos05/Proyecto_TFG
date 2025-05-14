@@ -6,6 +6,7 @@ import {Vecino} from "../modelos/Vecino";
 import {ComunService} from "./comun.service";
 import {InsertarCodigo} from "../modelos/InsertarCodigo";
 import {RegistrarVecino} from "../modelos/RegistrarVecino";
+import {EditarVecinoDTO} from "../modelos/EditarVecinoDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class VecinoService {
     return this.http.get<Vecino>(`${this.apiUrl}/vecino/ver/vecino/${idVecino}`, options)
   }
 
-  editarPerfil(vecino: RegistrarVecino, idVecino: number): Observable<any> {
+  editarPerfil(vecino: EditarVecinoDTO, idVecino: number): Observable<any> {
     const options = this.comunService.autorizarPeticion();
     return this.http.put(`${this.apiUrl}/vecino/actualizar/${idVecino}`, vecino, options);
   }

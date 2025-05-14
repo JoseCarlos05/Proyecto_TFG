@@ -28,7 +28,7 @@
 
   <div class="input-container">
     <ion-text>Foto perfil</ion-text>
-    <ion-input placeholder="Introduce tu foto" [(ngModel)]="editarVecino.correo" [readonly]="!editable"></ion-input>
+    <ion-input placeholder="Introduce tu foto" [readonly]="!editable"></ion-input>
   </div>
 
   <ion-button expand="block" class="guardar-boton" [disabled]="!editable" (click)="actualizarVecino(vecino.id)">Editar</ion-button>

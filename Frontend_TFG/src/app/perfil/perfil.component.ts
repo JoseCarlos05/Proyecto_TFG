@@ -14,6 +14,7 @@ import {HeaderComponent} from "../header/header.component";
   import {Comunidad} from "../modelos/Comunidad";
   import {FormsModule} from "@angular/forms";
   import {RegistrarVecino} from "../modelos/RegistrarVecino";
+  import {EditarVecinoDTO} from "../modelos/EditarVecinoDTO";
 
 @Component({
     selector: 'app-perfil',
@@ -28,15 +29,13 @@ export class PerfilComponent  implements OnInit {
   correo?: string
   editable: boolean = false;
 
-  editarVecino: RegistrarVecino = {
+  editarVecino: EditarVecinoDTO = {
     nombre: "",
     apellidos: "",
     telefono: "",
     fechaNacimiento: "",
     numeroCuenta: "",
-    dni: "",
-    correo: this.usuario.correo,
-    contrasena: this.usuario.contrasena,
+    dni: ""
   }
 
   constructor(private router: Router,
@@ -85,9 +84,7 @@ export class PerfilComponent  implements OnInit {
             telefono: this.vecino.telefono,
             fechaNacimiento: this.vecino.fechaNacimiento,
             numeroCuenta: this.vecino.numeroCuenta,
-            dni: this.vecino.dni,
-            correo: this.usuario.correo,
-            contrasena: this.usuario.contrasena,
+            dni: this.vecino.dni
           }
         }
       })
