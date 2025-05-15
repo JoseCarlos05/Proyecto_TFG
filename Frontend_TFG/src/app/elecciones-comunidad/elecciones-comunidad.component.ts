@@ -32,6 +32,6 @@ export class EleccionesComunidadComponent  implements OnInit {
 
   ngOnInit() {}
 
-  seccion: string = 'lanzar-eleccion'
+  seccion: string = 'listar-elecciones'
 
 }

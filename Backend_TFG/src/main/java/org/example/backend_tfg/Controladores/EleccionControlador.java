@@ -40,4 +40,9 @@ public class EleccionControlador {
     public List<EleccionDTO> listarEleccionesComunidad(@PathVariable Integer idComunidad){
         return eleccionServicio.listarElecciones(idComunidad);
     }
+
+    @PutMapping("/comunidad/cerrar/eleccion/{idEleccion}")
+    public void cerrarEleccion(@PathVariable Integer idEleccion) {
+        eleccionServicio.cerrarEleccion(idEleccion);
+    }
 }

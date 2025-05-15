@@ -41,4 +41,9 @@ export class EleccionesService {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Eleccion[]>(`${this.apiUrl}/comunidad/listar/elecciones/${idComunidad}`, options)
   }
+
+  cerrarEleccion(idEleccion: number): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.put(`${this.apiUrl}/comunidad/cerrar/eleccion/${idEleccion}`, {}, options);
+  }
 }

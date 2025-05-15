@@ -1,4 +1,5 @@
-<div *ngFor="let eleccion of listaElecciones" class="eleccion" >
+<div *ngFor="let eleccion of listaElecciones" class="eleccion">
+  <ion-img src="assets/icon/cerrar.png" *ngIf="eleccion.abierta" class="icono-cerrar" (click)="confirmarEleccion(eleccion.id) "></ion-img>
   <p>{{ eleccion.motivo }}</p>
   <div class="eleccion-info">
     <span class="fecha">{{calcularFecha(eleccion)}}</span>

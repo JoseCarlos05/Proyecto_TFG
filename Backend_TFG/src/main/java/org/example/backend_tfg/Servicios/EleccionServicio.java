@@ -11,6 +11,7 @@ import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IEleccionRepositorio;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class EleccionServicio {
         Eleccion nuevaEleccion = new Eleccion();
         nuevaEleccion.setMotivo(crearEleccionDTO.getMotivo());
         nuevaEleccion.setFechaHora(crearEleccionDTO.getFechaHora());
+        nuevaEleccion.setFechaHoraCreacion(LocalDateTime.now());
         nuevaEleccion.setTotalAFavor(0);
         nuevaEleccion.setTotalAbstencion(0);
         nuevaEleccion.setTotalEnContra(0);
@@ -48,9 +50,16 @@ public class EleccionServicio {
 
         for (Eleccion eleccion : iEleccionRepositorio.findAll()) {
             if (eleccion.getComunidad().equals(comunidad)) {
+
+                if (eleccion.isAbierta() && eleccion.getFechaHora() != null && LocalDateTime.now().isAfter(eleccion.getFechaHora())) {
+                    eleccion.setAbierta(false);
+                    iEleccionRepositorio.save(eleccion);
+                }
+
                 listaElecciones.add(getEleccionDTO(eleccion));
             }
         }
+
 
         return listaElecciones;
     }
@@ -60,6 +69,14 @@ public class EleccionServicio {
                 .orElseThrow(()-> new RuntimeException("No existe una elección con este ID."));
         return eleccion.getTotalAFavor() + eleccion.getTotalEnContra() + eleccion.getTotalAbstencion();
     }
+
+    public void cerrarEleccion(Integer idEleccion){
+        Eleccion eleccion = iEleccionRepositorio.findById(idEleccion)
+                .orElseThrow(()-> new RuntimeException("No existe una elección con este ID."));
+        eleccion.setAbierta(false);
+        iEleccionRepositorio.save(eleccion);
+    }
+
     public EleccionDetDTO getEleccion(Integer idEleccion) {
         Eleccion eleccion = iEleccionRepositorio.findById(idEleccion)
                 .orElseThrow(()-> new RuntimeException("No existe una elección con este ID."));
@@ -72,6 +89,7 @@ public class EleccionServicio {
         dto.setId(e.getId());
         dto.setMotivo(e.getMotivo());
         dto.setFecha(e.getFechaHora());
+        dto.setFechaHoraCreacion(e.getFechaHoraCreacion());
         dto.setAbierta(e.isAbierta());
         return dto;
     }

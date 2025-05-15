@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule} from "@ionic/angular";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {Eleccion} from "../../modelos/Eleccion";
 import {Usuario} from "../../modelos/Usuario";
@@ -34,7 +34,8 @@ export class ListarEleccionesComponent  implements OnInit {
   constructor(private comunidadService: ComunidadService,
               private router: Router,
               private usuarioService: UsuarioService,
-              private eleccionService: EleccionesService) { }
+              private eleccionService: EleccionesService,
+              private alertController: AlertController) { }
 
   ngOnInit() {
     const token = sessionStorage.getItem('authToken');
@@ -91,12 +92,12 @@ export class ListarEleccionesComponent  implements OnInit {
   }
 
   calcularFecha(eleccion: Eleccion): string {
-    if (!eleccion.fecha) {
+    if (!eleccion.fechaHoraCreacion) {
       return "";
     }
 
     const fechaActual = new Date();
-    const fechaPublicacion = new Date(eleccion.fecha);
+    const fechaPublicacion = new Date(eleccion.fechaHoraCreacion);
     const milisegundos = fechaActual.getTime() - fechaPublicacion.getTime();
 
     const minutos = 1000 * 60;
@@ -133,4 +134,43 @@ export class ListarEleccionesComponent  implements OnInit {
     }
 
   }
+
+  cerrarEleccion(idEleccion: number) {
+    if (idEleccion) {
+      this.eleccionService.cerrarEleccion(idEleccion).subscribe({
+        next: () => {
+          location.reload();
+        },
+        error: (e) => {
+          console.error("Error al cerrar la elección:", e);
+        }
+      });
+    }
+  }
+
+  async confirmarEleccion(idEleccion: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar cierre de elección',
+      message: '¿Estás seguro de que quieres cerrar esta elección?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Eleccion cancelado');
+          }
+        },
+        {
+          text: 'Confirmar',
+          role: 'confirm',
+          handler: () => {
+            this.cerrarEleccion(idEleccion);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
 }
