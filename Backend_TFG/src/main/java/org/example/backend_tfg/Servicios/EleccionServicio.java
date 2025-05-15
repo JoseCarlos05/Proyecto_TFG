@@ -50,9 +50,16 @@ public class EleccionServicio {
 
         for (Eleccion eleccion : iEleccionRepositorio.findAll()) {
             if (eleccion.getComunidad().equals(comunidad)) {
+
+                if (eleccion.isAbierta() && eleccion.getFechaHora() != null && LocalDateTime.now().isAfter(eleccion.getFechaHora())) {
+                    eleccion.setAbierta(false);
+                    iEleccionRepositorio.save(eleccion);
+                }
+
                 listaElecciones.add(getEleccionDTO(eleccion));
             }
         }
+
 
         return listaElecciones;
     }
@@ -62,6 +69,14 @@ public class EleccionServicio {
                 .orElseThrow(()-> new RuntimeException("No existe una elección con este ID."));
         return eleccion.getTotalAFavor() + eleccion.getTotalEnContra() + eleccion.getTotalAbstencion();
     }
+
+    public void cerrarEleccion(Integer idEleccion){
+        Eleccion eleccion = iEleccionRepositorio.findById(idEleccion)
+                .orElseThrow(()-> new RuntimeException("No existe una elección con este ID."));
+        eleccion.setAbierta(false);
+        iEleccionRepositorio.save(eleccion);
+    }
+
     public EleccionDetDTO getEleccion(Integer idEleccion) {
         Eleccion eleccion = iEleccionRepositorio.findById(idEleccion)
                 .orElseThrow(()-> new RuntimeException("No existe una elección con este ID."));

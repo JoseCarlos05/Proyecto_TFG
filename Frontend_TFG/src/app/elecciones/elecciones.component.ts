@@ -51,8 +51,11 @@ export class EleccionesComponent  implements OnInit {
     }
   }
 
-  navigateToVotacion(idEleccion: number) {
-    this.router.navigate(['comunidad/elecciones/votacion', idEleccion])
+  navigateToVotacion(eleccion: Eleccion) {
+    if (!eleccion.abierta) {
+      return;
+    }
+    this.router.navigate(['comunidad/elecciones/votacion', eleccion.id])
   }
 
   calcularFecha(eleccion: Eleccion): string {
