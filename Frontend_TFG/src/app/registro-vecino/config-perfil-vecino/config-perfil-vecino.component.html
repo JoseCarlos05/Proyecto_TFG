@@ -6,38 +6,137 @@
 
   <div class="input-container">
     <ion-text>Nombre</ion-text>
-    <ion-input [(ngModel)]="registroVecino.nombre" type="nombre" placeholder="Introduce tu nombre"></ion-input>
+    <ion-input
+      [(ngModel)]="registroVecino.nombre"
+      type="text"
+      placeholder="Introduce tu nombre"
+      required
+    ></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Apellidos</ion-text>
-    <ion-input [(ngModel)]="registroVecino.apellidos" type="apellidos" placeholder="Introduce tus apellidos"></ion-input>
+    <ion-input
+      [(ngModel)]="registroVecino.apellidos"
+      type="text"
+      placeholder="Introduce tus apellidos"
+      required
+    ></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Teléfono</ion-text>
-    <ion-input [(ngModel)]="registroVecino.telefono" type="telefono" placeholder="Introduce tu teléfono"></ion-input>
+    <ion-input
+      [(ngModel)]="registroVecino.telefono"
+      type="tel"
+      placeholder="Introduce tu teléfono"
+      required
+      maxlength="9"
+      minlength="9"
+      pattern="[0-9]{9}"
+    ></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Fecha de nacimiento</ion-text>
-    <ion-input [(ngModel)]="registroVecino.fechaNacimiento" type="date" placeholder="Introduce tu fecha de nacimiento"></ion-input>
+    <ion-input
+      [(ngModel)]="registroVecino.fechaNacimiento"
+      type="date"
+      placeholder="Introduce tu fecha de nacimiento"
+      required
+    ></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>Número de cuenta bancaria</ion-text>
-    <ion-input [(ngModel)]="registroVecino.numeroCuenta" type="cuenta" placeholder="Introduce tu número de cuenta bancaria"></ion-input>
+    <ion-input
+      [(ngModel)]="registroVecino.numeroCuenta"
+      type="text"
+      placeholder="Introduce tu número de cuenta bancaria"
+      required
+      minlength="20"
+    ></ion-input>
   </div>
 
   <div class="input-container">
     <ion-text>DNI</ion-text>
-    <ion-input [(ngModel)]="registroVecino.dni" type="dni" placeholder="Introduce tu DNI"></ion-input>
+    <ion-input
+      [(ngModel)]="registroVecino.dni"
+      type="text"
+      placeholder="Introduce tu DNI"
+      required
+      maxlength="9"
+      minlength="9"
+      pattern="^[0-9]{8}[A-Za-z]$"
+    ></ion-input>
   </div>
 
   <div class="registro-container">
     <ion-text class="registro-texto">¿Ya tienes una cuenta?</ion-text>
-    <ion-text class="iniciar-sesion" (click)="navigateToInicioSesion()">Iniciar Sesión</ion-text>
+    <ion-text class="iniciar-sesion" (click)="navigateToInicioSesion()"
+    >Iniciar Sesión</ion-text
+    >
   </div>
 
-  <ion-button expand="block" (click)="navigateToInicioSesion()">TERMINAR REGISTRO</ion-button>
+  <ion-button expand="block" (click)="navigateToInicioSesion()"
+  >TERMINAR REGISTRO</ion-button
+  >
 </ion-content>
+
+<!-- TOASTS -->
+<ion-toast
+  id="campoVacioRegistro"
+  message="Por favor, completa todos los campos"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+<ion-toast
+  id="errorNombre"
+  message="El nombre debe tener al menos 2 letras"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+<ion-toast
+  id="errorApellidos"
+  message="Los apellidos deben tener al menos 2 letras"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+<ion-toast
+  id="errorTelefono"
+  message="El teléfono debe tener 9 dígitos"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+<ion-toast
+  id="errorDNI"
+  message="El DNI debe tener 8 números y una letra (ej: 12345678A)"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+<ion-toast
+  id="errorCuenta"
+  message="El número de cuenta debe tener al menos 20 caracteres"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+<ion-toast
+  id="exitoCreacionRegistro"
+  message="Registro creado con éxito"
+  duration="3000"
+  position="top"
+  color="success"
+></ion-toast>
+<ion-toast
+  id="errorRegistro"
+  message="Hubo un error durante el registro"
+  duration="3000"
+  position="top"
+  color="danger"
+></ion-toast>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FooterComponent} from "../footer/footer.component";
-import {HeaderComponent} from "../header/header.component";
-import {IonicModule} from "@ionic/angular";
-import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
+import { FooterComponent } from "../footer/footer.component";
+import { HeaderComponent } from "../header/header.component";
+import { IonicModule } from "@ionic/angular";
+import { FooterComunidadComponent } from "../footer-comunidad/footer-comunidad.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-poner-comunicados',
@@ -13,13 +14,32 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
     FooterComponent,
     HeaderComponent,
     IonicModule,
-    FooterComunidadComponent
+    FooterComunidadComponent,
+    FormsModule
   ]
 })
-export class PonerComunicadosComponent  implements OnInit {
+export class PonerComunicadosComponent implements OnInit {
 
-  constructor() { }
+  textoComunicado: string = '';
+  mostrarToast: boolean = false;
+  mensajeToast: string = '';
+  colorToast: 'success' | 'danger' = 'success';
+
+  constructor() {}
 
   ngOnInit() {}
 
+  comunicar() {
+    if (!this.textoComunicado.trim()) {
+      this.mensajeToast = 'Debes introducir un comunicado.';
+      this.colorToast = 'danger';
+      this.mostrarToast = true;
+      return;
+    }
+
+    this.mensajeToast = 'Comunicado enviado correctamente.';
+    this.colorToast = 'success';
+    this.mostrarToast = true;
+    this.textoComunicado = '';
+  }
 }

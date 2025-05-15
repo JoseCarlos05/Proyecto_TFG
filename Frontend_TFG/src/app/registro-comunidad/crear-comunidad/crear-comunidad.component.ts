@@ -1,32 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import {IonicModule} from "@ionic/angular";
-import {Router} from "@angular/router";
-import {Login} from "../../modelos/Login";
-import {AuthService} from "../../servicios/auth.service";
-import {RegistrarComunidad} from "../../modelos/RegistrarComunidad";
-import {FormsModule} from "@angular/forms";
-import {Usuario} from "../../modelos/Usuario";
-import {Vecino} from "../../modelos/Vecino";
-import {jwtDecode} from "jwt-decode";
-import {TokenDataDTO} from "../../modelos/TokenData";
-import {UsuarioService} from "../../servicios/usuario.service";
-import {VecinoService} from "../../servicios/vecino.service";
+import { IonicModule } from "@ionic/angular";
+import { Router } from "@angular/router";
+import { Login } from "../../modelos/Login";
+import { AuthService } from "../../servicios/auth.service";
+import { RegistrarComunidad } from "../../modelos/RegistrarComunidad";
+import { FormsModule } from "@angular/forms";
+import { Usuario } from "../../modelos/Usuario";
+import { Vecino } from "../../modelos/Vecino";
+import { jwtDecode } from "jwt-decode";
+import { TokenDataDTO } from "../../modelos/TokenData";
+import { UsuarioService } from "../../servicios/usuario.service";
+import { VecinoService } from "../../servicios/vecino.service";
 
 @Component({
-    selector: 'app-crear-comunidad',
-    templateUrl: './crear-comunidad.component.html',
-    styleUrls: ['./crear-comunidad.component.scss'],
-    standalone: true,
+  selector: 'app-crear-comunidad',
+  templateUrl: './crear-comunidad.component.html',
+  styleUrls: ['./crear-comunidad.component.scss'],
+  standalone: true,
   imports: [
     IonicModule,
     FormsModule
   ]
 })
-export class CrearComunidadComponent  implements OnInit {
+export class CrearComunidadComponent implements OnInit {
 
-  private usuario!: Usuario
-  private vecino!: Vecino
-  correo?: string
+  private usuario!: Usuario;
+  private vecino!: Vecino;
+  correo?: string;
 
   registroComunidad: RegistrarComunidad = {
     nombre: "",
@@ -39,9 +39,14 @@ export class CrearComunidadComponent  implements OnInit {
     contrasena: "",
   }
 
-  constructor(private router: Router, private authService: AuthService, private usuarioService: UsuarioService, private vecinoService: VecinoService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private usuarioService: UsuarioService,
+    private vecinoService: VecinoService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
@@ -64,7 +69,7 @@ export class CrearComunidadComponent  implements OnInit {
       next: (usuario: Usuario) => {
         this.usuario = usuario;
         if (this.usuario && this.usuario.id) {
-          this.cargarVecino()
+          this.cargarVecino();
         }
       },
       error: (e) => {
@@ -73,26 +78,38 @@ export class CrearComunidadComponent  implements OnInit {
     });
   }
 
-
-  cargarVecino() {
+  cargarVecino(): void {
     if (this.usuario.id) {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
-          this.vecino = data
+          this.vecino = data;
         }
-      })
+      });
     }
   }
 
-  navigateToComunidades() {
+  async presentToast(id: string): Promise<void> {
+    const toast = document.getElementById(id) as any;
+    if (toast) {
+      await toast.present();
+    }
+  }
+
+  navigateToComunidades(): void {
     if (this.vecino) {
-      this.registroComunidad.idPresidente = this.vecino.id
+      this.registroComunidad.idPresidente = this.vecino.id;
 
       if (this.registroComunidad) {
         this.authService.registroComunidad(this.registroComunidad).subscribe({
-          next: () => this.router.navigate(['/comunidades']),
-          error: error => console.log(error),
-        })
+          next: () => {
+            this.presentToast("toastRegistroExitoso");
+            this.router.navigate(['/comunidades']);
+          },
+          error: error => {
+            console.log(error);
+            this.presentToast("toastError");
+          },
+        });
       }
     }
   }

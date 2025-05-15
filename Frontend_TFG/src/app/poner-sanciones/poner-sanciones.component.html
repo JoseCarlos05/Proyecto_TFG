@@ -4,11 +4,24 @@
 
   <div class="input-container" id="primerDiv">
     <ion-text>Sanciones</ion-text>
-    <ion-input type="text" placeholder="Introduce sanción"></ion-input>
+    <ion-input
+      type="text"
+      placeholder="Introduce sanción"
+      [(ngModel)]="sancionTexto">
+    </ion-input>
   </div>
 
+  <ion-button expand="block" class="guardar-boton" (click)="sancionar()">Sancionar</ion-button>
 
-  <ion-button expand="block" class="guardar-boton">Sancionar</ion-button>
+  <ion-toast
+    [isOpen]="mostrarToast"
+    [message]="mensajeToast"
+    [color]="colorToast"
+    duration="3000"
+    position="top"
+    (didDismiss)="mostrarToast = false">
+  </ion-toast>
+
 </ion-content>
 
 <app-footer-comunidad></app-footer-comunidad>

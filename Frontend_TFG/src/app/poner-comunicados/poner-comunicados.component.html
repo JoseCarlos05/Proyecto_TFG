@@ -4,11 +4,24 @@
 
   <div class="input-container" id="primerDiv">
     <ion-text>Comunicado</ion-text>
-    <ion-input type="text" placeholder="Introduce comunicado"></ion-input>
+    <ion-input
+      type="text"
+      placeholder="Introduce comunicado"
+      [(ngModel)]="textoComunicado">
+    </ion-input>
   </div>
 
+  <ion-button expand="block" class="guardar-boton" (click)="comunicar()">Comunicar</ion-button>
 
-  <ion-button expand="block" class="guardar-boton">Comunicar</ion-button>
+  <ion-toast
+    [isOpen]="mostrarToast"
+    [message]="mensajeToast"
+    [color]="colorToast"
+    duration="3000"
+    position="top"
+    (didDismiss)="mostrarToast = false">
+  </ion-toast>
+
 </ion-content>
 
 <app-footer-comunidad></app-footer-comunidad>

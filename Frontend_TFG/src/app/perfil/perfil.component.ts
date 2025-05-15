@@ -1,31 +1,31 @@
-  import { Component, OnInit } from '@angular/core';
-import {IonicModule} from "@ionic/angular";
-import {Router} from "@angular/router";
-import {CommonModule} from "@angular/common";
-import {FooterComponent} from "../footer/footer.component";
-import {HeaderComponent} from "../header/header.component";
-  import {jwtDecode} from "jwt-decode";
-  import {TokenDataDTO} from "../modelos/TokenData";
-  import {Usuario} from "../modelos/Usuario";
-  import {UsuarioService} from "../servicios/usuario.service";
-  import {VecinoService} from "../servicios/vecino.service";
-  import {ComunidadService} from "../servicios/comunidad.service";
-  import {Vecino} from "../modelos/Vecino";
-  import {Comunidad} from "../modelos/Comunidad";
-  import {FormsModule} from "@angular/forms";
-  import {RegistrarVecino} from "../modelos/RegistrarVecino";
+import { Component, OnInit } from '@angular/core';
+import { IonicModule } from "@ionic/angular";
+import { Router } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { FooterComponent } from "../footer/footer.component";
+import { HeaderComponent } from "../header/header.component";
+import { jwtDecode } from "jwt-decode";
+import { TokenDataDTO } from "../modelos/TokenData";
+import { Usuario } from "../modelos/Usuario";
+import { UsuarioService } from "../servicios/usuario.service";
+import { VecinoService } from "../servicios/vecino.service";
+import { ComunidadService } from "../servicios/comunidad.service";
+import { Vecino } from "../modelos/Vecino";
+import { Comunidad } from "../modelos/Comunidad";
+import { FormsModule } from "@angular/forms";
+import { RegistrarVecino } from "../modelos/RegistrarVecino";
 
 @Component({
-    selector: 'app-perfil',
-    templateUrl: './perfil.component.html',
-    styleUrls: ['./perfil.component.scss'],
+  selector: 'app-perfil',
+  templateUrl: './perfil.component.html',
+  styleUrls: ['./perfil.component.scss'],
   imports: [IonicModule, CommonModule, FooterComponent, HeaderComponent, FormsModule],
-    standalone: true,
+  standalone: true,
 })
-export class PerfilComponent  implements OnInit {
+export class PerfilComponent implements OnInit {
   usuario: Usuario = {} as Usuario;
   vecino: Vecino = {} as Vecino;
-  correo?: string
+  correo?: string;
   editable: boolean = false;
 
   editarVecino: RegistrarVecino = {
@@ -37,12 +37,19 @@ export class PerfilComponent  implements OnInit {
     dni: "",
     correo: this.usuario.correo,
     contrasena: this.usuario.contrasena,
-  }
+  };
 
-  constructor(private router: Router,
-              private usuarioService: UsuarioService,
-              private vecinoService: VecinoService,
-              private comunidadService: ComunidadService) { }
+  // Toast flags
+  toastSuccess = false;
+  toastError = false;
+  toastUsuarioError = false;
+
+  constructor(
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private vecinoService: VecinoService,
+    private comunidadService: ComunidadService
+  ) {}
 
   ngOnInit() {
     const token = sessionStorage.getItem('authToken');
@@ -65,11 +72,12 @@ export class PerfilComponent  implements OnInit {
       next: (usuario: Usuario) => {
         this.usuario = usuario;
         if (this.usuario && this.usuario.id) {
-          this.cargarVecino()
+          this.cargarVecino();
         }
       },
       error: (e) => {
         console.error("Error al cargar el usuario:", e);
+        this.toastUsuarioError = true;
       }
     });
   }
@@ -88,30 +96,27 @@ export class PerfilComponent  implements OnInit {
             dni: this.vecino.dni,
             correo: this.usuario.correo,
             contrasena: this.usuario.contrasena,
-          }
+          };
         }
-      })
+      });
     }
   }
-  visibleInput() {
-    if (!this.editable){
-      this.editable = true;
-    }else {
-      this.editable = false;
-    }
 
+  visibleInput() {
+    this.editable = !this.editable;
   }
+
   actualizarVecino(idVecino: number) {
     this.vecinoService.editarPerfil(this.editarVecino, idVecino).subscribe({
       next: () => {
         this.editable = false;
+        this.toastSuccess = true;
         this.cargarVecino();
       },
       error: () => {
+        this.toastError = true;
         console.log('Error al insertar código.');
       }
     });
   }
-
-
 }

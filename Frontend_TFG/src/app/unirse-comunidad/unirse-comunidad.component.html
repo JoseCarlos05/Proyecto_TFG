@@ -39,3 +39,43 @@
 
   <ion-button class="ion-button2" expand="block" (click)="insertarCodigoComunidad()">UNIRSE</ion-button>
 </ion-content>
+
+<ion-toast
+  id="toastUnionCorrecta"
+  message="Solicitud de unión enviada correctamente"
+  duration="3000"
+  position="top"
+  color="success"
+></ion-toast>
+
+<ion-toast
+  id="toastUnionError"
+  message="Error al solicitar la unión"
+  duration="3000"
+  position="top"
+  color="danger"
+></ion-toast>
+
+<ion-toast
+  id="toastCodigoCorrecto"
+  message="Código insertado correctamente"
+  duration="3000"
+  position="top"
+  color="success"
+></ion-toast>
+
+<ion-toast
+  id="toastCodigoError"
+  message="Error al insertar el código de comunidad"
+  duration="3000"
+  position="top"
+  color="danger"
+></ion-toast>
+
+<ion-toast
+  id="toastFaltanDatos"
+  message="Faltan datos para solicitar unión"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>

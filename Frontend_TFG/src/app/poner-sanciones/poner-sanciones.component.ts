@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
-import {HeaderComponent} from "../header/header.component";
-import {IonicModule} from "@ionic/angular";
+import { FooterComunidadComponent } from "../footer-comunidad/footer-comunidad.component";
+import { HeaderComponent } from "../header/header.component";
+import { IonicModule } from "@ionic/angular";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-poner-sanciones',
@@ -11,13 +12,32 @@ import {IonicModule} from "@ionic/angular";
   imports: [
     FooterComunidadComponent,
     HeaderComponent,
-    IonicModule
+    IonicModule,
+    FormsModule
   ]
 })
-export class PonerSancionesComponent  implements OnInit {
+export class PonerSancionesComponent implements OnInit {
 
-  constructor() { }
+  sancionTexto: string = '';
+  mostrarToast: boolean = false;
+  mensajeToast: string = '';
+  colorToast: 'success' | 'danger' | 'warning' = 'success';
+
+  constructor() {}
 
   ngOnInit() {}
 
+  sancionar() {
+    if (!this.sancionTexto.trim()) {
+      this.mensajeToast = 'Debes escribir una sanción.';
+      this.colorToast = 'danger';
+      this.mostrarToast = true;
+      return;
+    }
+
+    this.mensajeToast = 'Sanción añadida correctamente.';
+    this.colorToast = 'success';
+    this.mostrarToast = true;
+    this.sancionTexto = '';
+  }
 }

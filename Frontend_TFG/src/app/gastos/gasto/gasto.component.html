@@ -16,6 +16,11 @@
       <div>
         <span>Pagado: {{porcentajePagado}}% / {{gasto.total}}€</span>
       </div>
+      <div class="barra-progreso-container">
+        <div class="barra-progreso" [style.width.%]="porcentajePagado"></div>
+      </div>
+      <span class="porcentaje-texto">{{ porcentajePagado }}% pagado</span>
+
     </div>
     <div class="contenedor-boton">
       <button

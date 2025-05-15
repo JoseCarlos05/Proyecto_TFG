@@ -78,7 +78,10 @@ export const routes: Routes = [
     path: 'cancelado',
     loadComponent: () => import('./cancelado/cancelado.component').then(m => m.CanceladoComponent),
   },
-
+  {
+    path: 'lanzar-eleccion',
+    loadComponent: () => import('./pista-padel/pista-padel.component').then((m) => m.PistaPadelComponent),
+  },
   {
     path: 'notificaciones',
     loadComponent: () => import('./notificaciones/notificaciones.component').then((m) => m.NotificacionesComponent),

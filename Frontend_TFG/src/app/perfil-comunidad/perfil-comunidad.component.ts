@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
-import {IonicModule} from "@ionic/angular";
+import {IonicModule, ToastController} from "@ionic/angular";
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
@@ -33,7 +33,7 @@ import {Gasto} from "../modelos/Gasto";
     NgForOf
   ]
 })
-export class PerfilComunidadComponent  implements OnInit {
+export class PerfilComunidadComponent implements OnInit {
 
   private usuario?: Usuario
   vecino?: Vecino
@@ -44,18 +44,30 @@ export class PerfilComunidadComponent  implements OnInit {
   sancionesVecino: Sancion[] = []
   deudasVecino: Gasto[] = []
 
-  constructor(private router: Router,
-              private usuarioService: UsuarioService,
-              private vecinoService: VecinoService,
-              private viviendaService: ViviendaService,
-              private sancionService: SancionService,
-              private gastosService: GastosService) { }
+  constructor(
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private vecinoService: VecinoService,
+    private viviendaService: ViviendaService,
+    private sancionService: SancionService,
+    private gastosService: GastosService,
+    private toastController: ToastController
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
-    this.inicio()
+    this.inicio();
+  }
+
+  async mostrarToast(mensaje: string, color: 'success' | 'danger' | 'warning') {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top',
+      color: color
+    });
+    await toast.present();
   }
 
   inicio() {
@@ -67,10 +79,10 @@ export class PerfilComunidadComponent  implements OnInit {
         if (tokenDataDTO && tokenDataDTO.correo) {
           this.correo = tokenDataDTO.correo;
           this.cargarUsuario(this.correo);
-          this.cargarComunidad()
         }
       } catch (e) {
         console.error('Error al decodificar el token:', e);
+        this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
       }
     } else {
       this.router.navigate(['/']);
@@ -82,11 +94,11 @@ export class PerfilComunidadComponent  implements OnInit {
       next: (usuario: Usuario) => {
         this.usuario = usuario;
         if (this.usuario && this.usuario.id) {
-          this.cargarVecino()
+          this.cargarVecino();
         }
       },
-      error: (e) => {
-        console.error("Error al cargar el usuario:", e);
+      error: () => {
+        this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
       }
     });
   }
@@ -95,10 +107,13 @@ export class PerfilComunidadComponent  implements OnInit {
     if (this.usuario) {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
-          this.vecino = data
-          this.cargarComunidad()
+          this.vecino = data;
+          this.cargarComunidad();
+        },
+        error: () => {
+          this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
         }
-      })
+      });
     }
   }
 
@@ -106,133 +121,128 @@ export class PerfilComunidadComponent  implements OnInit {
     const comunidadStorage = sessionStorage.getItem('comunidad');
     if (comunidadStorage) {
       this.comunidad = JSON.parse(comunidadStorage);
-      this.cargarViviendas()
-      this.cargarSanciones()
-      this.cargarGastos()
+      this.cargarViviendas();
+      this.cargarSanciones();
+      this.cargarGastos();
+      this.mostrarToast('Datos cargados correctamente.', 'success');
+    } else {
+      this.mostrarToast('No se encontraron datos para mostrar.', 'warning');
     }
   }
 
   cargarSanciones() {
     if (this.vecino) {
       this.sancionService.listarSancionesVecino(this.comunidad.id, this.vecino.id).subscribe({
-        next: data => this.sancionesVecino = data
-      })
+        next: data => this.sancionesVecino = data,
+        error: () => {
+          this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
+        }
+      });
     }
   }
 
   cargarViviendas() {
     this.viviendaService.listarViviendas(this.comunidad.id).subscribe({
       next: data => {
-        this.viviendas = data
-        this.listarResidentes()
+        this.viviendas = data;
+        this.listarResidentes();
+      },
+      error: () => {
+        this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
       }
-    })
+    });
   }
 
   cargarGastos() {
-    this.deudasVecino = []
+    this.deudasVecino = [];
     this.gastosService.listarGastos(this.comunidad.id).subscribe({
       next: data => {
         for (const gasto of data) {
           if (this.vecino && !gasto.pagados.includes(this.vecino?.id)) {
-            this.deudasVecino.push(gasto)
+            this.deudasVecino.push(gasto);
           }
         }
+      },
+      error: () => {
+        this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
       }
-    })
+    });
   }
 
   listarResidentes() {
-    this.residentesEnPropiedad = []
-    let resultado = []
+    this.residentesEnPropiedad = [];
+    let resultado = [];
     for (const vivienda of this.propiedadesVecino()) {
       this.viviendaService.listarResidentes(vivienda.id).subscribe({
         next: data => {
           for (const vecino of data) {
             if (this.vecino?.id !== vecino.id) {
-              resultado.push(vecino)
+              resultado.push(vecino);
             }
           }
           this.residentesEnPropiedad = resultado.filter((obj, index, self) =>
-            index === self.findIndex(o => o.id === obj.id))
+            index === self.findIndex(o => o.id === obj.id));
+        },
+        error: () => {
+          this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
         }
-      })
+      });
     }
   }
 
   propiedadesVecino(): Vivienda[] {
-    let listaViviendas: Vivienda[] = []
+    let listaViviendas: Vivienda[] = [];
     if (this.viviendas) {
       for (const vivienda of this.viviendas) {
-        if (this.vecino) {
-          if (vivienda.idPropietario === this.vecino.id) {
-            listaViviendas.push(vivienda)
-          }
+        if (this.vecino && vivienda.idPropietario === this.vecino.id) {
+          listaViviendas.push(vivienda);
         }
       }
     }
-    return listaViviendas
+    return listaViviendas;
   }
 
   residenciasVecino(): Vivienda[] {
-    let listaViviendas: Vivienda[] = []
+    let listaViviendas: Vivienda[] = [];
     if (this.viviendas) {
       for (const vivienda of this.viviendas) {
         if (this.vecino && vivienda.idVecinos) {
-          if (vivienda.idVecinos.includes(this.vecino.id) && !(vivienda.idPropietario === this.vecino.id)) {
-            listaViviendas.push(vivienda)
+          if (vivienda.idVecinos.includes(this.vecino.id) && vivienda.idPropietario !== this.vecino.id) {
+            listaViviendas.push(vivienda);
           }
         }
       }
     }
-    return listaViviendas
+    return listaViviendas;
   }
 
   comprobarIdentidad(): string {
-    const propiedades = this.propiedadesVecino().length
-    const residencias = this.residenciasVecino().length
+    const propiedades = this.propiedadesVecino().length;
+    const residencias = this.residenciasVecino().length;
 
     if (this.vecino) {
       if (this.vecino.id === this.comunidad.idPresidente) {
-        return "Presidente de la comunidad"
-
+        return "Presidente de la comunidad";
       } else if (propiedades > 0) {
-        let listaViviendas = this.propiedadesVecino()
-
+        const lista = this.propiedadesVecino();
         if (propiedades === 1) {
-          return "Propietario de la vivienda " + listaViviendas[0].direccionPersonal
+          return "Propietario de la vivienda " + lista[0].direccionPersonal;
         } else {
-          let texto = "Propietario de las viviendas: "
-          for (let i = 0; i < listaViviendas.length; i++) {
-            texto += listaViviendas[i].direccionPersonal;
-            if (i < listaViviendas.length - 1) {
-              texto += ", ";
-            }
-          }
-          return texto
+          return "Propietario de las viviendas: " + lista.map(v => v.direccionPersonal).join(", ");
         }
-
       } else {
-        let listaViviendas = this.residenciasVecino()
-
+        const lista = this.residenciasVecino();
         if (residencias === 1) {
-          return "Residiendo en la vivienda " + listaViviendas[0].direccionPersonal
+          return "Residiendo en la vivienda " + lista[0].direccionPersonal;
         } else {
-          let texto = "Residiendo en las viviendas: "
-          for (let i = 0; i < listaViviendas.length; i++) {
-            texto += listaViviendas[i].direccionPersonal;
-            if (i < listaViviendas.length - 1) {
-              texto += ", ";
-            }
-          }
-          return texto
+          return "Residiendo en las viviendas: " + lista.map(v => v.direccionPersonal).join(", ");
         }
       }
     }
-    return ""
+    return "";
   }
 
   irGasto(idGasto: number) {
-    this.router.navigate([`/comunidad/gastos/gasto/${idGasto}`])
+    this.router.navigate([`/comunidad/gastos/gasto/${idGasto}`]);
   }
 }
