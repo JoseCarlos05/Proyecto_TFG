@@ -190,6 +190,4 @@ export class VotacionComponent  implements OnInit {
     });
     await alert.present();
   }
-
-
 }

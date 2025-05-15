@@ -10,6 +10,10 @@
       </div>
     </div>
   </div>
+
+  <div class="div-sin" *ngIf="listaGastos.length === 0">
+    <span>No hay gastos registrados en tu comunidad.</span>
+  </div>
 </ion-content>
 
 <app-footer-comunidad></app-footer-comunidad>

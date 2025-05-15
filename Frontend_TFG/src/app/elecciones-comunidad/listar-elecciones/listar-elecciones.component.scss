@@ -8,8 +8,26 @@
 
   p {
     color: white;
-    margin: 0 auto 10px;
     font-size: 18px;
+    margin: 0 auto 15px;
+  }
+
+  ion-grid {
+    padding: 0;
+    margin: 0;
+
+    ion-row:first-child {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .icono-cerrar {
+    margin-right: 0;
+    margin-left: auto;
+    width: 20px;
+    cursor: pointer;
+    margin-top: 0;
   }
 
   .eleccion-info {

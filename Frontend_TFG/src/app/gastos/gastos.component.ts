@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {Comunidad} from "../modelos/Comunidad";
 import {GastosService} from "../servicios/gastos.service";
 import {Gasto} from "../modelos/Gasto";
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-gastos',
@@ -20,7 +20,8 @@ import {NgClass, NgForOf} from "@angular/common";
     IonicModule,
     FooterComunidadComponent,
     NgForOf,
-    NgClass
+    NgClass,
+    NgIf
   ]
 })
 export class GastosComponent  implements OnInit {
