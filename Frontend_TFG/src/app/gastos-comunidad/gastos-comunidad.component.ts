@@ -17,13 +17,9 @@ import {AnadirGastoComponent} from "./anadir-gasto/anadir-gasto.component";
     styleUrls: ['./gastos-comunidad.component.scss'],
     standalone: true,
   imports: [
-    ComunicadosComponent,
-    FooterComunidadComponent,
     HeaderComponent,
-    HeaderComunidadComponent,
     IonicModule,
     NgIf,
-    SancionesComponent,
     MenuInferiorComunidadComponent,
     FormsModule,
     AnadirGastoFormularioComponent,

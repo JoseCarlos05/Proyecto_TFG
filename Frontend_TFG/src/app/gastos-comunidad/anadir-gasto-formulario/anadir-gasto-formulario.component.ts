@@ -21,9 +21,7 @@ import {FormsModule} from "@angular/forms";
     styleUrls: ['./anadir-gasto-formulario.component.scss'],
     standalone: true,
   imports: [
-    HeaderComponent,
     IonicModule,
-    MenuInferiorComunidadComponent,
     FormsModule
   ]
 })

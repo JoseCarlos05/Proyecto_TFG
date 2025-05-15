@@ -38,7 +38,7 @@
 
   </ion-grid>
 
-  <div class="div-sin" *ngIf="residentesEnPropiedad.length === 0">
+  <div class="div-sin" *ngIf="residentesEnPropiedad.length === 0 && propiedadesVecino().length !== 0">
     <span>Actualmente no hay residentes en ninguna de tus propiedades.</span>
   </div>
 

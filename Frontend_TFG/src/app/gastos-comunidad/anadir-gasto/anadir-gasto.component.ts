@@ -12,11 +12,7 @@ import {Route, Router} from "@angular/router";
     styleUrls: ['./anadir-gasto.component.scss'],
     standalone: true,
   imports: [
-    FooterComunidadComponent,
-    HeaderComponent,
-    HeaderComunidadComponent,
     IonicModule,
-    MenuInferiorComunidadComponent
   ]
 })
 export class AnadirGastoComponent  implements OnInit {

@@ -10,7 +10,6 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
   styleUrls: ['./poner-comunicados.component.scss'],
   standalone: true,
   imports: [
-    FooterComponent,
     HeaderComponent,
     IonicModule,
     FooterComunidadComponent

@@ -25,9 +25,7 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
   styleUrls: ['./info-vivienda.component.scss'],
   standalone: true,
   imports: [
-    FooterComunidadComponent,
     HeaderComponent,
-    HeaderComunidadComponent,
     IonicModule,
     NgForOf,
     NgIf,

@@ -85,6 +85,7 @@ ion-input {
   border: 2px solid #0E8008;
   border-radius: 10px;
   --padding-start: 15px;
+  --padding-end: 15px;
   --placeholder-color: #0E8008;
   color: #0E8008;
   margin-bottom: 25px;
@@ -99,6 +100,11 @@ ion-input {
   margin: 20px auto;
   font-weight: bold;
   border-radius: 25%;
-
 }
 
+ion-datetime {
+  margin-block: 15px;
+  --background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #0E8008;
+}

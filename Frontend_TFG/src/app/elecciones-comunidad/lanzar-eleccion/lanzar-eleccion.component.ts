@@ -25,10 +25,7 @@ import {FormsModule} from "@angular/forms";
     styleUrls: ['./lanzar-eleccion.component.scss'],
     standalone: true,
   imports: [
-    FooterComunidadComponent,
-    HeaderComponent,
     IonicModule,
-    MenuInferiorComunidadComponent,
     FormsModule
   ]
 })
@@ -108,7 +105,6 @@ export class LanzarEleccionComponent  implements OnInit {
 
     this.eleccionService.crearEleccion(this.crearEleccion).subscribe({
       next: () => {
-        console.log(this.crearEleccion);
         const toast = document.getElementById("exitoCreacion") as any;
         toast.present();
         this.crearEleccion = {
