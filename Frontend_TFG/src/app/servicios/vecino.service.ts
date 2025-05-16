@@ -27,8 +27,8 @@ export class VecinoService {
     return this.http.get<Vecino>(`${this.apiUrl}/vecino/ver/vecino/${idVecino}`, options)
   }
 
-  editarPerfil(vecino: EditarVecinoDTO, idVecino: number): Observable<any> {
-    const options = this.comunService.autorizarPeticion();
-    return this.http.put(`${this.apiUrl}/vecino/actualizar/${idVecino}`, vecino, options);
+  editarPerfil(formData: FormData, idVecino: number): Observable<any> {
+    const options = this.comunService.autorizarPeticionFormData();
+    return this.http.put(`${this.apiUrl}/vecino/actualizar/${idVecino}`, formData, options);
   }
 }

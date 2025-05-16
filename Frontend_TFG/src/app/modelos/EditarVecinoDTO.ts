@@ -5,4 +5,5 @@ export interface EditarVecinoDTO {
   fechaNacimiento: string;
   numeroCuenta: string;
   dni: string;
+  fotoPerfil: string;
 }

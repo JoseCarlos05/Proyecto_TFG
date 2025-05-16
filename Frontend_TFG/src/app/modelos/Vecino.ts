@@ -6,4 +6,5 @@ export interface Vecino {
   fechaNacimiento: string;
   numeroCuenta: string;
   dni: string;
+  fotoPerfil?: string
 }

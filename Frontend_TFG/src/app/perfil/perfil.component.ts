@@ -1,7 +1,7 @@
   import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {FooterComponent} from "../footer/footer.component";
 import {HeaderComponent} from "../header/header.component";
   import {jwtDecode} from "jwt-decode";
@@ -15,15 +15,18 @@ import {HeaderComponent} from "../header/header.component";
   import {FormsModule} from "@angular/forms";
   import {RegistrarVecino} from "../modelos/RegistrarVecino";
   import {EditarVecinoDTO} from "../modelos/EditarVecinoDTO";
+  import {environment} from "../../environments/environment";
 
 @Component({
     selector: 'app-perfil',
     templateUrl: './perfil.component.html',
     styleUrls: ['./perfil.component.scss'],
-  imports: [IonicModule, CommonModule, FooterComponent, HeaderComponent, FormsModule],
+  imports: [IonicModule, CommonModule, FooterComponent, HeaderComponent, FormsModule, NgOptimizedImage],
     standalone: true,
 })
 export class PerfilComponent  implements OnInit {
+  baseUrl: string = environment.apiUrl;
+
   usuario: Usuario = {} as Usuario;
   vecino: Vecino = {} as Vecino;
   correo?: string
@@ -35,8 +38,12 @@ export class PerfilComponent  implements OnInit {
     telefono: "",
     fechaNacimiento: "",
     numeroCuenta: "",
-    dni: ""
+    dni: "",
+    fotoPerfil: ""
   }
+
+  foto: File | null = null;
+
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,
@@ -84,7 +91,8 @@ export class PerfilComponent  implements OnInit {
             telefono: this.vecino.telefono,
             fechaNacimiento: this.vecino.fechaNacimiento,
             numeroCuenta: this.vecino.numeroCuenta,
-            dni: this.vecino.dni
+            dni: this.vecino.dni,
+            fotoPerfil: this.vecino?.fotoPerfil || ""
           }
         }
       })
@@ -99,16 +107,51 @@ export class PerfilComponent  implements OnInit {
 
   }
   actualizarVecino(idVecino: number) {
-    this.vecinoService.editarPerfil(this.editarVecino, idVecino).subscribe({
-      next: () => {
+    const formData = new FormData();
+
+    const dto = {
+      nombre: this.editarVecino.nombre,
+      apellidos: this.editarVecino.apellidos,
+      telefono: this.editarVecino.telefono,
+      fechaNacimiento: this.editarVecino.fechaNacimiento,
+      numeroCuenta: this.editarVecino.numeroCuenta,
+      dni: this.editarVecino.dni,
+      fotoPerfil: this.editarVecino.fotoPerfil
+    };
+
+    formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+
+    if (this.foto) {
+      formData.append('fotoPerfil', this.foto);
+    }
+
+    this.vecinoService.editarPerfil(formData, this.vecino.id).subscribe({
+      next: res => {
+        console.log('Actualizado correctamente');
         this.editable = false;
-        this.cargarVecino();
+        this.cargarVecino()
       },
-      error: () => {
-        console.log('Error al insertar código.');
+      error: err => {
+        console.error('Error al actualizar', err);
       }
     });
   }
 
+  seleccionarFoto(event: any): void {
+    if (event.target.files && event.target.files.length > 0) {
+      this.foto = event.target.files[0];
+      // @ts-ignore
+      console.log('Foto seleccionada:', this.foto.name);
+    }
+  }
 
+  getImageUrlVecino(vecino: Vecino): string {
+    if (!vecino.fotoPerfil || vecino.fotoPerfil.trim() === '') {
+      return 'assets/icon/perfiles/26.png';
+    } else if (vecino.fotoPerfil.startsWith('http')) {
+      return vecino.fotoPerfil;
+    } else {
+      return `${this.baseUrl}${vecino.fotoPerfil}`;
+    }
+  }
 }

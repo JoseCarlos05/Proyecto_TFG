@@ -7,7 +7,7 @@ ion-toolbar {
 
 ion-content {
   --background: #E7F4E7;
-  height: 67%;
+  padding-top: 10px;
 }
 
 .logo {
@@ -40,15 +40,15 @@ ion-content {
 
 .contenido {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .imagen-redondeada {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -74,7 +74,7 @@ ion-content {
   flex-direction: column;
   width: 80%;
   max-width: 400px;
-  margin: 10px auto;
+  margin: 5px auto;
 }
 
 ion-text {
@@ -92,7 +92,9 @@ ion-input {
   --padding-start: 15px;
   --placeholder-color: #0E8008;
   color: #0E8008;
+  margin-bottom: 15px;
 }
+
 
 .guardar-boton {
   --background: #57BF48;
@@ -103,4 +105,20 @@ ion-input {
   margin: 20px auto;
   font-weight: bold;
   border-radius: 10px;
+}
+
+
+input[type="file"]::file-selector-button {
+  font-size: 16px;
+}
+
+input[type="file"] {
+  font-size: 0;
+}
+
+@media (min-width: 768px) {
+  .imagen-redondeada {
+    width: 120px;
+    height: 120px;
+  }
 }

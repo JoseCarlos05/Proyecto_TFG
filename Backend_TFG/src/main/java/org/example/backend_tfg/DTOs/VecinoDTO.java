@@ -1,5 +1,6 @@
 package org.example.backend_tfg.DTOs;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ public class VecinoDTO {
     private LocalDate fechaNacimiento;
     private String numeroCuenta;
     private String dni;
+    private String fotoPerfil;
 }

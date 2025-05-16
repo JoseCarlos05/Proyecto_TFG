@@ -8,33 +8,47 @@ import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
 import org.example.backend_tfg.Modelos.*;
 import org.example.backend_tfg.Repositorios.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
-@AllArgsConstructor
 public class VecinoServicio {
 
-    private IVecinoRepositorio iVecinoRepositorio;
+    private final IVecinoRepositorio iVecinoRepositorio;
 
-    private IUsuarioRepositorio iUsuarioRepositorio;
+    private final IUsuarioRepositorio iUsuarioRepositorio;
 
-    private IViviendaRepositorio iViviendaRepositorio;
+    private final IViviendaRepositorio iViviendaRepositorio;
 
-    private IComunidadRepositorio iComunidadRepositorio;
+    private final IComunidadRepositorio iComunidadRepositorio;
 
-    private ISolicitudRepositorio iSolicitudRepositorio;
+    private final ISolicitudRepositorio iSolicitudRepositorio;
 
-    private final PasswordEncoder passwordEncoder;
+    @Value("${upload.dir}")
+    private String uploadDir;
+
+    public VecinoServicio(IVecinoRepositorio iVecinoRepositorio, IUsuarioRepositorio iUsuarioRepositorio,
+                          IViviendaRepositorio iViviendaRepositorio, IComunidadRepositorio iComunidadRepositorio,
+                          ISolicitudRepositorio iSolicitudRepositorio) {
+        this.iVecinoRepositorio = iVecinoRepositorio;
+        this.iUsuarioRepositorio = iUsuarioRepositorio;
+        this.iViviendaRepositorio = iViviendaRepositorio;
+        this.iComunidadRepositorio = iComunidadRepositorio;
+        this.iSolicitudRepositorio = iSolicitudRepositorio;
+    }
 
     public VecinoDTO buscarVecinoID(Integer id){
         Vecino vecino = iVecinoRepositorio.findById(id)
@@ -89,10 +103,37 @@ public class VecinoServicio {
             LocalDate fechaNacimiento = LocalDate.parse(dto.getFechaNacimiento(), formatter);
             vecino.setFechaNacimiento(fechaNacimiento);
         }
+        if (dto.getFotoPerfil() != null){
+            vecino.setFotoPerfil(dto.getFotoPerfil());
+        }
 
         iVecinoRepositorio.save(vecino);
         iUsuarioRepositorio.save(usuario);
 
+    }
+
+    public String guardarFoto(MultipartFile foto) {
+        if (foto.isEmpty()) {
+            return null;
+        }
+        String extension = getFileExtension(foto.getOriginalFilename());
+        String filename = UUID.randomUUID().toString() + "." + extension;
+        Path path = Paths.get(uploadDir, filename);
+        try {
+            Files.createDirectories(path.getParent());
+            Files.copy(foto.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            return "/uploads/" + filename;
+        } catch (IOException e) {
+            throw new RuntimeException("Error al guardar la imagen", e);
+        }
+    }
+
+    private String getFileExtension(String filename) {
+        if (filename == null) {
+            return "";
+        }
+        int lastIndex = filename.lastIndexOf(".");
+        return (lastIndex == -1) ? "" : filename.substring(lastIndex + 1);
     }
 
 
@@ -150,7 +191,9 @@ public class VecinoServicio {
         dtoNuevo.setTelefono(vecino.getTelefono());
         dtoNuevo.setFechaNacimiento(vecino.getFechaNacimiento());
         dtoNuevo.setNumeroCuenta(vecino.getNumCuenta());
-
+        if (vecino.getFotoPerfil() != null){
+            dtoNuevo.setFotoPerfil(vecino.getFotoPerfil());
+        }
         return dtoNuevo;
     }
 }

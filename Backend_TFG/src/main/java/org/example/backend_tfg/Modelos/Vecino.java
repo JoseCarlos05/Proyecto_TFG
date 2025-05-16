@@ -40,6 +40,9 @@ public class Vecino {
     @Column(name = "dni", nullable = false)
     private String dni;
 
+    @Column(name = "fotoPerfil")
+    private String fotoPerfil;
+
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "vecinos_viviendas",
             joinColumns = {@JoinColumn(name = "idVecino", nullable = false)} ,

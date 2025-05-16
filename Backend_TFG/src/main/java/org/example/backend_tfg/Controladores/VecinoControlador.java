@@ -10,8 +10,10 @@ import org.example.backend_tfg.Modelos.Vecino;
 import org.example.backend_tfg.Seguridad.UsuarioAdapter;
 import org.example.backend_tfg.Servicios.UsuarioServicio;
 import org.example.backend_tfg.Servicios.VecinoServicio;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,10 +41,20 @@ public class VecinoControlador {
         return vecinoServicio.buscarVecinoUsuarioID(idUsuario);
     }
 
-    @PutMapping("/actualizar/{idVecino}")
-    public void actualizarVecino(@RequestBody EditarVecinoDTO dto, @PathVariable Integer idVecino){
+    @PutMapping(value = "/actualizar/{idVecino}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void actualizarVecino(
+            @RequestPart("dto") EditarVecinoDTO dto,
+            @RequestPart(value = "fotoPerfil", required = false) MultipartFile fotoPerfil,
+            @PathVariable Integer idVecino) {
+
+        if (fotoPerfil != null && !fotoPerfil.isEmpty()) {
+            String urlFoto = vecinoServicio.guardarFoto(fotoPerfil);
+            dto.setFotoPerfil(urlFoto);
+        }
+
         vecinoServicio.actualizarVecino(dto, idVecino);
     }
+
 
     @PostMapping("/solicitar/{idVivienda}/{idComunidad}/{idVecino}")
     public void solicitarIngresoComunidad(@PathVariable Integer idVivienda, @PathVariable Integer idComunidad,
