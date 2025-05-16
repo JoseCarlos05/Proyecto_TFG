@@ -42,5 +42,7 @@ public class Gasto {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Comunidad comunidad;
 }

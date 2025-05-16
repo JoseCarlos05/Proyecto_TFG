@@ -110,12 +110,14 @@ public class GastoServicio {
 
         if (numeroViviendas > 0){
             totalPorVecino = gasto.getTotal() /numeroViviendas;
+
+            gasto.getPagados().add(vecino);
+            vecino.getGastos().add(gasto);
+            gasto.setCantidadPagada(gasto.getCantidadPagada() + totalPorVecino);
+
+            iGastoRepositorio.save(gasto);
+            iVecinoRepositorio.save(vecino);
         }
-
-        gasto.getPagados().add(vecino);
-        gasto.setCantidadPagada(gasto.getCantidadPagada() + totalPorVecino);
-
-        iGastoRepositorio.save(gasto);
     }
 
 

@@ -18,6 +18,7 @@ import {UsuarioService} from "../../servicios/usuario.service";
 import {VecinoService} from "../../servicios/vecino.service";
 import {NgIf} from "@angular/common";
 import {filter} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-gasto',

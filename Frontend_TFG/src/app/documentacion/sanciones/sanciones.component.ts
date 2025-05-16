@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {Usuario} from "../../modelos/Usuario";
 import {Vecino} from "../../modelos/Vecino";
-import {Comunicado} from "../../modelos/Comunicado";
 import {Comunidad} from "../../modelos/Comunidad";
 import {Sancion} from "../../modelos/Sancion";
 import {SancionService} from "../../servicios/sancion.service";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../../modelos/TokenData";
 import {UsuarioService} from "../../servicios/usuario.service";
@@ -17,10 +16,11 @@ import {VecinoService} from "../../servicios/vecino.service";
   templateUrl: './sanciones.component.html',
   styleUrls: ['./sanciones.component.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    NgForOf
-  ]
+    imports: [
+        IonicModule,
+        NgForOf,
+        NgIf
+    ]
 })
 export class SancionesComponent  implements OnInit {
   private usuario!: Usuario

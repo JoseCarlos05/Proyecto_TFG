@@ -1,4 +1,7 @@
 <ion-content>
+  <div class="div-sin" *ngIf="listaComunicado.length === 0">
+    <span>No hay comunicados publicados en tu comunidad.</span>
+  </div>
   <ion-grid>
     <ion-row *ngFor="let comunicado of listaComunicado">
       <div>

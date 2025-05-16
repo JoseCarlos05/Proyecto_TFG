@@ -31,11 +31,14 @@ export class GastosComponent  implements OnInit {
   constructor(private router: Router,
               private gastosService: GastosService) { }
 
+  ionViewWillEnter() {
+    this.listarGastos()
+  }
+
   ngOnInit() {
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
-      this.listarGastos()
     }
   }
 

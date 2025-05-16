@@ -40,6 +40,10 @@ ion-content {
   --keyboard-offset: none !important;
 }
 
+ion-toast {
+  color: white;
+}
+
 .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="8px"]::before,
 .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="8px"]::before {
   content: "Pequeño";

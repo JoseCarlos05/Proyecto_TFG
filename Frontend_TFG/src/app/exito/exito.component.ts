@@ -36,7 +36,7 @@ export class ExitoComponent implements OnInit {
   }
 
   ngOnInit() {
-    const gasto = sessionStorage.getItem('gastoStorage');
+    const gasto = sessionStorage.getItem('gasto');
     if (gasto) {
       this.gastoObjeto = JSON.parse(gasto);
     }
@@ -89,7 +89,7 @@ export class ExitoComponent implements OnInit {
     this.gastoService.marcarPagado(this.marcarPagado).subscribe({
       next: () => {
         console.log(this.marcarPagado)
-        sessionStorage.removeItem('gastoStorage');
+        sessionStorage.removeItem('gasto');
       },
       error: () => {
         console.log('Error al insertar codigo.');

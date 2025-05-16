@@ -3,7 +3,7 @@ import {IonicModule} from "@ionic/angular";
 import {Comunidad} from "../../modelos/Comunidad";
 import {NavigationEnd, Router} from "@angular/router";
 import {ComunicadoService} from "../../servicios/comunicado.service";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Comunicado} from "../../modelos/Comunicado";
 import {filter} from "rxjs";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
@@ -14,11 +14,12 @@ import {QuillModule} from "ngx-quill";
     templateUrl: './comunicados.component.html',
     styleUrls: ['./comunicados.component.scss'],
     standalone: true,
-  imports: [
-    IonicModule,
-    NgForOf,
-    QuillModule
-  ]
+    imports: [
+        IonicModule,
+        NgForOf,
+        QuillModule,
+        NgIf
+    ]
 })
 export class ComunicadosComponent  implements OnInit {
 
