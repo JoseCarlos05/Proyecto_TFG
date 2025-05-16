@@ -2,15 +2,19 @@
 
 <ion-content>
   <ion-segment [(ngModel)]="seccion" mode="ios">
-    <ion-segment-button value="anadir-gasto-formulario">
-      <ion-label>Añadir gasto</ion-label>
-    </ion-segment-button>
     <ion-segment-button value="anadir-gasto">
+      <ion-label>Añadir</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="gastos">
+      <ion-label>Gastos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="deudores">
       <ion-label>Deudores</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <app-anadir-gasto-formulario *ngIf="seccion === 'anadir-gasto-formulario'"></app-anadir-gasto-formulario>
   <app-anadir-gasto *ngIf="seccion === 'anadir-gasto'"></app-anadir-gasto>
+  <app-gastos *ngIf="seccion === 'gastos'"></app-gastos>
+  <app-deudores *ngIf="seccion === 'deudores'"></app-deudores>
 </ion-content>
 
 <app-menu-inferior-comunidad></app-menu-inferior-comunidad>
