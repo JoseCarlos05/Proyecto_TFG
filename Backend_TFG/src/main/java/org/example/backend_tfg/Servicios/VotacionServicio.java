@@ -49,4 +49,14 @@ public class VotacionServicio {
 
         iEleccionRepositorio.save(eleccion);
     }
+
+    public boolean haVotado(Integer idVecino, Integer idEleccion) {
+        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+        Eleccion eleccion = iEleccionRepositorio.findById(idEleccion)
+                .orElseThrow(() -> new RuntimeException("No existe una elección con este ID."));
+
+        return iVotacionRepositorio.existsByVecinoAndEleccion(vecino, eleccion);
+    }
+
 }

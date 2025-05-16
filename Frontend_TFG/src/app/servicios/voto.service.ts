@@ -19,4 +19,9 @@ export class VotoService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/vecino/votar`, voto, options);
   }
+
+  verificacionVoto(idVecino: number, idEleccion: number): Observable<boolean> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<boolean>(`${this.apiUrl}/vecino/verificar/voto/${idVecino}/${idEleccion}`, options);
+  }
 }

@@ -69,9 +69,6 @@ export class VotacionComponent  implements OnInit {
         console.error('Error al decodificar el token:', e);
       }
     }
-    const yaVotado = sessionStorage.getItem(`voto-eleccion-${this.idEleccion}`);
-    this.yaHaVotado = yaVotado === 'true';
-
   }
 
   cargarUsuario(correo: string): void {
@@ -93,6 +90,7 @@ export class VotacionComponent  implements OnInit {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
           this.vecino = data;
+          this.verificarSiYaHaVotado()
         }
       })
     }
@@ -125,7 +123,6 @@ export class VotacionComponent  implements OnInit {
         console.log('Voto enviado:', this.voto);
         this.votoEnCurso = false;
         this.yaHaVotado = true;
-        sessionStorage.setItem(`voto-eleccion-${this.idEleccion}`, 'true');
       },
       error: (e) => {
         console.error('Error al votar:', e);
@@ -190,6 +187,20 @@ export class VotacionComponent  implements OnInit {
     });
     await alert.present();
   }
+
+  verificarSiYaHaVotado() {
+    if (this.vecino?.id && this.idEleccion) {
+      this.votoService.verificacionVoto(this.vecino.id, this.idEleccion).subscribe({
+        next: (yaVoto: boolean) => {
+          this.yaHaVotado = yaVoto;
+        },
+        error: err => {
+          console.error('Error al verificar si ya ha votado', err);
+        }
+      });
+    }
+  }
+
 
 
 }
