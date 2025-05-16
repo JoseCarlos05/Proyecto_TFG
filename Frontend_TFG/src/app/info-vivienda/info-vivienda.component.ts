@@ -3,7 +3,7 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
 import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
 import {IonicModule} from "@ionic/angular";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Usuario} from "../modelos/Usuario";
 import {Comunidad} from "../modelos/Comunidad";
 import {CrearGasto} from "../modelos/CrearGasto";
@@ -18,6 +18,7 @@ import {ViviendaService} from "../servicios/vivienda.service";
 import {Vivienda} from "../modelos/Vivienda";
 import {VecinoService} from "../servicios/vecino.service";
 import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-info-vivienda',
@@ -31,14 +32,18 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
     IonicModule,
     NgForOf,
     NgIf,
-    MenuInferiorComunidadComponent
+    MenuInferiorComunidadComponent,
+    NgOptimizedImage
   ]
 })
 export class InfoViviendaComponent implements OnInit {
+  baseUrl: string = environment.apiUrl;
+
   correo?: string;
   private usuario!: Usuario
   private comunidad!: Comunidad
   vivienda!: Vivienda
+  vecinoFoto: Vecino = {} as Vecino;
 
   vecino!: Vecino;
   idVivienda!: number;
@@ -134,6 +139,7 @@ export class InfoViviendaComponent implements OnInit {
     this.viviendaService.verPropietario(this.vivienda.idPropietario).subscribe({
       next: data => {
         this.vecino = data;
+        this.vecinoFoto = data;
         console.log(this.vecino)
       }
     })
@@ -153,6 +159,16 @@ export class InfoViviendaComponent implements OnInit {
       }
     }
     return ""
+  }
+
+  getImageUrlVecino(vecino: Vecino): string {
+    if (!vecino.fotoPerfil || vecino.fotoPerfil.trim() === '') {
+      return 'assets/icon/perfiles/26.png';
+    } else if (vecino.fotoPerfil.startsWith('http')) {
+      return vecino.fotoPerfil;
+    } else {
+      return `${this.baseUrl}${vecino.fotoPerfil}`;
+    }
   }
 
 }
