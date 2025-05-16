@@ -51,6 +51,12 @@ public class Vecino {
     @ToString.Exclude
     private Set<Vivienda> viviendas = new HashSet<>(0);
 
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(name = "vecinos_gastos",
+            joinColumns = {@JoinColumn(name = "idVecino", nullable = false)} ,
+            inverseJoinColumns ={@JoinColumn(name = "idGasto", nullable = false)})
+    private Set<Gasto> gastos = new HashSet<>(0);
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

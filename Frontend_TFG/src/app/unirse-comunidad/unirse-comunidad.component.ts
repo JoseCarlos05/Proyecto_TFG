@@ -12,7 +12,7 @@ import {Usuario} from "../modelos/Usuario";
 import {UsuarioService} from "../servicios/usuario.service";
 import {VecinoService} from "../servicios/vecino.service";
 import {Comunidad} from "../modelos/Comunidad";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Vivienda} from "../modelos/Vivienda";
 import {ViviendaService} from "../servicios/vivienda.service";
 
@@ -24,7 +24,8 @@ import {ViviendaService} from "../servicios/vivienda.service";
   imports: [
     IonicModule,
     FormsModule,
-    NgForOf
+    NgForOf,
+    NgIf
   ]
 })
 export class UnirseComunidadComponent  implements OnInit {

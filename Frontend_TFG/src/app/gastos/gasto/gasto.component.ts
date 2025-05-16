@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HeaderComponent} from "../../header/header.component";
 import {HeaderComunidadComponent} from "../../header-comunidad/header-comunidad.component";
 import {IonicModule} from "@ionic/angular";
 import {FooterComunidadComponent} from "../../footer-comunidad/footer-comunidad.component";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {GastosService} from "../../servicios/gastos.service";
 import {Comunidad} from "../../modelos/Comunidad";
 import {Gasto} from "../../modelos/Gasto";
@@ -17,6 +17,7 @@ import {Usuario} from "../../modelos/Usuario";
 import {UsuarioService} from "../../servicios/usuario.service";
 import {VecinoService} from "../../servicios/vecino.service";
 import {NgIf} from "@angular/common";
+import {filter} from "rxjs";
 
 @Component({
   selector: 'app-gasto',
@@ -52,6 +53,7 @@ export class GastoComponent implements OnInit {
     this.activateRoute.params.subscribe(params => {
       this.idGasto = Number(params['id']);
     });
+
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
@@ -71,6 +73,15 @@ export class GastoComponent implements OnInit {
         console.error('Error al decodificar el token:', e);
       }
     }
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        if (!event.urlAfterRedirects.includes('/gastos/gasto')) {
+          sessionStorage.removeItem('gasto');
+        }
+      });
+
     this.verGasto(this.idGasto)
     this.calcularPorcentajePagado(this.idGasto)
   }
@@ -104,7 +115,7 @@ export class GastoComponent implements OnInit {
       this.gastosService.verGasto(idGasto).subscribe({
         next: data => {
           this.gasto = data;
-          sessionStorage.setItem('gastoStorage', JSON.stringify(this.gasto));
+          sessionStorage.setItem('gasto', JSON.stringify(this.gasto));
           if (this.numeroVivenda > 0) {
             this.totalPorVecino = this.gasto.total / this.numeroVivenda;
           }
@@ -128,7 +139,7 @@ export class GastoComponent implements OnInit {
       })
   }
 
-  stripeClavePublica = 'pk_test_51RIofJQu2AOfAVJhL5JoD26V1FmzcDjuqnKvY2jXakWcYFC3Xvdgy0AvwyW8vZVsHYmjoPyysEuyQDIObfo9jURb006ljK69KO'; // tu clave pública de Stripe
+  stripeClavePublica = 'pk_test_51RIofJQu2AOfAVJhL5JoD26V1FmzcDjuqnKvY2jXakWcYFC3Xvdgy0AvwyW8vZVsHYmjoPyysEuyQDIObfo9jURb006ljK69KO';
 
   async iniciarPago() {
     const stripe = await loadStripe(this.stripeClavePublica);

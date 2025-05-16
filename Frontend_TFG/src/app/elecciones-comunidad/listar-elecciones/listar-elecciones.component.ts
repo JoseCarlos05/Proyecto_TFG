@@ -139,7 +139,8 @@ export class ListarEleccionesComponent  implements OnInit {
     if (idEleccion) {
       this.eleccionService.cerrarEleccion(idEleccion).subscribe({
         next: () => {
-          location.reload();
+          this.listaElecciones = []
+          this.listarElecciones()
         },
         error: (e) => {
           console.error("Error al cerrar la elección:", e);

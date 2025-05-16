@@ -9,37 +9,27 @@ ion-content {
     padding: 15px;
     margin: 35px;
     margin-block: 45px;
+    text-align: center;
 
     p {
+      margin: 0 auto;
       color: white;
-      margin: 0 auto 10px;
-      font-size: 18px;
+      font-size: 24px;
+      vertical-align: middle;
     }
-
-  }
-
-  .textoMedio{
-    color: #0E8008;
-    font-size: 38px;
-    text-align: center;
   }
 
   .votos{
     background-color: #7CDF68;
     border-radius: 7px;
-    padding: 15px;
-    margin-left: 35px;
-    margin-right: 35px;
-    margin-top: 25px;
+    padding: 10px;
+    margin: 25px auto 0;
+    width: 60%;
+
     p {
       color: white;
-      margin: 0 auto 10px;
+      margin: 0 auto;
       font-size: 22px;
-      text-shadow:
-        -1px -1px 0 black,
-        1px -1px 0 black,
-        -1px  1px 0 black,
-        1px  1px 0 black;
     }
 
   }

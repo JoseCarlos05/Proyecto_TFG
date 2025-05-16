@@ -1,10 +1,18 @@
 <div *ngFor="let eleccion of listaElecciones" class="eleccion">
-  <ion-img src="assets/icon/cerrar.png" *ngIf="eleccion.abierta" class="icono-cerrar" (click)="confirmarEleccion(eleccion.id) "></ion-img>
-  <p>{{ eleccion.motivo }}</p>
-  <div class="eleccion-info">
-    <span class="fecha">{{calcularFecha(eleccion)}}</span>
-    <span [ngClass]="comprobarEstado(eleccion)">{{ comprobarEstado(eleccion) }}</span>
-  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-img src="assets/icon/cerrar.png" *ngIf="eleccion.abierta" class="icono-cerrar" (click)="confirmarEleccion(eleccion.id) "></ion-img>
+    </ion-row>
+    <ion-row>
+      <div style="width: 100%">
+        <p>{{ eleccion.motivo }}</p>
+        <div class="eleccion-info">
+          <span class="fecha">{{calcularFecha(eleccion)}}</span>
+          <span [ngClass]="comprobarEstado(eleccion)">{{ comprobarEstado(eleccion) }}</span>
+        </div>
+      </div>
+    </ion-row>
+  </ion-grid>
 </div>
 
 <div class="div-sin" *ngIf="listaElecciones.length === 0">

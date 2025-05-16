@@ -11,9 +11,7 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
     styleUrls: ['./propiedades-comunidades.component.scss'],
     standalone: true,
   imports: [
-    FooterComunidadComponent,
     HeaderComponent,
-    HeaderComunidadComponent,
     IonicModule,
     MenuInferiorComunidadComponent
   ]

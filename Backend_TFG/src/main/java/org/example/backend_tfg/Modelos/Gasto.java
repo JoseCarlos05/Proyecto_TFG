@@ -34,8 +34,10 @@ public class Gasto {
     @Column(name = "fechaHora", nullable = false)
     private LocalDateTime fechaHora;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pagados")
+    @ManyToMany(mappedBy = "gastos",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Vecino> pagados = new HashSet<>(0);
 
     @ManyToOne(fetch = FetchType.LAZY)

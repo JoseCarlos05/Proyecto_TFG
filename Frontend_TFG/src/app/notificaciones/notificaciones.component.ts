@@ -13,7 +13,6 @@ import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.com
   imports: [
     HeaderComponent,
     IonicModule,
-    FooterComponent,
     FooterComunidadComponent,
     HeaderComunidadComponent
   ]

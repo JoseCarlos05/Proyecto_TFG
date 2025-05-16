@@ -26,9 +26,7 @@ import {environment} from "../../environments/environment";
   styleUrls: ['./info-vivienda.component.scss'],
   standalone: true,
   imports: [
-    FooterComunidadComponent,
     HeaderComponent,
-    HeaderComunidadComponent,
     IonicModule,
     NgForOf,
     NgIf,
