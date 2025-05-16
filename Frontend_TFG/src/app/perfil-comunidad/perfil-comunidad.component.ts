@@ -10,7 +10,7 @@ import {Vecino} from "../modelos/Vecino";
 import {Router} from "@angular/router";
 import {UsuarioService} from "../servicios/usuario.service";
 import {VecinoService} from "../servicios/vecino.service";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Comunidad} from "../modelos/Comunidad";
 import {ViviendaService} from "../servicios/vivienda.service";
 import {Vivienda} from "../modelos/Vivienda";
@@ -18,6 +18,7 @@ import {Sancion} from "../modelos/Sancion";
 import {SancionService} from "../servicios/sancion.service";
 import {GastosService} from "../servicios/gastos.service";
 import {Gasto} from "../modelos/Gasto";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-perfil-comunidad',
@@ -30,13 +31,17 @@ import {Gasto} from "../modelos/Gasto";
     IonicModule,
     FooterComunidadComponent,
     NgIf,
-    NgForOf
+    NgForOf,
+    NgOptimizedImage
   ]
 })
 export class PerfilComunidadComponent  implements OnInit {
+  baseUrl: string = environment.apiUrl;
 
   private usuario?: Usuario
   vecino?: Vecino
+  vecinoFoto: Vecino = {} as Vecino;
+
   private correo!: string
   private comunidad!: Comunidad
   private viviendas?: Vivienda[] = []
@@ -96,6 +101,7 @@ export class PerfilComunidadComponent  implements OnInit {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
           this.vecino = data
+          this.vecinoFoto = data
           this.cargarComunidad()
         }
       })
@@ -134,7 +140,7 @@ export class PerfilComunidadComponent  implements OnInit {
     this.gastosService.listarGastos(this.comunidad.id).subscribe({
       next: data => {
         for (const gasto of data) {
-          if (this.vecino && !gasto.pagados.includes(this.vecino?.id)) {
+          if (this.vecino && !gasto.pagados.includes(this.vecino.id)) {
             this.deudasVecino.push(gasto)
           }
         }
@@ -234,5 +240,15 @@ export class PerfilComunidadComponent  implements OnInit {
 
   irGasto(idGasto: number) {
     this.router.navigate([`/comunidad/gastos/gasto/${idGasto}`])
+  }
+
+  getImageUrlVecino(vecino: Vecino): string {
+    if (!vecino.fotoPerfil || vecino.fotoPerfil.trim() === '') {
+      return 'assets/icon/perfiles/26.png';
+    } else if (vecino.fotoPerfil.startsWith('http')) {
+      return vecino.fotoPerfil;
+    } else {
+      return `${this.baseUrl}${vecino.fotoPerfil}`;
+    }
   }
 }
