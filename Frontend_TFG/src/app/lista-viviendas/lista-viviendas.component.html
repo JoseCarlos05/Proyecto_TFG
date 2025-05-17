@@ -1,13 +1,23 @@
 <app-header></app-header>
 
 <ion-content>
-  <div class="buscador">
-    <ion-searchbar
-      class="searchbar-blanco"
-      placeholder="Buscar en LiveTogether..."
-      showCancelButton="focus"
-    ></ion-searchbar>
-  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="10">
+        <div class="buscador">
+          <ion-searchbar
+            class="searchbar-blanco"
+            placeholder="Buscar viviendas"
+            showCancelButton="focus"
+          ></ion-searchbar>
+        </div>
+      </ion-col>
+      <ion-col>
+        <ion-img (click)="crearVvienda()" src="assets/icon/anadir.png"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 
   <div class="tarjeta" *ngFor="let vivienda of listaViviendas" (click)="verInfoVvivienda(vivienda.id)">
     <p class="tarjeta-titulo">{{ vivienda.direccionPersonal }}</p>

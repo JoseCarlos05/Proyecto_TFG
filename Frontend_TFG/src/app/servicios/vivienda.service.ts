@@ -6,6 +6,8 @@ import {Observable} from "rxjs";
 import {Comunidad} from "../modelos/Comunidad";
 import {Vivienda} from "../modelos/Vivienda";
 import {Vecino} from "../modelos/Vecino";
+import {InsertarCodigo} from "../modelos/InsertarCodigo";
+import {CrearVivienda} from "../modelos/CrearVivienda";
 
 @Injectable({
   providedIn: 'root'
@@ -49,5 +51,10 @@ export class ViviendaService {
   verPropietario(idPropietario: number): Observable<Vecino> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Vecino>(`${this.apiUrl}/comunidad/ver/vecino/${idPropietario}`, options)
+  }
+
+  crearVivienda(crearVivienda: CrearVivienda): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/comunidad/crear/vivienda`, crearVivienda, options);
   }
 }

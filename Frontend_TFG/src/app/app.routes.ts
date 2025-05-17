@@ -130,5 +130,9 @@ export const routes: Routes = [
   {
     path: 'documentacion/comunidad',
     loadComponent: () => import('./documentacion-comunidad/documentacion-comunidad.component').then((m) => m.DocumentacionComunidadComponent)
+  },
+  {
+    path: 'crear/vivienda',
+    loadComponent: () => import('./crear-vivienda/crear-vivienda.component').then((m) => m.CrearViviendaComponent)
   }
 ];

@@ -1,53 +1,49 @@
 import { Component, OnInit } from '@angular/core';
-import {FooterComponent} from "../footer/footer.component";
-import {HeaderComponent} from "../header/header.component";
+import {ViviendaService} from "../servicios/vivienda.service";
+import {Router} from "@angular/router";
+import {InsertarCodigo} from "../modelos/InsertarCodigo";
+import {CrearVivienda} from "../modelos/CrearVivienda";
 import {IonicModule} from "@ionic/angular";
-import {NgForOf} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
+import {HeaderComponent} from "../header/header.component";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
-import {Router} from "@angular/router";
-import {UsuarioService} from "../servicios/usuario.service";
-import {VecinoService} from "../servicios/vecino.service";
-import {ComunidadService} from "../servicios/comunidad.service";
 import {Usuario} from "../modelos/Usuario";
-import {Vecino} from "../modelos/Vecino";
 import {Comunidad} from "../modelos/Comunidad";
 import {Vivienda} from "../modelos/Vivienda";
-import {ViviendaService} from "../servicios/vivienda.service";
-import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
-import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
+import {UsuarioService} from "../servicios/usuario.service";
+import {ComunidadService} from "../servicios/comunidad.service";
 
 @Component({
-    selector: 'app-lista-viviendas',
-    templateUrl: './lista-viviendas.component.html',
-    styleUrls: ['./lista-viviendas.component.scss'],
-    standalone: true,
+  selector: 'app-crear-vivienda',
+  templateUrl: './crear-vivienda.component.html',
+  styleUrls: ['./crear-vivienda.component.scss'],
+  standalone: true,
   imports: [
-    HeaderComponent,
     IonicModule,
-    NgForOf,
-    MenuInferiorComunidadComponent
+    FormsModule,
+    MenuInferiorComunidadComponent,
+    HeaderComponent
   ]
 })
-export class ListaViviendasComponent  implements OnInit {
-
+export class CrearViviendaComponent  implements OnInit {
   private usuario!: Usuario
   private comunidad!: Comunidad
-  listaViviendas: Vivienda[] = []
   correo!: string
+
+
+  crearVvienda: CrearVivienda = {
+    direccionPersonal: "",
+    idComunidad: undefined
+  }
+
   constructor(private router: Router,
               private usuarioService: UsuarioService,
               private viviendaService: ViviendaService,
               private comunidadService: ComunidadService) { }
 
   ngOnInit() {
-    this.inicio()
-  }
-
-  ionViewWillEnter() {
-    this.inicio()
-  }
-  inicio() {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
@@ -83,24 +79,27 @@ export class ListaViviendasComponent  implements OnInit {
       this.comunidadService.cargarComunidadPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
           this.comunidad = data
-          this.listarViviendas()
+          this.crearVvienda.idComunidad = this.comunidad.id
         }
       })
     }
   }
 
-  listarViviendas() {
-    if (this.comunidad.id)
-      this.viviendaService.listarViviendasComunidad(this.comunidad.id).subscribe({
-        next: data => this.listaViviendas = data
-      })
-  }
-
-  verInfoVvivienda(idVivienda: number) {
-    this.router.navigate(["/info-vivienda", idVivienda])
-  }
-
-  crearVvienda() {
-    this.router.navigate(["/crear/vivienda"])
+  crearViviendaMetodo() {
+    if (!this.crearVvienda.direccionPersonal || !this.crearVvienda.idComunidad) {
+      const toast = document.getElementById("campoVacioVivienda") as any;
+      toast.present();
+      return;
+    }
+    this.viviendaService.crearVivienda(this.crearVvienda).subscribe({
+      next: () => {
+        const toast = document.getElementById("exitoCreacionVivienda") as any;
+        toast.present();
+        this.router.navigate(['/lista-viviendas']);
+      },
+      error: () => {
+        console.log('Error al insertar codigo.');
+      }
+    });
   }
 }
