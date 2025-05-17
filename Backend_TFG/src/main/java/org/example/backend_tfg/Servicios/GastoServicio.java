@@ -105,11 +105,11 @@ public class GastoServicio {
             gasto.setPagados(new HashSet<>());
         }
 
-        Integer numeroViviendas = viviendaServicio.numeroViviendas(gasto.getComunidad().getId());
-        double totalPorVecino = 0.0;
+        Integer numeroPropietarios = viviendaServicio.numeroPropietarios(gasto.getComunidad().getId());
+        double totalPorVecino;
 
-        if (numeroViviendas > 0){
-            totalPorVecino = gasto.getTotal() /numeroViviendas;
+        if (numeroPropietarios > 0){
+            totalPorVecino = gasto.getTotal()/numeroPropietarios;
 
             gasto.getPagados().add(vecino);
             vecino.getGastos().add(gasto);
@@ -138,6 +138,4 @@ public class GastoServicio {
 
         return dto;
     }
-
-
 }

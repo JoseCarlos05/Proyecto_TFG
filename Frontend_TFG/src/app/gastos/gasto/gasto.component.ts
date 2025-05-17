@@ -36,7 +36,7 @@ export class GastoComponent implements OnInit {
   comunidadObjeto!: Comunidad
   gasto: Gasto = {} as Gasto;
   idGasto!: number;
-  numeroVivenda: number = 0;
+  numeroPropietarios: number = 0;
   totalPorVecino: number = 0;
   porcentajePagado: number = 0;
   usuario: Usuario = {} as Usuario;
@@ -117,8 +117,8 @@ export class GastoComponent implements OnInit {
         next: data => {
           this.gasto = data;
           sessionStorage.setItem('gasto', JSON.stringify(this.gasto));
-          if (this.numeroVivenda > 0) {
-            this.totalPorVecino = this.gasto.total / this.numeroVivenda;
+          if (this.numeroPropietarios > 0) {
+            this.totalPorVecino = this.gasto.total / this.numeroPropietarios;
           }
         }
       });
@@ -126,8 +126,8 @@ export class GastoComponent implements OnInit {
 
   numeroViviendas(idComunidad: number) {
     if (idComunidad)
-      this.viviendaService.numeroViviendas(idComunidad).subscribe({
-        next: data => this.numeroVivenda = data
+      this.viviendaService.numeroPropietarios(idComunidad).subscribe({
+        next: data => this.numeroPropietarios = data
       })
   }
 

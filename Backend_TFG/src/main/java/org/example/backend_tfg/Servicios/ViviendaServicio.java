@@ -8,6 +8,7 @@ import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Vecino;
 import org.example.backend_tfg.Modelos.Vivienda;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
+import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
 import org.example.backend_tfg.Repositorios.IViviendaRepositorio;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,10 @@ public class ViviendaServicio {
 
     private IComunidadRepositorio iComunidadRepositorio;
 
-    public ViviendaDTO verViviendaID(Integer idVvienda){
-        Vivienda vivienda = iViviendaRepositorio.findById(idVvienda)
+    private IVecinoRepositorio iVecinoRepositorio;
+
+    public ViviendaDTO verViviendaID(Integer idVivienda){
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
                 .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
         return getViviendaDTO(vivienda);
 
@@ -74,13 +77,49 @@ public class ViviendaServicio {
 
     public Integer numeroViviendas(Integer idComunidad){
        List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
-        int viviendasTotales = 0;
+       int viviendasTotales = 0;
 
        for (int i = 1; i<= viviendas.size(); i++){
             viviendasTotales++;
        }
 
        return viviendasTotales;
+    }
+
+    public Integer numeroPropietarios(Integer idComunidad){
+        List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
+        int propietarios = 0;
+
+        for (Vivienda vivienda : viviendas){
+            if (vivienda.getPropietario() != null) {
+                propietarios++;
+            }
+        }
+
+        return propietarios;
+    }
+
+    public void asignarViviendaVecino(Integer idVivienda, Integer idVecino) {
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+        vivienda.getVecinos().add(vecino);
+        vecino.getViviendas().add(vivienda);
+
+        iViviendaRepositorio.save(vivienda);
+        iVecinoRepositorio.save(vecino);
+    }
+
+    public void asignarPropietarioVivienda(Integer idVivienda, Integer idPropietario) {
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+        Vecino propietario = iVecinoRepositorio.findById(idPropietario)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+        vivienda.setPropietario(propietario);
+        iViviendaRepositorio.save(vivienda);
     }
 
     public static ViviendaDTO getViviendaDTO(Vivienda v) {

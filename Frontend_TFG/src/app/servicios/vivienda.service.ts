@@ -33,9 +33,9 @@ export class ViviendaService {
     return this.http.get<Vecino[]>(`${this.apiUrl}/vecino/listar/residentes/${idVivienda}`, options)
   }
 
-  numeroViviendas(idComunidad: number): Observable<number> {
+  numeroPropietarios(idComunidad: number): Observable<number> {
     const options = this.comunService.autorizarPeticion();
-    return this.http.get<number>(`${this.apiUrl}/numero/viviendas/${idComunidad}`, options)
+    return this.http.get<number>(`${this.apiUrl}/numero/propietarios/${idComunidad}`, options)
   }
 
   listarResidentesComunidad(idVivienda: number): Observable<Vecino[]> {

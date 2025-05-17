@@ -1,14 +1,12 @@
 package org.example.backend_tfg.Servicios;
 
 import lombok.AllArgsConstructor;
-import org.example.backend_tfg.DTOs.LoginDTO;
-import org.example.backend_tfg.DTOs.RegistrarComunidadDTO;
-import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
-import org.example.backend_tfg.DTOs.RespuestaDTO;
+import org.example.backend_tfg.DTOs.*;
 import org.example.backend_tfg.Enumerados.Rol;
 import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Modelos.Vecino;
+import org.example.backend_tfg.Modelos.Vivienda;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IUsuarioRepositorio;
 import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
@@ -44,8 +42,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     private IComunidadRepositorio iComunidadRepositorio;
 
-    private ComunidadServicio comunidadService;
-
+    private ViviendaServicio viviendaServicio;
 
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
@@ -105,6 +102,7 @@ public class UsuarioServicio implements UserDetailsService {
 
         return nuevoUsuario;
     }
+
     public Usuario registrarComunidad(RegistrarComunidadDTO dto){
 
         Usuario nuevoUsuario = new Usuario();
@@ -129,7 +127,12 @@ public class UsuarioServicio implements UserDetailsService {
         comunidad.setUsuario(usuarioGuardado);
 
         iComunidadRepositorio.save(comunidad);
+
+        viviendaServicio.crearVivienda(new RegistrarViviendaDTO("(Modifica este nombre de vivienda)", comunidad.getId()));
+        ViviendaDTO vivienda = viviendaServicio.listarViviendas(comunidad.getId()).getFirst();
+        viviendaServicio.asignarViviendaVecino(vivienda.getId(), presidente.getId());
+        viviendaServicio.asignarPropietarioVivienda(vivienda.getId(), presidente.getId());
+
         return usuarioGuardado;
     }
 }
-
