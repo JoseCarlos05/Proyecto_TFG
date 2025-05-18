@@ -19,6 +19,9 @@ import {Vivienda} from "../modelos/Vivienda";
 import {VecinoService} from "../servicios/vecino.service";
 import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
 import {environment} from "../../environments/environment";
+import {Sancion} from "../modelos/Sancion";
+import {Gasto} from "../modelos/Gasto";
+import {SancionService} from "../servicios/sancion.service";
 
 @Component({
   selector: 'app-info-vivienda',
@@ -41,19 +44,20 @@ export class InfoViviendaComponent implements OnInit {
   private usuario!: Usuario
   private comunidad!: Comunidad
   vivienda!: Vivienda
-  vecinoFoto: Vecino = {} as Vecino;
 
-  vecino!: Vecino;
-  idVivienda!: number;
-  residentesEnPropiedad: Vecino[] = []
-
+  propietario!: Vecino
+  idVivienda!: number
+  residentes: Vecino[] = []
+  sanciones: Sancion[] = []
+  deudas: Gasto[] = []
 
   constructor(private comunidadService: ComunidadService,
               private router: Router,
               private usuarioService: UsuarioService,
               private gastoService: GastosService,
               private activateRoute: ActivatedRoute,
-              private viviendaService: ViviendaService) {
+              private viviendaService: ViviendaService,
+              private sancionService: SancionService) {
   }
 
   ngOnInit() {
@@ -77,9 +81,6 @@ export class InfoViviendaComponent implements OnInit {
       this.idVivienda = Number(params['id']);
     });
     this.verInfoVivienda(this.idVivienda)
-
-
-
   }
 
   cargarUsuario(correo: string): void {
@@ -107,53 +108,68 @@ export class InfoViviendaComponent implements OnInit {
   }
 
   listarResidentes() {
-    this.residentesEnPropiedad = []
+    this.residentes = []
     let resultado = []
     this.viviendaService.listarResidentesComunidad(this.vivienda.id).subscribe({
       next: data => {
         for (const vecino of data) {
-          if (this.vecino?.id !== vecino.id) {
-            resultado.push(vecino)
+          if (vecino.id === this.comunidad.id) {
+
           }
+          resultado.push(vecino)
         }
-        this.residentesEnPropiedad = resultado.filter((obj, index, self) =>
+        this.residentes = resultado.filter((obj, index, self) =>
           index === self.findIndex(o => o.id === obj.id))
+        this.cargarGastos()
+        this.cargarSanciones()
       }
     })
+  }
 
+  cargarGastos() {
+    this.deudas = []
+    if (this.comunidad.id) {
+      this.gastoService.listarGastosComunidad(this.comunidad.id).subscribe({
+        next: data => {
+          for (const gasto of data) {
+            if (this.propietario && !gasto.pagados.includes(this.propietario.id)) {
+              this.deudas.push(gasto)
+            }
+          }
+        }
+      })
+    }
+  }
+
+  cargarSanciones() {
+    if (this.propietario) {
+      this.sancionService.listarSancionesVecino(this.comunidad.id, this.propietario.id).subscribe({
+        next: data => this.sanciones = data
+      })
+    }
   }
 
   verInfoVivienda(idVivienda: number) {
     this.viviendaService.verInfoVivienda(idVivienda).subscribe({
       next: data => {
         this.vivienda = data;
-        this.cargarPropietario()
         this.listarResidentes()
       }
     })
   }
 
-  cargarPropietario(){
-    this.viviendaService.verPropietario(this.vivienda.idPropietario).subscribe({
-      next: data => {
-        this.vecino = data;
-        this.vecinoFoto = data;
-        console.log(this.vecino)
-      }
-    })
-  }
-
-  comprobarIdentidad(): string {
-
-    if (this.vecino) {
-      if (this.vecino.id === this.comunidad.idPresidente) {
+  comprobarIdentidad(vecino: Vecino): string {
+    if (this.comunidad.idPresidente) {
+      if (vecino.id === this.comunidad.idPresidente) {
+        this.propietario = vecino
         return "Presidente de la comunidad"
 
-      } else if (this.vecino.id === this.vivienda.idPropietario) {
-          return "Propietario de la vivienda " + this.vivienda.direccionPersonal
+      } else if (vecino.id === this.vivienda.idPropietario) {
+        this.propietario = vecino
+        return "Propietario de la vivienda"
 
       } else {
-          return "Esta vivienda no tiene propietario " + this.vivienda.direccionPersonal
+        return "Residente"
       }
     }
     return ""
@@ -168,5 +184,4 @@ export class InfoViviendaComponent implements OnInit {
       return `${this.baseUrl}${vecino.fotoPerfil}`;
     }
   }
-
 }

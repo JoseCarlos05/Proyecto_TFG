@@ -47,6 +47,7 @@ export class ListaViviendasComponent  implements OnInit {
   ionViewWillEnter() {
     this.inicio()
   }
+
   inicio() {
     const token = sessionStorage.getItem('authToken');
     if (token) {
@@ -100,7 +101,11 @@ export class ListaViviendasComponent  implements OnInit {
     this.router.navigate(["/info-vivienda", idVivienda])
   }
 
-  crearVvienda() {
+  crearVivienda() {
     this.router.navigate(["/crear/vivienda"])
+  }
+
+  verNotificaciones() {
+    this.router.navigate(["/notificaciones-comunidad"])
   }
 }

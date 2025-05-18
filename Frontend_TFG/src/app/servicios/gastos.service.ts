@@ -24,6 +24,11 @@ export class GastosService {
     return this.http.get<Gasto[]>(`${this.apiUrl}/vecino/listar/gastos/${idComunidad}`, options)
   }
 
+  listarGastosComunidad(idComunidad: number): Observable<Gasto[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Gasto[]>(`${this.apiUrl}/comunidad/listar/gastos/${idComunidad}`, options)
+  }
+
   verGasto(idGasto: number): Observable<Gasto> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Gasto>(`${this.apiUrl}/vecino/ver/gasto/${idGasto}`, options)
@@ -43,5 +48,4 @@ export class GastosService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/comunidad/crear/gasto`, crearGasto, options);
   }
-
 }

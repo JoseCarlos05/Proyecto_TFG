@@ -78,10 +78,13 @@ export const routes: Routes = [
     path: 'cancelado',
     loadComponent: () => import('./cancelado/cancelado.component').then(m => m.CanceladoComponent),
   },
-
   {
     path: 'notificaciones',
     loadComponent: () => import('./notificaciones/notificaciones.component').then((m) => m.NotificacionesComponent),
+  },
+  {
+    path: 'notificaciones-comunidad',
+    loadComponent: () => import('./notificaciones-comunidad/notificaciones-comunidad.component').then((m) => m.NotificacionesComunidadComponent),
   },
   {
     path: 'propiedades',

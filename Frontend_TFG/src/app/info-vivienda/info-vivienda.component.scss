@@ -1,25 +1,20 @@
 ion-content {
   --background: #E7F4E7;
 
+  .vivienda {
+    border-radius: 20px;
+    background-color: white;
+    color: #339F28;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
+    width: 60%;
+    margin-block: 30px;
+    padding: 10px;
+  }
+
   .grid-principal {
     padding: 0;
-
-    .row-usuario {
-      border: 1px solid black;
-      border-top: none;
-      background-color: white;
-
-      .nombre-usuario {
-        color: #339F28;
-        font-weight: bold;
-        font-size: 20px;
-      }
-
-      .info-usuario {
-        font-weight: bold;
-        font-size: 16px;
-      }
-    }
 
     .row-residente {
       border: 1px solid black;
@@ -34,8 +29,13 @@ ion-content {
         display: flex;
         align-items: center;
 
-        .nombre-usuario {
+        .nombre-residente {
           color: #339F28;
+          font-weight: bold;
+          font-size: 16px;
+        }
+
+        .info-residente {
           font-weight: bold;
           font-size: 16px;
         }

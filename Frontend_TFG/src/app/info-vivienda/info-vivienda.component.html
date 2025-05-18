@@ -2,76 +2,77 @@
 
 <ion-content>
 
-  <ion-grid class="grid-principal">
-    <ion-row class="row-usuario">
+  <div class="vivienda">
+    <span *ngIf="vivienda">Vivienda {{ vivienda.direccionPersonal }}</span>
+  </div>
+
+  <div class="interlineado">
+    Residentes en la vivienda
+  </div>
+
+  <ion-grid class="grid-principal" *ngIf="residentes.length !== 0">
+
+    <ion-row class="row-residente" *ngFor="let residente of residentes">
       <ion-col size="3">
-        <img [ngSrc]="getImageUrlVecino(vecinoFoto)" width="100" height="100" class="imagen-redondeada" alt="">
+        <img [ngSrc]="getImageUrlVecino(residente)" width="100" height="100" class="imagen-redondeada" alt="Foto de perfil">
       </ion-col>
-      <ion-col size="9">
+      <ion-col size="7">
         <ion-grid>
           <ion-row>
-            <span class="nombre-usuario" *ngIf="vecino">{{ vecino.nombre }} {{ vecino.apellidos }}</span>
+            <span class="nombre-residente">{{ residente.nombre }} {{ residente.apellidos }}</span>
           </ion-row>
           <ion-row>
-            <span class="info-usuario">{{ comprobarIdentidad() }}</span>
+            <span class="info-residente">{{ comprobarIdentidad(residente) }}</span>
           </ion-row>
         </ion-grid>
       </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <div class="interlineado">
-    Residentes en la propiedad
-  </div>
-
-
-  <ion-grid class="grid-principal" *ngIf="residentesEnPropiedad.length !== 0">
-
-    <ion-row class="row-residente" *ngFor="let residente of residentesEnPropiedad">
-      <ion-col size="3">
-        <ion-img src="assets/icon/perfiles/26.png"></ion-img>
-      </ion-col>
-      <ion-col size="9">
-        <span class="nombre-usuario">{{ residente.nombre }} {{ residente.apellidos }}</span>
+      <ion-col size="2" *ngIf="!propietario">
+        <ion-img src="assets/icon/icono-llave.png"></ion-img>
       </ion-col>
     </ion-row>
 
   </ion-grid>
 
-  <div class="div-sin" *ngIf="residentesEnPropiedad.length === 0">
-    <span>Actualmente no hay residentes en esta propiedad.</span>
+  <div class="div-sin" *ngIf="residentes.length === 0">
+    <span>Actualmente no hay residentes en esta vivienda.</span>
   </div>
 
-  <div class="interlineado">Tus sanciones</div>
+  <div class="interlineado">Sanciones</div>
 
-<!--  <ion-grid class="grid-principal" *ngIf="sancionesVecino.length > 0">-->
-<!--    <ion-row class="sancion" *ngFor="let sancion of sancionesVecino">-->
-<!--      <div class="sancion-div">-->
-<!--        <span>Sanción: </span>-->
-<!--        <span>{{ sancion.sancion }}</span>-->
-<!--      </div>-->
-<!--      <div class="motivo-div">-->
-<!--        <span>Motivo: </span>-->
-<!--        <span>{{ sancion.motivo }}</span>-->
-<!--      </div>-->
-<!--    </ion-row>-->
-<!--  </ion-grid>-->
+  <ion-grid class="grid-principal" *ngIf="sanciones.length > 0">
+    <ion-row class="sancion" *ngFor="let sancion of sanciones">
+      <div class="sancion-div">
+        <span>Sanción: </span>
+        <span>{{ sancion.sancion }}</span>
+      </div>
+      <div class="motivo-div">
+        <span>Motivo: </span>
+        <span>{{ sancion.motivo }}</span>
+      </div>
+    </ion-row>
+  </ion-grid>
 
-<!--  <div class="div-sin" *ngIf="sancionesVecino.length === 0">-->
-<!--    <span>No se te ha impuesto ningún tipo de sanción.</span>-->
-<!--  </div>-->
+  <div class="div-sin" *ngIf="sanciones.length === 0">
+    <span>No hay sanciones.</span>
+  </div>
+  <div class="div-sin" *ngIf="!propietario">
+    <span>Vivienda aún sin propietario.</span>
+  </div>
 
-<!--  <div class="interlineado">Tus deudas</div>-->
+  <div class="interlineado">Deudas</div>
 
-<!--  <div class="deudas">-->
-<!--    <div (click)="irGasto(gasto.id)" *ngFor="let gasto of deudasVecino">-->
-<!--      <span>{{ gasto.concepto }}</span>-->
-<!--    </div>-->
-<!--  </div>-->
+  <div class="deudas">
+    <div *ngFor="let gasto of deudas">
+      <span>{{ gasto.concepto }}</span>
+    </div>
+  </div>
 
-<!--  <div class="div-sin" *ngIf="deudasVecino.length === 0">-->
-<!--    <span>No tienes deudas pendientes con la comunidad.</span>-->
-<!--  </div>-->
+  <div class="div-sin" *ngIf="deudas.length === 0">
+    <span>Sin deudas pendientes.</span>
+  </div>
+  <div class="div-sin" *ngIf="!propietario">
+    <span>Vivienda aún sin propietario.</span>
+  </div>
 
   <div class="interlineado">Plaza de garaje</div>
 

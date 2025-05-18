@@ -5,24 +5,29 @@ ion-toolbar {
 ion-content {
   --background: #E7F4E7;
 }
-ion-img{
-  width: 40px;
-  height: 40px;
-  margin-top: 40px;
-}
 
-.searchbar-blanco {
-  --background: #FFFFFF;
-  --box-shadow: none;
-  --border: none;
-  border-radius: 40px;
-}
+.cabecera {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
 
-.buscador {
-  background-color: white;
-  border-radius: 40px;
-  margin: 20px;
-  margin-block: 35px;
+  ion-img{
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+  }
+
+  .searchbar-blanco {
+    --background: #FFFFFF;
+    --box-shadow: none;
+    --border: none;
+    border-radius: 40px;
+  }
+
+  .buscador {
+    background-color: white;
+    border-radius: 40px;
+  }
 }
 
 .logo {
