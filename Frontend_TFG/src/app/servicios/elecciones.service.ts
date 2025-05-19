@@ -7,6 +7,7 @@ import {ComunService} from "./comun.service";
 import {Eleccion} from "../modelos/Eleccion";
 import {InsertarCodigo} from "../modelos/InsertarCodigo";
 import {CrearEleccion} from "../modelos/CrearEleccion";
+import {EleccionVotos} from "../modelos/EleccionVotos";
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,15 @@ export class EleccionesService {
   cerrarEleccion(idEleccion: number): Observable<any> {
     const options = this.comunService.autorizarPeticion();
     return this.http.put(`${this.apiUrl}/comunidad/cerrar/eleccion/${idEleccion}`, {}, options);
+  }
+
+  getEleccionComunidad(idEleccion: number): Observable<EleccionVotos> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<EleccionVotos>(`${this.apiUrl}/comunidad/ver/eleccion/${idEleccion}`, options)
+  }
+
+  totalVotoComunidad(idEleccion: number): Observable<number> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<number>(`${this.apiUrl}/comunidad/ver/total/voto/${idEleccion}`, options)
   }
 }

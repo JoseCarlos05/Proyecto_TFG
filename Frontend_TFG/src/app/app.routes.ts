@@ -137,5 +137,9 @@ export const routes: Routes = [
   {
     path: 'crear/vivienda',
     loadComponent: () => import('./crear-vivienda/crear-vivienda.component').then((m) => m.CrearViviendaComponent)
+  },
+  {
+    path: 'ver-votos/:id',
+    loadComponent: () => import('./ver-votos/ver-votos.component').then((m) => m.VerVotosComponent)
   }
 ];

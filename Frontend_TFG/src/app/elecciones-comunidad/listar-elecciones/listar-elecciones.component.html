@@ -3,7 +3,7 @@
     <ion-row>
       <ion-img src="assets/icon/cerrar.png" *ngIf="eleccion.abierta" class="icono-cerrar" (click)="confirmarEleccion(eleccion.id) "></ion-img>
     </ion-row>
-    <ion-row>
+    <ion-row (click)="verVotos(eleccion)">
       <div style="width: 100%">
         <p>{{ eleccion.motivo }}</p>
         <div class="eleccion-info">

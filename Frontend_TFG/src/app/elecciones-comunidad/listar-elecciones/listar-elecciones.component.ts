@@ -11,6 +11,7 @@ import {UsuarioService} from "../../servicios/usuario.service";
 import {EleccionesService} from "../../servicios/elecciones.service";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../../modelos/TokenData";
+import {EleccionVotos} from "../../modelos/EleccionVotos";
 
 @Component({
   selector: 'app-listar-elecciones',
@@ -174,4 +175,7 @@ export class ListarEleccionesComponent  implements OnInit {
     await alert.present();
   }
 
+  verVotos(eleccion: Eleccion) {
+    this.router.navigate(['ver-votos', eleccion.id])
+  }
 }

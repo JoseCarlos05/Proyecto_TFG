@@ -45,4 +45,14 @@ public class EleccionControlador {
     public void cerrarEleccion(@PathVariable Integer idEleccion) {
         eleccionServicio.cerrarEleccion(idEleccion);
     }
+
+    @GetMapping("/comunidad/ver/total/voto/{idEleccion}")
+    public Integer totalVotoComunidad(@PathVariable Integer idEleccion){
+        return eleccionServicio.votosTotales(idEleccion);
+    }
+
+    @GetMapping("/comunidad/ver/eleccion/{idEleccion}")
+    public EleccionDetDTO verEleccionIDComunidad(@PathVariable Integer idEleccion){
+        return eleccionServicio.getEleccion(idEleccion);
+    }
 }
