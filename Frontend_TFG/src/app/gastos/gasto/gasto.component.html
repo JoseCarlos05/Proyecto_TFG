@@ -16,19 +16,22 @@
       <div>
         <span>Pagado: {{porcentajePagado}}% / {{gasto.total}}€</span>
       </div>
+
+      <!-- Barra de progreso visual -->
       <div class="barra-progreso-container">
         <div class="barra-progreso" [style.width.%]="porcentajePagado"></div>
       </div>
-      <span class="porcentaje-texto">{{ porcentajePagado }}% pagado</span>
 
+      <!-- Texto debajo de la barra -->
+      <span class="porcentaje-texto">{{ porcentajePagado }}% pagado</span>
     </div>
+
     <div class="contenedor-boton">
       <button
         [disabled]="estaPagado(gasto)"
         (click)="iniciarPago()">
         {{ estaPagado(gasto) ? 'Pagado' : 'Pagar' }}
       </button>
-
     </div>
   </div>
 </ion-content>
