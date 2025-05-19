@@ -7,7 +7,6 @@ import org.example.backend_tfg.Repositorios.IMensajeRepositorio;
 import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;

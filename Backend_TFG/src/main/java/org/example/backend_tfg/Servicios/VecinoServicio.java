@@ -2,10 +2,7 @@ package org.example.backend_tfg.Servicios;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.example.backend_tfg.DTOs.EditarVecinoDTO;
-import org.example.backend_tfg.DTOs.InsertarCodigoDTO;
-import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
-import org.example.backend_tfg.DTOs.VecinoDTO;
+import org.example.backend_tfg.DTOs.*;
 import org.example.backend_tfg.Modelos.*;
 import org.example.backend_tfg.Repositorios.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -179,6 +176,38 @@ public class VecinoServicio {
 
         }
 
+    }
+
+    public List<VecinoUsuarioDTO> listarVecinosIdComunidad(Integer idComunidad){
+        List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
+        List<VecinoUsuarioDTO> vecinoDTOS = new ArrayList<>();
+        for (Vivienda vivienda: viviendas){
+            Set<Vecino> residentes = vivienda.getVecinos();
+
+            for (Vecino vecino: residentes){
+                vecinoDTOS.add(getVecinoUsuarioDTO(vecino));
+            }
+        }
+
+
+        return vecinoDTOS;
+    }
+
+    public VecinoUsuarioDTO getVecinoUsuarioDTO(Vecino vecino){
+        VecinoUsuarioDTO dtoNuevo  = new VecinoUsuarioDTO();
+
+        dtoNuevo.setId(vecino.getId());
+        dtoNuevo.setNombre(vecino.getNombre());
+        dtoNuevo.setApellidos(vecino.getApellidos());
+        dtoNuevo.setDni(vecino.getDni());
+        dtoNuevo.setTelefono(vecino.getTelefono());
+        dtoNuevo.setFechaNacimiento(vecino.getFechaNacimiento());
+        dtoNuevo.setNumeroCuenta(vecino.getNumCuenta());
+        if (vecino.getFotoPerfil() != null){
+            dtoNuevo.setFotoPerfil(vecino.getFotoPerfil());
+        }
+        dtoNuevo.setIdUsuario(vecino.getUsuario().getId());
+        return dtoNuevo;
     }
 
     public static VecinoDTO getVecinoDTO(Vecino vecino){

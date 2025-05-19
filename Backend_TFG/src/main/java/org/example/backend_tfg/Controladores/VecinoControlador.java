@@ -1,10 +1,7 @@
 package org.example.backend_tfg.Controladores;
 
 import lombok.AllArgsConstructor;
-import org.example.backend_tfg.DTOs.EditarVecinoDTO;
-import org.example.backend_tfg.DTOs.InsertarCodigoDTO;
-import org.example.backend_tfg.DTOs.RegistrarVecinoDTO;
-import org.example.backend_tfg.DTOs.VecinoDTO;
+import org.example.backend_tfg.DTOs.*;
 import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Modelos.Vecino;
 import org.example.backend_tfg.Seguridad.UsuarioAdapter;
@@ -75,4 +72,9 @@ public class VecinoControlador {
         }
         throw new RuntimeException("El usuario autenticado no es del tipo esperado.");
     }
+    @GetMapping("/listar/vecinos/comunidad/{idComunidad}")
+    public List<VecinoUsuarioDTO> listarVecinoComunidad(@PathVariable Integer idComunidad){
+        return vecinoServicio.listarVecinosIdComunidad(idComunidad);
+    }
+
 }

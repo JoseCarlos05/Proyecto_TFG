@@ -30,7 +30,7 @@ export class HeaderComunidadComponent  implements OnInit {
   }
 
   navigateToChat() {
-    this.router.navigate(['/chat']);
+    this.router.navigate(['/lista-vecinos']);
   }
 
   navigateToNotificaciones() {

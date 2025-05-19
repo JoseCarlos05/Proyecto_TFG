@@ -49,54 +49,56 @@ ion-content.chat-content {
   gap: 10px;
 }
 
-.mensaje {
-  max-width: 70%;
-  padding: 10px 15px;
-  border-radius: 15px;
-  font-size: 1rem;
-  line-height: 1.4;
-  color: white;
+.emisor {
   position: relative;
-}
-
-.mensaje-recibido {
+  padding: 15px;
   background-color: #57BF48;
-  align-self: flex-start;
+  color: white;
+  border-radius: 25px 25px 0 25px;
+  display: inline-block;
+  float: right;
+  max-width: 90%;
+  margin-bottom: 5px;
 }
 
-.mensaje-enviado {
+.receptor {
+  position: relative;
+  padding: 15px;
   background-color: #339F28;
-  align-self: flex-end;
+  color: white;
+  border-radius: 25px 25px 25px 0;
+  display: inline-block;
+  float: left;
+  max-width: 90%;
+  margin-bottom: 5px;
 }
 
-.pico {
-  position: absolute;
-  bottom: -1px;
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  display: block;
-  margin-right: 4px;
+hr {
+  width: 40%;
+  border: 1px solid black;
 }
 
-.mensaje-recibido .pico {
-  left: -6px;
-  border-top: 10px solid #57BF48;
-  transform: rotate(45deg);
+.div_dia {
+  display: flex;
 }
 
-.mensaje-enviado .pico {
-  right: -10px;
-  border-top: 10px solid #339F28;
-  transform: rotate(-45deg);
+.editado {
+  font-size: 11px;
+  font-weight: bold;
 }
 
-.hora {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
+.message-time {
+  font-size: 10px;
+  color: #ffffff;
   margin-top: 5px;
+}
+
+.emisor .message-time {
   text-align: right;
+}
+
+.receptor .message-time {
+  text-align: left;
 }
 
 .chat-input-container {
@@ -133,24 +135,18 @@ ion-content.chat-content {
   margin-right: 10px;
 }
 
-.separador-dia {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 20px 0;
-  color: black;
+ion-input {
+  --border-radius: 60px;
+  --background: #FFFFFF;
+  --padding-start: 10px;
+  width: 85%;
+  margin: 0 auto;
 }
 
-.linea {
-  flex: 1;
-  height: 1px;
-  background-color: #000000;
-}
-
-.texto-dia {
-  font-size: 0.9rem;
-  color: #555;
-  font-weight: 500;
-  white-space: nowrap;
+@media (max-width: 768px) {
+  ion-img {
+    width: 8%;
+    margin: 0 5px 0 auto;
+    padding: 0;
+  }
 }

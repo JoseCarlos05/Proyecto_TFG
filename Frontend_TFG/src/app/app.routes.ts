@@ -115,7 +115,7 @@ export const routes: Routes = [
     loadComponent: () => import('./gastos-comunidad/gastos-comunidad.component').then((m) => m.GastosComunidadComponent),
   },
   {
-    path: 'chat',
+    path: 'chat/:id',
     loadComponent: () => import('./chat/chat.component').then((m) => m.ChatComponent),
   },
   {
@@ -141,5 +141,9 @@ export const routes: Routes = [
   {
     path: 'ver-votos/:id',
     loadComponent: () => import('./ver-votos/ver-votos.component').then((m) => m.VerVotosComponent)
+  },
+  {
+    path: 'lista-vecinos',
+    loadComponent: () => import('./lista-vecinos/lista-vecinos.component').then((m) => m.ListaVecinosComponent)
   }
 ];
