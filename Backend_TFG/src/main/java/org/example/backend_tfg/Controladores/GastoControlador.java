@@ -1,9 +1,7 @@
 package org.example.backend_tfg.Controladores;
 
 import lombok.AllArgsConstructor;
-import org.example.backend_tfg.DTOs.CrearGastoDTO;
-import org.example.backend_tfg.DTOs.GastoDTO;
-import org.example.backend_tfg.DTOs.MarcarPagadoDTO;
+import org.example.backend_tfg.DTOs.*;
 import org.example.backend_tfg.Servicios.GastoServicio;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +42,15 @@ public class GastoControlador {
     @PostMapping("/marcar/pagado")
     public void marcarPagado(@RequestBody MarcarPagadoDTO dto){
         gastoServicio.marcarPagado(dto);
+    }
+
+    @GetMapping("/comunidad/listar/deudores/{idGasto}")
+    public List<VecinoDTO> listarDeudoresIdGasto(@PathVariable Integer idGasto){
+        return gastoServicio.listarDeudores(idGasto);
+    }
+
+    @GetMapping("/comunidad/listar/deudores/comunidad/{idComunidad}")
+    public List<VecinoDeudaDTO> listarDeudoresIdComunidad(@PathVariable Integer idComunidad){
+        return gastoServicio.listarDeudoresIdComunidad(idComunidad);
     }
 }

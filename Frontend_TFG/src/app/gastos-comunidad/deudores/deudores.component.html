@@ -1,3 +1,12 @@
-<p>
-  deudores works!
-</p>
+<div class="gastos" *ngFor="let vecinoDeuda of vecinoDeudas">
+  <div class="gasto">
+    <span>{{ vecinoDeuda.vecino.nombre}} {{vecinoDeuda.vecino.apellidos}}</span>
+    <div class="estado Pagado">
+      <span>Ver más</span>
+    </div>
+  </div>
+</div>
+
+<div class="div-sin" *ngIf="vecinoDeudas.length === 0">
+  <span>No hay gastos registrados en tu comunidad.</span>
+</div>

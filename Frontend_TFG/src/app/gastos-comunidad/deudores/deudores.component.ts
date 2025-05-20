@@ -1,15 +1,87 @@
 import { Component, OnInit } from '@angular/core';
+import {Usuario} from "../../modelos/Usuario";
+import {Comunidad} from "../../modelos/Comunidad";
+import {Gasto} from "../../modelos/Gasto";
+import {ComunidadService} from "../../servicios/comunidad.service";
+import {Router} from "@angular/router";
+import {UsuarioService} from "../../servicios/usuario.service";
+import {GastosService} from "../../servicios/gastos.service";
+import {jwtDecode} from "jwt-decode";
+import {TokenDataDTO} from "../../modelos/TokenData";
+import {VecinoDeuda} from "../../modelos/VecinoDeuda";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-deudores',
   templateUrl: './deudores.component.html',
   styleUrls: ['./deudores.component.scss'],
   standalone: true,
+  imports: [
+    NgForOf,
+    NgIf
+  ]
 })
 export class DeudoresComponent  implements OnInit {
+  correo?: string;
+  private usuario!: Usuario
+  private comunidad!: Comunidad
+  vecinoDeudas: VecinoDeuda[] = []
 
-  constructor() { }
+  constructor(private comunidadService: ComunidadService,
+              private router: Router,
+              private usuarioService: UsuarioService,
+              private gastosService: GastosService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<{ tokenDataDTO: TokenDataDTO }>(token);
+        const tokenDataDTO = decodedToken?.tokenDataDTO;
+        if (tokenDataDTO && tokenDataDTO.correo) {
+          this.correo = tokenDataDTO.correo;
+          this.cargarUsuario(this.correo);
+        }
+      } catch (e) {
+        console.error('Error al decodificar el token:', e);
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
+
+  cargarUsuario(correo: string): void {
+    this.usuarioService.cargarUsuarioComunidad(correo).subscribe({
+      next: (usuario: Usuario) => {
+        this.usuario = usuario;
+        if (this.usuario && this.usuario.id) {
+          this.cargarComunidad()
+        }
+      },
+      error: (e) => {
+        console.error("Error al cargar el usuario:", e);
+      }
+    });
+  }
+
+  cargarComunidad() {
+    if (this.usuario.id) {
+      this.comunidadService.cargarComunidadPorIdUsuario(this.usuario.id).subscribe({
+        next: data => {
+          this.comunidad = data
+          this.listarDeudorea()
+        }
+      })
+    }
+  }
+
+  listarDeudorea() {
+    if (this.comunidad.id)
+      this.gastosService.listarDeudoresIdComunidad(this.comunidad.id).subscribe({
+        next: data => {
+          this.vecinoDeudas = data
+        }
+      })
+  }
 
 }

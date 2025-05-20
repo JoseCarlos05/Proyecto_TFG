@@ -9,6 +9,7 @@ import {InsertarCodigo} from "../modelos/InsertarCodigo";
 import {MarcarPagado} from "../modelos/MarcarPagado";
 import {CrearEleccion} from "../modelos/CrearEleccion";
 import {CrearGasto} from "../modelos/CrearGasto";
+import {VecinoDeuda} from "../modelos/VecinoDeuda";
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,10 @@ export class GastosService {
   crearGasto(crearGasto: CrearGasto): Observable<any> {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/comunidad/crear/gasto`, crearGasto, options);
+  }
+
+  listarDeudoresIdComunidad(idComunidad: number): Observable<VecinoDeuda[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<VecinoDeuda[]>(`${this.apiUrl}/comunidad/listar/deudores/comunidad/${idComunidad}`, options)
   }
 }

@@ -86,7 +86,6 @@ export class GastosComponent implements OnInit {
       this.gastosService.listarGastosComunidad(this.comunidad.id).subscribe({
         next: data => {
           this.listaGastos = data
-          console.log(this.listaGastos)
         }
       })
   }
