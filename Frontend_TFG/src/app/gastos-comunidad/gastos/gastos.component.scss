@@ -14,12 +14,20 @@
 
     .estado {
       border-radius: 15px;
-      background-color: white;
       padding: 10px;
       margin: 15px auto 0;
-      color: black;
       float: right;
       border: 1px solid black;
+    }
+
+    .Pagado {
+      color: black;
+      background-color: white;
+    }
+
+    .Pendiente {
+      color: white;
+      background-color: red;
     }
   }
 }
