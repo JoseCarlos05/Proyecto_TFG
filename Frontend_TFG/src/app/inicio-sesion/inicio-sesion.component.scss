@@ -81,3 +81,19 @@ ion-button {
   display: block;
   font-weight: bold;
 }
+
+.registro-container2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  max-width: 400px;
+  margin: 10px auto;
+}
+
+.olvide-contrasena {
+  color: #0E8008;
+  font-size: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+}

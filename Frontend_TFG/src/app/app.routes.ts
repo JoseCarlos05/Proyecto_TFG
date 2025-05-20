@@ -145,5 +145,9 @@ export const routes: Routes = [
   {
     path: 'lista-vecinos',
     loadComponent: () => import('./lista-vecinos/lista-vecinos.component').then((m) => m.ListaVecinosComponent)
+  },
+  {
+    path: 'olvidar-contrasena',
+    loadComponent: () => import('./olvidar-contrasena/olvidar-contrasena.component').then((m) => m.OlvidarContrasenaComponent)
   }
 ];

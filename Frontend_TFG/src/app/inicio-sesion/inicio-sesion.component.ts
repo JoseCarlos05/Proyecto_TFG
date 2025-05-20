@@ -31,6 +31,10 @@ export class InicioSesionComponent  implements OnInit {
     this.router.navigate(['/registro']);
   }
 
+  navigateToOlvidarContrasena() {
+    this.router.navigate(['/olvidar-contrasena']);
+  }
+
   login() {
     this.authService.login(this.formLogin).subscribe({
       next: data => {
