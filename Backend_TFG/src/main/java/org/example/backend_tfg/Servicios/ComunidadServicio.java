@@ -99,6 +99,17 @@ public class ComunidadServicio {
         iComunidadRepositorio.save(comunidad);
     }
 
+    public List<Solicitud> listarSolicitudes(Integer idComunidad) {
+        List<Solicitud> solicitudes = iSolicitudRepositorio.findAll();
+        List<Solicitud> solicitudesComunidad = new ArrayList<>();
+        for (Solicitud solicitud : solicitudes) {
+            if (solicitud.getIdComunidad().equals(idComunidad)) {
+                solicitudesComunidad.add(solicitud);
+            }
+        }
+        return solicitudesComunidad;
+    }
+
     public void aceptarSolicitudEntrada(Solicitud solicitud) {
         Vivienda vivienda = iViviendaRepositorio.findById(solicitud.getIdVivienda())
                 .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
@@ -112,12 +123,16 @@ public class ComunidadServicio {
             iViviendaRepositorio.save(vivienda);
             vecino.getViviendas().add(vivienda);
             iVecinoRepositorio.save(vecino);
+            iSolicitudRepositorio.delete(solicitud);
         } else if (!comunidad.getViviendas().contains(vivienda)) {
             throw new RuntimeException("La vivienda seleccionada no pertenece o no existe en la comunidad.");
         } else if (vecino.getViviendas().contains(vivienda) || vivienda.getVecinos().contains(vecino)) {
             throw new RuntimeException("El vecino ya tiene esta vivienda correspondida.");
         }
+    }
 
+    public void rechazarSolicitud(Solicitud solicitud) {
+        iSolicitudRepositorio.delete(solicitud);
     }
 
     public static ComunidadDTO getComunidadDTO(Comunidad c) {

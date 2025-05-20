@@ -55,7 +55,6 @@ public class VecinoControlador {
         vecinoServicio.actualizarVecino(dto, idVecino);
     }
 
-
     @PostMapping("/solicitar/{idVivienda}/{idComunidad}/{idVecino}")
     public void solicitarIngresoComunidad(@PathVariable Integer idVivienda, @PathVariable Integer idComunidad,
                                           @PathVariable Integer idVecino){
