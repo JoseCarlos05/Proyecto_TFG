@@ -1,7 +1,7 @@
 <div class="gastos" *ngFor="let vecinoDeuda of vecinoDeudas">
   <div class="gasto">
     <span>{{ vecinoDeuda.vecino.nombre}} {{vecinoDeuda.vecino.apellidos}}</span>
-    <div class="estado Pagado">
+    <div class="estado Pagado" (click)="abrirModal(vecinoDeuda)">
       <span>Ver más</span>
     </div>
   </div>
@@ -10,3 +10,21 @@
 <div class="div-sin" *ngIf="vecinoDeudas.length === 0">
   <span>No hay gastos registrados en tu comunidad.</span>
 </div>
+
+<div class="modal-overlay" *ngIf="modalAbierto" (click)="cerrarModal()">
+  <div class="modal-contenido" (click)="$event.stopPropagation()">
+    <h1>Enviar recordatorio</h1>
+    <div class="lista-gastos">
+      <label *ngFor="let gasto of vecinoSeleccionado?.gastos">
+        <input type="checkbox" [value]="gasto">
+        <span class="texto-gasto">{{ gasto.concepto }} - {{ gasto.total}}€</span>
+      </label>
+    </div>
+
+    <div class="botones-modal">
+      <button (click)="aceptar()">Aceptar</button>
+      <button (click)="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+

@@ -9,7 +9,8 @@ import {GastosService} from "../../servicios/gastos.service";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../../modelos/TokenData";
 import {VecinoDeuda} from "../../modelos/VecinoDeuda";
-import {NgForOf, NgIf} from "@angular/common";
+import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-deudores',
@@ -18,7 +19,9 @@ import {NgForOf, NgIf} from "@angular/common";
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    CurrencyPipe,
+    FormsModule
   ]
 })
 export class DeudoresComponent  implements OnInit {
@@ -26,7 +29,8 @@ export class DeudoresComponent  implements OnInit {
   private usuario!: Usuario
   private comunidad!: Comunidad
   vecinoDeudas: VecinoDeuda[] = []
-
+  modalAbierto = false;
+  vecinoSeleccionado: VecinoDeuda | null = null;
   constructor(private comunidadService: ComunidadService,
               private router: Router,
               private usuarioService: UsuarioService,
@@ -82,6 +86,20 @@ export class DeudoresComponent  implements OnInit {
           this.vecinoDeudas = data
         }
       })
+  }
+  abrirModal(vecinoDeuda: VecinoDeuda): void {
+    if (this.vecinoSeleccionado == null) {
+      this.vecinoSeleccionado = vecinoDeuda;
+    }    this.modalAbierto = true;
+  }
+
+  cerrarModal(): void {
+    this.modalAbierto = false;
+    this.vecinoSeleccionado = null;
+  }
+
+  aceptar(): void {
+    this.cerrarModal();
   }
 
 }

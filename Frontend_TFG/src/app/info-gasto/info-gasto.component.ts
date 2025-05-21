@@ -1,0 +1,173 @@
+import { Component, OnInit } from '@angular/core';
+import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
+import {HeaderComponent} from "../header/header.component";
+import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
+import {IonicModule} from "@ionic/angular";
+import {Usuario} from "../modelos/Usuario";
+import {Comunidad} from "../modelos/Comunidad";
+import {Gasto} from "../modelos/Gasto";
+import {ComunidadService} from "../servicios/comunidad.service";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {UsuarioService} from "../servicios/usuario.service";
+import {GastosService} from "../servicios/gastos.service";
+import {jwtDecode} from "jwt-decode";
+import {TokenDataDTO} from "../modelos/TokenData";
+import {ViviendaService} from "../servicios/vivienda.service";
+import {filter} from "rxjs";
+import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
+import {NgForOf, NgIf} from "@angular/common";
+import {VecinoDeuda} from "../modelos/VecinoDeuda";
+import {Vecino} from "../modelos/Vecino";
+
+@Component({
+  selector: 'app-info-gasto',
+  templateUrl: './info-gasto.component.html',
+  styleUrls: ['./info-gasto.component.scss'],
+  standalone: true,
+  imports: [
+    FooterComunidadComponent,
+    HeaderComponent,
+    HeaderComunidadComponent,
+    IonicModule,
+    MenuInferiorComunidadComponent,
+    NgForOf,
+    NgIf
+  ]
+})
+export class InfoGastoComponent  implements OnInit {
+  correo?: string;
+  private usuario!: Usuario
+  private comunidad!: Comunidad
+  gasto: Gasto = {} as Gasto;
+  idGasto!: number;
+  numeroPropietarios: number = 0;
+  totalPorVecino: number = 0;
+  porcentajePagado: number = 0;
+  modalAbierto = false;
+  gastoSeleccionado: Gasto | null = null;
+  vecinoDeudas: Vecino[] = []
+  vecinoValor: Vecino = {} as Vecino;
+
+  constructor(private comunidadService: ComunidadService,
+              private router: Router,
+              private usuarioService: UsuarioService,
+              private gastosService: GastosService,
+              private viviendaService: ViviendaService,
+              private activateRoute: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.activateRoute.params.subscribe(params => {
+      this.idGasto = Number(params['id']);
+    });
+
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<{ tokenDataDTO: TokenDataDTO }>(token);
+        const tokenDataDTO = decodedToken?.tokenDataDTO;
+        if (tokenDataDTO && tokenDataDTO.correo) {
+          this.correo = tokenDataDTO.correo;
+          this.cargarUsuario(this.correo);
+        }
+      } catch (e) {
+        console.error('Error al decodificar el token:', e);
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        if (!event.urlAfterRedirects.includes('/info-gasto')) {
+          sessionStorage.removeItem('gasto');
+        }
+      });
+
+    this.calcularPorcentajePagado(this.idGasto)
+  }
+
+  cargarUsuario(correo: string): void {
+    this.usuarioService.cargarUsuarioComunidad(correo).subscribe({
+      next: (usuario: Usuario) => {
+        this.usuario = usuario;
+        if (this.usuario && this.usuario.id) {
+          this.cargarComunidad()
+        }
+      },
+      error: (e) => {
+        console.error("Error al cargar el usuario:", e);
+      }
+    });
+  }
+
+  cargarComunidad() {
+    if (this.usuario.id) {
+      this.comunidadService.cargarComunidadPorIdUsuario(this.usuario.id).subscribe({
+        next: data => {
+          this.comunidad = data
+          this.numeroViviendas(this.comunidad.id)
+
+        }
+      })
+    }
+  }
+
+  verGasto(idGasto: number) {
+    if (idGasto)
+      this.gastosService.verGastoComunidad(idGasto).subscribe({
+        next: data => {
+          this.gasto = data;
+          sessionStorage.setItem('gasto', JSON.stringify(this.gasto));
+          if (this.numeroPropietarios > 0) {
+            this.totalPorVecino = this.gasto.total / this.numeroPropietarios;
+          }
+          this.listarDeudorea()
+
+        }
+      });
+  }
+
+  numeroViviendas(idComunidad: number) {
+    if (idComunidad)
+      this.viviendaService.numeroPropietarios(idComunidad).subscribe({
+        next: data => {
+          this.numeroPropietarios = data
+          this.verGasto(this.idGasto);
+        }
+      })
+  }
+
+  calcularPorcentajePagado(idGasto: number) {
+    if (idGasto)
+      this.gastosService.calcularPorcentajePagado(idGasto).subscribe({
+        next: data => {
+          this.porcentajePagado = data
+        }
+      })
+  }
+
+  listarDeudorea() {
+    if (this.comunidad.id)
+      this.gastosService.listarDeudoresIdGasto(this.gasto.id).subscribe({
+        next: data => {
+          this.vecinoDeudas = data
+        }
+      })
+  }
+
+  abrirModal(gasto: Gasto): void {
+    if (this.gastoSeleccionado == null) {
+      this.gastoSeleccionado = gasto;
+    }    this.modalAbierto = true;
+  }
+
+  cerrarModal(): void {
+    this.modalAbierto = false;
+    this.gastoSeleccionado = null;
+  }
+
+  aceptar(): void {
+    this.cerrarModal();
+  }
+}

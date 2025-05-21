@@ -96,4 +96,8 @@ export class GastosComponent implements OnInit {
     }
     return "Pendiente"
   }
+
+  navigateToGasto(idGasto: number) {
+    this.router.navigate(['info-gasto', idGasto])
+  }
 }

@@ -1,4 +1,4 @@
-<div class="gastos" *ngFor="let gasto of listaGastos">
+<div class="gastos" *ngFor="let gasto of listaGastos" (click)="navigateToGasto(gasto.id)">
   <div class="gasto">
     <span>{{ gasto.concepto }}</span>
     <div class="estado" [ngClass]="comprobarEstado(gasto)">
