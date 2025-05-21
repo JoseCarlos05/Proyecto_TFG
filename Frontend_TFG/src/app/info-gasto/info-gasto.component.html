@@ -16,10 +16,12 @@
         <span>Pagado: {{porcentajePagado}}% / {{gasto.total}}€</span>
       </div>
     </div>
-    <div class="contenedor-boton" (click)="abrirModal(gasto)">
-      <button>Ver más</button>
-
+    <div class="contenedor-boton">
+      <button (click)="abrirModal(gasto)">
+        {{ porcentajePagado === 100 ? 'Pagado' : 'Ver más' }}
+      </button>
     </div>
+
   </div>
 </ion-content>
 <div class="modal-overlay" *ngIf="modalAbierto" (click)="cerrarModal()">

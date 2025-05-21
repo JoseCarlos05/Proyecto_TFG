@@ -157,10 +157,12 @@ export class InfoGastoComponent  implements OnInit {
   }
 
   abrirModal(gasto: Gasto): void {
-    if (this.gastoSeleccionado == null) {
+    if (this.porcentajePagado < 100) {
       this.gastoSeleccionado = gasto;
-    }    this.modalAbierto = true;
+      this.modalAbierto = true;
+    }
   }
+
 
   cerrarModal(): void {
     this.modalAbierto = false;
