@@ -59,9 +59,19 @@ public class ComunidadControlador {
         comunidadService.generarCodigo(idVivienda, idComunidad);
     }
 
+    @GetMapping("/comunidad/listar/solicitudes/{idComunidad}")
+    public List<Solicitud> listarSolicitudesComunidad(@PathVariable Integer idComunidad){
+        return comunidadService.listarSolicitudes(idComunidad);
+    }
+
     @PostMapping("/comunidad/aceptar/solicitud")
     public void aceptarSolicitud(@RequestBody Solicitud solicitud){
         comunidadService.aceptarSolicitudEntrada(solicitud);
+    }
+
+    @PostMapping("/comunidad/rechazar/solicitud")
+    public void rechazarSolicitud(@RequestBody Solicitud solicitud){
+        comunidadService.rechazarSolicitud(solicitud);
     }
 
     @GetMapping("/vecino/listar/todas/comunidades")

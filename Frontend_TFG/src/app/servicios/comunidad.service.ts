@@ -6,6 +6,7 @@ import {Comunidad} from "../modelos/Comunidad";
 import {ComunService} from "./comun.service";
 import {InsertarCodigo} from "../modelos/InsertarCodigo";
 import {Vecino} from "../modelos/Vecino";
+import {Solicitud} from "../modelos/Solicitud";
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +27,24 @@ export class ComunidadService {
     return this.http.post(`${this.apiUrl}/vecino/insertar/codigo`, insertarCodigo, options);
   }
 
+  listarSolicitudes(idComunidad: number): Observable<Solicitud[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Solicitud[]>(`${this.apiUrl}/comunidad/listar/solicitudes/${idComunidad}`, options);
+  }
+
   solicitadUnion(idVivienda: number, idComunidad: number, idVecino: number): Observable<any> {
     const options = this.comunService.autorizarPeticion();
-    return this.http.post(`${this.apiUrl}/vecino/solicitar/${idVivienda}/${idComunidad}/${idVecino}`, {},options);
+    return this.http.post(`${this.apiUrl}/vecino/solicitar/${idVivienda}/${idComunidad}/${idVecino}`, {} ,options);
+  }
+
+  aceptarSolicitud(solicitud: Solicitud) {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/comunidad/aceptar/solicitud`, solicitud ,options);
+  }
+
+  rechazarSolicitud(solicitud: Solicitud) {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/comunidad/rechazar/solicitud`, solicitud ,options);
   }
 
   listarTodasComunidades(): Observable<Comunidad[]> {
@@ -39,5 +55,10 @@ export class ComunidadService {
   cargarComunidadPorIdUsuario(idUsuario: number): Observable<Comunidad> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Comunidad>(`${this.apiUrl}/comunidad/ver/comunidad/usuario/${idUsuario}`, options)
+  }
+
+  cargarVecinoPorIdVecinoComunidad(idVecino: number): Observable<Vecino> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Vecino>(`${this.apiUrl}/comunidad/ver/vecino/${idVecino}`, options)
   }
 }
