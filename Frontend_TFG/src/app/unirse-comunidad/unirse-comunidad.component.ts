@@ -84,7 +84,7 @@ export class UnirseComunidadComponent  implements OnInit {
       next: (usuario: Usuario) => {
         this.usuario = usuario;
         if (usuario && usuario.id) {
-          this.cargarVecino(this.usuario.id)
+          this.cargarVecino()
           console.log(usuario)
         }
       },
@@ -94,8 +94,7 @@ export class UnirseComunidadComponent  implements OnInit {
     });
   }
 
-
-  cargarVecino(idUsuario: number | undefined) {
+  cargarVecino() {
     if (this.usuario.id) {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
@@ -108,7 +107,7 @@ export class UnirseComunidadComponent  implements OnInit {
 
   solicitarUnion() {
     if (this.idVivienda && this.idComunidad && this.vecino.id) {
-      this.comunidadService.solicitadUnion(this.idVivienda, this.idComunidad, this.vecino.id).subscribe({
+      this.comunidadService.solicitarUnion(this.idVivienda, this.idComunidad, this.vecino.id).subscribe({
         next: () => {
           this.router.navigate(['/comunidades']);
         },

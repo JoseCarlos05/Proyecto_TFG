@@ -55,8 +55,8 @@ public class ComunidadControlador {
     }
 
     @PostMapping("/comunidad/generar/codigo/{idVivienda}/{idComunidad}")
-    public void generarCodigo(@PathVariable Integer idVivienda, @PathVariable Integer idComunidad){
-        comunidadService.generarCodigo(idVivienda, idComunidad);
+    public String generarCodigo(@PathVariable Integer idVivienda, @PathVariable Integer idComunidad){
+        return comunidadService.generarCodigo(idVivienda, idComunidad);
     }
 
     @GetMapping("/comunidad/listar/solicitudes/{idComunidad}")

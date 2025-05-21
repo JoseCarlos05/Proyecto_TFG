@@ -16,6 +16,11 @@ ion-content {
   .grid-principal {
     padding: 0;
 
+    ion-img {
+      margin: 20px auto 10px auto;
+      width: 60px;
+    }
+
     .row-residente {
       border: 1px solid black;
       border-top: none;

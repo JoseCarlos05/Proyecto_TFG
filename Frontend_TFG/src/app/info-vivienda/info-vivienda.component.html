@@ -27,9 +27,11 @@
         </ion-grid>
       </ion-col>
       <ion-col size="2" *ngIf="!propietario">
-        <ion-img src="assets/icon/icono-llave.png"></ion-img>
+        <ion-img (click)="confirmarAsignacion(residente)" src="assets/icon/icono-llave.png"></ion-img>
       </ion-col>
     </ion-row>
+
+    <ion-img src="assets/icon/anadir.png" (click)="generarCodigo()"></ion-img>
 
   </ion-grid>
 

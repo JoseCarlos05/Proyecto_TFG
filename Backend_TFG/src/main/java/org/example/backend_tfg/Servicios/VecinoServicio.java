@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -152,33 +153,32 @@ public class VecinoServicio {
                 .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
 
         for (Comunidad comunidad : iComunidadRepositorio.findAll()) {
-            if (comunidad.getCodigoComunidad().equals(insertarCodigoDTO.getCodigoComunidad())) {
-                String dirViviendaHex = insertarCodigoDTO.getCodigoComunidad().substring(6);
-                StringBuilder dirViviendaSB = new StringBuilder();
-                for (int i = 0; i < dirViviendaHex.length(); i += 2) {
-                    String strByte = dirViviendaHex.substring(i, i + 2);
-                    int decimal = Integer.parseInt(strByte, 16);
-                    dirViviendaSB.append((char) decimal);
-                }
-                String dirVivienda = dirViviendaSB.toString();
+            if (comunidad.getCodigoComunidad() != null &&
+                    comunidad.getCodigoComunidad().equals(insertarCodigoDTO.getCodigoComunidad())) {
+
+                String dirViviendaEncoded = insertarCodigoDTO.getCodigoComunidad().substring(6);
+                byte[] decodedBytes = Base64.getDecoder().decode(dirViviendaEncoded);
+                String dirVivienda = new String(decodedBytes, StandardCharsets.UTF_8);
+
+                System.out.println(dirVivienda);
+
                 for (Vivienda vivienda : iViviendaRepositorio.findAll()) {
                     if (vivienda.getDireccionPersonal().equals(dirVivienda)) {
+                        System.out.println("encontrado");
                         vivienda.getVecinos().add(vecino);
                         iViviendaRepositorio.save(vivienda);
                         vecino.getViviendas().add(vivienda);
                         iVecinoRepositorio.save(vecino);
+                        comunidad.setCodigoComunidad(null);
+                        iComunidadRepositorio.save(comunidad);
                         break;
                     }
                 }
-                comunidad.setCodigoComunidad(null);
-                iComunidadRepositorio.save(comunidad);
                 break;
             } else {
                 throw new RuntimeException("Código incorrecto.");
             }
-
         }
-
     }
 
     public static VecinoDTO getVecinoDTO(Vecino vecino){

@@ -27,12 +27,24 @@ export class ComunidadService {
     return this.http.post(`${this.apiUrl}/vecino/insertar/codigo`, insertarCodigo, options);
   }
 
+  generarCodigo(idVivienda: number, idComunidad: number): Observable<string> {
+    const options = {
+      ...this.comunService.autorizarPeticion(),
+      responseType: 'text' as 'json'
+    };
+    return this.http.post<string>(
+      `${this.apiUrl}/comunidad/generar/codigo/${idVivienda}/${idComunidad}`,
+      {},
+      options
+    );
+  }
+
   listarSolicitudes(idComunidad: number): Observable<Solicitud[]> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Solicitud[]>(`${this.apiUrl}/comunidad/listar/solicitudes/${idComunidad}`, options);
   }
 
-  solicitadUnion(idVivienda: number, idComunidad: number, idVecino: number): Observable<any> {
+  solicitarUnion(idVivienda: number, idComunidad: number, idVecino: number): Observable<any> {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/vecino/solicitar/${idVivienda}/${idComunidad}/${idVecino}`, {} ,options);
   }

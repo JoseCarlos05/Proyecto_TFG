@@ -57,4 +57,9 @@ export class ViviendaService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/comunidad/crear/vivienda`, crearVivienda, options);
   }
+
+  asignarPropietario(idVivienda: number, idPropietario: number): Observable<void> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post<void>(`${this.apiUrl}/comunidad/asginar/propietario/vivienda/${idVivienda}/${idPropietario}`, {}, options);
+  }
 }

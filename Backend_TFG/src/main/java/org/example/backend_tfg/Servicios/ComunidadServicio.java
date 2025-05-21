@@ -11,10 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -75,7 +73,7 @@ public class ComunidadServicio {
         return getComunidadDTO(comunidad);
     }
 
-    public void generarCodigo(Integer idVivienda, Integer idComunidad) {
+    public String generarCodigo(Integer idVivienda, Integer idComunidad) {
         Random random = new Random();
         StringBuilder resultado = new StringBuilder();
 
@@ -90,13 +88,13 @@ public class ComunidadServicio {
         Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
                 .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
 
-        for (byte b : vivienda.getDireccionPersonal().getBytes()) {
-            resultado.append(String.format("%02X", b));
-        }
+        String direccionEncoded = Base64.getEncoder().encodeToString(vivienda.getDireccionPersonal().getBytes(StandardCharsets.UTF_8));
+        String codigoFinal = resultado + direccionEncoded;
 
-        comunidad.setCodigoComunidad(resultado.toString());
-
+        comunidad.setCodigoComunidad(codigoFinal);
         iComunidadRepositorio.save(comunidad);
+
+        return codigoFinal;
     }
 
     public List<Solicitud> listarSolicitudes(Integer idComunidad) {
