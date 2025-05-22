@@ -1,0 +1,15 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="cuadrante-container">
+    <div class="cuadrado" *ngFor="let hora of horas">
+      {{ hora }}
+    </div>
+  </div>
+
+  <ion-button class="boton-reservar">Reservar</ion-button>
+
+</ion-content>
+
+<app-footer-comunidad></app-footer-comunidad>

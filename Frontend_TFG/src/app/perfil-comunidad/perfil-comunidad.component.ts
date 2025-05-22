@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
-import {IonicModule} from "@ionic/angular";
+import {IonicModule, ToastController} from "@ionic/angular";
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
@@ -49,18 +49,30 @@ export class PerfilComunidadComponent  implements OnInit {
   sancionesVecino: Sancion[] = []
   deudasVecino: Gasto[] = []
 
-  constructor(private router: Router,
-              private usuarioService: UsuarioService,
-              private vecinoService: VecinoService,
-              private viviendaService: ViviendaService,
-              private sancionService: SancionService,
-              private gastosService: GastosService) { }
+  constructor(
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private vecinoService: VecinoService,
+    private viviendaService: ViviendaService,
+    private sancionService: SancionService,
+    private gastosService: GastosService,
+    private toastController: ToastController
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
-    this.inicio()
+    this.inicio();
+  }
+
+  async mostrarToast(mensaje: string, color: 'success' | 'danger' | 'warning') {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'top',
+      color: color
+    });
+    await toast.present();
   }
 
   inicio() {
@@ -76,6 +88,7 @@ export class PerfilComunidadComponent  implements OnInit {
         }
       } catch (e) {
         console.error('Error al decodificar el token:', e);
+        this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
       }
     } else {
       this.router.navigate(['/']);
@@ -87,11 +100,11 @@ export class PerfilComunidadComponent  implements OnInit {
       next: (usuario: Usuario) => {
         this.usuario = usuario;
         if (this.usuario && this.usuario.id) {
-          this.cargarVecino()
+          this.cargarVecino();
         }
       },
-      error: (e) => {
-        console.error("Error al cargar el usuario:", e);
+      error: () => {
+        this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
       }
     });
   }
@@ -104,7 +117,7 @@ export class PerfilComunidadComponent  implements OnInit {
           this.vecinoFoto = data
           this.cargarComunidad()
         }
-      })
+      });
     }
   }
 
@@ -136,7 +149,7 @@ export class PerfilComunidadComponent  implements OnInit {
   }
 
   cargarGastos() {
-    this.deudasVecino = []
+    this.deudasVecino = [];
     this.gastosService.listarGastos(this.comunidad.id).subscribe({
       next: data => {
         for (const gasto of data) {
@@ -144,30 +157,36 @@ export class PerfilComunidadComponent  implements OnInit {
             this.deudasVecino.push(gasto)
           }
         }
+      },
+      error: () => {
+        this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
       }
-    })
+    });
   }
 
   listarResidentes() {
-    this.residentesEnPropiedad = []
-    let resultado = []
+    this.residentesEnPropiedad = [];
+    let resultado = [];
     for (const vivienda of this.propiedadesVecino()) {
       this.viviendaService.listarResidentes(vivienda.id).subscribe({
         next: data => {
           for (const vecino of data) {
             if (this.vecino?.id !== vecino.id) {
-              resultado.push(vecino)
+              resultado.push(vecino);
             }
           }
           this.residentesEnPropiedad = resultado.filter((obj, index, self) =>
-            index === self.findIndex(o => o.id === obj.id))
+            index === self.findIndex(o => o.id === obj.id));
+        },
+        error: () => {
+          this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
         }
-      })
+      });
     }
   }
 
   propiedadesVecino(): Vivienda[] {
-    let listaViviendas: Vivienda[] = []
+    let listaViviendas: Vivienda[] = [];
     if (this.viviendas) {
       for (const vivienda of this.viviendas) {
         if (this.vecino) {
@@ -177,11 +196,11 @@ export class PerfilComunidadComponent  implements OnInit {
         }
       }
     }
-    return listaViviendas
+    return listaViviendas;
   }
 
   residenciasVecino(): Vivienda[] {
-    let listaViviendas: Vivienda[] = []
+    let listaViviendas: Vivienda[] = [];
     if (this.viviendas) {
       for (const vivienda of this.viviendas) {
         if (this.vecino && vivienda.idVecinos) {
@@ -191,17 +210,16 @@ export class PerfilComunidadComponent  implements OnInit {
         }
       }
     }
-    return listaViviendas
+    return listaViviendas;
   }
 
   comprobarIdentidad(): string {
-    const propiedades = this.propiedadesVecino().length
-    const residencias = this.residenciasVecino().length
+    const propiedades = this.propiedadesVecino().length;
+    const residencias = this.residenciasVecino().length;
 
     if (this.vecino) {
       if (this.vecino.id === this.comunidad.idPresidente) {
-        return "Presidente de la comunidad"
-
+        return "Presidente de la comunidad";
       } else if (propiedades > 0) {
         let listaViviendas = this.propiedadesVecino()
 
@@ -235,7 +253,7 @@ export class PerfilComunidadComponent  implements OnInit {
         }
       }
     }
-    return ""
+    return "";
   }
 
   irGasto(idGasto: number) {

@@ -29,7 +29,7 @@ export class PerfilComponent  implements OnInit {
 
   usuario: Usuario = {} as Usuario;
   vecino: Vecino = {} as Vecino;
-  correo?: string
+  correo?: string;
   editable: boolean = false;
 
   editarVecino: EditarVecinoDTO = {
@@ -45,10 +45,16 @@ export class PerfilComponent  implements OnInit {
   foto: File | null = null;
 
 
-  constructor(private router: Router,
-              private usuarioService: UsuarioService,
-              private vecinoService: VecinoService,
-              private comunidadService: ComunidadService) { }
+  toastSuccess = false;
+  toastError = false;
+  toastUsuarioError = false;
+
+  constructor(
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private vecinoService: VecinoService,
+    private comunidadService: ComunidadService
+  ) {}
 
   ngOnInit() {
     const token = sessionStorage.getItem('authToken');
@@ -71,11 +77,12 @@ export class PerfilComponent  implements OnInit {
       next: (usuario: Usuario) => {
         this.usuario = usuario;
         if (this.usuario && this.usuario.id) {
-          this.cargarVecino()
+          this.cargarVecino();
         }
       },
       error: (e) => {
         console.error("Error al cargar el usuario:", e);
+        this.toastUsuarioError = true;
       }
     });
   }
@@ -129,6 +136,7 @@ export class PerfilComponent  implements OnInit {
       next: res => {
         console.log('Actualizado correctamente');
         this.editable = false;
+        this.toastSuccess = true;
         this.cargarVecino()
       },
       error: err => {

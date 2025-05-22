@@ -21,3 +21,27 @@
 
   <ion-button expand="block" (click)="login()">INICIO SESIÓN</ion-button>
 </ion-content>
+
+<ion-toast
+  id="toastCamposVacios"
+  message="Por favor, ingrese ambos campos."
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+
+<ion-toast
+  id="toastLoginIncorrecto"
+  message="Correo o contraseña incorrectos."
+  duration="3000"
+  position="top"
+  color="danger"
+></ion-toast>
+
+<ion-toast
+  id="toastExito"
+  message="Bienvenido a tu comunidad!"
+  duration="3000"
+  position="top"
+  color="success"
+></ion-toast>

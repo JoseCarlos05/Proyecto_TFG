@@ -37,5 +37,28 @@
   </ion-button>
 </ion-content>
 
+<ion-toast
+  [isOpen]="toastSuccess"
+  message="Perfil actualizado correctamente"
+  duration="2000"
+  color="success"
+  (didDismiss)="toastSuccess = false">
+</ion-toast>
+
+<ion-toast
+  [isOpen]="toastError"
+  message="Error al actualizar el perfil"
+  duration="2000"
+  color="danger"
+  (didDismiss)="toastError = false">
+</ion-toast>
+
+<ion-toast
+  [isOpen]="toastUsuarioError"
+  message="Error al cargar el usuario"
+  duration="2000"
+  color="danger"
+  (didDismiss)="toastUsuarioError = false">
+</ion-toast>
 
 <app-footer></app-footer>
