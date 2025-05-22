@@ -40,12 +40,14 @@ export class PerfilComunidadComponent  implements OnInit {
 
   private usuario?: Usuario
   vecino?: Vecino
+  propietario?: Vecino;
   vecinoFoto: Vecino = {} as Vecino;
 
   private correo!: string
   private comunidad!: Comunidad
   private viviendas?: Vivienda[] = []
-  residentesEnPropiedad: Vecino[] = []
+  viviendaVecino: Vivienda = {} as Vivienda;
+  residentes: Vecino[] = []
   sancionesVecino: Sancion[] = []
   deudasVecino: Gasto[] = []
 
@@ -126,16 +128,6 @@ export class PerfilComunidadComponent  implements OnInit {
     if (comunidadStorage) {
       this.comunidad = JSON.parse(comunidadStorage);
       this.cargarViviendas()
-      this.cargarSanciones()
-      this.cargarGastos()
-    }
-  }
-
-  cargarSanciones() {
-    if (this.vecino) {
-      this.sancionService.listarSancionesVecino(this.comunidad.id, this.vecino.id).subscribe({
-        next: data => this.sancionesVecino = data
-      })
     }
   }
 
@@ -143,17 +135,68 @@ export class PerfilComunidadComponent  implements OnInit {
     this.viviendaService.listarViviendas(this.comunidad.id).subscribe({
       next: data => {
         this.viviendas = data
-        this.listarResidentes()
+        this.cargarViviendaVecino()
       }
     })
   }
 
-  cargarGastos() {
+  cargarViviendaVecino() {
+    if (this.viviendas) {
+      for (const vivienda of this.viviendas) {
+        if (this.vecino && vivienda.idVecinos.includes(this.vecino?.id)) {
+          this.viviendaVecino = vivienda
+          this.listarResidentes(vivienda.id)
+          break
+        }
+      }
+    }
+  }
+
+  listarResidentes(idVivienda: number) {
+    this.residentes = [];
+    let resultado = [];
+    this.viviendaService.listarResidentes(idVivienda).subscribe({
+      next: data => {
+        for (const vecino of data) {
+          if (this.vecino?.id !== vecino.id) {
+            resultado.push(vecino);
+          }
+        }
+        this.residentes = resultado.filter((obj, index, self) =>
+          index === self.findIndex(o => o.id === obj.id));
+        this.cargarPropietario()
+      },
+      error: () => {
+        this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
+      }
+    });
+  }
+
+  cargarPropietario() {
+    if (this.viviendaVecino && this.viviendaVecino.idPropietario && this.residentes ) {
+      this.propietario = this.residentes.find(v => v.id === this.viviendaVecino.idPropietario);
+      if (this.propietario && this.propietario.id) {
+        this.cargarSanciones(this.propietario.id)
+        this.cargarGastos(this.propietario.id)
+      }
+
+    }
+  }
+
+  cargarSanciones(idPropietario: number) {
+    if (this.vecino) {
+      this.sancionService.listarSancionesVecino(this.comunidad.id, idPropietario).subscribe({
+        next: data => this.sancionesVecino = data
+      })
+    }
+  }
+
+  cargarGastos(idPropietario: number) {
     this.deudasVecino = [];
     this.gastosService.listarGastos(this.comunidad.id).subscribe({
       next: data => {
         for (const gasto of data) {
-          if (this.vecino && !gasto.pagados.includes(this.vecino.id)) {
+          if (this.propietario && !gasto.pagados.includes(idPropietario)) {
             this.deudasVecino.push(gasto)
           }
         }
@@ -164,93 +207,14 @@ export class PerfilComunidadComponent  implements OnInit {
     });
   }
 
-  listarResidentes() {
-    this.residentesEnPropiedad = [];
-    let resultado = [];
-    for (const vivienda of this.propiedadesVecino()) {
-      this.viviendaService.listarResidentes(vivienda.id).subscribe({
-        next: data => {
-          for (const vecino of data) {
-            if (this.vecino?.id !== vecino.id) {
-              resultado.push(vecino);
-            }
-          }
-          this.residentesEnPropiedad = resultado.filter((obj, index, self) =>
-            index === self.findIndex(o => o.id === obj.id));
-        },
-        error: () => {
-          this.mostrarToast('Ocurrió un error al cargar los datos.', 'danger');
-        }
-      });
-    }
-  }
-
-  propiedadesVecino(): Vivienda[] {
-    let listaViviendas: Vivienda[] = [];
-    if (this.viviendas) {
-      for (const vivienda of this.viviendas) {
-        if (this.vecino) {
-          if (vivienda.idPropietario === this.vecino.id) {
-            listaViviendas.push(vivienda)
-          }
-        }
-      }
-    }
-    return listaViviendas;
-  }
-
-  residenciasVecino(): Vivienda[] {
-    let listaViviendas: Vivienda[] = [];
-    if (this.viviendas) {
-      for (const vivienda of this.viviendas) {
-        if (this.vecino && vivienda.idVecinos) {
-          if (vivienda.idVecinos.includes(this.vecino.id) && !(vivienda.idPropietario === this.vecino.id)) {
-            listaViviendas.push(vivienda)
-          }
-        }
-      }
-    }
-    return listaViviendas;
-  }
-
   comprobarIdentidad(): string {
-    const propiedades = this.propiedadesVecino().length;
-    const residencias = this.residenciasVecino().length;
-
     if (this.vecino) {
       if (this.vecino.id === this.comunidad.idPresidente) {
         return "Presidente de la comunidad";
-      } else if (propiedades > 0) {
-        let listaViviendas = this.propiedadesVecino()
-
-        if (propiedades === 1) {
-          return "Propietario de la vivienda " + listaViviendas[0].direccionPersonal
-        } else {
-          let texto = "Propietario de las viviendas: "
-          for (let i = 0; i < listaViviendas.length; i++) {
-            texto += listaViviendas[i].direccionPersonal;
-            if (i < listaViviendas.length - 1) {
-              texto += ", ";
-            }
-          }
-          return texto
-        }
-
+      } else if (this.vecino.id === this.propietario?.id) {
+        return `Propietario de la vivienda ${this.viviendaVecino.direccionPersonal}`;
       } else {
-        let listaViviendas = this.residenciasVecino()
-
-        if (residencias === 1) {
-          return "Residiendo en la vivienda " + listaViviendas[0].direccionPersonal
-        } else {
-          let texto = "Residiendo en las viviendas: "
-          for (let i = 0; i < listaViviendas.length; i++) {
-            texto += listaViviendas[i].direccionPersonal;
-            if (i < listaViviendas.length - 1) {
-              texto += ", ";
-            }
-          }
-          return texto
-        }
+        return `Residiento en la vivienda ${this.viviendaVecino.direccionPersonal}`;
       }
     }
     return "";
@@ -268,5 +232,38 @@ export class PerfilComunidadComponent  implements OnInit {
     } else {
       return `${this.baseUrl}${vecino.fotoPerfil}`;
     }
+  }
+
+  textoListadoVecino(): string {
+    if (this.vecino?.id === this.propietario?.id) {
+      return 'Residentes en tu propiedad'
+    } else {
+      return 'Vecinos en tu residencia'
+    }
+  }
+
+  textoSanciones(): string {
+    if (this.vecino?.id === this.propietario?.id) {
+      return 'Tus sanciones'
+    } else {
+      return 'Sanciones a tu vivienda'
+    }
+  }
+
+  textoDeudas(): string {
+    if (this.vecino?.id === this.propietario?.id) {
+      return 'Tus deudas'
+    } else {
+      return 'Deudas de tu vivienda'
+    }
+  }
+
+  comprobarIdentidadResidente(vecino: Vecino): string {
+    if (vecino.id === this.propietario?.id) {
+      return 'Propietario'
+    } else if (vecino.id === this.comunidad.idPresidente) {
+      return 'Presidente de la comunidad'
+    }
+    return ''
   }
 }
