@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule} from "@ionic/angular";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Usuario} from "../modelos/Usuario";
 import {Comunidad} from "../modelos/Comunidad";
@@ -57,7 +57,8 @@ export class InfoViviendaComponent implements OnInit {
               private gastoService: GastosService,
               private activateRoute: ActivatedRoute,
               private viviendaService: ViviendaService,
-              private sancionService: SancionService) {
+              private sancionService: SancionService,
+              private alertController: AlertController) {
   }
 
   ngOnInit() {
@@ -113,9 +114,6 @@ export class InfoViviendaComponent implements OnInit {
     this.viviendaService.listarResidentesComunidad(this.vivienda.id).subscribe({
       next: data => {
         for (const vecino of data) {
-          if (vecino.id === this.comunidad.id) {
-
-          }
           resultado.push(vecino)
         }
         this.residentes = resultado.filter((obj, index, self) =>
@@ -183,5 +181,58 @@ export class InfoViviendaComponent implements OnInit {
     } else {
       return `${this.baseUrl}${vecino.fotoPerfil}`;
     }
+  }
+
+  asignarPropietario(vecino: Vecino) {
+    this.viviendaService.asignarPropietario(this.vivienda.id, vecino.id).subscribe({
+      next: () => this.verInfoVivienda(this.idVivienda)
+    })
+  }
+
+  async confirmarAsignacion(vecino: Vecino) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar asignación',
+      message: `¿Estás seguro de que quieres hacer a al vecino ${vecino.nombre} ${vecino.apellidos} propietario de la vivienda ${this.vivienda.direccionPersonal}?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            alert.dismiss()
+          }
+        },
+        {
+          text: 'Confirmar',
+          role: 'confirm',
+          handler: () => {
+            this.asignarPropietario(vecino);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  generarCodigo() {
+    this.comunidadService.generarCodigo(this.idVivienda, this.comunidad.id).subscribe({
+      next: data => this.mostrarCodigo(data)
+    })
+  }
+
+  async mostrarCodigo(codigo: string) {
+    const alert = await this.alertController.create({
+      header: `Comparte este código con un vecino:\n\n\n`,
+      message: `${codigo}`,
+      buttons: [
+        {
+          text: 'Cerrar',
+          role: 'confirm',
+          handler: () => {
+            alert.dismiss()
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

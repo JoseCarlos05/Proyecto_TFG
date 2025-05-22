@@ -19,7 +19,7 @@
   <div class="subtitulo-container">
     <ion-text class="subtitle">Vivienda a elegir</ion-text>
     <ion-select label="Selecciona una vivienda" [(ngModel)]="idVivienda" label-placement="floating">
-      <ion-select-option *ngFor="let vivienda of viviendas" [value]="vivienda.idComunidad">
+      <ion-select-option *ngFor="let vivienda of viviendas" [value]="vivienda.id">
         {{ vivienda.direccionPersonal }}
       </ion-select-option>
       <ion-select-option *ngIf="viviendas.length === 0" disabled>

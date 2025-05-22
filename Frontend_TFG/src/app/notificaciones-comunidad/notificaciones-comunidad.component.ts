@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
 import {IonicModule} from "@ionic/angular";
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Vecino} from "../modelos/Vecino";
 import {environment} from "../../environments/environment";
 import {ComunidadService} from "../servicios/comunidad.service";
@@ -27,7 +27,8 @@ import {Vivienda} from "../modelos/Vivienda";
     IonicModule,
     NgOptimizedImage,
     NgForOf,
-    NgIf
+    NgIf,
+    NgClass
   ]
 })
 export class NotificacionesComunidadComponent  implements OnInit {
@@ -38,7 +39,9 @@ export class NotificacionesComunidadComponent  implements OnInit {
   comunidad: Comunidad = {} as Comunidad
   solicitudes: Solicitud[] = []
   vecinos: Vecino[]  = []
+  vecinosIds: number[] = []
   viviendas: Vivienda[] = []
+  viviendasIds: number[] = []
 
   constructor(private comunidadService: ComunidadService,
               private usuarioService: UsuarioService,
@@ -94,29 +97,45 @@ export class NotificacionesComunidadComponent  implements OnInit {
       next: data => {
         this.solicitudes = data
         for (let solicitud of data) {
-          this.comunidadService.cargarVecinoPorIdVecinoComunidad(solicitud.idVecino).subscribe({
-            next: data => {
-              this.vecinos.push(data)
-              this.viviendaService.verInfoVivienda(solicitud.idVivienda).subscribe({
-                next: data => this.viviendas.push(data)
-              })
-            }
-          })
+          this.vecinosIds.push(solicitud.idVecino)
+          this.viviendasIds.push(solicitud.idVivienda)
         }
+        this.cargarVecinosSolicitudes()
+        this.cargarViviendasSolicitudes()
       }
     })
   }
 
+  cargarVecinosSolicitudes() {
+    for (let id of this.vecinosIds) {
+      this.comunidadService.cargarVecinoPorIdVecinoComunidad(id).subscribe({
+        next: data => {
+          this.vecinos.push(data)
+        }
+      })
+    }
+  }
+
+  cargarViviendasSolicitudes() {
+    for (let id of this.viviendasIds) {
+      this.viviendaService.verInfoVivienda(id).subscribe({
+        next: data => {
+          this.viviendas.push(data)
+        }
+      })
+    }
+  }
+
   cargarNombreVecino(idVecino: number): string {
-    const vecino = this.vecinos.find(v => v.id = idVecino)
+    const vecino = this.vecinos.find(v => v.id === idVecino)
     if (vecino) {
-      return vecino.nombre + '' + vecino.apellidos
+      return vecino.nombre + ' ' + vecino.apellidos
     }
     return ''
   }
 
   cargarNombreVivienda(idVivienda: number): string {
-    const vivienda = this.viviendas.find(v => v.id = idVivienda)
+    const vivienda = this.viviendas.find(v => v.id === idVivienda)
     if (vivienda) {
       return vivienda.direccionPersonal
     }
@@ -124,7 +143,7 @@ export class NotificacionesComunidadComponent  implements OnInit {
   }
 
   cargarFotoVecino(idVecino: number): string {
-    const vecino = this.vecinos.find(v => v.id = idVecino)
+    const vecino = this.vecinos.find(v => v.id === idVecino)
     if (vecino) {
       return this.getImageUrlVecino(vecino)
     }

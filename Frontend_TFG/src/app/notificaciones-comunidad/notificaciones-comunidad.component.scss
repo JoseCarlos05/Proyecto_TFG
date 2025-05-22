@@ -5,6 +5,7 @@ ion-content {
     padding: 0;
     margin: 0;
     border: 2px solid #339F28;
+    border-top: none;
 
     ion-row {
       margin: 0;
@@ -27,19 +28,35 @@ ion-content {
       ion-label {
         color: #339F28;
       }
-
-      ion-button {
-        margin-inline: 40px;
-      }
-
-      ion-button:nth-child(2) {
-        --background: red;
-      }
     }
 
     ion-row:nth-child(2) {
-      display: flex;
-      justify-content: space-between;
+      ion-col {
+        ion-button {
+          margin: 0 auto;
+          margin-block: 15px;
+          --background: #40A3FF;
+          font-weight: bold;
+        }
+      }
+
+      ion-col:nth-child(2){
+        ion-button {
+          --background: red;
+        }
+      }
+    }
+  }
+
+  .fondo-a {
+    ion-row {
+      background-color: #E7F4E7;
+    }
+  }
+
+  .fondo-b {
+    ion-row {
+      background-color: white;
     }
   }
 

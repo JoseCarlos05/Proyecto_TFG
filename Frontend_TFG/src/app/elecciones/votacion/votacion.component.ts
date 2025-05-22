@@ -153,7 +153,6 @@ export class VotacionComponent  implements OnInit {
     this.confirmarVoto();
   }
 
-
   async confirmarVoto() {
     const alert = await this.alertController.create({
       header: 'Confirmar voto',
@@ -179,6 +178,7 @@ export class VotacionComponent  implements OnInit {
 
     await alert.present();
   }
+
   async mostrarAlertaYaHasVotado() {
     const alert = await this.alertController.create({
       header: 'Ya has votado',
@@ -200,7 +200,4 @@ export class VotacionComponent  implements OnInit {
       });
     }
   }
-
-
-
 }

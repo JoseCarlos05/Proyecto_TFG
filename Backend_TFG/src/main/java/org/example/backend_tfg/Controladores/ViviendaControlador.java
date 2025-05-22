@@ -60,4 +60,8 @@ public class ViviendaControlador {
         return viviendaServicio.verViviendaID(idVivienda);
     }
 
+    @PostMapping("comunidad/asginar/propietario/vivienda/{idVivienda}/{idPropietario}")
+    public void asignarPropietarioVivienda(@PathVariable Integer idVivienda, @PathVariable Integer idPropietario){
+        viviendaServicio.asignarPropietarioVivienda(idVivienda, idPropietario);
+    }
 }
