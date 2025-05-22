@@ -64,4 +64,9 @@ public class ViviendaControlador {
     public void asignarPropietarioVivienda(@PathVariable Integer idVivienda, @PathVariable Integer idPropietario){
         viviendaServicio.asignarPropietarioVivienda(idVivienda, idPropietario);
     }
+
+    @PostMapping("/comunidad/editar/vivienda/{idVivienda}")
+    public void editarVivienda(@RequestBody EditarViviendaDTO editarViviendaDTO, @PathVariable Integer idVivienda){
+        viviendaServicio.editarNombreVivienda(editarViviendaDTO, idVivienda);
+    }
 }

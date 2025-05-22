@@ -1,6 +1,12 @@
 ion-content {
   --background: #E7F4E7;
 
+  .contenedor-vivienda {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
   .vivienda {
     border-radius: 20px;
     background-color: white;
@@ -12,6 +18,18 @@ ion-content {
     margin-block: 30px;
     padding: 10px;
   }
+
+  .editar-icono {
+    position: absolute;
+    top: 50%;
+    right: 35px;
+    margin-left: 40px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
 
   .grid-principal {
     padding: 0;
@@ -168,4 +186,8 @@ ion-content {
       font-weight: bold
     }
   }
+}
+.icono-boton {
+  width: 35px;
+  height: 35px;
 }

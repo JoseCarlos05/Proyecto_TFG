@@ -22,6 +22,7 @@ import {environment} from "../../environments/environment";
 import {Sancion} from "../modelos/Sancion";
 import {Gasto} from "../modelos/Gasto";
 import {SancionService} from "../servicios/sancion.service";
+import {EditarVivienda} from "../modelos/EditarVivienda";
 
 @Component({
   selector: 'app-info-vivienda',
@@ -50,6 +51,10 @@ export class InfoViviendaComponent implements OnInit {
   residentes: Vecino[] = []
   sanciones: Sancion[] = []
   deudas: Gasto[] = []
+
+  editarVivienda: EditarVivienda = {
+    direccionPersonal: ""
+  }
 
   constructor(private comunidadService: ComunidadService,
               private router: Router,
@@ -118,6 +123,9 @@ export class InfoViviendaComponent implements OnInit {
         }
         this.residentes = resultado.filter((obj, index, self) =>
           index === self.findIndex(o => o.id === obj.id))
+
+        this.propietario = this.residentes.find(vecino =>
+          vecino.id === this.vivienda.idPropietario)!;
         this.cargarGastos()
         this.cargarSanciones()
       }
@@ -141,7 +149,7 @@ export class InfoViviendaComponent implements OnInit {
 
   cargarSanciones() {
     if (this.propietario) {
-      this.sancionService.listarSancionesVecino(this.comunidad.id, this.propietario.id).subscribe({
+      this.sancionService.listarSancionesVecinoComunidad(this.comunidad.id, this.propietario.id).subscribe({
         next: data => this.sanciones = data
       })
     }
@@ -235,4 +243,40 @@ export class InfoViviendaComponent implements OnInit {
     });
     await alert.present();
   }
+
+  async editarNombreVivienda() {
+    const alert = await this.alertController.create({
+      header: 'Cambiar nombre de la vivienda',
+      inputs: [
+        {
+          name: 'nuevaDireccion',
+          type: 'text',
+          placeholder: 'Nuevo nombre de la vivienda',
+          value: this.vivienda.direccionPersonal
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Guardar',
+          handler: data => {
+            this.editarVivienda.direccionPersonal = data.nuevaDireccion;
+
+            this.viviendaService.editarVivienda(this.editarVivienda, this.vivienda.id).subscribe({
+              next: () => this.verInfoVivienda(this.vivienda.id),
+              error: () => {
+                console.error("Error al actualizar la direccion de la vivienda.");
+              }
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
 }
