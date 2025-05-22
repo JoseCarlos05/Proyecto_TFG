@@ -182,6 +182,8 @@ export class CrearComunicadoComponent  implements OnInit {
     this.comunicadoService.crearComunicado(this.crearComunicado).subscribe({
       next: () => {
         this.crearComunicado.descripcion = "";
+        const toast = document.getElementById("toastComunicadoExito") as any;
+        toast.present();
         this.router.navigate(['/comunidad/documentacion']);
       },
       error: () => {

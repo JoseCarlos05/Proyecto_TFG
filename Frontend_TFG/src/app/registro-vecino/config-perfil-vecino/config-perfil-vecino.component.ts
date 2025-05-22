@@ -105,7 +105,7 @@ export class ConfigPerfilVecinoComponent implements OnInit {
 
     this.authService.registroVecino(this.registroVecino).subscribe({
       next: () => {
-        const toast = document.getElementById("exitoCreacionRegistro") as any;
+        const toast = document.getElementById("exitoCreacionRegistroTerminado") as any;
         toast.present();
         this.router.navigate(['/inicio-sesion']);
       },

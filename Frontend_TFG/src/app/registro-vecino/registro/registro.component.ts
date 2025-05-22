@@ -42,7 +42,7 @@ export class RegistroComponent implements OnInit {
 
   navigateToConfigPerfilVecino() {
 
-    if (!this.datosRegistro.correo || !this.datosRegistro.contrasena || !this.confirmarContrasena) {
+    if (!this.datosRegistro.correo || !this.datosRegistro.contrasena || !this.repetirContrasena) {
       const toast = document.getElementById("campoVacioRegistro") as any;
       toast.present();
       return;
@@ -69,7 +69,6 @@ export class RegistroComponent implements OnInit {
       toast.present();
       return;
     }
-
 
     if (!this.aceptaPoliticas) {
       const toast = document.getElementById("errorPoliticas") as any;

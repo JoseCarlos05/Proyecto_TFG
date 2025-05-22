@@ -27,6 +27,7 @@ export class CrearComunidadComponent implements OnInit {
   private usuario!: Usuario;
   private vecino!: Vecino;
   correo?: string;
+  repetirContrasena: string = ""
 
   registroComunidad: RegistrarComunidad = {
     nombre: "",
@@ -97,6 +98,62 @@ export class CrearComunidadComponent implements OnInit {
 
   navigateToComunidades(): void {
     if (this.vecino) {
+      if (
+        !this.registroComunidad.nombre ||
+        !this.registroComunidad.correo ||
+        !this.registroComunidad.contrasena ||
+        !this.registroComunidad.direccion ||
+        !this.registroComunidad.numCuenta ||
+        !this.registroComunidad.cif ||
+        !this.registroComunidad.banco
+
+    ) {
+        const toast = document.getElementById("toastacio") as any;
+        toast.present();
+        return;
+      }
+
+      if (this.registroComunidad.nombre.trim().length < 2) {
+        const toast = document.getElementById("toastNombre") as any;
+        toast.present();
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.registroComunidad.correo)) {
+        const toast = document.getElementById("toastCorreo") as any;
+        toast.present();
+        return;
+      }
+
+      if (this.registroComunidad.contrasena.length < 6) {
+        const toast = document.getElementById("toastContrasena") as any;
+        toast.present();
+        return;
+      }
+
+      if (this.registroComunidad.contrasena !== this.repetirContrasena) {
+        const toast = document.getElementById("errorConfirmarContrasena") as any;
+        toast.present();
+        return;
+      }
+
+
+      if (this.registroComunidad.numCuenta.trim().length < 20) {
+        const toast = document.getElementById("toastCuenta") as any;
+        toast.present();
+        return;
+      }
+
+      const regexCIF = /^[A-HJNP-SUVW]\d{7}[0-9A-J]$/;
+
+      if (!regexCIF.test(this.registroComunidad.cif.trim())) {
+        const toast = document.getElementById("toastCif") as any;
+        if (toast) toast.present();
+        return;
+      }
+
+
       this.registroComunidad.idPresidente = this.vecino.id;
 
       if (this.registroComunidad) {

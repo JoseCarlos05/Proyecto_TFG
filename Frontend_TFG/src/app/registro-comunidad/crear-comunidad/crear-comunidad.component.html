@@ -21,7 +21,7 @@
 
   <div class="input-container">
     <ion-text>Confirmar contraseña</ion-text>
-    <ion-input type="password" placeholder="Vuelve a introducir tu contraseña" required minlength="6"></ion-input>
+    <ion-input [(ngModel)]="repetirContrasena" type="password" placeholder="Vuelve a introducir tu contraseña" required minlength="6"></ion-input>
   </div>
 
   <div class="input-container">
@@ -62,7 +62,13 @@
   position="top"
   color="danger"
 ></ion-toast>
-
+<ion-toast
+  id="toastacio"
+  message="Por favor, completa todos los campos"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
 <ion-toast id="toastNombre" message="El nombre debe tener al menos 3 caracteres" duration="3000" position="top" color="danger"></ion-toast>
 <ion-toast id="toastCorreo" message="Correo inválido" duration="3000" position="top" color="danger"></ion-toast>
 <ion-toast id="toastContrasena" message="Contraseña demasiado corta (mínimo 6)" duration="3000" position="top" color="danger"></ion-toast>
@@ -72,3 +78,4 @@
 <ion-toast id="toastBanco" message="Debes introducir el banco" duration="3000" position="top" color="danger"></ion-toast>
 <ion-toast id="toastCif" message="CIF inválido. Ej: A12345678" duration="3000" position="top" color="danger"></ion-toast>
 <ion-toast id="toastCifDuplicado" message="El CIF ya está registrado" duration="3000" position="top" color="danger"></ion-toast>
+<ion-toast id="errorConfirmarContrasena" message="Las contraseñas no coinciden" duration="3000" position="top" color="danger"></ion-toast>
