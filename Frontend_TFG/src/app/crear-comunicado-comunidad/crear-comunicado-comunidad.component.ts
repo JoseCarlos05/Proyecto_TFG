@@ -18,6 +18,9 @@ import {QuillModule} from "ngx-quill";
 import Quill from "quill";
 import {ColorAttributor} from "quill/formats/color"
 import {FontType} from "../enum/TipoFuente";
+import {ComunidadService} from "../servicios/comunidad.service";
+import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
+import {CrearComunicadoComunidad} from "../modelos/CrearComunicadoComunidad";
 
 const font: any = Quill.import('formats/font')
 const FontStyle: any = Quill.import('attributors/style/font');
@@ -67,7 +70,8 @@ const customColors = [
     HeaderComponent,
     HeaderComunidadComponent,
     FooterComunidadComponent,
-    QuillModule
+    QuillModule,
+    MenuInferiorComunidadComponent
   ]
 })
 export class CrearComunicadoComunidadComponent  implements OnInit {
@@ -87,21 +91,20 @@ export class CrearComunicadoComunidadComponent  implements OnInit {
     'image'
   ]
 
+  correo?: string;
   private usuario!: Usuario
-  private vecino!: Vecino
-  correo?: string
-  comunidadObjeto?: Comunidad
+  private comunidad!: Comunidad
 
-  crearComunicado: CrearComunicado = {
+  crearComunicado: CrearComunicadoComunidad = {
     descripcion: "",
-    idComunidad: undefined,
-    idVecino: undefined
+    idComunidad: undefined
   };
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
-              private comunicadoService: ComunicadoService) { }
+              private comunicadoService: ComunicadoService,
+              private comunidadService: ComunidadService) { }
 
   ngOnInit() {
     this.inicio()
@@ -109,11 +112,6 @@ export class CrearComunicadoComunidadComponent  implements OnInit {
   }
 
   inicio() {
-    const comunidad = sessionStorage.getItem('comunidad');
-    if (comunidad) {
-      this.comunidadObjeto = JSON.parse(comunidad);
-    }
-
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
@@ -126,6 +124,8 @@ export class CrearComunicadoComunidadComponent  implements OnInit {
       } catch (e) {
         console.error('Error al decodificar el token:', e);
       }
+    } else {
+      this.router.navigate(['/']);
     }
   }
 
@@ -147,11 +147,11 @@ export class CrearComunicadoComunidadComponent  implements OnInit {
   }
 
   cargarUsuario(correo: string): void {
-    this.usuarioService.cargarUsuario(correo).subscribe({
+    this.usuarioService.cargarUsuarioComunidad(correo).subscribe({
       next: (usuario: Usuario) => {
         this.usuario = usuario;
         if (this.usuario && this.usuario.id) {
-          this.cargarVecino()
+          this.cargarComunidad()
         }
       },
       error: (e) => {
@@ -160,29 +160,28 @@ export class CrearComunicadoComunidadComponent  implements OnInit {
     });
   }
 
-  cargarVecino() {
+  cargarComunidad() {
     if (this.usuario.id) {
-      this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
+      this.comunidadService.cargarComunidadPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
-          this.vecino = data;
-          this.crearComunicado.idVecino = this.vecino?.id;
-          this.crearComunicado.idComunidad = this.comunidadObjeto?.id;
+          this.comunidad = data
+          this.crearComunicado.idComunidad = this.comunidad.id;
         }
-      });
+      })
     }
   }
 
 
   crearComunicadoMetodo() {
-    if (!this.crearComunicado.descripcion || !this.crearComunicado.idComunidad || !this.crearComunicado.idVecino) {
+    if (!this.crearComunicado.descripcion || !this.crearComunicado.idComunidad) {
       console.log("Faltan datos para crear el comunicado.");
       return;
     }
 
-    this.comunicadoService.crearComunicado(this.crearComunicado).subscribe({
+    this.comunicadoService.crearComunicadoComunidad(this.crearComunicado).subscribe({
       next: () => {
         this.crearComunicado.descripcion = "";
-        this.router.navigate(['/comunidad/documentacion-comunicado']);
+        this.router.navigate(['/documentacion/comunidad']);
       },
       error: () => {
         console.log('Error al insertar comunicado.');

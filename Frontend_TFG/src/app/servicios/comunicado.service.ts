@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {Comunidad} from "../modelos/Comunidad";
 import {Comunicado} from "../modelos/Comunicado";
 import {CrearComunicado} from "../modelos/CrearComunicado";
+import {CrearComunicadoComunidad} from "../modelos/CrearComunicadoComunidad";
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,15 @@ export class ComunicadoService {
   crearComunicado(comunicado: CrearComunicado): Observable<any> {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/vecino/crear/comunicado`, comunicado, options);
+  }
+
+  listarComunicadosComunidad(idComunidad: number): Observable<Comunicado[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Comunicado[]>(`${this.apiUrl}/comunidad/listar/comunicados/${idComunidad}`, options)
+  }
+
+  crearComunicadoComunidad(comunicado: CrearComunicadoComunidad): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/comunidad/crear/comunicado`, comunicado, options);
   }
 }

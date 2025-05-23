@@ -71,9 +71,10 @@ public class ComunicadoServicio {
         ComunicadoDTO dto = new ComunicadoDTO();
         dto.setDescripcion(c.getDescripcion());
         dto.setFecha(c.getFechaHora());
-        dto.setIdVecino(c.getVecino().getId());
+        if (c.getVecino() != null) {
+            dto.setIdVecino(c.getVecino().getId());
+        }
         dto.setIdComunidad(c.getComunidad().getId());
-        dto.setNombreVecino(c.getVecino().getNombre() + " " + c.getVecino().getApellidos());
         return dto;
     }
 }

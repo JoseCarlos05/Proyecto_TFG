@@ -8,6 +8,8 @@ import {Comunicado} from "../../modelos/Comunicado";
 import {filter} from "rxjs";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {QuillModule} from "ngx-quill";
+import {Vecino} from "../../modelos/Vecino";
+import {VecinoService} from "../../servicios/vecino.service";
 
 @Component({
     selector: 'app-comunicados',
@@ -26,10 +28,12 @@ export class ComunicadosComponent  implements OnInit {
   listaComunicado: Comunicado[] = []
   correo?: string
   comunidadObjeto?: Comunidad
+  vecinosMap: { [id: number]: Vecino } = {};
 
   constructor(private router: Router,
               private comunicadoService: ComunicadoService,
-              private sanitizer: DomSanitizer) {
+              private sanitizer: DomSanitizer,
+              private vecinoService: VecinoService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -56,13 +60,35 @@ export class ComunicadosComponent  implements OnInit {
   }
 
   listarComunicados() {
-    if (this.comunidadObjeto?.id)
+    if (this.comunidadObjeto?.id) {
       this.comunicadoService.listarComunicados(this.comunidadObjeto.id).subscribe({
-        next: data => this.listaComunicado = data.sort((a, b) => {
-          return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
-        })
-      })
+        next: data => {
+          this.listaComunicado = data.sort((a, b) => {
+            return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+          });
+
+          const idsVecinos = [...new Set(this.listaComunicado.map(c => c.idVecino))];
+
+          idsVecinos.forEach(idVecino => {
+            if (idVecino) {
+              this.vecinoService.cargarVecinoPorIdVecino(idVecino).subscribe({
+                next: vecino => {
+                  this.vecinosMap[idVecino] = vecino;
+                },
+                error: err => {
+                  console.error(`Error al cargar vecino ${idVecino}:`, err);
+                }
+              });
+            }
+          });
+        },
+        error: err => {
+          console.error('Error al listar comunicados:', err);
+        }
+      });
+    }
   }
+
 
   formatearFecha(fechaISO: string): string {
     const fecha = new Date(fechaISO);

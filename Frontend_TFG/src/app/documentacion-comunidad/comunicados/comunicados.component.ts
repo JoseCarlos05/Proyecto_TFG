@@ -8,6 +8,13 @@ import {Comunicado} from "../../modelos/Comunicado";
 import {Comunidad} from "../../modelos/Comunidad";
 import {ComunicadoService} from "../../servicios/comunicado.service";
 import {filter} from "rxjs";
+import {jwtDecode} from "jwt-decode";
+import {TokenDataDTO} from "../../modelos/TokenData";
+import {Usuario} from "../../modelos/Usuario";
+import {UsuarioService} from "../../servicios/usuario.service";
+import {ComunidadService} from "../../servicios/comunidad.service";
+import {VecinoService} from "../../servicios/vecino.service";
+import {Vecino} from "../../modelos/Vecino";
 
 @Component({
   selector: 'app-comunicados',
@@ -23,12 +30,19 @@ import {filter} from "rxjs";
 })
 export class ComunicadosComponent  implements OnInit {
   listaComunicado: Comunicado[] = []
-  correo?: string
-  comunidadObjeto?: Comunidad
+  correo?: string;
+  private usuario!: Usuario
+  comunidad!: Comunidad
+
+  listaVecino: Vecino[] = []
+  vecinosMap: { [id: number]: Vecino } = {};
 
   constructor(private router: Router,
               private comunicadoService: ComunicadoService,
-              private sanitizer: DomSanitizer) {
+              private sanitizer: DomSanitizer,
+              private usuarioService: UsuarioService,
+              private comunidadService: ComunidadService,
+              private vecinoService: VecinoService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -47,26 +61,79 @@ export class ComunicadosComponent  implements OnInit {
   }
 
   inicio() {
-    sessionStorage.setItem('comunidad', JSON.stringify({ id: 1, nombre: 'Comunidad jmateos' }))
-    const comunidad = sessionStorage.getItem('comunidad');
-    console.log('Comunidad en sessionStorage:', comunidad);
-    if (comunidad) {
-      this.comunidadObjeto = JSON.parse(comunidad);
-      this.listarComunicados();
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<{ tokenDataDTO: TokenDataDTO }>(token);
+        const tokenDataDTO = decodedToken?.tokenDataDTO;
+        if (tokenDataDTO && tokenDataDTO.correo) {
+          this.correo = tokenDataDTO.correo;
+          this.cargarUsuario(this.correo);
+        }
+      } catch (e) {
+        console.error('Error al decodificar el token:', e);
+      }
     } else {
-      console.error('No se encontró el objeto comunidad en sessionStorage');
+      this.router.navigate(['/']);
+    }
+  }
+
+  ionViewWillEnter() {
+    this.listarComunicados()
+  }
+
+  cargarUsuario(correo: string): void {
+    this.usuarioService.cargarUsuarioComunidad(correo).subscribe({
+      next: (usuario: Usuario) => {
+        this.usuario = usuario;
+        if (this.usuario && this.usuario.id) {
+          this.cargarComunidad()
+        }
+      },
+      error: (e) => {
+        console.error("Error al cargar el usuario:", e);
+      }
+    });
+  }
+
+  cargarComunidad() {
+    if (this.usuario.id) {
+      this.comunidadService.cargarComunidadPorIdUsuario(this.usuario.id).subscribe({
+        next: data => {
+          this.comunidad = data
+          this.listarComunicados()
+        }
+      })
     }
   }
 
 
   listarComunicados() {
-    if (this.comunidadObjeto?.id)
-      this.comunicadoService.listarComunicados(this.comunidadObjeto.id).subscribe({
-        next: data => this.listaComunicado = data.sort((a, b) => {
-          return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
-        })
-      })
+    if (this.comunidad.id) {
+      this.comunicadoService.listarComunicadosComunidad(this.comunidad.id).subscribe({
+        next: data => {
+          this.listaComunicado = data.sort((a, b) => {
+            return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+          });
+
+          const idsVecinos = [...new Set(this.listaComunicado.map(c => c.idVecino))];
+          idsVecinos.forEach(idVecino => {
+            if (idVecino) {
+              this.comunidadService.cargarVecinoPorIdVecinoComunidad(idVecino).subscribe({
+                next: vecino => {
+                  this.vecinosMap[idVecino] = vecino;
+                },
+                error: err => {
+                  console.error(`Error al cargar vecino ${idVecino}:`, err);
+                }
+              });
+            }
+          });
+        }
+      });
+    }
   }
+
 
   formatearFecha(fechaISO: string): string {
     const fecha = new Date(fechaISO);
