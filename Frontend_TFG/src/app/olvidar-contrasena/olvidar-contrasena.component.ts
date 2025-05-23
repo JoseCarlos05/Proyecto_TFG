@@ -28,31 +28,54 @@ export class OlvidarContrasenaComponent {
     private route: Router
   ) {}
 
-  async enviarCodigo() {
-    if (!this.email) {
-      this.mostrarToast('Por favor, introduce un email válido.');
+  enviarCodigo() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) {
+      const toast = document.getElementById("errorEmail") as any;
+      toast.present();
       return;
     }
 
-    const loading = await this.loadingCtrl.create({ message: 'Enviando código...' });
-    await loading.present();
+    this.loadingCtrl.create({ message: 'Enviando código...' }).then(loading => {
+      loading.present();
 
-    this.authService.solicitarCambioContrasena(this.email).subscribe({
-      next: async () => {
-        await loading.dismiss();
-        this.mostrarToast('Código enviado al correo');
-        this.pasoCodigoEnviado = true;
-      },
-      error: async (err) => {
-        await loading.dismiss();
-        this.mostrarToast('Código enviado al correo');
-      }
+      this.authService.solicitarCambioContrasena(this.email).subscribe({
+        next: () => {
+          loading.dismiss().then(() => {
+            const toast = document.getElementById("codigoEnviado") as any;
+            toast.present();
+            this.pasoCodigoEnviado = true;
+          });
+        },
+        error: (err) => {
+          loading.dismiss().then(() => {
+            const toast = document.getElementById("error") as any;
+            toast.present();
+          });
+        }
+      });
     });
   }
 
+
   async cambiarContrasena() {
     if (!this.email || !this.codigo || !this.nuevaContrasena) {
-      this.mostrarToast('Completa todos los campos.');
+      const toast = document.getElementById("campoVacioRegistro") as any;
+      toast.present();
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) {
+      const toast = document.getElementById("errorEmail") as any;
+      toast.present();
+      return;
+    }
+
+
+    if (this.nuevaContrasena.length < 6) {
+      const toast = document.getElementById("errorContrasena") as any;
+      toast.present();
       return;
     }
 
@@ -63,7 +86,8 @@ export class OlvidarContrasenaComponent {
       .subscribe({
         next: async () => {
           await loading.dismiss();
-          this.mostrarToast('Contraseña cambiada con éxito');
+          const toast = document.getElementById("contrasenaCambiada") as any;
+          toast.present();
           this.email = '';
           this.codigo = '';
           this.nuevaContrasena = '';
@@ -71,18 +95,11 @@ export class OlvidarContrasenaComponent {
         },
         error: async (err) => {
           await loading.dismiss();
-          this.mostrarToast('Contraseña cambiada con éxito');
+          const toast = document.getElementById("error") as any;
+          toast.present();
           this.route.navigate(['/inicio-sesion']);
         }
       });
   }
 
-  private async mostrarToast(mensaje: string) {
-    const toast = await this.toastCtrl.create({
-      message: mensaje,
-      duration: 3000,
-      position: 'bottom'
-    });
-    toast.present();
-  }
 }
