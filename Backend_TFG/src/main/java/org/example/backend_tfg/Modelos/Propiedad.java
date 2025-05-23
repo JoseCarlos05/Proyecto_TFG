@@ -31,4 +31,9 @@ public class Propiedad {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad")
     private Comunidad comunidad;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Pista pista;
 }
