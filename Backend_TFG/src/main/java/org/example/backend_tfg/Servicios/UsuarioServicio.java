@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -46,6 +47,21 @@ public class UsuarioServicio implements UserDetailsService {
     private EmailServicio emailServicio;
 
     private IVerificationTokenRepositorio iVerificationTokenRepositorio;
+
+    private final EmailServicio emailService;
+
+    private final Map<String, CodigoRecuperacion> codigoStorage = new HashMap<>();
+
+    private static class CodigoRecuperacion {
+        String codigo;
+        LocalDateTime fechaCreacion;
+
+        public CodigoRecuperacion(String codigo) {
+            this.codigo = codigo;
+            this.fechaCreacion = LocalDateTime.now();
+        }
+    }
+
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepositorio.findTopByCorreo(correo)
@@ -150,5 +166,46 @@ public class UsuarioServicio implements UserDetailsService {
         emailServicio.sendVerificationEmail(usuarioGuardado.getCorreo(), token);
 
         return usuarioGuardado;
+    }
+
+    public void solicitarCambioContrasena(String correo) {
+        Usuario usuario = usuarioRepositorio.findByCorreo(correo)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Generar código numérico de 6 dígitos con ceros a la izquierda
+        String codigo = String.format("%06d", new Random().nextInt(1_000_000));
+
+        codigoStorage.put(correo, new CodigoRecuperacion(codigo));
+
+        emailService.enviarCorreo(correo, "Código para recuperar contraseña",
+                "Tu código para recuperar la contraseña es: " + codigo + "\n" +
+                        "Este código expirará en 10 minutos.");
+    }
+
+    public boolean cambiarContrasena(String correo, String codigo, String nuevaContrasena) {
+        if (!codigoStorage.containsKey(correo)) {
+            throw new RuntimeException("No existe solicitud para este correo.");
+        }
+
+        CodigoRecuperacion codigoRecuperacion = codigoStorage.get(correo);
+
+        // Comprobar caducidad (10 minutos)
+        if (codigoRecuperacion.fechaCreacion.plusMinutes(10).isBefore(LocalDateTime.now())) {
+            codigoStorage.remove(correo);
+            throw new RuntimeException("Código expirado.");
+        }
+
+        if (!codigoRecuperacion.codigo.equals(codigo)) {
+            throw new RuntimeException("Código inválido.");
+        }
+
+        Usuario usuario = usuarioRepositorio.findByCorreo(correo)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        usuario.setContrasena(passwordEncoder.encode(nuevaContrasena));
+        usuarioRepositorio.save(usuario);
+
+        codigoStorage.remove(correo);
+        return true;
     }
 }

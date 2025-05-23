@@ -14,17 +14,23 @@ ion-grid {
 
     div {
       width: 100%;
-      margin-bottom: 15px;
+    }
+
+    .footer-comunicado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .fecha,
+    .vecino {
+      font-size: 15px;
+      font-weight: bold;
+      color: white;
     }
 
     &:first-child {
       border-top: 1px solid black;
-    }
-
-    span:nth-child(2) {
-      font-size: 15px;
-      font-weight: bold;
-      color: white;
     }
   }
 }
@@ -39,6 +45,6 @@ ion-img {
   text-align: center;
 
   span {
-    font-weight: bold
+    font-weight: bold;
   }
 }

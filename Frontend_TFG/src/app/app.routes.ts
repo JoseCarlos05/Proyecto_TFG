@@ -71,6 +71,10 @@ export const routes: Routes = [
     loadComponent: () => import('./crear-comunicado/crear-comunicado.component').then((m) => m.CrearComunicadoComponent),
   },
   {
+    path: 'crear-comunicado-comunidad',
+    loadComponent: () => import('./crear-comunicado-comunidad/crear-comunicado-comunidad.component').then((m) => m.CrearComunicadoComunidadComponent),
+  },
+  {
     path: 'exito',
     loadComponent: () => import('./exito/exito.component').then(m => m.ExitoComponent),
   },
@@ -149,5 +153,9 @@ export const routes: Routes = [
   {
     path: 'info-gasto/:id',
     loadComponent: () => import('./info-gasto/info-gasto.component').then((m) => m.InfoGastoComponent)
+  },
+  {
+    path: 'olvidar-contrasena',
+    loadComponent: () => import('./olvidar-contrasena/olvidar-contrasena.component').then((m) => m.OlvidarContrasenaComponent)
   }
 ];

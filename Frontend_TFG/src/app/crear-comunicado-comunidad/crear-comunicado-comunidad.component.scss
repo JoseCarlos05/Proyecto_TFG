@@ -1,27 +1,30 @@
 ion-content {
-  --background: #7CDF68;
+  --background: #E7F4E7;
 }
 
-.contenido {
-  margin-top: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.logo {
-  width: 250px;
-  height: auto;
-}
-
-.titulo {
-  font-size: 26px;
+.title {
+  font-size: 2rem;
   font-weight: bold;
   color: #0E8008;
-  margin-top: 60px;
-  margin-bottom: 30px;
-  text-align: center;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #0E8008;
+  margin-bottom: 20px;
+  text-align: left;
+  width: 100%;
+}
+
+.titulo-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 400px;
+  margin: 130px auto 20px auto;
+  text-align: left;
 }
 
 .input-container {
@@ -49,8 +52,8 @@ ion-input {
   color: #0E8008;
 }
 
-ion-input[type="email"] {
-  margin-bottom: 45px;
+ion-input[type="nombre"], ion-input[type="email"]{
+  margin-bottom: 30px;
 }
 
 .registro-container {
@@ -59,7 +62,7 @@ ion-input[type="email"] {
   align-items: center;
   width: 80%;
   max-width: 400px;
-  margin: 10px auto;
+  margin: -20px auto 0 auto;
 }
 
 .registro-texto {
@@ -67,14 +70,14 @@ ion-input[type="email"] {
   font-size: 14px;
 }
 
-.crear-cuenta {
+.iniciar-sesion {
   font-weight: 900;
   cursor: pointer;
 }
 
 ion-button {
   --background: #0E8008;
-  margin: 80px auto 20px auto;
+  margin: 40px auto 20px auto;
   width: 80%;
   max-width: 400px;
   height: 40px;
@@ -82,18 +85,7 @@ ion-button {
   font-weight: bold;
 }
 
-.registro-container2 {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 80%;
-  max-width: 400px;
-  margin: 10px auto;
-}
-
-.olvide-contrasena {
-  color: #0E8008;
-  font-size: 0.9rem;
-  text-align: center;
-  cursor: pointer;
+quill-editor {
+  background-color: white;
+  margin-top: 20px;
 }

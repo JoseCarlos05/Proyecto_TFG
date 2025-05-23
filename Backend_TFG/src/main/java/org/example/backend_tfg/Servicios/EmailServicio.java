@@ -36,3 +36,17 @@ public class EmailServicio {
     }
 
 }
+
+    public void enviarCorreo(String destinatario, String asunto, String contenido) {
+        try {
+            MimeMessage mensaje = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true);
+            helper.setTo(destinatario);
+            helper.setSubject(asunto);
+            helper.setText(contenido, true);
+            mailSender.send(mensaje);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Error al enviar el correo", e);
+        }
+    }
+}

@@ -33,6 +33,10 @@ export class InicioSesionComponent implements OnInit {
     this.router.navigate(['/registro']);
   }
 
+  navigateToOlvidarContrasena() {
+    this.router.navigate(['/olvidar-contrasena']);
+  }
+
   login() {
     if (!this.formLogin.correo || !this.formLogin.contrasena) {
       this.presentToast("toastCamposVacios");

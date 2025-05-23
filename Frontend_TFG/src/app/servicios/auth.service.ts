@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Login} from "../modelos/Login";
-import {RegistrarVecino} from "../modelos/RegistrarVecino";
-import {RegistrarComunidad} from "../modelos/RegistrarComunidad";
+import { BehaviorSubject, Observable } from "rxjs";
+import { environment } from "../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { Login } from "../modelos/Login";
+import { RegistrarVecino } from "../modelos/RegistrarVecino";
+import { RegistrarComunidad } from "../modelos/RegistrarComunidad";
 
 @Injectable({
   providedIn: 'root'
@@ -35,15 +35,28 @@ export class AuthService {
     this.authState.next(isAuthenticated);
   }
 
-  login(login: Login): Observable<any>{
-    return this.http.post<any>(`${this.apiUrl}/autorizacion/login`, login)
+  login(login: Login): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/autorizacion/login`, login);
   }
 
   registroVecino(registroVecino: RegistrarVecino): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/autorizacion/registro/vecino`, registroVecino)
+    return this.http.post<any>(`${this.apiUrl}/autorizacion/registro/vecino`, registroVecino);
   }
 
   registroComunidad(registroComunidad: RegistrarComunidad): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/autorizacion/registro/comunidad`, registroComunidad)
+    return this.http.post<any>(`${this.apiUrl}/autorizacion/registro/comunidad`, registroComunidad);
+  }
+
+  solicitarCambioContrasena(correo: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/autorizacion/solicitar-cambio-contrasena?correo=${encodeURIComponent(correo)}`, {});
+  }
+
+  cambiarContrasena(correo: string, token: string, nuevaContrasena: string): Observable<any> {
+    const params = new URLSearchParams({
+      correo: correo,
+      token: token,
+      nuevaContrasena: nuevaContrasena
+    });
+    return this.http.put(`${this.apiUrl}/autorizacion/cambiar-contrasena?${params.toString()}`, {});
   }
 }

@@ -8,10 +8,8 @@ import org.example.backend_tfg.DTOs.RespuestaDTO;
 import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Servicios.UsuarioServicio;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/autorizacion")
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AutorizacionControlador {
 
     private UsuarioServicio usuarioServicio;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<RespuestaDTO> login(@RequestBody LoginDTO dto){
@@ -35,4 +34,17 @@ public class AutorizacionControlador {
         return usuarioServicio.registrarComunidad(registroDTO);
     }
 
+    @PostMapping("/solicitar-cambio-contrasena")
+    public ResponseEntity<String> solicitarCambioContrasena(@RequestParam String correo) {
+        usuarioServicio.solicitarCambioContrasena(correo);
+        return ResponseEntity.ok("Correo enviado con el token para cambiar la contraseña.");
+    }
+
+    @PutMapping("/cambiar-contrasena")
+    public ResponseEntity<String> cambiarContrasena(@RequestParam String correo,
+                                                    @RequestParam String token,
+                                                    @RequestParam String nuevaContrasena) {
+        usuarioServicio.cambiarContrasena(correo, token.trim(), nuevaContrasena);
+        return ResponseEntity.ok("Contraseña actualizada correctamente.");
+    }
 }

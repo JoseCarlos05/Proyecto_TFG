@@ -1,5 +1,6 @@
 package org.example.backend_tfg.Modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
