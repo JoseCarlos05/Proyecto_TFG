@@ -1,5 +1,5 @@
 package org.example.backend_tfg.Enumerados;
 
 public enum TipoPropiedad {
-    PISTA_DEPORTIVA, PISCINA, GARAJE,
+    PISTA_DEPORTIVA, PISCINA, GARAJE, ZONAS_COMUNES
 }
