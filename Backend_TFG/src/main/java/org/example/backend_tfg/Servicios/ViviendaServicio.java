@@ -1,6 +1,7 @@
 package org.example.backend_tfg.Servicios;
 
 import lombok.AllArgsConstructor;
+import org.example.backend_tfg.DTOs.EditarViviendaDTO;
 import org.example.backend_tfg.DTOs.RegistrarViviendaDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
 import org.example.backend_tfg.DTOs.ViviendaDTO;
@@ -119,6 +120,13 @@ public class ViviendaServicio {
                 .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
 
         vivienda.setPropietario(propietario);
+        iViviendaRepositorio.save(vivienda);
+    }
+
+    public void editarNombreVivienda(EditarViviendaDTO editarViviendaDTO, Integer idVivienda){
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+        vivienda.setDireccionPersonal(editarViviendaDTO.getDireccionPersonal());
         iViviendaRepositorio.save(vivienda);
     }
 

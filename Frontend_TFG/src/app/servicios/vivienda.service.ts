@@ -8,6 +8,7 @@ import {Vivienda} from "../modelos/Vivienda";
 import {Vecino} from "../modelos/Vecino";
 import {InsertarCodigo} from "../modelos/InsertarCodigo";
 import {CrearVivienda} from "../modelos/CrearVivienda";
+import {EditarVivienda} from "../modelos/EditarVivienda";
 
 @Injectable({
   providedIn: 'root'
@@ -62,4 +63,10 @@ export class ViviendaService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post<void>(`${this.apiUrl}/comunidad/asginar/propietario/vivienda/${idVivienda}/${idPropietario}`, {}, options);
   }
+
+  editarVivienda(editarVivienda: EditarVivienda, idVivienda: number): Observable<void> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post<void>(`${this.apiUrl}/comunidad/editar/vivienda/${idVivienda}`, editarVivienda, options);
+  }
+
 }
