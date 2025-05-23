@@ -32,7 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/verify/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/api/pago/**").permitAll()
-                        .requestMatchers("/vecino/**").hasAuthority("VECINO")
+                        .requestMatchers("/vecino/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)

@@ -73,6 +73,7 @@ public class ComunicadoServicio {
         dto.setFecha(c.getFechaHora());
         dto.setIdVecino(c.getVecino().getId());
         dto.setIdComunidad(c.getComunidad().getId());
+        dto.setNombreVecino(c.getVecino().getNombre() + " " + c.getVecino().getApellidos());
         return dto;
     }
 }

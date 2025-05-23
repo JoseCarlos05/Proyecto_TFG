@@ -1,3 +1,18 @@
-<p>
-  comunicados works!
-</p>
+<ion-content>
+  <div class="div-sin" *ngIf="listaComunicado.length === 0">
+    <span>No hay comunicados publicados en tu comunidad.</span>
+  </div>
+  <ion-grid>
+    <ion-row *ngFor="let comunicado of listaComunicado">
+      <div>
+        <span [innerHTML]="htmlSeguro(comunicado.descripcion)"></span>
+      </div>
+      <div class="footer-comunicado">
+        <span class="fecha">{{ formatearFecha(comunicado.fecha) }}</span>
+        <span class="vecino">{{ comunicado.nombreVecino }}</span>
+      </div>
+    </ion-row>
+  </ion-grid>
+
+  <ion-img src="assets/icon/anadir.png" (click)="navigateToCrearComunicado()"></ion-img>
+</ion-content>

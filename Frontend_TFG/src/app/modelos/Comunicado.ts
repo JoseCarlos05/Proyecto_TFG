@@ -4,4 +4,5 @@ export interface Comunicado {
   fecha: string;
   idComunidad: number;
   idVecino: number;
+  nombreVecino: string;
 }

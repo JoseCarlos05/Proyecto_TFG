@@ -14,4 +14,5 @@ public class ComunicadoDTO {
     private LocalDateTime fecha;
     private Integer idComunidad;
     private Integer idVecino;
+    private String nombreVecino;
 }
