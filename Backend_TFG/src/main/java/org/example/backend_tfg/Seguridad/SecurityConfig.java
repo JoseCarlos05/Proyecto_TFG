@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/api/pago/**").permitAll()
                         .requestMatchers("/vecino/**").hasAuthority("VECINO")
+                        .requestMatchers("/comunidad/**").hasAuthority("COMUNIDAD")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)

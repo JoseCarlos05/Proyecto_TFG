@@ -6,10 +6,11 @@ import org.example.backend_tfg.Enumerados.Rol;
 import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Modelos.Vecino;
-import org.example.backend_tfg.Modelos.Vivienda;
+import org.example.backend_tfg.Modelos.VerificationToken;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IUsuarioRepositorio;
 import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
+import org.example.backend_tfg.Repositorios.IVerificationTokenRepositorio;
 import org.example.backend_tfg.Seguridad.JWTService;
 import org.example.backend_tfg.Seguridad.UsuarioAdapter;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -44,6 +43,9 @@ public class UsuarioServicio implements UserDetailsService {
 
     private ViviendaServicio viviendaServicio;
 
+    private EmailServicio emailServicio;
+
+    private IVerificationTokenRepositorio iVerificationTokenRepositorio;
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepositorio.findTopByCorreo(correo)
@@ -100,6 +102,13 @@ public class UsuarioServicio implements UserDetailsService {
         vecino.setUsuario(nuevoUsuario);
         iVecinoRepositorio.save(vecino);
 
+        String token = UUID.randomUUID().toString();
+        LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
+        VerificationToken verificationToken = new VerificationToken(token, nuevoUsuario, expiryDate);
+        iVerificationTokenRepositorio.save(verificationToken);
+
+        emailServicio.sendVerificationEmail(nuevoUsuario.getCorreo(), token);
+
         return nuevoUsuario;
     }
 
@@ -132,6 +141,13 @@ public class UsuarioServicio implements UserDetailsService {
         ViviendaDTO vivienda = viviendaServicio.listarViviendas(comunidad.getId()).getFirst();
         viviendaServicio.asignarViviendaVecino(vivienda.getId(), presidente.getId());
         viviendaServicio.asignarPropietarioVivienda(vivienda.getId(), presidente.getId());
+
+        String token = UUID.randomUUID().toString();
+        LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
+        VerificationToken verificationToken = new VerificationToken(token, usuarioGuardado, expiryDate);
+        iVerificationTokenRepositorio.save(verificationToken);
+
+        emailServicio.sendVerificationEmail(usuarioGuardado.getCorreo(), token);
 
         return usuarioGuardado;
     }
