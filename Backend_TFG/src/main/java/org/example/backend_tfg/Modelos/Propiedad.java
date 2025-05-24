@@ -22,7 +22,7 @@ public class Propiedad {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "direccion", nullable = false)
+    @Column(name = "direccion")
     private String direccion;
 
     @Column(name = "tipo", nullable = false)
