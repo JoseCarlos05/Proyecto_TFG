@@ -1,5 +1,18 @@
 <ion-content class="ion-padding">
-  <h1 style="color: red;">¡Pago cancelado! ❌</h1>
-  <p>Hubo un problema o cancelaste el pago.</p>
-  <ion-button expand="block" (click)="intentarDeNuevo()">Intentar de nuevo</ion-button>
+  <div class="contenedor">
+    <div class="div-mensaje">
+      <ion-grid>
+        <ion-row>
+          <span>❌</span>
+        </ion-row>
+        <ion-row>
+          <h1>Pago cancelado</h1>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <p>Hubo un problema o cancelaste el pago.</p>
+    <div>
+      <ion-button (click)="intentarDeNuevo()">Intentar de nuevo</ion-button>
+    </div>
+  </div>
 </ion-content>

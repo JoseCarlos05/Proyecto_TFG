@@ -1,5 +1,18 @@
 <ion-content class="ion-padding">
-  <h1 style="color: green;">¡Pago realizado con éxito! ✅</h1>
-  <p>Gracias por tu pago.</p>
-  <ion-button expand="block" (click)="volverHome()">Volver al Inicio</ion-button>
+  <div class="contenedor">
+    <div class="div-mensaje">
+      <ion-grid>
+        <ion-row>
+          <span>✅</span>
+        </ion-row>
+        <ion-row>
+          <h1>Pago realizado con éxito</h1>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <p>Gracias por tu pago.</p>
+    <div>
+      <ion-button (click)="volverHome()">Intentar de nuevo</ion-button>
+    </div>
+  </div>
 </ion-content>
