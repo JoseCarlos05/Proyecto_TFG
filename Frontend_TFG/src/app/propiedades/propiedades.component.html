@@ -3,21 +3,18 @@
 
 <ion-content>
   <div class="textoMedio">
-    <p>Añadir Propiedades</p>
+    <p>Propiedades</p>
   </div>
-  <div class="grid-container">
-    <button class="card card-button">
-      <p class="card-title">Garaje</p>
-      <img src="assets/icon/propiedades/garaje.png" alt="Garaje" class="card-image" />
-    </button>
-    <button class="card card-button">
-      <p class="card-title">Futbol</p>
-      <img src="assets/icon/propiedades/futbol.png" alt="Futbol" class="card-image" />
-    </button>
-    <button class="card card-button">
-      <p class="card-title">Padel</p>
-      <img src="assets/icon/propiedades/padel.png" alt="Padel" class="card-image" />
-    </button>
-  </div>
+
+  <ion-grid>
+    <ion-row *ngFor="let fila of propiedadesEnFilas" style="margin-bottom: 30px; margin-left: 6px; margin-right: 6px">
+      <ion-col size="5" class="tarjeta-verde" *ngFor="let propiedad of fila">
+        <p class="card-title">{{propiedad.nombre}}</p>
+        <img [src]="obtenerImagenPropiedad(propiedad.tipoPropiedad)" class="card-image" />
+      </ion-col>
+      <ion-col size="1" *ngIf="fila.length === 1"></ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
 <app-footer-comunidad></app-footer-comunidad>

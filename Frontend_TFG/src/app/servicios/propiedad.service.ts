@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
 import {CrearPropiedad} from "../modelos/CrearPropiedad";
 import {Gasto} from "../modelos/Gasto";
 import {TipoPropiedad} from "../enum/TipoPropiedad";
+import {Propiedad} from "../modelos/Propiedad";
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +33,8 @@ export class PropiedadService {
     return this.http.delete(`${this.apiUrl}/comunidad/eliminar/propiedad/${idComunidad}/${tipoPropiedad}`, options);
   }
 
+  listarPropiedadesVecinoIdComunidad(idComunidad: number): Observable<Propiedad[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Propiedad[]>(`${this.apiUrl}/vecino/listar/propiedad/${idComunidad}`, options)
+  }
 }

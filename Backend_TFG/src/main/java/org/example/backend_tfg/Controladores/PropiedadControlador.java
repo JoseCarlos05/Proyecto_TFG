@@ -37,4 +37,9 @@ public class PropiedadControlador {
         propiedadServicio.eliminarPropiedad(idComunidad, tipoPropiedad);
     }
 
+    @GetMapping("/vecino/listar/propiedad/{idComunidad}")
+    public List<PropiedadDTO> listarPropiedadesVecinoIdComunidad(@PathVariable Integer idComunidad){
+        return propiedadServicio.listarPropiedad(idComunidad);
+    }
+
 }

@@ -37,7 +37,7 @@ export class FooterComunidadComponent  implements OnInit {
   }
 
   navigateToPropiedades() {
-
+    this.router.navigate(['propiedades'])
   }
 
   navigateToGastos() {
