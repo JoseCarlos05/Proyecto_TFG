@@ -17,6 +17,7 @@ import {Comunidad} from "../modelos/Comunidad";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {environment} from "../../environments/environment";
 import {VecinoUsuarioDTO} from "../modelos/VecinoUsuarioDTO";
+import {MensajeService} from "../servicios/mensaje.service";
 
 @Component({
   selector: 'app-lista-vecinos',
@@ -40,13 +41,13 @@ export class ListaVecinosComponent  implements OnInit {
   usuario: Usuario = {} as Usuario;
   vecino: Vecino = {} as Vecino;
   correo?: string
-  listaVecinos: VecinoUsuarioDTO[] = [];
-
+  listaVecinos: VecinoUsuarioDTO[] = []
+  ultimosMensajes: { [key: number]: string } = {}
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
-              private comunidadService: ComunidadService) { }
+              private mensajeService: MensajeService) { }
 
   ngOnInit() {
     const comunidad = sessionStorage.getItem('comunidad');
@@ -66,7 +67,6 @@ export class ListaVecinosComponent  implements OnInit {
         console.error('Error al decodificar el token:', e);
       }
     }
-
   }
 
   cargarUsuario(correo: string): void {
@@ -99,6 +99,7 @@ export class ListaVecinosComponent  implements OnInit {
       this.vecinoService.listarVecinosComunidad(this.comunidadObjeto.id).subscribe({
         next: data => {
           this.listaVecinos = data.filter(v => v.id !== this.vecino.id);
+          this.cargarUltimosMensajes()
         },
         error: err => {
           console.error("Error al listar vecinos:", err);
@@ -107,6 +108,24 @@ export class ListaVecinosComponent  implements OnInit {
     }
   }
 
+  cargarUltimosMensajes() {
+    for (const vecino of this.listaVecinos) {
+      this.mensajeService.verConversacion(this.usuario.id, vecino.idUsuario).subscribe({
+        next: data => {
+          if (data.length !== 0) {
+            data.sort((a, b) => new Date(a.fecha!).getTime() - new Date(b.fecha!).getTime())
+            let ultimoMensaje = data[data.length - 1]
+            if (ultimoMensaje.idEmisor === this.usuario.id) {
+              this.ultimosMensajes[vecino.idUsuario] = "Tú: " + data[data.length - 1].texto
+            } else {
+              this.ultimosMensajes[vecino.idUsuario] = data[data.length - 1].texto
+            }
+          }
+        }
+      })
+    }
+    console.log(this.ultimosMensajes)
+  }
 
   getImageUrlVecino(vecino: Vecino): string {
     if (!vecino.fotoPerfil || vecino.fotoPerfil.trim() === '') {
@@ -121,5 +140,4 @@ export class ListaVecinosComponent  implements OnInit {
   navigateToChat(idUsuario: number) {
     this.router.navigate(['chat', idUsuario])
   }
-
 }

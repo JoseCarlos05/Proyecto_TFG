@@ -5,31 +5,36 @@ ion-toolbar {
 }
 
 .chat-header {
-  display: flex;
-  align-items: center;
-  height: 100%;
   padding: 0 10px;
+
+  .btn-back {
+    width: 100%;
+  }
+
+  .icono-foto {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 auto;
+  }
+
+  ion-col {
+    display: flex;
+    align-items: center;
+
+    .username {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: white;
+      margin: 0 auto;
+      text-align: center;
+    }
+  }
 }
 
 .logo {
   width: 40px;
   height: 40px;
-}
-
-.icono-foto {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-left: 40px;
-}
-
-.username {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  margin-left: 10px;
-  white-space: nowrap;
 }
 
 .salir {
@@ -106,41 +111,31 @@ hr {
   align-items: center;
   padding: 20px;
   background-color: #339F28;
-}
 
-.chat-input {
-  flex: 1;
-  border-radius: 20px;
-  padding: 5px 15px;
-  font-size: 1rem;
-  background: #fff;
-  color: black;
-  height: 60px;
-}
+  .chat-input {
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 1rem;
+    background: #fff;
+    color: black;
+    display: flex;
+    align-items: center;
+    width: 100%;
 
-.botonEnviar {
-  background-color: #ffffff;
-  margin-right: 10px;
-  margin-left: -30px;
-  border-radius: 20px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    input {
+      border: none;
+      width: 100%;
+    }
 
-.botonEnviar ion-img {
-  width: 45px;
-  height: 45px;
-  margin-right: 10px;
-}
+    input:focus {
+      outline: none;
+    }
 
-ion-input {
-  --border-radius: 60px;
-  --background: #FFFFFF;
-  --padding-start: 10px;
-  width: 85%;
-  margin: 0 auto;
+    ion-img {
+      width: 40px;
+      margin: 0 auto;
+    }
+  }
 }
 
 @media (max-width: 768px) {

@@ -7,33 +7,53 @@
     align-items: center;
 
     &:nth-child(odd) {
-      --background: #E7F4E7;
+      --background: #7CDF68;
+
+      h2 {
+        color: white;
+      }
+
+      p {
+        color: white;
+      }
     }
 
     &:nth-child(even) {
-      --background: #FFFFFF;
+      --background: #A0FF88;
+
+      h2 {
+        color: #339F28;
+      }
+
+      p {
+        color: #339F28;
+      }
+    }
+
+    &:last-child {
+      border-bottom: 2px solid #339F28;
     }
 
     img {
       width: 65px;
       height: 65px;
       margin: 0 auto;
+      margin-block: 5px;
       border: 1px solid black;
       border-radius: 50%;
       overflow: hidden;
     }
 
     h2 {
-      color: #339F28;
       font-weight: bold;
       margin: 0;
       font-size: 1.2rem;
     }
 
     p {
-      color: #339F28;
       margin: 0;
     }
+
     ion-label{
       margin-left: 15px;
     }
@@ -41,14 +61,14 @@
 }
 
 ion-content{
-  --background: #FFFFFF;
+  --background: #E7F4E7;
   padding: 0;
 }
 
 .list-md {
   background: #FFFFFF;
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .div-sin {

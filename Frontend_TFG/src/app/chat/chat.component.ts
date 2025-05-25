@@ -111,7 +111,6 @@ export class ChatComponent  implements OnInit {
     }
   }
 
-
   handleSocketEvent(data: any) {
     const action = data.action;
     const mensajeData: Mensaje = data.mensaje;
@@ -154,7 +153,6 @@ export class ChatComponent  implements OnInit {
       console.error('Error al acceder a getScrollElement:', err);
     });
   }
-
 
   cargarConversacion(idEmisor?: number, idReceptor?: number, scroll: boolean = true, preserveScrollPosition?: number) {
     if (idEmisor === undefined || idReceptor === undefined) {
@@ -306,5 +304,9 @@ export class ChatComponent  implements OnInit {
     } else {
       return `${this.baseUrl}${vecino.fotoPerfil}`;
     }
+  }
+
+  salirDelChat() {
+    this.router.navigate(['/lista-vecinos'])
   }
 }
