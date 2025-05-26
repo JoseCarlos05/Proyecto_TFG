@@ -113,7 +113,12 @@ export class InfoGarajeComponent implements OnInit {
     if (this.comunidad.id) {
       this.garajeService.listarGarajes(this.comunidad.id).subscribe({
         next: data => {
-          this.listaGarajes = data;
+          this.listaGarajes = data.sort((a, b) => {
+            const numeroA = parseInt(a.numeroPlaza.replace('P', ''), 10);
+            const numeroB = parseInt(b.numeroPlaza.replace('P', ''), 10);
+            return numeroA - numeroB;
+          });
+
           this.organizarGarajesEnBloques();
         }
       });
