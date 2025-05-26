@@ -157,5 +157,13 @@ export const routes: Routes = [
   {
     path: 'olvidar-contrasena',
     loadComponent: () => import('./olvidar-contrasena/olvidar-contrasena.component').then((m) => m.OlvidarContrasenaComponent)
+  },
+  {
+    path: 'info-garaje',
+    loadComponent: () => import('./info-garaje/info-garaje.component').then((m) => m.InfoGarajeComponent)
+  },
+  {
+    path: 'ver-garaje',
+    loadComponent: () => import('./garaje-vecino/garaje-vecino.component').then((m) => m.GarajeVecinoComponent)
   }
 ];

@@ -6,7 +6,7 @@
   </div>
   <ion-grid>
     <ion-row style="margin-bottom: 50px; margin-left: 6px">
-      <ion-col size="5" class="tarjeta-verde">
+      <ion-col (click)="navigateToGaraje()" size="5" class="tarjeta-verde">
         <img [src]="estaEnComunidad('GARAJE') ? 'assets/icon/propiedades/eliminar.png' : 'assets/icon/propiedades/añadir.png'" class="delete"
              (click)="accionPropiedad('GARAJE', 'Garaje')"/>
         <p class="card-title">Garaje</p>

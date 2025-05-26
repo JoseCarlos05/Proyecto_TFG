@@ -128,6 +128,11 @@ export class PropiedadesComponent  implements OnInit {
     return filas;
   }
 
+  navigateTo(propiedad: Propiedad){
+    if (propiedad.tipoPropiedad == "GARAJE") {
+      this.router.navigate(["/ver-garaje"])
+    }
+  }
 
 
 }
