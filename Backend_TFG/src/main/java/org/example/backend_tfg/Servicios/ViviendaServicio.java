@@ -167,4 +167,22 @@ public class ViviendaServicio {
         }
         return dto;
     }
+
+    public void eliminarResidente(Integer idVivienda, Integer idResidente) {
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("Vivienda no encontrada"));
+
+        Vecino residente = iVecinoRepositorio.findById(idResidente)
+                .orElseThrow(() -> new RuntimeException("Residente no encontrado"));
+
+        if (!vivienda.getVecinos().contains(residente)) {
+            throw new RuntimeException("El residente no pertenece a esta vivienda.");
+        }
+        
+        vivienda.getVecinos().remove(residente);
+        residente.getViviendas().remove(vivienda);
+
+        iViviendaRepositorio.save(vivienda);
+        iVecinoRepositorio.save(residente);
+    }
 }

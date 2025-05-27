@@ -3,6 +3,7 @@ package org.example.backend_tfg.Controladores;
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.*;
 import org.example.backend_tfg.Servicios.ViviendaServicio;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -68,5 +69,11 @@ public class ViviendaControlador {
     @PostMapping("/comunidad/editar/vivienda/{idVivienda}")
     public void editarVivienda(@RequestBody EditarViviendaDTO editarViviendaDTO, @PathVariable Integer idVivienda){
         viviendaServicio.editarNombreVivienda(editarViviendaDTO, idVivienda);
+    }
+
+    @DeleteMapping("/viviendas/{idVivienda}/residentes/{idResidente}")
+    public ResponseEntity<String> eliminarResidente(@PathVariable Integer idVivienda, @PathVariable Integer idResidente) {
+        viviendaServicio.eliminarResidente(idVivienda, idResidente);
+        return ResponseEntity.ok("Residente eliminado correctamente.");
     }
 }
