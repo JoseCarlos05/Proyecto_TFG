@@ -12,6 +12,7 @@
   <div class="tarjeta" (click)="navigateToComunidad(comunidad)" *ngFor="let comunidad of listaComunidades">
     <p class="tarjeta-titulo">{{ comunidad.nombre }}</p>
     <p class="tarjeta-subtitulo">{{ comunidad.direccion }}</p>
+    <img class="salir-comunidad" src="assets/icon/salir-comunidad.png" alt="Salir comunidad" (click)="confirmarSalida($event, comunidad)" />
   </div>
 </ion-content>
 

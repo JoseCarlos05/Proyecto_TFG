@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule, ToastController} from "@ionic/angular";
 import {CommonModule} from "@angular/common";
 import {Router} from "@angular/router";
 import {FooterComponent} from "../footer/footer.component";
@@ -12,6 +12,7 @@ import {VecinoService} from "../servicios/vecino.service";
 import {Vecino} from "../modelos/Vecino";
 import {ComunidadService} from "../servicios/comunidad.service";
 import {Comunidad} from "../modelos/Comunidad";
+import {ViviendaService} from "../servicios/vivienda.service";
 
 @Component({
   selector: 'app-comunidades',
@@ -30,7 +31,10 @@ export class ComunidadesComponent implements OnInit {
   constructor(private router: Router,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
-              private comunidadService: ComunidadService) { }
+              private comunidadService: ComunidadService,
+              private viviendaService: ViviendaService,
+              private alertController: AlertController,
+              private toastController: ToastController) { }
 
   ngOnInit() {
     this.inicio()
@@ -97,4 +101,42 @@ export class ComunidadesComponent implements OnInit {
     }
   }
 
+  async confirmarSalida(event: Event, comunidad: Comunidad) {
+    event.stopPropagation();
+
+    const alert = await this.alertController.create({
+      header: 'Confirmar salida',
+      message: `¿Estás seguro de que quieres salir de la comunidad ${comunidad.nombre}?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Salir',
+          role: 'destructive',
+          handler: () => {
+            if (this.vecino?.id && comunidad?.id) {
+              this.viviendaService.eliminarResidente(comunidad.id, this.vecino.id).subscribe({
+                next: () => {
+                  this.listaComunidades = this.listaComunidades.filter(c => c.id !== comunidad.id);
+                },
+                error: async () => {
+                  const toast = await this.toastController.create({
+                    message: 'Has salido correctamente de la comunidad.',
+                    duration: 2000,
+                    color: 'success',
+                    position: 'top'
+                  });
+                  await toast.present();
+                }
+              });
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }
