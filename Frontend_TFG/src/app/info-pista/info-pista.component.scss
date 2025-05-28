@@ -1,0 +1,61 @@
+.horario-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fila {
+  display: flex;
+}
+
+.celda {
+  width: 60px;
+  height: 40px;
+  border: 1px solid #ccc;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
+}
+
+.encabezado .celda {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.pista-nombre {
+  background-color: #007bff;
+  color: white;
+  width: 150px;
+}
+
+.vacía {
+  width: 150px;
+}
+
+.leyenda {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.leyenda-item {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+}
+
+.libre {
+  background-color: #90ee90;
+}
+.ocupado {
+  background-color: red;
+}
+.no-disponible {
+  background-color: lightgray;
+}
+.seleccionado {
+  background-color: yellow;
+}

@@ -28,4 +28,12 @@ public class Pista {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Horario> horarios = new HashSet<>(0);
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vecino")
+    private Vecino vecino;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comunidad", nullable = false)
+    private Comunidad comunidad;
 }

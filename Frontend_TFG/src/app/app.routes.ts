@@ -165,5 +165,13 @@ export const routes: Routes = [
   {
     path: 'ver-garaje',
     loadComponent: () => import('./garaje-vecino/garaje-vecino.component').then((m) => m.GarajeVecinoComponent)
+  },
+  {
+    path: 'ver-pistas',
+    loadComponent: () => import('./ver-pistas/ver-pistas.component').then((m) => m.VerPistasComponent)
+  },
+  {
+    path: 'info-pista-comunidad/:id',
+    loadComponent: () => import('./info-pista-comunidad/info-pista-comunidad.component').then((m) => m.InfoPistaComunidadComponent)
   }
 ];

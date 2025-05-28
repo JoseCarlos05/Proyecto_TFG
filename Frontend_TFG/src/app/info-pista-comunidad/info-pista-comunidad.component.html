@@ -1,0 +1,32 @@
+<app-header></app-header>
+<ion-content>
+  <ion-grid class="tabla">
+
+    <ion-row class="encabezado">
+      <ion-col class="celda columna">Horas</ion-col>
+      <ion-col class="celda pista-nombre">{{ pista?.deporte }}</ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let horario of listaHorarios" class="fila">
+      <ion-col class="celda columna">
+        {{ horario.horaInicio }} - {{ horario.horaFin }}
+      </ion-col>
+      <ion-col class="celda"
+               [ngClass]="getEstadoClase(horario.id)"
+               (click)="toggleSeleccion(horario.id)">
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <div class="colores">
+    <div class="colores-item libre"></div><span>Libre</span>
+    <div class="colores-item ocupado"></div><span>Ocupado</span>
+    <div class="colores-item seleccionado"></div><span>Seleccionado</span>
+  </div>
+
+</ion-content>
+<div style="background-color: #E7F4E7">
+  <ion-button expand="block" class="boton">Reservar ({{ seleccionadas.length }})</ion-button>
+</div>
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

@@ -154,4 +154,8 @@ export class PropiedadesComunidadesComponent  implements OnInit {
     this.router.navigate(["/info-garaje"])
   }
 
+  navigateToPista(){
+    this.router.navigate(["/ver-pistas"])
+  }
+
 }

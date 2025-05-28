@@ -27,7 +27,7 @@ public class Horario {
     @Column(name = "hora_fin", nullable = false)
     private LocalTime horaFin;
 
-    @Column(name = "dia", nullable = false)
+    @Column(name = "dia")
     private LocalDate dia;
 
     @Column(name = "reservado", nullable = false)
