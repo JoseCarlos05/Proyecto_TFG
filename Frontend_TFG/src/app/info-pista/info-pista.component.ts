@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {Comunidad} from "../modelos/Comunidad";
 import {Gasto} from "../modelos/Gasto";
 import {Usuario} from "../modelos/Usuario";
@@ -13,7 +13,7 @@ import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
 import {filter} from "rxjs";
 import {HeaderComponent} from "../header/header.component";
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule} from "@ionic/angular";
 import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
 import {HorarioCompleto} from "../modelos/HorarioCompleto";
 import {Pista} from "../modelos/Pista";
@@ -31,7 +31,8 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
     HeaderComponent,
     IonicModule,
     MenuInferiorComunidadComponent,
-    FooterComunidadComponent
+    FooterComunidadComponent,
+    NgIf
   ]
 })
 export class InfoPistaComponent  implements OnInit {
@@ -53,7 +54,8 @@ export class InfoPistaComponent  implements OnInit {
               private viviendaService: ViviendaService,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
-              private pistaService: PistaService) {
+              private pistaService: PistaService,
+              private alertController: AlertController) {
   }
 
   ngOnInit() {
@@ -113,7 +115,8 @@ export class InfoPistaComponent  implements OnInit {
     if (this.idPista) {
       this.pistaService.obtenerHorariosVecino(this.idPista, fecha).subscribe({
         next: data => {
-          this.listaHorarios = data;
+          this.listaHorarios = data.sort((a, b) => a.horaInicio.localeCompare(b.horaInicio));
+
           this.listaHoras = this.listaHorarios.map(h => `${h.horaInicio} - ${h.horaFin}`);
 
           this.estadoHorarios = {};
@@ -168,5 +171,57 @@ export class InfoPistaComponent  implements OnInit {
     }
   }
 
+  reservarPista(idHorario: number) {
+    if (this.vecino.id) {
+      this.pistaService.reservarPista(idHorario, this.vecino.id).subscribe({
+        next: () => {
+          console.log(`Horario ${idHorario} reservado`);
+          this.listarHorarios(this.fechaSeleccionada);
+        },
+        error: () => {
+          console.log(`Error al reservar horario ${idHorario}`);
+        }
+      });
+    }
+  }
+
+
+  async confirmarReserva() {
+    if (this.seleccionadas.length === 0) {
+      const alerta = await this.alertController.create({
+        header: 'Sin selección',
+        message: 'Debes seleccionar al menos un horario para reservar.',
+        buttons: ['OK']
+      });
+      await alerta.present();
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Confirmar reserva',
+      message: `¿Estás seguro de que quieres reservar ${this.seleccionadas.length} horario(s)? No se puede cancelar.`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Reserva cancelada');
+          }
+        },
+        {
+          text: 'Confirmar',
+          role: 'confirm',
+          handler: () => {
+            this.seleccionadas.forEach(idStr => {
+              const id = parseInt(idStr, 10);
+              this.reservarPista(id);
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
 }

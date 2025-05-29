@@ -52,4 +52,9 @@ public class PistaControlador {
     public PistaDTO verPistaIdVecino(@PathVariable Integer idPista){
         return pistaServicio.verPistaId(idPista);
     }
+
+    @PostMapping("/vecino/reserva/pista/{idHorario}/{idVecino}")
+    public void reservarPista(@PathVariable Integer idHorario, @PathVariable Integer idVecino){
+        pistaServicio.reservarPista(idHorario, idVecino);
+    }
 }

@@ -52,4 +52,9 @@ export class PistaService {
     return this.http.get<Pista>(`${this.apiUrl}/vecino/ver/pista/${idPista}`, options)
   }
 
+  reservarPista(idHorario: number, idVecino: number): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/vecino/reserva/pista/${idHorario}/${idVecino}`, {} ,options);
+  }
+
 }

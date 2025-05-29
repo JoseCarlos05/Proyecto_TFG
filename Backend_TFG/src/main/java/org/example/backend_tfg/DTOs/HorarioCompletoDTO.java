@@ -16,4 +16,5 @@ public class HorarioCompletoDTO {
     private LocalDate dia;
     private boolean reservado;
     private Integer idPista;
+    private Integer idVecino;
 }

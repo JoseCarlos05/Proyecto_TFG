@@ -33,12 +33,14 @@ export class AnadirPistaComponent  implements OnInit {
   horaFin: string = '';
   nuevaHoraInicio: string = '';
   nuevaHoraFin: string = '';
+  nuevaFecha: string = '';
 
 
   crearPista: CrearPista = {
     deporte: "",
     horarios: [],
-    idComunidad: undefined
+    idComunidad: undefined,
+    diasSeleccionados: []
   }
   constructor(private comunidadService: ComunidadService,
               private router: Router,
@@ -88,17 +90,19 @@ export class AnadirPistaComponent  implements OnInit {
     }
   }
   crearEleccionMetodo() {
-    if (!this.crearPista.deporte || !this.crearPista.diasRepetir) {
+    if (!this.crearPista.deporte || this.crearPista.diasSeleccionados.length === 0) {
       const toast = document.getElementById("campoVacio") as any;
       toast?.present();
       return;
     }
-    if (this.crearPista.diasRepetir < 1) {
-      const toast = document.getElementById("min1") as any;
-      toast.present();
+    const hoy = new Date().toISOString().split('T')[0];
+    const hayFechaInvalida = this.crearPista.diasSeleccionados.some(fecha => fecha < hoy);
+
+    if (hayFechaInvalida) {
+      const toast = document.getElementById("diaIncorrecto") as any;
+      toast?.present();
       return;
     }
-
 
     this.actualizarFechaHora();
 
@@ -111,7 +115,8 @@ export class AnadirPistaComponent  implements OnInit {
         this.crearPista = {
           deporte: '',
           horarios: [],
-          idComunidad: this.comunidad?.id
+          idComunidad: this.comunidad?.id,
+          diasSeleccionados: []
         };
         this.horaInicio = '';
         this.horaFin = '';
@@ -152,6 +157,18 @@ export class AnadirPistaComponent  implements OnInit {
         horaFin: soloHoraFin
       }];
     }
+  }
+
+  agregarFecha() {
+
+    if (this.nuevaFecha && !this.crearPista.diasSeleccionados.includes(this.nuevaFecha)) {
+      this.crearPista.diasSeleccionados.push(this.nuevaFecha);
+      this.nuevaFecha = '';
+    }
+  }
+
+  eliminarFecha(index: number) {
+    this.crearPista.diasSeleccionados.splice(index, 1);
   }
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {Usuario} from "../modelos/Usuario";
 import {Comunidad} from "../modelos/Comunidad";
 import {Pista} from "../modelos/Pista";
@@ -25,7 +25,8 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
     NgClass,
     IonicModule,
     HeaderComponent,
-    MenuInferiorComunidadComponent
+    MenuInferiorComunidadComponent,
+    NgIf
   ]
 })
 export class InfoPistaComunidadComponent  implements OnInit {
@@ -99,7 +100,8 @@ export class InfoPistaComunidadComponent  implements OnInit {
     if (this.idPista) {
       this.pistaService.obtenerHorarios(this.idPista, fecha).subscribe({
         next: data => {
-          this.listaHorarios = data;
+          this.listaHorarios = data.sort((a, b) => a.horaInicio.localeCompare(b.horaInicio));
+
           this.listaHoras = this.listaHorarios.map(h => `${h.horaInicio} - ${h.horaFin}`);
 
           this.estadoHorarios = {};

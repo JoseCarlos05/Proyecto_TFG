@@ -10,7 +10,5 @@ import lombok.NoArgsConstructor;
 public class PistaDTO {
     private Integer id;
     private String deporte;
-
-    private Integer idVecino;
     private Integer idComunidad;
 }

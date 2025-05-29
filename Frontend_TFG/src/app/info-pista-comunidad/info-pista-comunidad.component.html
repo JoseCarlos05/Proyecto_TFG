@@ -15,13 +15,18 @@
       <ion-col class="celda pista-nombre">{{ pista?.deporte }}</ion-col>
     </ion-row>
 
+    <ion-row *ngIf="listaHorarios.length === 0">
+      <ion-col class="celda">
+        No hay pistas disponibles para este día
+      </ion-col>
+    </ion-row>
+
     <ion-row *ngFor="let horario of listaHorarios" class="fila">
       <ion-col class="celda columna">
         {{ horario.horaInicio }} - {{ horario.horaFin }}
       </ion-col>
       <ion-col class="celda"
-               [ngClass]="getEstadoClase(horario.id)"
-               (click)="toggleSeleccion(horario.id)">
+               [ngClass]="getEstadoClase(horario.id)">
       </ion-col>
     </ion-row>
 
@@ -30,7 +35,6 @@
   <div class="colores">
     <div class="colores-item libre"></div><span>Libre</span>
     <div class="colores-item ocupado"></div><span>Ocupado</span>
-    <div class="colores-item seleccionado"></div><span>Seleccionado</span>
   </div>
 
 </ion-content>

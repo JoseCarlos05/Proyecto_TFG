@@ -44,26 +44,20 @@ public class PistaServicio {
 
         Set<Horario> horarios = new HashSet<>();
 
-        LocalDate hoy = LocalDate.now();
-        int diasGenerar = 0;
-        if (dto.getDiasRepetir() != null) {
-            diasGenerar = dto.getDiasRepetir();
+        List<LocalDate> diasSeleccionados = dto.getDiasSeleccionados();
+        if (diasSeleccionados == null || diasSeleccionados.isEmpty()) {
+            throw new RuntimeException("Debes proporcionar al menos una fecha");
         }
 
-        if (dto.getHorarios() != null && !dto.getHorarios().isEmpty()) {
-            for (int i = 0; i < diasGenerar; i++) {
-                LocalDate dia = hoy.plusDays(i);
-
-                for (HorarioDTO hDto : dto.getHorarios()) {
-                    Horario horario = new Horario();
-                    horario.setHoraInicio(hDto.getHoraInicio());
-                    horario.setHoraFin(hDto.getHoraFin());
-                    horario.setDia(dia);
-                    horario.setReservado(false);
-                    horario.setPista(pista);
-
-                    horarios.add(horario);
-                }
+        for (LocalDate dia : diasSeleccionados) {
+            for (HorarioDTO hDto : dto.getHorarios()) {
+                Horario horario = new Horario();
+                horario.setHoraInicio(hDto.getHoraInicio());
+                horario.setHoraFin(hDto.getHoraFin());
+                horario.setDia(dia);
+                horario.setReservado(false);
+                horario.setPista(pista);
+                horarios.add(horario);
             }
         }
 
@@ -83,6 +77,18 @@ public class PistaServicio {
         return pistaDTOS;
     }
 
+    public void reservarPista(Integer idHorario, Integer idVecino){
+        Horario horario = iHorarioRepositorio.findById(idHorario)
+                .orElseThrow(() -> new RuntimeException("No existe un horario con ese id"));
+        horario.setReservado(true);
+
+        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con ese id"));
+
+        horario.setVecino(vecino);
+
+        iHorarioRepositorio.save(horario);
+    }
 
     public List<HorarioCompletoDTO> obtenerHorariosPorDia(Integer idPista, LocalDate fecha) {
         List<Horario> horarios = iHorarioRepositorio.findByPista_IdAndDia(idPista, fecha);
@@ -101,10 +107,6 @@ public class PistaServicio {
         dto.setDeporte(p.getDeporte());
         dto.setIdComunidad(p.getComunidad().getId());
 
-        if (p.getVecino() != null){
-            dto.setIdVecino(p.getComunidad().getId());
-        }
-
         return dto;
     }
 
@@ -117,6 +119,9 @@ public class PistaServicio {
         dto.setDia(h.getDia());
         if (h.getPista() != null){
             dto.setIdPista(h.getPista().getId());
+        }
+        if (h.getVecino() != null){
+            dto.setIdVecino(h.getVecino().getId());
         }
 
         return dto;

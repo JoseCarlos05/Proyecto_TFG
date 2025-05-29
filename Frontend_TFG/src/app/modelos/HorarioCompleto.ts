@@ -5,5 +5,6 @@ export interface HorarioCompleto {
   dia: string;
   reservado: boolean;
   idPista?: number;
+  idVecino?: number;
 
 }

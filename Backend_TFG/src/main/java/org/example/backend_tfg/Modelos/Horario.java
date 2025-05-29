@@ -38,4 +38,8 @@ public class Horario {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Pista pista;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vecino")
+    private Vecino vecino;
 }

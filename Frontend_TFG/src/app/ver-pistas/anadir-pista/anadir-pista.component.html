@@ -2,10 +2,26 @@
   <ion-text>¿De qué deporte es la pista?</ion-text>
   <ion-input type="text" [(ngModel)]="crearPista.deporte" placeholder="Escribe el deporte de la pista"></ion-input>
 
-  <ion-text>¿Durante cuántos días quieres repetir el horario?</ion-text>
-  <ion-input type="number" [(ngModel)]="crearPista.diasRepetir" min="1" placeholder="Número de días que se repite el horario"></ion-input>
+  <ion-text>Selecciona los días deseados</ion-text>
+    <ion-datetime
+      [(ngModel)]="nuevaFecha"
+      presentation="date"
+      value-format="YYYY-MM-DD"
+      displayFormat="YYYY-MM-DD"
+      pickerFormat="YYYY-MM-DD">
+    </ion-datetime>
 
-  <ion-text>Hora de inicio</ion-text>
+  <ion-button expand="block" class="boton" (click)="agregarFecha()">Añadir día</ion-button>
+  <ion-list>
+    <ion-item *ngFor="let fecha of crearPista.diasSeleccionados; let i = index">
+      <ion-label>{{ fecha.slice(0, 10) }}</ion-label>
+      <ion-button color="danger" (click)="eliminarFecha(i)">
+        Eliminar
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-text style="margin-top: 20px">Hora de inicio</ion-text>
   <ion-datetime
     [(ngModel)]="nuevaHoraInicio"
     presentation="time"
@@ -13,7 +29,7 @@
     pickerFormat="HH:mm">
   </ion-datetime>
 
-  <ion-text>Hora de finalización</ion-text>
+  <ion-text style="margin-top: 20px">Hora de finalización</ion-text>
   <ion-datetime
     [(ngModel)]="nuevaHoraFin"
     presentation="time"
