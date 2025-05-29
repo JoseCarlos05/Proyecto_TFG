@@ -54,6 +54,7 @@ ion-content {
   border-radius: 10px;
   margin: 20px;
   color: white;
+  position: relative;
 }
 
 .tarjeta-titulo {
@@ -65,4 +66,11 @@ ion-content {
 .tarjeta-subtitulo {
   font-size: 17px;
   margin: 5px;
+}
+
+.salir-comunidad {
+  width: 30px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }

@@ -1,3 +1,26 @@
-<p>
-  sanciones works!
-</p>
+<ion-grid class="grid-principal">
+  <ion-row class="row-principal" *ngFor="let sancion of listaSanciones">
+    <div class="contenedor">
+      <div class="vecino-div">
+        <span>Vecino afectado → </span>
+        <span><u>{{ vecinosMap[sancion.idVecino]?.nombre }} {{ vecinosMap[sancion.idVecino]?.apellidos }}</u></span>
+      </div>
+
+      <div class="sancion-div">
+        <span>Sanción: </span>
+        <span class="inline-text">{{ String(sancion.sancion) }}</span>
+      </div>
+
+      <div class="motivo-div">
+        <span>Motivo: </span>
+        <span class="inline-text">{{ sancion.motivo }}</span>
+      </div>
+    </div>
+  </ion-row>
+</ion-grid>
+
+<div class="div-sin" *ngIf="listaSanciones.length === 0">
+  <span>No hay sanciones registrados en tu comunidad.</span>
+</div>
+
+<ion-img src="assets/icon/anadir.png" (click)="navigateToCrearSancion()"></ion-img>

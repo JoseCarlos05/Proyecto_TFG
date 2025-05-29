@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SancionDTO {
-    private Integer id;
+public class CrearSancionComunidadDTO {
     private String motivo;
     private String sancion;
     private Integer idVecino;

@@ -19,4 +19,10 @@ public class VecinoDTO {
     private String numeroCuenta;
     private String dni;
     private String fotoPerfil;
+
+    public VecinoDTO(Integer id, String nombre, String apellidos) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+    }
 }

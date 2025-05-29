@@ -69,4 +69,13 @@ export class ViviendaService {
     return this.http.post<void>(`${this.apiUrl}/comunidad/editar/vivienda/${idVivienda}`, editarVivienda, options);
   }
 
+  eliminarResidente(idVivienda: number, idResidente: number): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.delete<any>(`${this.apiUrl}/comunidad/${idVivienda}/residentes/${idResidente}`, options);
+  }
+
+  salirComunidad(idVivienda: number, idResidente: number): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.delete<any>(`${this.apiUrl}/vecino/${idVivienda}/residentes/${idResidente}`, options);
+  }
 }
