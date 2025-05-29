@@ -279,4 +279,9 @@ export class InfoViviendaComponent implements OnInit {
     await alert.present();
   }
 
+  volverAtras(): void {
+    this.router.navigate(['/lista-viviendas']);
+  }
+
+
 }

@@ -171,6 +171,10 @@ export class CrearComunicadoComunidadComponent  implements OnInit {
     }
   }
 
+  volverAtras(): void {
+    this.router.navigate(['/documentacion/comunidad']);
+  }
+
 
   crearComunicadoMetodo() {
     if (!this.crearComunicado.descripcion || !this.crearComunicado.idComunidad) {

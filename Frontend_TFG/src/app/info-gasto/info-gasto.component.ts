@@ -169,6 +169,10 @@ export class InfoGastoComponent  implements OnInit {
     this.gastoSeleccionado = null;
   }
 
+  volverAtras(): void {
+    this.router.navigate(['/gastos/comunidad']);
+  }
+
   aceptar(): void {
     this.cerrarModal();
   }

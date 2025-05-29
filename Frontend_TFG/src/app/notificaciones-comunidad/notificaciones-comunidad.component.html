@@ -1,5 +1,11 @@
 <app-header></app-header>
 
+<ion-img
+  class="flecha-retorno"
+  src="assets/icon/FlechaRetorno.png"
+  (click)="volverAtras()">
+</ion-img>
+
 <ion-content>
   <ion-grid *ngFor="let solicitud of solicitudes; let i = index" [ngClass]="i % 2 === 0 ? 'fondo-a' : 'fondo-b'">
     <ion-row>
