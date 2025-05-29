@@ -158,4 +158,8 @@ export class UnirseComunidadComponent implements OnInit {
       }
     });
   }
+
+  volverAtras(): void {
+    this.router.navigate(['/lista-viviendas']);
+  }
 }
