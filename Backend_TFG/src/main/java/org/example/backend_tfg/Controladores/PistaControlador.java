@@ -59,7 +59,7 @@ public class PistaControlador {
     }
 
     @GetMapping("/vecino/listar/pistas/vecino/{idVecino}")
-    public List<PistaDTO> listarPistasIdVecino(@PathVariable Integer idVecino){
+    public List<PistaHorarioDTO> listarPistasIdVecino(@PathVariable Integer idVecino){
         return pistaServicio.listarPistasIdVecino(idVecino);
     }
 

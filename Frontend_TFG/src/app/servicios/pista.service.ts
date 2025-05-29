@@ -8,6 +8,7 @@ import {Pista} from "../modelos/Pista";
 import {CrearGasto} from "../modelos/CrearGasto";
 import {CrearPista} from "../modelos/CrearPista";
 import {HorarioCompleto} from "../modelos/HorarioCompleto";
+import {PistaHorario} from "../modelos/PistaHorario";
 
 @Injectable({
   providedIn: 'root'
@@ -57,4 +58,8 @@ export class PistaService {
     return this.http.post(`${this.apiUrl}/vecino/reserva/pista/${idHorario}/${idVecino}`, {} ,options);
   }
 
+  listarPistasIdVecino(idVecino: number): Observable<PistaHorario[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<PistaHorario[]>(`${this.apiUrl}/vecino/listar/pistas/vecino/${idVecino}`, options)
+  }
 }

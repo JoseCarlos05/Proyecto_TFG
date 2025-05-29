@@ -77,21 +77,35 @@ public class PistaServicio {
         return pistaDTOS;
     }
 
-    public List<PistaDTO> listarPistasIdVecino(Integer idVecino){
+    public List<PistaHorarioDTO> listarPistasIdVecino(Integer idVecino) {
         List<Horario> horarios = iHorarioRepositorio.findByVecino_Id(idVecino);
         List<Pista> pistas = new ArrayList<>();
-        List<PistaDTO> pistaDTOS = new ArrayList<>();
+        List<PistaHorarioDTO> pistaDTOS = new ArrayList<>();
 
-        for (Horario horario: horarios){
-            pistas.add(horario.getPista());
+        for (Horario horario : horarios) {
+            Pista pista = horario.getPista();
+            if (!pistas.contains(pista)) {
+                pistas.add(pista);
+            }
         }
-        for (Pista pista: pistas){
-            pistaDTOS.add(getPistaDTO(pista));
+        for (Pista pista : pistas) {
+            List<HorarioCompletoDTO> horarioDTOS = new ArrayList<>();
+
+            PistaHorarioDTO pistaDTO = getPistaHorarioDTO(pista);
+
+            for (Horario horario : horarios) {
+                if (horario.getPista().equals(pista)) {
+                    horarioDTOS.add(getHorarioDTO(horario));
+                }
+            }
+
+            pistaDTO.setHorarios(horarioDTOS);
+            pistaDTOS.add(pistaDTO);
         }
 
         return pistaDTOS;
-
     }
+
 
     public void reservarPista(Integer idHorario, Integer idVecino){
         Horario horario = iHorarioRepositorio.findById(idHorario)
@@ -119,6 +133,15 @@ public class PistaServicio {
 
     public static PistaDTO getPistaDTO(Pista p) {
         PistaDTO dto = new PistaDTO();
+        dto.setId(p.getId());
+        dto.setDeporte(p.getDeporte());
+        dto.setIdComunidad(p.getComunidad().getId());
+
+        return dto;
+    }
+
+    public static PistaHorarioDTO getPistaHorarioDTO(Pista p) {
+        PistaHorarioDTO dto = new PistaHorarioDTO();
         dto.setId(p.getId());
         dto.setDeporte(p.getDeporte());
         dto.setIdComunidad(p.getComunidad().getId());

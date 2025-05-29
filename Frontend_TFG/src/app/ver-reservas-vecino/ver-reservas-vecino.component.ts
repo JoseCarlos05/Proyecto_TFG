@@ -1,43 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import {IonicModule} from "@ionic/angular";
-import {NgForOf} from "@angular/common";
 import {Comunidad} from "../modelos/Comunidad";
-import {Gasto} from "../modelos/Gasto";
 import {Usuario} from "../modelos/Usuario";
 import {Vecino} from "../modelos/Vecino";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {Pista} from "../modelos/Pista";
+import {ActivatedRoute, Router} from "@angular/router";
 import {GastosService} from "../servicios/gastos.service";
 import {ViviendaService} from "../servicios/vivienda.service";
 import {UsuarioService} from "../servicios/usuario.service";
 import {VecinoService} from "../servicios/vecino.service";
+import {PistaService} from "../servicios/pista.service";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
-import {filter} from "rxjs";
-import {Pista} from "../modelos/Pista";
-import {PistaService} from "../servicios/pista.service";
+import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
-import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
+import {IonicModule} from "@ionic/angular";
+import {NgForOf} from "@angular/common";
+import {PistaHorario} from "../modelos/PistaHorario";
 
 @Component({
-    selector: 'app-ver-pistas-vecino',
-    templateUrl: './ver-pistas-vecino.component.html',
-    styleUrls: ['./ver-pistas-vecino.component.scss'],
-    standalone: true,
+  selector: 'app-ver-reservas-vecino',
+  templateUrl: './ver-reservas-vecino.component.html',
+  styleUrls: ['./ver-reservas-vecino.component.scss'],
+  standalone: true,
   imports: [
-    IonicModule,
-    NgForOf,
+    FooterComunidadComponent,
     HeaderComponent,
     HeaderComunidadComponent,
-    FooterComunidadComponent
+    IonicModule,
+    NgForOf
   ]
 })
-export class VerPistasVecinoComponent  implements OnInit {
+export class VerReservasVecinoComponent  implements OnInit {
+
   comunidadObjeto!: Comunidad
   usuario: Usuario = {} as Usuario;
   vecino: Vecino = {} as Vecino;
   correo?: string
-  listaPista: Pista[] = []
+  listaPista: PistaHorario[] = []
 
   constructor(private router: Router,
               private gastosService: GastosService,
@@ -97,18 +97,11 @@ export class VerPistasVecinoComponent  implements OnInit {
 
   listarPistas() {
     if (this.comunidadObjeto?.id)
-      this.pistaService.listarPistasVecino(this.comunidadObjeto.id).subscribe({
+      this.pistaService.listarPistasIdVecino(this.vecino.id).subscribe({
         next: data => {
           this.listaPista = data
         }
       })
   }
 
-  navigateToInfoPista(idPista: number) {
-    this.router.navigate(['info-pista', idPista])
-  }
-
-  navigateToVerReservas() {
-    this.router.navigate(['ver-reservas-vecino'])
-  }
 }

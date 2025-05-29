@@ -1,5 +1,8 @@
 <app-header></app-header>
 <app-header-comunidad></app-header-comunidad>
+<div class="fondo">
+  <ion-button (click)="navigateToVerReservas()">Ver mis reservas</ion-button>
+</div>
 <ion-content>
 <ion-grid>
   <ion-row *ngFor="let pista of listaPista" class="pista-row" (click)="navigateToInfoPista(pista.id)">

@@ -1,0 +1,35 @@
+ion-content{
+  --background: #E7F4E7;
+}
+.pista-row {
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+  background-color: #57BF48;
+}
+
+.icono-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icono-pista {
+  width: 40px;
+  height: 40px;
+}
+
+.texto-col {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+ion-img {
+  margin: 20px auto 10px auto;
+  width: 60px;
+
+}
+.fondo{
+  background: #E7F4E7;
+
+}

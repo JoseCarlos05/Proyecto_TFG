@@ -181,5 +181,9 @@ export const routes: Routes = [
   {
     path: 'info-pista/:id',
     loadComponent: () => import('./info-pista/info-pista.component').then((m) => m.InfoPistaComponent)
+  },
+  {
+    path: 'ver-reservas-vecino',
+    loadComponent: () => import('./ver-reservas-vecino/ver-reservas-vecino.component').then((m) => m.VerReservasVecinoComponent)
   }
 ];
