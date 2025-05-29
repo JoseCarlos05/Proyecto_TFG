@@ -173,5 +173,13 @@ export const routes: Routes = [
   {
     path: 'info-pista-comunidad/:id',
     loadComponent: () => import('./info-pista-comunidad/info-pista-comunidad.component').then((m) => m.InfoPistaComunidadComponent)
+  },
+  {
+    path: 'ver-pistas-vecino',
+    loadComponent: () => import('./ver-pistas-vecino/ver-pistas-vecino.component').then((m) => m.VerPistasVecinoComponent)
+  },
+  {
+    path: 'info-pista/:id',
+    loadComponent: () => import('./info-pista/info-pista.component').then((m) => m.InfoPistaComponent)
   }
 ];

@@ -38,6 +38,8 @@ export class InfoPistaComunidadComponent  implements OnInit {
   estadoHorarios: Record<string, 'libre' | 'ocupado' > = {};
   seleccionadas: string[] = [];
   listaHoras: string[] = [];
+  fechaSeleccionada: string = new Date().toISOString().split('T')[0];
+
   constructor(private comunidadService: ComunidadService,
               private router: Router,
               private usuarioService: UsuarioService,
@@ -141,6 +143,14 @@ export class InfoPistaComunidadComponent  implements OnInit {
       this.seleccionadas = this.seleccionadas.filter(id => id !== idStr);
     } else {
       this.seleccionadas.push(idStr);
+    }
+  }
+
+  cogerFecha(event: any) {
+    const fecha = event.detail.value;
+    if (fecha) {
+      this.fechaSeleccionada = fecha;
+      this.listarHorarios(fecha);
     }
   }
 }

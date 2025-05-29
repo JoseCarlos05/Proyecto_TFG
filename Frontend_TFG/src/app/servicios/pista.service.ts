@@ -36,4 +36,20 @@ export class PistaService {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Pista>(`${this.apiUrl}comunidad/ver/pista/${idPista}`, options)
   }
+
+  listarPistasVecino(idComunidad: number): Observable<Pista[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Pista[]>(`${this.apiUrl}/vecino/listar/pistas/${idComunidad}`, options)
+  }
+
+  obtenerHorariosVecino(idPista: number, fecha: string): Observable<HorarioCompleto[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<HorarioCompleto[]>(`${this.apiUrl}/vecino/pista/reservado?idPista=${idPista}&fecha=${fecha}`,options)
+  }
+
+  verPistaVecino(idPista: number): Observable<Pista> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Pista>(`${this.apiUrl}/vecino/ver/pista/${idPista}`, options)
+  }
+
 }

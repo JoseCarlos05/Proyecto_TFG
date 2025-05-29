@@ -1,0 +1,13 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+<ion-content>
+<ion-grid>
+  <ion-row *ngFor="let pista of listaPista" class="pista-row" (click)="navigateToInfoPista(pista.id)">
+
+    <ion-col class="texto-col">
+      {{ pista.deporte }}
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>
+<app-footer-comunidad></app-footer-comunidad>

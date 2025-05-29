@@ -1,23 +1,40 @@
-<!--<div class="horario-container">-->
-<!--  <div class="fila encabezado">-->
-<!--    <div class="celda vacía"></div>-->
-<!--    <div *ngFor="let hora of horas" class="celda hora">{{ hora }}</div>-->
-<!--  </div>-->
+<app-header></app-header>
+<ion-item>
+  <ion-label position="stacked">Seleccionar fecha</ion-label>
+  <ion-input
+    type="date"
+    [value]="fechaSeleccionada"
+    (ionInput)="cogerFecha($event)"
+  ></ion-input>
+</ion-item>
+<ion-content>
+  <ion-grid class="tabla">
 
-<!--  <div class="fila">-->
-<!--    <div class="celda pista-nombre">{{ pista.nombre }} | {{ pista.deporte }}</div>-->
-<!--    <div *ngFor="let hora of horas" class="celda"-->
-<!--         [ngClass]="getEstadoClase(hora)"-->
-<!--         (click)="toggleSeleccion(hora)">-->
-<!--    </div>-->
-<!--  </div>-->
+    <ion-row class="encabezado">
+      <ion-col class="celda columna">Horas</ion-col>
+      <ion-col class="celda pista-nombre">{{ pista?.deporte }}</ion-col>
+    </ion-row>
 
-<!--  <div class="leyenda">-->
-<!--    <div class="leyenda-item libre"></div><span>Libre</span>-->
-<!--    <div class="leyenda-item ocupado"></div><span>Ocupado</span>-->
-<!--    <div class="leyenda-item no-disponible"></div><span>No disponible</span>-->
-<!--    <div class="leyenda-item seleccionado"></div><span>Seleccionado</span>-->
-<!--  </div>-->
+    <ion-row *ngFor="let horario of listaHorarios" class="fila">
+      <ion-col class="celda columna">
+        {{ horario.horaInicio }} - {{ horario.horaFin }}
+      </ion-col>
+      <ion-col class="celda"
+               [ngClass]="getEstadoClase(horario.id)"
+               (click)="toggleSeleccion(horario.id)">
+      </ion-col>
+    </ion-row>
 
-<!--  <ion-button expand="block">Reservar ({{ seleccionadas.length }})</ion-button>-->
-<!--</div>-->
+  </ion-grid>
+
+  <div class="colores">
+    <div class="colores-item libre"></div><span>Libre</span>
+    <div class="colores-item ocupado"></div><span>Ocupado</span>
+    <div class="colores-item seleccionado"></div><span>Seleccionado</span>
+  </div>
+
+</ion-content>
+<div style="background-color: #E7F4E7">
+  <ion-button expand="block" class="boton">Reservar ({{ seleccionadas.length }})</ion-button>
+</div>
+<app-footer-comunidad></app-footer-comunidad>

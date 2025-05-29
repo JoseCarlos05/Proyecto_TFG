@@ -132,7 +132,9 @@ export class PropiedadesComponent  implements OnInit {
     if (propiedad.tipoPropiedad == "GARAJE") {
       this.router.navigate(["/ver-garaje"])
     }
+    if (propiedad.tipoPropiedad == "PISTA_DEPORTIVA"){
+      this.router.navigate(["/ver-pistas-vecino"])
+    }
   }
-
 
 }

@@ -36,4 +36,20 @@ public class PistaControlador {
     public PistaDTO verPistaId(@PathVariable Integer idPista){
         return pistaServicio.verPistaId(idPista);
     }
+
+    @GetMapping("/vecino/listar/pistas/{idComunidad}")
+    public List<PistaDTO> listarPistasVecino(@PathVariable Integer idComunidad){
+        return pistaServicio.listarPistas(idComunidad);
+    }
+
+    @GetMapping("/vecino/pista/reservado")
+    public List<HorarioCompletoDTO> obtenerHorariosPorDiaVecino(@RequestParam Integer idPista,
+                                                          @RequestParam LocalDate fecha) {
+        return pistaServicio.obtenerHorariosPorDia(idPista, fecha);
+    }
+
+    @GetMapping("/vecino/ver/pista/{idPista}")
+    public PistaDTO verPistaIdVecino(@PathVariable Integer idPista){
+        return pistaServicio.verPistaId(idPista);
+    }
 }
