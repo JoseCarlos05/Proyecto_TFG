@@ -117,7 +117,7 @@ export class ComunidadesComponent implements OnInit {
           role: 'destructive',
           handler: () => {
             if (this.vecino?.id && comunidad?.id) {
-              this.viviendaService.eliminarResidente(comunidad.id, this.vecino.id).subscribe({
+              this.viviendaService.salirComunidad(comunidad.id, this.vecino.id).subscribe({
                 next: () => {
                   this.listaComunidades = this.listaComunidades.filter(c => c.id !== comunidad.id);
                 },

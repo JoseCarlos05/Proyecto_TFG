@@ -5,6 +5,8 @@ import {ComunService} from "./comun.service";
 import {Observable} from "rxjs";
 import {Comunidad} from "../modelos/Comunidad";
 import {Sancion} from "../modelos/Sancion";
+import {CrearComunicadoComunidad} from "../modelos/CrearComunicadoComunidad";
+import {CrearSancionComunidad} from "../modelos/CrearSancionComunidad";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +30,15 @@ export class SancionService {
   listarSancionesVecinoComunidad(idComunidad: number, idVecino: number): Observable<Sancion[]> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Sancion[]>(`${this.apiUrl}/comunidad/listar/sanciones/vecino/${idComunidad}/${idVecino}`, options)
+  }
+
+  crearSancionComunidad(sanciones: CrearSancionComunidad): Observable<any> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/comunidad/crear/sancion`, sanciones, options);
+  }
+
+  listarSancionesComunidad(idComunidad: number): Observable<Sancion[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Sancion[]>(`${this.apiUrl}/comunidad/listar/sanciones/${idComunidad}`, options);
   }
 }

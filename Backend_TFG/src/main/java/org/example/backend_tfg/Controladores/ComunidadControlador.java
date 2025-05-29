@@ -83,4 +83,15 @@ public class ComunidadControlador {
     public VecinoDTO verVecinoID(@PathVariable Integer idVecino){
         return vecinoServicio.buscarVecinoID(idVecino);
     }
+
+    @GetMapping("/comunidad/listar/vecinos/{idComunidad}")
+    public List<VecinoDTO> listarVecinosComunidad(@PathVariable Integer idComunidad) {
+        return vecinoServicio.listarVecinosIdComunidad(idComunidad)
+                .stream()
+                .map(vecinoUsuarioDTO -> new VecinoDTO(
+                        vecinoUsuarioDTO.getId(),
+                        vecinoUsuarioDTO.getNombre(),
+                        vecinoUsuarioDTO.getApellidos()))
+                .toList();
+    }
 }

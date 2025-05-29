@@ -71,9 +71,15 @@ public class ViviendaControlador {
         viviendaServicio.editarNombreVivienda(editarViviendaDTO, idVivienda);
     }
 
-    @DeleteMapping("/viviendas/{idVivienda}/residentes/{idResidente}")
+    @DeleteMapping("/comunidad/{idVivienda}/residentes/{idResidente}")
     public ResponseEntity<String> eliminarResidente(@PathVariable Integer idVivienda, @PathVariable Integer idResidente) {
         viviendaServicio.eliminarResidente(idVivienda, idResidente);
         return ResponseEntity.ok("Residente eliminado correctamente.");
+    }
+
+    @DeleteMapping("/vecino/{idVivienda}/residentes/{idResidente}")
+    public ResponseEntity<String> salirComunidad(@PathVariable Integer idVivienda, @PathVariable Integer idResidente) {
+        viviendaServicio.salirComunidad(idVivienda, idResidente);
+        return ResponseEntity.ok("Residente salió de la comunidad correctamente.");
     }
 }
