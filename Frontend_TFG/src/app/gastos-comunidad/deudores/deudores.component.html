@@ -15,16 +15,15 @@
   <div class="modal-contenido" (click)="$event.stopPropagation()">
     <h1>Enviar recordatorio</h1>
     <div class="lista-gastos">
+      <p>Gastos pendientes: </p>
       <label *ngFor="let gasto of vecinoSeleccionado?.gastos">
-        <input type="checkbox" [value]="gasto">
-        <span class="texto-gasto">{{ gasto.concepto }} - {{ gasto.total}}€</span>
+        <span class="texto-gasto">{{ gasto.concepto }} → {{ gasto.total}}€</span>
       </label>
     </div>
 
     <div class="botones-modal">
-      <button (click)="aceptar()">Aceptar</button>
+      <button (click)="aceptar(vecinoSeleccionado!.vecino.id!)" [disabled]="!vecinoSeleccionado">Aceptar</button>
       <button (click)="cerrarModal()">Cerrar</button>
     </div>
   </div>
 </div>
-

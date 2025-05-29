@@ -34,19 +34,17 @@ export class ComunicadosComponent  implements OnInit {
   private usuario!: Usuario
   comunidad!: Comunidad
 
-  listaVecino: Vecino[] = []
   vecinosMap: { [id: number]: Vecino } = {};
 
   constructor(private router: Router,
               private comunicadoService: ComunicadoService,
               private sanitizer: DomSanitizer,
               private usuarioService: UsuarioService,
-              private comunidadService: ComunidadService,
-              private vecinoService: VecinoService) {
+              private comunidadService: ComunidadService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        if (event.urlAfterRedirects === '/comunidad/documentacion-comunidad') {
+        if (event.urlAfterRedirects === '/documentacion/comunidad') {
           this.inicio()
         }
       });
@@ -78,10 +76,6 @@ export class ComunicadosComponent  implements OnInit {
     }
   }
 
-  ionViewWillEnter() {
-    this.listarComunicados()
-  }
-
   cargarUsuario(correo: string): void {
     this.usuarioService.cargarUsuarioComunidad(correo).subscribe({
       next: (usuario: Usuario) => {
@@ -106,7 +100,6 @@ export class ComunicadosComponent  implements OnInit {
       })
     }
   }
-
 
   listarComunicados() {
     if (this.comunidad.id) {
@@ -133,7 +126,6 @@ export class ComunicadosComponent  implements OnInit {
       });
     }
   }
-
 
   formatearFecha(fechaISO: string): string {
     const fecha = new Date(fechaISO);

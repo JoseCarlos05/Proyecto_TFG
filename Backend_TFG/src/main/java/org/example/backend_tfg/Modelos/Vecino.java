@@ -59,6 +59,12 @@ public class Vecino {
     @ToString.Exclude
     private Set<Gasto> gastos = new HashSet<>(0);
 
+    @ManyToMany(mappedBy = "vecinos",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Notificacion> notificaciones = new HashSet<>();
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

@@ -11,6 +11,32 @@ ion-content {
   display: flex;
   align-items: center;
 
+  .notif-wrapper {
+    position: relative;
+
+    .btn-notif {
+      width: 55%;
+      height: 55%;
+    }
+
+    .notif-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      font-size: 12px;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      z-index: 10;
+    }
+  }
+
   ion-img{
     width: 40px;
     height: 40px;

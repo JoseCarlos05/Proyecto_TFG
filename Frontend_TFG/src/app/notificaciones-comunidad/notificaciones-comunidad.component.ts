@@ -15,6 +15,7 @@ import {Comunidad} from "../modelos/Comunidad";
 import {UsuarioService} from "../servicios/usuario.service";
 import {ViviendaService} from "../servicios/vivienda.service";
 import {Vivienda} from "../modelos/Vivienda";
+import {TipoNotificacion} from "../modelos/Notificacion";
 
 @Component({
     selector: 'app-notificaciones-comunidad',
@@ -48,7 +49,9 @@ export class NotificacionesComunidadComponent  implements OnInit {
               private viviendaService: ViviendaService,
               private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
@@ -161,8 +164,13 @@ export class NotificacionesComunidadComponent  implements OnInit {
   }
 
   aceptarSolicitud(solicitud: Solicitud) {
+    const ids: number[] = [solicitud.idVecino]
     this.comunidadService.aceptarSolicitud(solicitud).subscribe({
-      next: () => this.listarSolicitudes()
+      next: () => {
+        this.comunidadService.enviarNotificacion(ids, this.comunidad.id, TipoNotificacion.BIENVENIDA).subscribe({
+          next: () => this.listarSolicitudes()
+        })
+      }
     })
   }
 

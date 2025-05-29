@@ -174,12 +174,15 @@ export class PerfilComunidadComponent  implements OnInit {
 
   cargarPropietario() {
     if (this.viviendaVecino && this.viviendaVecino.idPropietario && this.residentes ) {
-      this.propietario = this.residentes.find(v => v.id === this.viviendaVecino.idPropietario);
-      if (this.propietario && this.propietario.id) {
-        this.cargarSanciones(this.propietario.id)
-        this.cargarGastos(this.propietario.id)
-      }
-
+      this.vecinoService.cargarVecinoPorIdVecino(this.viviendaVecino.idPropietario).subscribe({
+        next: data => {
+          this.propietario = data
+          if (this.propietario && this.propietario.id) {
+            this.cargarSanciones(this.propietario.id)
+            this.cargarGastos(this.propietario.id)
+          }
+        }
+      })
     }
   }
 

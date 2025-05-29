@@ -89,7 +89,6 @@ export class ComunicadosComponent  implements OnInit {
     }
   }
 
-
   formatearFecha(fechaISO: string): string {
     const fecha = new Date(fechaISO);
     const hoy = new Date();

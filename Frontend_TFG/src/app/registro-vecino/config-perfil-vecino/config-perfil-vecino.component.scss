@@ -33,6 +33,7 @@ ion-content {
   width: 80%;
   max-width: 400px;
   margin: 0 auto;
+
 }
 
 ion-text {
@@ -52,7 +53,7 @@ ion-input {
   color: #0E8008;
 }
 
-ion-input[type="nombre"], ion-input[type="apellidos"], ion-input[type="telefono"], ion-input[type="date"], ion-input[type="cuenta"], ion-input[type="dni"] {
+ion-input[type="text"], ion-input[type="date"], ion-input[type="tel"] {
   margin-bottom: 30px;
 }
 

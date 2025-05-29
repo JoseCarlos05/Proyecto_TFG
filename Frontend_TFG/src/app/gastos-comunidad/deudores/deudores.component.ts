@@ -11,6 +11,7 @@ import {TokenDataDTO} from "../../modelos/TokenData";
 import {VecinoDeuda} from "../../modelos/VecinoDeuda";
 import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {TipoNotificacion} from "../../modelos/Notificacion";
 
 @Component({
   selector: 'app-deudores',
@@ -73,13 +74,13 @@ export class DeudoresComponent  implements OnInit {
       this.comunidadService.cargarComunidadPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
           this.comunidad = data
-          this.listarDeudorea()
+          this.listarDeudores()
         }
       })
     }
   }
 
-  listarDeudorea() {
+  listarDeudores() {
     if (this.comunidad.id)
       this.gastosService.listarDeudoresIdComunidad(this.comunidad.id).subscribe({
         next: data => {
@@ -87,6 +88,7 @@ export class DeudoresComponent  implements OnInit {
         }
       })
   }
+
   abrirModal(vecinoDeuda: VecinoDeuda): void {
     if (this.vecinoSeleccionado == null) {
       this.vecinoSeleccionado = vecinoDeuda;
@@ -98,8 +100,11 @@ export class DeudoresComponent  implements OnInit {
     this.vecinoSeleccionado = null;
   }
 
-  aceptar(): void {
-    this.cerrarModal();
+  aceptar(vecinoId: number): void {
+    const ids: number[] = [vecinoId]
+    console.log(ids)
+    this.comunidadService.enviarNotificacion(ids, this.comunidad.id, TipoNotificacion.DEUDA).subscribe({
+        next: () => this.cerrarModal()
+    })
   }
-
 }

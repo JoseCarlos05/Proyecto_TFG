@@ -9,6 +9,8 @@ import {RegistrarVecino} from "../modelos/RegistrarVecino";
 import {EditarVecinoDTO} from "../modelos/EditarVecinoDTO";
 import {Sancion} from "../modelos/Sancion";
 import {VecinoUsuarioDTO} from "../modelos/VecinoUsuarioDTO";
+import {Notificacion} from "../modelos/Notificacion";
+import {Comunidad} from "../modelos/Comunidad";
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +39,20 @@ export class VecinoService {
   listarVecinosComunidad(idComunidad: number): Observable<VecinoUsuarioDTO[]> {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<VecinoUsuarioDTO[]>(`${this.apiUrl}/vecino/listar/vecinos/comunidad/${idComunidad}`, options)
+  }
+
+  verNotificaciones(idVecino: number, idComunidad: number): Observable<Notificacion[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Notificacion[]>(`${this.apiUrl}/vecino/ver/notificaciones/${idVecino}/${idComunidad}`, options)
+  }
+
+  buscarComunidadPorCodigo(codigo: string): Observable<Comunidad> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<Comunidad>(`${this.apiUrl}/vecino/buscar/comunidad/codigo/${codigo}`, options)
+  }
+
+  eliminarNotificacion(idVecino: number, idNotificacion: number) {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post(`${this.apiUrl}/vecino/eliminar/notificacion/${idNotificacion}/${idVecino}`, {}, options)
   }
 }

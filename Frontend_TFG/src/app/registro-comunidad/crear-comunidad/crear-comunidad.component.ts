@@ -145,7 +145,7 @@ export class CrearComunidadComponent implements OnInit {
         return;
       }
 
-      const regexCIF = /^[A-HJNP-SUVW]\d{7}[0-9A-J]$/;
+      const regexCIF =/^[A-Za-z][0-9]{8}$/;
 
       if (!regexCIF.test(this.registroComunidad.cif.trim())) {
         const toast = document.getElementById("toastCif") as any;

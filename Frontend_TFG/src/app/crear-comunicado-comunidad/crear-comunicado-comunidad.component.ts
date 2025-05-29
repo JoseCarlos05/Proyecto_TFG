@@ -5,9 +5,7 @@ import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {Usuario} from "../modelos/Usuario";
-import {Vecino} from "../modelos/Vecino";
 import {Comunidad} from "../modelos/Comunidad";
-import {CrearComunicado} from "../modelos/CrearComunicado";
 import {Router} from "@angular/router";
 import {UsuarioService} from "../servicios/usuario.service";
 import {VecinoService} from "../servicios/vecino.service";
@@ -21,6 +19,7 @@ import {FontType} from "../enum/TipoFuente";
 import {ComunidadService} from "../servicios/comunidad.service";
 import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
 import {CrearComunicadoComunidad} from "../modelos/CrearComunicadoComunidad";
+import {TipoNotificacion} from "../modelos/Notificacion";
 
 const font: any = Quill.import('formats/font')
 const FontStyle: any = Quill.import('attributors/style/font');
@@ -171,7 +170,6 @@ export class CrearComunicadoComunidadComponent  implements OnInit {
     }
   }
 
-
   crearComunicadoMetodo() {
     if (!this.crearComunicado.descripcion || !this.crearComunicado.idComunidad) {
       console.log("Faltan datos para crear el comunicado.");
@@ -181,6 +179,11 @@ export class CrearComunicadoComunidadComponent  implements OnInit {
     this.comunicadoService.crearComunicadoComunidad(this.crearComunicado).subscribe({
       next: () => {
         this.crearComunicado.descripcion = "";
+        this.comunidadService.listarVecinosComunidad(this.comunidad.id).subscribe({
+          next: data =>
+            this.comunidadService.enviarNotificacion(data.map(vecino => vecino.id), this.comunidad.id, TipoNotificacion.COMUNICADO)
+              .subscribe({})
+        })
         this.router.navigate(['/documentacion/comunidad']);
       },
       error: () => {

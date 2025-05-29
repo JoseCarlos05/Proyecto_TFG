@@ -4,28 +4,18 @@
 <ion-content>
   <div class="notificaciones">
     <ion-list>
-      <ion-item class="notificacion">
-        <ion-img class="imagen-redonda" src="assets/icon/perfiles/26.png"></ion-img>
+      <ion-item class="notificacion" *ngFor="let notificacion of notificaciones" (click)="eliminarYRedireccion(notificacion)">
+        <img [ngSrc]="getImageUrlVecino(vecino)" width="100" height="100" class="imagen-redonda" alt="Foto de perfil">
         <ion-label>
-          <h2>Andrés</h2>
-          <p>Te han sancionado 3 juntas</p>
-        </ion-label>
-      </ion-item>
-      <ion-item class="notificacion">
-        <ion-img class="imagen-redonda" src="assets/icon/perfiles/26.png"></ion-img>
-        <ion-label>
-          <h2>Juan</h2>
-          <p>Te ha enviado un mensaje</p>
-        </ion-label>
-      </ion-item>
-      <ion-item class="notificacion">
-        <ion-img class="imagen-redonda" src="assets/icon/perfiles/26.png"></ion-img>
-        <ion-label>
-          <h2>Juan</h2>
-          <p>Te ha enviado un mensaje</p>
+          <h2>{{ mensaje(notificacion.tipo) }}</h2>
+          <p>{{ calcularFecha(notificacion.fecha) }}</p>
         </ion-label>
       </ion-item>
     </ion-list>
+  </div>
+
+  <div class="div-sin" *ngIf="notificaciones.length === 0">
+    <span>Tu buzón de notificaciones está vacío</span>
   </div>
 </ion-content>
 

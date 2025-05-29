@@ -58,38 +58,30 @@ export class EleccionesComponent  implements OnInit {
     this.router.navigate(['comunidad/elecciones/votacion', eleccion.id])
   }
 
-  calcularFecha(eleccion: Eleccion): string {
-    if (!eleccion.fechaHoraCreacion) {
-      return "";
-    }
+  calcularFecha(fechaISO: string): string {
+    const fecha = new Date(fechaISO);
+    const hoy = new Date();
+    const ayer = new Date();
+    ayer.setDate(hoy.getDate() - 1);
 
-    const fechaActual = new Date();
-    const fechaPublicacion = new Date(eleccion.fechaHoraCreacion);
-    const milisegundos = fechaActual.getTime() - fechaPublicacion.getTime();
+    const esMismaFecha = (a: Date, b: Date): boolean =>
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate();
 
-    const minutos = 1000 * 60;
-    const horas   = minutos * 60;
-    const dias    = horas * 24;
-    const meses  = dias * 30;
-    const anios   = dias * 365;
-
-    if (milisegundos >= anios) {
-      const years = Math.floor(milisegundos / anios);
-      return `Hace ${years} ${years === 1 ? "año" : "años"}`;
-    } else if (milisegundos >= meses) {
-      const months = Math.floor(milisegundos / meses);
-      return `Hace ${months} ${months === 1 ? "mes" : "meses"}`;
-    } else if (milisegundos >= dias) {
-      const days = Math.floor(milisegundos / dias);
-      return `Hace ${days} ${days === 1 ? "día" : "días"}`;
-    } else if (milisegundos >= horas) {
-      const hours = Math.floor(milisegundos / horas);
-      return `Hace ${hours} ${hours === 1 ? "hora" : "horas"}`;
-    } else if (milisegundos >= minutos) {
-      const minutes = Math.floor(milisegundos / minutos);
-      return `Hace ${minutes} ${minutes === 1 ? "minuto" : "minutos"}`;
+    if (esMismaFecha(fecha, hoy)) {
+      return 'Hoy';
+    } else if (esMismaFecha(fecha, ayer)) {
+      return 'Ayer';
     } else {
-      return "Hace un momento";
+      const meses = [
+        'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+      ];
+      const dia = fecha.getDate();
+      const mes = meses[fecha.getMonth()];
+      const año = fecha.getFullYear();
+      return `${dia} de ${mes} de ${año}`;
     }
   }
 
@@ -99,6 +91,5 @@ export class EleccionesComponent  implements OnInit {
     }else {
       return "Abierta"
     }
-
   }
 }

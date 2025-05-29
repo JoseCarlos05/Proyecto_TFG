@@ -35,17 +35,23 @@ public class VecinoServicio {
 
     private final ISolicitudRepositorio iSolicitudRepositorio;
 
+    private final INotificacionRepositorio iNotificacionRepositorio;
+
+    private final ViviendaServicio viviendaServicio;
+
     @Value("${upload.dir}")
     private String uploadDir;
 
     public VecinoServicio(IVecinoRepositorio iVecinoRepositorio, IUsuarioRepositorio iUsuarioRepositorio,
                           IViviendaRepositorio iViviendaRepositorio, IComunidadRepositorio iComunidadRepositorio,
-                          ISolicitudRepositorio iSolicitudRepositorio) {
+                          ISolicitudRepositorio iSolicitudRepositorio, INotificacionRepositorio iNotificacionRepositorio, ViviendaServicio viviendaServicio) {
         this.iVecinoRepositorio = iVecinoRepositorio;
         this.iUsuarioRepositorio = iUsuarioRepositorio;
         this.iViviendaRepositorio = iViviendaRepositorio;
         this.iComunidadRepositorio = iComunidadRepositorio;
         this.iSolicitudRepositorio = iSolicitudRepositorio;
+        this.iNotificacionRepositorio = iNotificacionRepositorio;
+        this.viviendaServicio = viviendaServicio;
     }
 
     public VecinoDTO buscarVecinoID(Integer id){
@@ -189,8 +195,58 @@ public class VecinoServicio {
             }
         }
 
-
         return vecinoDTOS;
+    }
+
+    public List<NotificacionDTO> verNotificaciones(Integer idVecino, Integer idComunidad) {
+        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+        List<Notificacion> notificaciones = iNotificacionRepositorio.findByComunidad(iComunidadRepositorio.findById(idComunidad)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID.")));
+
+        List<NotificacionDTO> notis = new ArrayList<>(0);
+        for (Notificacion n : notificaciones) {
+            if (n.getVecinos().contains(vecino)) {
+                notis.add(getNotificacionDTO(n));
+            }
+        }
+
+        return notis;
+    }
+
+    public ComunidadDTO buscarComunidadPorCodigo(String codigo) {
+        return ComunidadServicio.getComunidadDTO(iComunidadRepositorio.findByCodigoComunidad(codigo));
+    }
+
+    public void eliminarNotificacion(Integer idNotificacion, Integer idVecino) {
+        Notificacion notificacion = iNotificacionRepositorio.findById(idNotificacion)
+                .orElseThrow(() -> new RuntimeException("No existe una notificación con este id"));
+
+        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+        if (notificacion.getVecinos().size() == 1) {
+            iNotificacionRepositorio.delete(notificacion);
+        } else {
+            notificacion.getVecinos().remove(vecino);
+            iNotificacionRepositorio.save(notificacion);
+        }
+    }
+
+    public List<VecinoUsuarioDTO> listarPropietarios(Integer idComunidad) {
+        List<ViviendaDTO> viviendas = viviendaServicio.listarViviendas(idComunidad);
+
+        List<VecinoUsuarioDTO> propietarios = new ArrayList<>();
+        for (VecinoUsuarioDTO vecino : listarVecinosIdComunidad(idComunidad)) {
+            for (ViviendaDTO vivienda : viviendas) {
+                if (Objects.equals(vivienda.getIdPropietario(), vecino.getId())) {
+                    propietarios.add(vecino);
+                }
+            }
+        }
+
+        return propietarios;
     }
 
     public VecinoUsuarioDTO getVecinoUsuarioDTO(Vecino vecino){
@@ -223,6 +279,23 @@ public class VecinoServicio {
         if (vecino.getFotoPerfil() != null){
             dtoNuevo.setFotoPerfil(vecino.getFotoPerfil());
         }
+        return dtoNuevo;
+    }
+
+    public static NotificacionDTO getNotificacionDTO(Notificacion n){
+        NotificacionDTO dtoNuevo  = new NotificacionDTO();
+
+        dtoNuevo.setId(n.getId());
+        dtoNuevo.setFecha(n.getFecha());
+        dtoNuevo.setTipo(n.getTipo());
+
+        List<Integer> idsVecinos = new ArrayList<>(0);
+        for (Vecino v : n.getVecinos()) {
+            idsVecinos.add(v.getId());
+        }
+        dtoNuevo.setIdsVecinos(idsVecinos);
+        dtoNuevo.setIdComunidad(n.getComunidad().getId());
+
         return dtoNuevo;
     }
 }

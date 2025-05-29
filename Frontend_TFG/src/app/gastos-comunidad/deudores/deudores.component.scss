@@ -71,6 +71,7 @@
     margin-top: 10px;
   }
 }
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -139,5 +140,14 @@ button:last-child {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.div-sin {
+  margin: 60px auto 0;
+  text-align: center;
+
+  span {
+    font-weight: bold
   }
 }

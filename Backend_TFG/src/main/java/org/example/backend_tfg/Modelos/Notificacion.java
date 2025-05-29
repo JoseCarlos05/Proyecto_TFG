@@ -5,6 +5,8 @@ import lombok.*;
 import org.example.backend_tfg.Enumerados.TipoNotificacion;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "notificacion")
@@ -24,11 +26,22 @@ public class Notificacion {
     @Column(name = "fecha", nullable = false)
     private LocalDateTime fecha;
 
-    @Column(name = "mensaje", nullable = false)
-    private String mensaje;
-
     @Column(name = "tipo", nullable = false)
     private TipoNotificacion tipo;
 
+    @ManyToMany
+    @JoinTable(
+            name = "notificaciones_vecinos",
+            joinColumns = @JoinColumn(name = "id_notificacion"),
+            inverseJoinColumns = @JoinColumn(name = "id_vecino")
+    )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Vecino> vecinos = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "id_comunidad", nullable = false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Comunidad comunidad;
 }

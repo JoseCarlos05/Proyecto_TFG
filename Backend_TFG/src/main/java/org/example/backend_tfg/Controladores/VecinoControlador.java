@@ -71,9 +71,24 @@ public class VecinoControlador {
         }
         throw new RuntimeException("El usuario autenticado no es del tipo esperado.");
     }
+
     @GetMapping("/listar/vecinos/comunidad/{idComunidad}")
     public List<VecinoUsuarioDTO> listarVecinoComunidad(@PathVariable Integer idComunidad){
         return vecinoServicio.listarVecinosIdComunidad(idComunidad);
     }
 
+    @GetMapping("/ver/notificaciones/{idVecino}/{idComunidad}")
+    public List<NotificacionDTO> verNotificaciones(@PathVariable Integer idVecino, @PathVariable Integer idComunidad){
+        return vecinoServicio.verNotificaciones(idVecino, idComunidad);
+    }
+
+    @GetMapping("/buscar/comunidad/codigo/{codigo}")
+    public ComunidadDTO buscarComunidadPorCodigo(@PathVariable String codigo){
+        return vecinoServicio.buscarComunidadPorCodigo(codigo);
+    }
+
+    @PostMapping("eliminar/notificacion/{idNotificacion}/{idVecino}")
+    public void eliminarNotificacion(@PathVariable Integer idNotificacion, @PathVariable Integer idVecino){
+        vecinoServicio.eliminarNotificacion(idNotificacion, idVecino);
+    }
 }

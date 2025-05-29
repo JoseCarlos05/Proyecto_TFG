@@ -135,17 +135,13 @@ public class GastoServicio {
 
         List<VecinoDTO> deudoresDTO = new ArrayList<>();
         for (Vecino vecino : propietarios) {
-            deudoresDTO.add(getVecinoDTO(vecino));
+            deudoresDTO.add(VecinoServicio.getVecinoDTO(vecino));
         }
 
         return deudoresDTO;
     }
 
-    public List<VecinoDeudaDTO> listarDeudoresIdComunidad(Integer idComunidad) {
-        Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)
-                .orElseThrow(() -> new RuntimeException("No existe una comunidad con este ID."));
-
-        List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
+    public List<VecinoDeudaDTO> listarDeudoresIdComunidad(Integer idComunidad) {List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
         List<Vecino> propietarios = new ArrayList<>();
         for (Vivienda vivienda : viviendas) {
             Vecino propietario = vivienda.getPropietario();
@@ -171,7 +167,7 @@ public class GastoServicio {
 
             if (!gastosPendientes.isEmpty()) {
                 VecinoDeudaDTO dto = new VecinoDeudaDTO();
-                dto.setVecino(getVecinoDTO(propietario));
+                dto.setVecino(VecinoServicio.getVecinoDTO(propietario));
                 dto.setGastos(gastosPendientes);
                 resultado.add(dto);
             }
@@ -196,21 +192,5 @@ public class GastoServicio {
         dto.setIdComunidad(g.getComunidad().getId());
 
         return dto;
-    }
-
-    public static VecinoDTO getVecinoDTO(Vecino vecino){
-        VecinoDTO dtoNuevo  = new VecinoDTO();
-
-        dtoNuevo.setId(vecino.getId());
-        dtoNuevo.setNombre(vecino.getNombre());
-        dtoNuevo.setApellidos(vecino.getApellidos());
-        dtoNuevo.setDni(vecino.getDni());
-        dtoNuevo.setTelefono(vecino.getTelefono());
-        dtoNuevo.setFechaNacimiento(vecino.getFechaNacimiento());
-        dtoNuevo.setNumeroCuenta(vecino.getNumCuenta());
-        if (vecino.getFotoPerfil() != null){
-            dtoNuevo.setFotoPerfil(vecino.getFotoPerfil());
-        }
-        return dtoNuevo;
     }
 }

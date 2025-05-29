@@ -3,6 +3,8 @@ package org.example.backend_tfg.Controladores;
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunidadDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
+import org.example.backend_tfg.DTOs.VecinoUsuarioDTO;
+import org.example.backend_tfg.Enumerados.TipoNotificacion;
 import org.example.backend_tfg.Modelos.Solicitud;
 import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Seguridad.UsuarioAdapter;
@@ -82,5 +84,25 @@ public class ComunidadControlador {
     @GetMapping("/comunidad/ver/vecino/{idVecino}")
     public VecinoDTO verVecinoID(@PathVariable Integer idVecino){
         return vecinoServicio.buscarVecinoID(idVecino);
+    }
+
+    @PostMapping("/comunidad/enviar/notificacion/{idsVecinos}/{idComunidad}/{tipoNotificacion}")
+    public void enviarNotificacion(@PathVariable Integer[] idsVecinos, @PathVariable Integer idComunidad, @PathVariable TipoNotificacion tipoNotificacion) {
+        comunidadService.enviarNotificacion(idsVecinos, idComunidad, tipoNotificacion);
+    }
+
+    @PostMapping("/vecino/enviar/notificacion/{idsVecinos}/{idComunidad}/{tipoNotificacion}")
+    public void enviarNotificacionVecino(@PathVariable Integer[] idsVecinos, @PathVariable Integer idComunidad, @PathVariable TipoNotificacion tipoNotificacion) {
+        comunidadService.enviarNotificacion(idsVecinos, idComunidad, tipoNotificacion);
+    }
+
+    @GetMapping("comunidad/listar/vecinos/comunidad/{idComunidad}")
+    public List<VecinoUsuarioDTO> listarVecinoComunidad(@PathVariable Integer idComunidad){
+        return vecinoServicio.listarVecinosIdComunidad(idComunidad);
+    }
+
+    @GetMapping("comunidad/listar/propietarios/{idComunidad}")
+    public List<VecinoUsuarioDTO> listarPropietarios(@PathVariable Integer idComunidad) {
+        return vecinoServicio.listarPropietarios(idComunidad);
     }
 }

@@ -7,7 +7,7 @@
       <div style="width: 100%">
         <p>{{ eleccion.motivo }}</p>
         <div class="eleccion-info">
-          <span class="fecha">{{calcularFecha(eleccion)}}</span>
+          <span class="fecha">{{ calcularFecha(eleccion.fechaHoraCreacion) }}</span>
           <span [ngClass]="comprobarEstado(eleccion)">{{ comprobarEstado(eleccion) }}</span>
         </div>
       </div>

@@ -15,6 +15,7 @@ import {Comunidad} from "../modelos/Comunidad";
 import {NgForOf, NgIf} from "@angular/common";
 import {Vivienda} from "../modelos/Vivienda";
 import {ViviendaService} from "../servicios/vivienda.service";
+import {TipoNotificacion} from "../modelos/Notificacion";
 
 @Component({
     selector: 'app-unirse-comunidad',
@@ -81,16 +82,24 @@ export class UnirseComunidadComponent implements OnInit {
   }
 
   insertarCodigoComunidad() {
-    this.comunidadService.insertarCodigo(this.insertarCodigo).subscribe({
-      next: () => {
-        this.presentToast("toastCodigoCorrecto");
-        this.router.navigate(['/comunidades']);
-      },
-      error: () => {
-        console.log('Error al insertar código.');
-        this.presentToast("toastCodigoError");
+    const ids: number[] = [this.insertarCodigo.idVecino!]
+    this.vecinoService.buscarComunidadPorCodigo(this.insertarCodigo.codigoComunidad).subscribe({
+      next: data => {
+        this.comunidadService.enviarNotificacionVecino(ids, data.id, TipoNotificacion.BIENVENIDA).subscribe({
+          next: () => {
+            this.comunidadService.insertarCodigo(this.insertarCodigo).subscribe({
+              next: () => {
+                this.presentToast("toastCodigoCorrecto");
+                this.router.navigate(['/comunidades'])
+              },
+              error: () => {
+                this.presentToast("toastCodigoError");
+              }
+            });
+          }
+        })
       }
-    });
+    })
   }
 
   cargarUsuario(correo: string): void {

@@ -2,16 +2,15 @@ package org.example.backend_tfg.Servicios;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunidadDTO;
-import org.example.backend_tfg.Modelos.Comunidad;
-import org.example.backend_tfg.Modelos.Solicitud;
-import org.example.backend_tfg.Modelos.Vecino;
-import org.example.backend_tfg.Modelos.Vivienda;
+import org.example.backend_tfg.Enumerados.TipoNotificacion;
+import org.example.backend_tfg.Modelos.*;
 import org.example.backend_tfg.Repositorios.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -25,6 +24,8 @@ public class ComunidadServicio {
     private IComunidadRepositorio iComunidadRepositorio;
 
     private ISolicitudRepositorio iSolicitudRepositorio;
+
+    private INotificacionRepositorio iNotificacionRepositorio;
 
     public List<ComunidadDTO> listarComunidades(Integer idVecino) {
         Vecino vecino = iVecinoRepositorio.findById(idVecino)
@@ -131,6 +132,24 @@ public class ComunidadServicio {
 
     public void rechazarSolicitud(Solicitud solicitud) {
         iSolicitudRepositorio.delete(solicitud);
+    }
+
+    public void enviarNotificacion(Integer[] idsVecinos, Integer idComunidad, TipoNotificacion tipo) {
+        Comunidad comunidad = iComunidadRepositorio.findById(idComunidad)
+                .orElseThrow(() -> new RuntimeException("No existe una comunidad con este ID."));
+
+        Set<Vecino> vecinos = new HashSet<>(0);
+        for (Integer id : idsVecinos) {
+            vecinos.add(iVecinoRepositorio.findById(id).orElseThrow(() -> new RuntimeException("No existe un vecino con este ID.")));
+        }
+
+        Notificacion n = new Notificacion();
+        n.setVecinos(vecinos);
+        n.setComunidad(comunidad);
+        n.setTipo(tipo);
+        n.setFecha(LocalDateTime.now());
+
+        iNotificacionRepositorio.save(n);
     }
 
     public static ComunidadDTO getComunidadDTO(Comunidad c) {

@@ -18,6 +18,7 @@ import {EleccionesService} from "../../servicios/elecciones.service";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../../modelos/TokenData";
 import {FormsModule} from "@angular/forms";
+import {TipoNotificacion} from "../../modelos/Notificacion";
 
 @Component({
     selector: 'app-lanzar-eleccion',
@@ -87,6 +88,7 @@ export class LanzarEleccionComponent  implements OnInit {
       })
     }
   }
+
   crearEleccionMetodo() {
     if (!this.crearEleccion.fechaHora || !this.crearEleccion.motivo || !this.crearEleccion.idComunidad) {
       const toast = document.getElementById("campoVacio") as any;
@@ -114,6 +116,11 @@ export class LanzarEleccionComponent  implements OnInit {
         };
         this.fecha = '';
         this.hora = '';
+        this.comunidadService.listarPropietariosComunidad(this.comunidad.id).subscribe({
+          next: data =>
+            this.comunidadService.enviarNotificacion(data.map(vecino => vecino.id), this.comunidad.id, TipoNotificacion.ELECCION)
+              .subscribe({})
+        })
       },
       error: () => {
         console.log('Error al lanzar la elección.');
@@ -121,13 +128,10 @@ export class LanzarEleccionComponent  implements OnInit {
     });
   }
 
-
   actualizarFechaHora() {
     if (this.fecha && this.hora) {
       const horaSolo = this.hora.split('T')[1]?.substring(0,5);
       this.crearEleccion.fechaHora = `${this.fecha}T${horaSolo}`;
     }
   }
-
-
 }

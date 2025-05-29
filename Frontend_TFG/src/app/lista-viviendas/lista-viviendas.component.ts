@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FooterComponent} from "../footer/footer.component";
 import {HeaderComponent} from "../header/header.component";
 import {IonicModule} from "@ionic/angular";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
 import {Router} from "@angular/router";
@@ -26,11 +26,13 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
     HeaderComponent,
     IonicModule,
     NgForOf,
-    MenuInferiorComunidadComponent
+    MenuInferiorComunidadComponent,
+    NgIf
   ]
 })
 export class ListaViviendasComponent  implements OnInit {
 
+  notificacionesPendientes = 3
   private usuario!: Usuario
   private comunidad!: Comunidad
   listaViviendas: Vivienda[] = []
@@ -93,8 +95,17 @@ export class ListaViviendasComponent  implements OnInit {
   listarViviendas() {
     if (this.comunidad.id)
       this.viviendaService.listarViviendasComunidad(this.comunidad.id).subscribe({
-        next: data => this.listaViviendas = data
+        next: data => {
+          this.listaViviendas = data
+          this.listarSolicitudes()
+        }
       })
+  }
+
+  listarSolicitudes() {
+    this.comunidadService.listarSolicitudes(this.comunidad.id).subscribe({
+      next: data => this.notificacionesPendientes = data.length
+    })
   }
 
   verInfoVvivienda(idVivienda: number) {
