@@ -6,9 +6,11 @@ import org.example.backend_tfg.DTOs.RegistrarViviendaDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
 import org.example.backend_tfg.DTOs.ViviendaDTO;
 import org.example.backend_tfg.Modelos.Comunidad;
+import org.example.backend_tfg.Modelos.Garaje;
 import org.example.backend_tfg.Modelos.Vecino;
 import org.example.backend_tfg.Modelos.Vivienda;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
+import org.example.backend_tfg.Repositorios.IGarajeRepositorio;
 import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
 import org.example.backend_tfg.Repositorios.IViviendaRepositorio;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class ViviendaServicio {
 
     private IVecinoRepositorio iVecinoRepositorio;
 
+    private IGarajeRepositorio iGarajeRepositorio;
+
     public ViviendaDTO verViviendaID(Integer idVivienda){
         Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
                 .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
@@ -44,6 +48,15 @@ public class ViviendaServicio {
         vivienda.setComunidad(comunidad);
 
         iViviendaRepositorio.save(vivienda);
+
+        Integer totalGarajes = iGarajeRepositorio.countByComunidad_Id(comunidad.getId());
+
+        Garaje garaje = new Garaje();
+        garaje.setNumeroPlaza("P" + (totalGarajes + 1));
+        garaje.setVivienda(null);
+        garaje.setComunidad(comunidad);
+
+        iGarajeRepositorio.save(garaje);
 
     }
 

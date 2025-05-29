@@ -150,6 +150,8 @@ export class PropiedadesComunidadesComponent  implements OnInit {
     }
   }
 
-
+  navigateToGaraje(){
+    this.router.navigate(["/info-garaje"])
+  }
 
 }

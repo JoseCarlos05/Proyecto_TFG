@@ -6,12 +6,16 @@
   </div>
   <ion-grid>
     <ion-row style="margin-bottom: 50px; margin-left: 6px">
-      <ion-col size="5" class="tarjeta-verde">
-        <img [src]="estaEnComunidad('GARAJE') ? 'assets/icon/propiedades/eliminar.png' : 'assets/icon/propiedades/añadir.png'" class="delete"
-             (click)="accionPropiedad('GARAJE', 'Garaje')"/>
+      <ion-col size="5" class="tarjeta-verde" (click)="estaEnComunidad('GARAJE') && navigateToGaraje()">
+        <img
+          [src]="estaEnComunidad('GARAJE') ? 'assets/icon/propiedades/eliminar.png' : 'assets/icon/propiedades/añadir.png'"
+          class="delete"
+          (click)="accionPropiedad('GARAJE', 'Garaje'); $event.stopPropagation()"
+        />
         <p class="card-title">Garaje</p>
         <img src="assets/icon/propiedades/garaje.png" alt="Garaje" class="card-image" />
       </ion-col>
+
 
       <ion-col size="1"></ion-col>
 

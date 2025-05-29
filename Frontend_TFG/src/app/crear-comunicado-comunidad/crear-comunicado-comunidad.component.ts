@@ -170,6 +170,11 @@ export class CrearComunicadoComunidadComponent  implements OnInit {
     }
   }
 
+  volverAtras(): void {
+    this.router.navigate(['/documentacion/comunidad']);
+  }
+
+
   crearComunicadoMetodo() {
     if (!this.crearComunicado.descripcion || !this.crearComunicado.idComunidad) {
       console.log("Faltan datos para crear el comunicado.");

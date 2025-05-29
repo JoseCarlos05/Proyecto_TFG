@@ -1,0 +1,23 @@
+<app-header></app-header>
+<ion-content>
+  <div class="garaje-grid-container" *ngFor="let bloque of bloquesGaraje">
+
+    <div class="plaza" *ngFor="let plaza of bloque.fila1">
+      <div class="info">
+        <strong>{{ plaza.numeroPlaza }} </strong>
+        <span>{{ obtenerNombreVivienda(plaza.idVivienda) }}</span>
+      </div>
+    </div>
+
+    <div class="pasillo">Pasillo</div>
+
+    <div class="plaza" *ngFor="let plaza of bloque.fila2">
+      <div class="info">
+        <strong>{{ plaza.numeroPlaza }} </strong>
+        <span>{{ obtenerNombreVivienda(plaza.idVivienda) }}</span>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

@@ -170,4 +170,8 @@ export class CrearComunidadComponent implements OnInit {
       }
     }
   }
+
+  volverAtras(): void {
+    this.router.navigate(['/comunidades']);
+  }
 }

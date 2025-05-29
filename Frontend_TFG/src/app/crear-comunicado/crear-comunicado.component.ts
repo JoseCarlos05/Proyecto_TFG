@@ -179,6 +179,8 @@ export class CrearComunicadoComponent  implements OnInit {
       return;
     }
 
+
+
     this.comunicadoService.crearComunicado(this.crearComunicado).subscribe({
       next: () => {
         this.crearComunicado.descripcion = "";
@@ -191,4 +193,6 @@ export class CrearComunicadoComponent  implements OnInit {
       }
     });
   }
+
+
 }

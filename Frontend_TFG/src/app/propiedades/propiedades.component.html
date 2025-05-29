@@ -8,7 +8,7 @@
 
   <ion-grid>
     <ion-row *ngFor="let fila of propiedadesEnFilas" style="margin-bottom: 30px; margin-left: 6px; margin-right: 6px">
-      <ion-col size="5" class="tarjeta-verde" *ngFor="let propiedad of fila">
+      <ion-col size="5" class="tarjeta-verde" *ngFor="let propiedad of fila" (click)="navigateTo(propiedad)">
         <p class="card-title">{{propiedad.nombre}}</p>
         <img [src]="obtenerImagenPropiedad(propiedad.tipoPropiedad)" class="card-image" />
       </ion-col>

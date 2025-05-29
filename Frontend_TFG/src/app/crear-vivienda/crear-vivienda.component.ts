@@ -85,6 +85,10 @@ export class CrearViviendaComponent  implements OnInit {
     }
   }
 
+  volverAtras(): void {
+    this.router.navigate(['/lista-viviendas']);
+  }
+
   crearViviendaMetodo() {
     if (!this.crearVvienda.direccionPersonal || !this.crearVvienda.idComunidad) {
       const toast = document.getElementById("campoVacioVivienda") as any;
@@ -103,3 +107,5 @@ export class CrearViviendaComponent  implements OnInit {
     });
   }
 }
+
+
