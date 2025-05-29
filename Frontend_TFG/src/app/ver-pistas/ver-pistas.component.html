@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="seccion" mode="ios">
+    <ion-segment-button value="anadir-pista">
+      <ion-label>Añadir</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="pistas">
+      <ion-label>Pistas</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <app-anadir-pista *ngIf="seccion === 'anadir-pista'"></app-anadir-pista>
+  <app-pistas *ngIf="seccion === 'pistas'"></app-pistas>
+</ion-content>
+
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

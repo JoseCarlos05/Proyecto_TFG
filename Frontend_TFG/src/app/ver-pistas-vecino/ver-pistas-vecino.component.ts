@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
-import {HeaderComponent} from "../header/header.component";
-import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
 import {IonicModule} from "@ionic/angular";
+import {NgForOf} from "@angular/common";
 import {Comunidad} from "../modelos/Comunidad";
 import {Gasto} from "../modelos/Gasto";
 import {Usuario} from "../modelos/Usuario";
@@ -15,39 +13,39 @@ import {VecinoService} from "../servicios/vecino.service";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
 import {filter} from "rxjs";
-import {PropiedadService} from "../servicios/propiedad.service";
-import {TipoPropiedad} from "../enum/TipoPropiedad";
-import {Propiedad} from "../modelos/Propiedad";
-import {NgForOf, NgIf} from "@angular/common";
+import {Pista} from "../modelos/Pista";
+import {PistaService} from "../servicios/pista.service";
+import {HeaderComponent} from "../header/header.component";
+import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
+import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 
 @Component({
-    selector: 'app-propiedades',
-    templateUrl: './propiedades.component.html',
-    styleUrls: ['./propiedades.component.scss'],
+    selector: 'app-ver-pistas-vecino',
+    templateUrl: './ver-pistas-vecino.component.html',
+    styleUrls: ['./ver-pistas-vecino.component.scss'],
     standalone: true,
   imports: [
-    FooterComunidadComponent,
-    HeaderComponent,
-    HeaderComunidadComponent,
     IonicModule,
     NgForOf,
-    NgIf
+    HeaderComponent,
+    HeaderComunidadComponent,
+    FooterComunidadComponent
   ]
 })
-export class PropiedadesComponent  implements OnInit {
-  listaPropiedades: Propiedad[] = []
-  propiedadesEnFilas: Propiedad[][] = [];
-
+export class VerPistasVecinoComponent  implements OnInit {
   comunidadObjeto!: Comunidad
   usuario: Usuario = {} as Usuario;
   vecino: Vecino = {} as Vecino;
   correo?: string
+  listaPista: Pista[] = []
+
   constructor(private router: Router,
               private gastosService: GastosService,
               private activateRoute: ActivatedRoute,
+              private viviendaService: ViviendaService,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
-              private propiedadService: PropiedadService) {
+              private pistaService: PistaService) {
   }
 
   ngOnInit() {
@@ -69,6 +67,7 @@ export class PropiedadesComponent  implements OnInit {
         console.error('Error al decodificar el token:', e);
       }
     }
+
   }
 
   cargarUsuario(correo: string): void {
@@ -90,51 +89,26 @@ export class PropiedadesComponent  implements OnInit {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
           this.vecino = data;
-          this.listarPropiedades()
+          this.listarPistas()
         }
       })
     }
   }
 
-  listarPropiedades() {
+  listarPistas() {
     if (this.comunidadObjeto?.id)
-      this.propiedadService.listarPropiedadesVecinoIdComunidad(this.comunidadObjeto.id).subscribe({
+      this.pistaService.listarPistasVecino(this.comunidadObjeto.id).subscribe({
         next: data => {
-          this.listaPropiedades = data
-          console.log(this.listaPropiedades)
-          this.listaPropiedades = data;
-          this.propiedadesEnFilas = this.getPropiedadesEnFilas(data);
-
+          this.listaPista = data
         }
       })
   }
 
-  obtenerImagenPropiedad(tipo: TipoPropiedad): string {
-    const mapaImagenes: { [key in TipoPropiedad]: string } = {
-      [TipoPropiedad.GARAJE]: 'assets/icon/propiedades/garaje.png',
-      [TipoPropiedad.PISCINA]: 'assets/icon/propiedades/piscina.png',
-      [TipoPropiedad.PISTA_DEPORTIVA]: 'assets/icon/propiedades/futbol.png',
-      [TipoPropiedad.ZONAS_COMUNES]: 'assets/icon/propiedades/cafe.png'
-    };
-
-    return mapaImagenes[tipo] || 'assets/icon/propiedades/default.png';
+  navigateToInfoPista(idPista: number) {
+    this.router.navigate(['info-pista', idPista])
   }
 
-  getPropiedadesEnFilas(lista: Propiedad[]): Propiedad[][] {
-    const filas: Propiedad[][] = [];
-    for (let i = 0; i < lista.length; i += 2) {
-      filas.push(lista.slice(i, i + 2));
-    }
-    return filas;
+  navigateToVerReservas() {
+    this.router.navigate(['ver-reservas-vecino'])
   }
-
-  navigateTo(propiedad: Propiedad){
-    if (propiedad.tipoPropiedad == "GARAJE") {
-      this.router.navigate(["/ver-garaje"])
-    }
-    if (propiedad.tipoPropiedad == "PISTA_DEPORTIVA"){
-      this.router.navigate(["/ver-pistas-vecino"])
-    }
-  }
-
 }

@@ -165,5 +165,25 @@ export const routes: Routes = [
   {
     path: 'ver-garaje',
     loadComponent: () => import('./garaje-vecino/garaje-vecino.component').then((m) => m.GarajeVecinoComponent)
+  },
+  {
+    path: 'ver-pistas',
+    loadComponent: () => import('./ver-pistas/ver-pistas.component').then((m) => m.VerPistasComponent)
+  },
+  {
+    path: 'info-pista-comunidad/:id',
+    loadComponent: () => import('./info-pista-comunidad/info-pista-comunidad.component').then((m) => m.InfoPistaComunidadComponent)
+  },
+  {
+    path: 'ver-pistas-vecino',
+    loadComponent: () => import('./ver-pistas-vecino/ver-pistas-vecino.component').then((m) => m.VerPistasVecinoComponent)
+  },
+  {
+    path: 'info-pista/:id',
+    loadComponent: () => import('./info-pista/info-pista.component').then((m) => m.InfoPistaComponent)
+  },
+  {
+    path: 'ver-reservas-vecino',
+    loadComponent: () => import('./ver-reservas-vecino/ver-reservas-vecino.component').then((m) => m.VerReservasVecinoComponent)
   }
 ];
