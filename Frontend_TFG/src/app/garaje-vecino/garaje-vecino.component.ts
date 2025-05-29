@@ -29,7 +29,6 @@ import {Vivienda} from "../modelos/Vivienda";
   imports: [
     HeaderComponent,
     IonicModule,
-    MenuInferiorComunidadComponent,
     NgForOf,
     FooterComunidadComponent,
     NgIf

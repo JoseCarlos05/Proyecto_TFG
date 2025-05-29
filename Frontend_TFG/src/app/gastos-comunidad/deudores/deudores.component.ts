@@ -21,7 +21,6 @@ import {TipoNotificacion} from "../../modelos/Notificacion";
   imports: [
     NgForOf,
     NgIf,
-    CurrencyPipe,
     FormsModule
   ]
 })

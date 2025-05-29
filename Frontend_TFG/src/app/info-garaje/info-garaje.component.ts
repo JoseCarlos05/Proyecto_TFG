@@ -31,7 +31,6 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
     IonicModule,
     NgForOf,
     HeaderComponent,
-    FooterComunidadComponent,
     MenuInferiorComunidadComponent
   ]
 })

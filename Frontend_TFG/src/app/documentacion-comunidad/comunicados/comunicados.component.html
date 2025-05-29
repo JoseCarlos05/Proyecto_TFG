@@ -10,7 +10,7 @@
       <div class="footer-comunicado">
         <span class="fecha">{{ formatearFecha(comunicado.fecha) }}</span>
         <span class="vecino">
-          {{ comunicado.idVecino ? (vecinosMap[comunicado.idVecino]?.nombre + ' ' + vecinosMap[comunicado.idVecino]?.apellidos) :'Comunidad' }}
+          {{ comunicado.idVecino ? (vecinosMap[comunicado.idVecino].nombre + ' ' + vecinosMap[comunicado.idVecino].apellidos) :'Comunidad' }}
         </span>
       </div>
     </ion-row>

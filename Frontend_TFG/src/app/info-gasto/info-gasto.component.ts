@@ -25,9 +25,7 @@ import {Vecino} from "../modelos/Vecino";
   styleUrls: ['./info-gasto.component.scss'],
   standalone: true,
   imports: [
-    FooterComunidadComponent,
     HeaderComponent,
-    HeaderComunidadComponent,
     IonicModule,
     MenuInferiorComunidadComponent,
     NgForOf,

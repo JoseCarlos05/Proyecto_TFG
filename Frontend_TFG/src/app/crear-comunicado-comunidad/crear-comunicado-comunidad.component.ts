@@ -67,8 +67,6 @@ const customColors = [
     IonicModule,
     FormsModule,
     HeaderComponent,
-    HeaderComunidadComponent,
-    FooterComunidadComponent,
     QuillModule,
     MenuInferiorComunidadComponent
   ]

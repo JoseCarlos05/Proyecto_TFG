@@ -21,9 +21,7 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
     styleUrls: ['./ver-votos.component.scss'],
     standalone: true,
   imports: [
-    FooterComunidadComponent,
     HeaderComponent,
-    HeaderComunidadComponent,
     IonicModule,
     MenuInferiorComunidadComponent
   ]
