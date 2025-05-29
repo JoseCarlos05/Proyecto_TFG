@@ -57,4 +57,10 @@ public class PistaControlador {
     public void reservarPista(@PathVariable Integer idHorario, @PathVariable Integer idVecino){
         pistaServicio.reservarPista(idHorario, idVecino);
     }
+
+    @GetMapping("/vecino/listar/pistas/vecino/{idVecino}")
+    public List<PistaDTO> listarPistasIdVecino(@PathVariable Integer idVecino){
+        return pistaServicio.listarPistasIdVecino(idVecino);
+    }
+
 }
