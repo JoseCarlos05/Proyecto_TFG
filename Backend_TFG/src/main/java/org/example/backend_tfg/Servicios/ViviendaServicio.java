@@ -5,14 +5,8 @@ import org.example.backend_tfg.DTOs.EditarViviendaDTO;
 import org.example.backend_tfg.DTOs.RegistrarViviendaDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
 import org.example.backend_tfg.DTOs.ViviendaDTO;
-import org.example.backend_tfg.Modelos.Comunidad;
-import org.example.backend_tfg.Modelos.Garaje;
-import org.example.backend_tfg.Modelos.Vecino;
-import org.example.backend_tfg.Modelos.Vivienda;
-import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
-import org.example.backend_tfg.Repositorios.IGarajeRepositorio;
-import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
-import org.example.backend_tfg.Repositorios.IViviendaRepositorio;
+import org.example.backend_tfg.Modelos.*;
+import org.example.backend_tfg.Repositorios.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,6 +26,8 @@ public class ViviendaServicio {
     private IVecinoRepositorio iVecinoRepositorio;
 
     private IGarajeRepositorio iGarajeRepositorio;
+
+    private ISancionRepositorio iSancionRepositorio;
 
     public ViviendaDTO verViviendaID(Integer idVivienda){
         Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
@@ -175,32 +171,34 @@ public class ViviendaServicio {
         Vecino residente = iVecinoRepositorio.findById(idResidente)
                 .orElseThrow(() -> new RuntimeException("Residente no encontrado"));
 
-        if (!vivienda.getVecinos().contains(residente)) {
-            throw new RuntimeException("El residente no pertenece a esta vivienda.");
-        }
-        
-        vivienda.getVecinos().remove(residente);
-        residente.getViviendas().remove(vivienda);
+        Comunidad comunidad = iComunidadRepositorio.findById(vivienda.getComunidad().getId())
+                .orElseThrow(() -> new RuntimeException("Comunidad no encontrada"));
 
-        iViviendaRepositorio.save(vivienda);
-        iVecinoRepositorio.save(residente);
-    }
-
-    public void salirComunidad(Integer idVivienda, Integer idResidente) {
-        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
-                .orElseThrow(() -> new RuntimeException("Vivienda no encontrada"));
-
-        Vecino residente = iVecinoRepositorio.findById(idResidente)
-                .orElseThrow(() -> new RuntimeException("Residente no encontrado"));
+        List<Sancion> sancions = iSancionRepositorio.findByComunidad_Id(comunidad.getId());
 
         if (!vivienda.getVecinos().contains(residente)) {
             throw new RuntimeException("El residente no pertenece a esta vivienda.");
         }
 
+        if (vivienda.getPropietario() != null && vivienda.getPropietario().getId().equals(residente.getId())) {
+            vivienda.setPropietario(null);
+        }
+
         vivienda.getVecinos().remove(residente);
         residente.getViviendas().remove(vivienda);
+        for (Sancion sancion: sancions){
+            if (sancion.getVecinoAfectado() == residente){
+                iSancionRepositorio.delete(sancion);
+            }
+        }
+
+        if (comunidad.getPresidente() != null && residente.getId().equals(comunidad.getPresidente().getId())) {
+            comunidad.setPresidente(null);
+        }
 
         iViviendaRepositorio.save(vivienda);
         iVecinoRepositorio.save(residente);
+        iComunidadRepositorio.save(comunidad);
     }
+
 }

@@ -21,7 +21,7 @@
 
       <ion-col size="5" class="tarjeta-verde" (click)="estaEnComunidad('PISTA_DEPORTIVA') && navigateToPista()">
         <img [src]="estaEnComunidad('PISTA_DEPORTIVA') ? 'assets/icon/propiedades/eliminar.png' : 'assets/icon/propiedades/añadir.png'" class="delete"
-             (click)="accionPropiedad('PISTA_DEPORTIVA', 'Pistas deportivas')"/>
+             (click)="accionPropiedad('PISTA_DEPORTIVA', 'Pistas deportivas'); $event.stopPropagation()"/>
         <p class="card-title">Pistas deportivas</p>
         <img src="assets/icon/propiedades/futbol.png" alt="Futbol" class="card-image" />
       </ion-col>

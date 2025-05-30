@@ -13,6 +13,8 @@ import {Vecino} from "../modelos/Vecino";
 import {ComunidadService} from "../servicios/comunidad.service";
 import {Comunidad} from "../modelos/Comunidad";
 import {ViviendaService} from "../servicios/vivienda.service";
+import {Vivienda} from "../modelos/Vivienda";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-comunidades',
@@ -24,9 +26,11 @@ import {ViviendaService} from "../servicios/vivienda.service";
 export class ComunidadesComponent implements OnInit {
 
   private usuario!: Usuario
-  private vecino!: Vecino
+  vecino!: Vecino
   listaComunidades: Comunidad[] = []
+  listaViviendas: Vivienda[] = []
   correo!: string
+  viviendaVecino: Vivienda = {} as Vivienda;
 
   constructor(private router: Router,
               private usuarioService: UsuarioService,
@@ -94,6 +98,10 @@ export class ComunidadesComponent implements OnInit {
     })
   }
 
+  cargarViviendas(idComunidad: number): Observable<Vivienda[]> {
+    return this.viviendaService.listarViviendas(idComunidad);
+  }
+
   navigateToComunidad(comunidad: Comunidad) {
     if (comunidad?.id) {
       sessionStorage.setItem('comunidad', JSON.stringify(comunidad));
@@ -117,18 +125,47 @@ export class ComunidadesComponent implements OnInit {
           role: 'destructive',
           handler: () => {
             if (this.vecino?.id && comunidad?.id) {
-              this.viviendaService.salirComunidad(comunidad.id, this.vecino.id).subscribe({
-                next: () => {
-                  this.listaComunidades = this.listaComunidades.filter(c => c.id !== comunidad.id);
+              this.cargarViviendas(comunidad.id).subscribe({
+                next: (viviendas: Vivienda[]) => {
+                  const vivienda = viviendas.find(v => Array.isArray(v.idVecinos) && v.idVecinos.includes(this.vecino.id));
+                  if (vivienda && vivienda.id) {
+                    this.viviendaService.salirComunidad(vivienda.id, this.vecino.id).subscribe({
+                      next: async () => {
+                        this.listaComunidades = this.listaComunidades.filter(c => c.id !== comunidad.id);
+                        const toast = await this.toastController.create({
+                          message: 'Has salido correctamente de la comunidad.',
+                          duration: 2000,
+                          color: 'success',
+                          position: 'top'
+                        });
+                        await toast.present();
+                      },
+                      error: async () => {
+                        const toast = await this.toastController.create({
+                          message: 'Error al salir de la comunidad.',
+                          duration: 2000,
+                          color: 'danger',
+                          position: 'top'
+                        });
+                        await toast.present();
+                      }
+                    });
+                  } else {
+                    this.toastController.create({
+                      message: 'No se encontró tu vivienda en esta comunidad.',
+                      duration: 2000,
+                      color: 'warning',
+                      position: 'top'
+                    }).then(toast => toast.present());
+                  }
                 },
-                error: async () => {
-                  const toast = await this.toastController.create({
-                    message: 'Has salido correctamente de la comunidad.',
+                error: () => {
+                  this.toastController.create({
+                    message: 'Error al obtener las viviendas.',
                     duration: 2000,
-                    color: 'success',
+                    color: 'danger',
                     position: 'top'
-                  });
-                  await toast.present();
+                  }).then(toast => toast.present());
                 }
               });
             }
@@ -139,4 +176,6 @@ export class ComunidadesComponent implements OnInit {
 
     await alert.present();
   }
+
+
 }

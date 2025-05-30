@@ -3,6 +3,7 @@ package org.example.backend_tfg.Controladores;
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.ComunidadDTO;
 import org.example.backend_tfg.DTOs.VecinoDTO;
+import org.example.backend_tfg.DTOs.VecinoUsuarioDTO;
 import org.example.backend_tfg.Modelos.Solicitud;
 import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Seguridad.UsuarioAdapter;
@@ -85,13 +86,7 @@ public class ComunidadControlador {
     }
 
     @GetMapping("/comunidad/listar/vecinos/{idComunidad}")
-    public List<VecinoDTO> listarVecinosComunidad(@PathVariable Integer idComunidad) {
-        return vecinoServicio.listarVecinosIdComunidad(idComunidad)
-                .stream()
-                .map(vecinoUsuarioDTO -> new VecinoDTO(
-                        vecinoUsuarioDTO.getId(),
-                        vecinoUsuarioDTO.getNombre(),
-                        vecinoUsuarioDTO.getApellidos()))
-                .toList();
+    public List<VecinoUsuarioDTO> listarVecinosComunidad(@PathVariable Integer idComunidad) {
+        return vecinoServicio.listarVecinosIdComunidad(idComunidad);
     }
 }

@@ -20,6 +20,8 @@ import {ComunidadService} from "../servicios/comunidad.service";
 import {SancionService} from "../servicios/sancion.service";
 import {Vecino} from "../modelos/Vecino";
 import {CommonModule} from "@angular/common";
+import {ViviendaService} from "../servicios/vivienda.service";
+import {Vivienda} from "../modelos/Vivienda";
 
 @Component({
   selector: 'app-crear-sancion-comunidad',
@@ -39,21 +41,6 @@ import {CommonModule} from "@angular/common";
 })
 export class CrearSancionComunidadComponent implements OnInit {
 
-  @ViewChild('quillEditor', {static: false}) quillEditor: any;
-
-  fontType: FontType[] = ['Verdana', 'Arial', 'Courier New', 'Georgia', 'Tahoma', 'Times New Roman'];
-
-  formatos = [
-    'font',
-    'size',
-    'bold',
-    'italic',
-    'underline',
-    'color',
-    'link',
-    'image'
-  ];
-
   correo?: string;
   private usuario!: Usuario;
   private comunidad!: Comunidad;
@@ -68,11 +55,11 @@ export class CrearSancionComunidadComponent implements OnInit {
   constructor(private router: Router,
               private usuarioService: UsuarioService,
               private comunidadService: ComunidadService,
-              private sancionService: SancionService) {}
+              private sancionService: SancionService,
+              private viviendaService: ViviendaService) {}
 
   ngOnInit() {
     this.inicio();
-    this.quillSetUp();
   }
 
   inicio() {
@@ -92,26 +79,6 @@ export class CrearSancionComunidadComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
-
-  quillSetUp() {
-    const font: any = Quill.import('formats/font');
-    const FontStyle: any = Quill.import('attributors/style/font');
-    const SizeStyle: any = Quill.import('attributors/style/size');
-    font.whitelist = [...this.fontType.map(type => type.toLowerCase().replace(/\s+/g, ''))];
-    Quill.register(font, true);
-    Quill.register(FontStyle, true);
-    Quill.register(SizeStyle, true);
-  }
-
-  quillConfig = {
-    toolbar: [
-      [{font: [...this.fontType.map(type => type.toLowerCase().replace(/\s+/g, ''))]}, {size: ['8px', '12px', '16px', '24px']}],
-      ['bold', 'italic', 'underline'],
-      [{color: ['rgb(0, 163, 255)', 'rgb(42, 227, 236)', 'rgb(250, 196, 8)']}],
-      ['link'],
-      ['image']
-    ]
-  };
 
   cargarUsuario(correo: string): void {
     this.usuarioService.cargarUsuarioComunidad(correo).subscribe({
@@ -142,12 +109,16 @@ export class CrearSancionComunidadComponent implements OnInit {
   cargarVecinos() {
     if (this.comunidad && this.comunidad.id) {
       this.comunidadService.listarVecinosPorComunidad(this.comunidad.id).subscribe({
-        next: (data: Vecino[]) => {
-          this.vecinos = data;
+        next: (vecinos: Vecino[]) => {
+          this.viviendaService.listarViviendasComunidad(this.comunidad.id).subscribe({
+            next: (viviendas: Vivienda[]) => {
+              const propietariosIds = viviendas.map(v => v.idPropietario);
+              this.vecinos = vecinos.filter(v => propietariosIds.includes(v.id));
+            },
+            error: e => console.error("Error al cargar viviendas:", e)
+          });
         },
-        error: (e) => {
-          console.error("Error al cargar los vecinos:", e);
-        }
+        error: e => console.error("Error al cargar vecinos:", e)
       });
     }
   }

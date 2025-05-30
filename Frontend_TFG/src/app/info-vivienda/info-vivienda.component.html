@@ -27,7 +27,7 @@
       <ion-col size="3">
         <img [ngSrc]="getImageUrlVecino(residente)" width="100" height="100" class="imagen-redondeada" alt="Foto de perfil">
       </ion-col>
-      <ion-col size="7">
+      <ion-col size="6">
         <ion-grid>
           <ion-row>
             <span class="nombre-residente">{{ residente.nombre }} {{ residente.apellidos }}</span>
@@ -37,10 +37,12 @@
           </ion-row>
         </ion-grid>
       </ion-col>
-      <ion-col size="2" *ngIf="!propietario">
+      <ion-col size="1.5" *ngIf="!propietario">
         <ion-img (click)="confirmarAsignacion(residente)" src="assets/icon/icono-llave.png"></ion-img>
       </ion-col>
-      <ion-img src="assets/icon/eliminar-residente.png" class="icono-pequeno" *ngIf="comprobarIdentidad(residente) === 'Residente'" (click)="confirmarEliminacion(residente)"></ion-img>
+      <ion-col size="1.5">
+        <ion-img src="assets/icon/eliminar-residente.png" class="icono-pequeno" *ngIf="comprobarIdentidad(residente) === 'Residente' || comprobarIdentidad(residente) === 'Propietario de la vivienda'" (click)="confirmarEliminacion(residente)"></ion-img>
+      </ion-col>
     </ion-row>
 
     <ion-img src="assets/icon/anadir.png" (click)="generarCodigo()"></ion-img>
