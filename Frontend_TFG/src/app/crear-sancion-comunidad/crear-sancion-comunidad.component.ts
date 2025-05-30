@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {FormsModule} from "@angular/forms";
 import {HeaderComponent} from "../header/header.component";
@@ -6,9 +6,6 @@ import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.com
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {QuillModule} from "ngx-quill";
 import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
-import Quill from "quill";
-import {ColorAttributor} from "quill/formats/color";
-import {FontType} from "../enum/TipoFuente";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
 import {Usuario} from "../modelos/Usuario";
@@ -22,6 +19,7 @@ import {Vecino} from "../modelos/Vecino";
 import {CommonModule} from "@angular/common";
 import {ViviendaService} from "../servicios/vivienda.service";
 import {Vivienda} from "../modelos/Vivienda";
+import {TipoNotificacion} from "../modelos/Notificacion";
 
 @Component({
   selector: 'app-crear-sancion-comunidad',
@@ -133,7 +131,10 @@ export class CrearSancionComunidadComponent implements OnInit {
       next: () => {
         this.crearSancion.motivo = "";
         this.crearSancion.sancion = "";
-        this.router.navigate(['/documentacion/comunidad']);
+        const ids: number[] = [this.crearSancion.idVecino!]
+        this.comunidadService.enviarNotificacion(ids, this.comunidad.id, TipoNotificacion.SANCION).subscribe({
+          next: () => this.router.navigate(['/documentacion/comunidad'])
+        })
       },
       error: () => {
         console.log('Error al insertar sanción.');

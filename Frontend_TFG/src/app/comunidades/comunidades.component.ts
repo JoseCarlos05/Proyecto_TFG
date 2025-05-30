@@ -96,8 +96,8 @@ export class ComunidadesComponent implements OnInit {
     if (this.vecino.id) {
       this.comunidadService.listarComunidades(this.vecino.id).subscribe({
         next: data => {
-          this.todasComunidades = data; // Lista original
-          this.listaComunidades = data; // Lista mostrada
+          this.todasComunidades = data;
+          this.listaComunidades = data;
         }
       });
     }
@@ -189,6 +189,4 @@ export class ComunidadesComponent implements OnInit {
 
     await alert.present();
   }
-
-
 }

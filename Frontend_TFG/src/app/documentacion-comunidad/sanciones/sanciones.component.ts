@@ -31,20 +31,16 @@ export class SancionesComponent implements OnInit {
   correo?: string;
   private usuario!: Usuario;
   comunidad!: Comunidad;
-
-  listaVecino: Vecino[] = [];
   vecinosMap: { [id: number]: Vecino } = {};
 
   constructor(private router: Router,
               private sancionService: SancionService,
               private usuarioService: UsuarioService,
-              private comunidadService: ComunidadService,
-              private vecinoService: VecinoService,
-              private sanitizer: DomSanitizer) {
+              private comunidadService: ComunidadService) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        if (event.urlAfterRedirects === '/comunidad/documentacion-comunidad') {
+        if (event.urlAfterRedirects === '/documentacion/comunidad') {
           this.inicio();
         }
       });
