@@ -3,6 +3,7 @@ package org.example.backend_tfg.Controladores;
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.*;
 import org.example.backend_tfg.Servicios.ViviendaServicio;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -68,5 +69,15 @@ public class ViviendaControlador {
     @PostMapping("/comunidad/editar/vivienda/{idVivienda}")
     public void editarVivienda(@RequestBody EditarViviendaDTO editarViviendaDTO, @PathVariable Integer idVivienda){
         viviendaServicio.editarNombreVivienda(editarViviendaDTO, idVivienda);
+    }
+
+    @PostMapping("/comunidad/{idVivienda}/residentes/{idResidente}")
+    public void eliminarResidente(@PathVariable Integer idVivienda, @PathVariable Integer idResidente) {
+        viviendaServicio.eliminarResidente(idVivienda, idResidente);
+    }
+
+    @PostMapping("/vecino/{idVivienda}/residentes/{idResidente}")
+    public void salirComunidad(@PathVariable Integer idVivienda, @PathVariable Integer idResidente) {
+        viviendaServicio.eliminarResidente(idVivienda, idResidente);
     }
 }

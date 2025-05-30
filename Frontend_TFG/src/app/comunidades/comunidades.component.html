@@ -12,6 +12,9 @@
   <div class="tarjeta" (click)="navigateToComunidad(comunidad)" *ngFor="let comunidad of listaComunidades">
     <p class="tarjeta-titulo">{{ comunidad.nombre }}</p>
     <p class="tarjeta-subtitulo">{{ comunidad.direccion }}</p>
+    <img
+      class="salir-comunidad" src="assets/icon/salir.png" alt="Salir comunidad" (click)="confirmarSalida($event, comunidad)" *ngIf="comunidad.idPresidente !== vecino.id"
+    />
   </div>
 
   <div class="div-sin" *ngIf="listaComunidades.length === 0">

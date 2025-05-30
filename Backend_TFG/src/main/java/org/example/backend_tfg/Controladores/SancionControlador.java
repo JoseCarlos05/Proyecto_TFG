@@ -2,6 +2,7 @@ package org.example.backend_tfg.Controladores;
 
 import lombok.AllArgsConstructor;
 import org.example.backend_tfg.DTOs.CrearGastoDTO;
+import org.example.backend_tfg.DTOs.CrearSancionComunidadDTO;
 import org.example.backend_tfg.DTOs.SancionDTO;
 import org.example.backend_tfg.Servicios.SancionServicio;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +36,8 @@ public class SancionControlador {
         return sancionServicio.listarSancionesVecino(idComunidad, idVecino);
     }
 
-    @PostMapping("comunidad/crear/sancion")
-    public void crearSancion(@RequestBody SancionDTO sancionDTO){
-        sancionServicio.crearSancion(sancionDTO);
+    @PostMapping("/comunidad/crear/sancion")
+    public void crearSancionComunidad(@RequestBody CrearSancionComunidadDTO sancionDTO){
+        sancionServicio.crearSancionComunidad(sancionDTO);
     }
-
 }

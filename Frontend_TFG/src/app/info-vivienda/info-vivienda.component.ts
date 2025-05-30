@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
-import {AlertController, IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule, ToastController} from "@ionic/angular";
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Usuario} from "../modelos/Usuario";
 import {Comunidad} from "../modelos/Comunidad";
@@ -63,7 +63,8 @@ export class InfoViviendaComponent implements OnInit {
               private activateRoute: ActivatedRoute,
               private viviendaService: ViviendaService,
               private sancionService: SancionService,
-              private alertController: AlertController) {
+              private alertController: AlertController,
+              private toastController: ToastController) {
   }
 
   ngOnInit() {
@@ -269,6 +270,41 @@ export class InfoViviendaComponent implements OnInit {
               next: () => this.verInfoVivienda(this.vivienda.id),
               error: () => {
                 console.error("Error al actualizar la direccion de la vivienda.");
+              }
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async confirmarEliminacion(residente: Vecino) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: `¿Estás seguro de que quieres eliminar a ${residente.nombre} ${residente.apellidos} de la comunidad?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this.viviendaService.eliminarResidente(this.vivienda.id, residente.id).subscribe({
+              next: () => {
+                this.listarResidentes();
+              },
+              error: async () => {
+                const toast = await this.toastController.create({
+                  message: 'Residente eliminado correctamente.',
+                  duration: 2000,
+                  color: 'success',
+                  position: 'top'
+                });
+                await toast.present();
               }
             });
           }
