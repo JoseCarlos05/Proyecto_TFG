@@ -30,13 +30,15 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
     NgIf
   ]
 })
-export class ListaViviendasComponent  implements OnInit {
+export class ListaViviendasComponent implements OnInit {
 
   notificacionesPendientes = 0
   private usuario!: Usuario
   private comunidad!: Comunidad
   listaViviendas: Vivienda[] = []
   correo!: string
+  todasViviendas: Vivienda[] = []
+
   constructor(private router: Router,
               private usuarioService: UsuarioService,
               private viviendaService: ViviendaService,
@@ -65,7 +67,8 @@ export class ListaViviendasComponent  implements OnInit {
       }
     } else {
       this.router.navigate(['/']);
-    }}
+    }
+  }
 
   cargarUsuario(correo: string): void {
     this.usuarioService.cargarUsuarioComunidad(correo).subscribe({
@@ -93,19 +96,28 @@ export class ListaViviendasComponent  implements OnInit {
   }
 
   listarViviendas() {
-    if (this.comunidad.id)
+    if (this.comunidad.id) {
       this.viviendaService.listarViviendasComunidad(this.comunidad.id).subscribe({
         next: data => {
           this.listaViviendas = data
+          this.todasViviendas = data;
           this.listarSolicitudes()
         }
-      })
+      });
+    }
   }
 
   listarSolicitudes() {
     this.comunidadService.listarSolicitudes(this.comunidad.id).subscribe({
       next: data => this.notificacionesPendientes = data.length
     })
+  }
+
+  filtrarViviendas(event: any): void {
+    const texto = event.target?.value?.toLowerCase() || '';
+    this.listaViviendas = this.todasViviendas.filter(vivienda =>
+      vivienda.direccionPersonal.toLowerCase().includes(texto)
+    )
   }
 
   verInfoVvivienda(idVivienda: number) {

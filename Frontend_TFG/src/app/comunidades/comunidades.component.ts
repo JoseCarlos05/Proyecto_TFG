@@ -30,6 +30,7 @@ export class ComunidadesComponent implements OnInit {
   listaComunidades: Comunidad[] = []
   listaViviendas: Vivienda[] = []
   correo!: string
+  todasComunidades: Comunidad[] = []
   viviendaVecino: Vivienda = {} as Vivienda;
 
   constructor(private router: Router,
@@ -92,10 +93,22 @@ export class ComunidadesComponent implements OnInit {
   }
 
   listarComunidades() {
-    if (this.vecino.id)
-    this.comunidadService.listarComunidades(this.vecino.id).subscribe({
-      next: data => this.listaComunidades = data
-    })
+    if (this.vecino.id) {
+      this.comunidadService.listarComunidades(this.vecino.id).subscribe({
+        next: data => {
+          this.todasComunidades = data; // Lista original
+          this.listaComunidades = data; // Lista mostrada
+        }
+      });
+    }
+  }
+
+  filtrarComunidades(event: any): void {
+    const texto = event.target?.value?.toLowerCase() || '';
+    this.listaComunidades = this.todasComunidades.filter(comunidad =>
+      comunidad.nombre.toLowerCase().includes(texto) ||
+      comunidad.direccion.toLowerCase().includes(texto)
+    );
   }
 
   cargarViviendas(idComunidad: number): Observable<Vivienda[]> {

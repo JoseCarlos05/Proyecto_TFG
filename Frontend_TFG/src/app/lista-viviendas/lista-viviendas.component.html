@@ -4,16 +4,7 @@
   <ion-grid>
     <ion-row class="cabecera">
       <ion-col size="2">
-        <div class="notif-wrapper">
-          <ion-img
-            class="btn-notif"
-            (click)="verNotificaciones()"
-            src="assets/icon/header-comunidad/notificacion.png">
-          </ion-img>
-          <div class="notif-badge" *ngIf="notificacionesPendientes > 0">
-            {{ notificacionesPendientes }}
-          </div>
-        </div>
+        <ion-img (click)="verNotificaciones()" src="assets/icon/header-comunidad/notificacion.png"></ion-img>
       </ion-col>
       <ion-col size="8">
         <div class="buscador">
@@ -21,6 +12,7 @@
             class="searchbar-blanco"
             placeholder="Buscar viviendas"
             showCancelButton="focus"
+            (ionInput)="filtrarViviendas($event)"
           ></ion-searchbar>
         </div>
       </ion-col>
