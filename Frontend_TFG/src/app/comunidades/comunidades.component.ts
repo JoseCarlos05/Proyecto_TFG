@@ -1,17 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {IonicModule} from "@ionic/angular";
-import {CommonModule} from "@angular/common";
-import {Router} from "@angular/router";
-import {FooterComponent} from "../footer/footer.component";
-import {HeaderComponent} from "../header/header.component";
+import { Component, OnInit } from '@angular/core';
+import { IonicModule } from "@ionic/angular";
+import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
+import { FooterComponent } from "../footer/footer.component";
+import { HeaderComponent } from "../header/header.component";
 import { jwtDecode } from "jwt-decode";
-import {TokenDataDTO} from "../modelos/TokenData";
-import {UsuarioService} from "../servicios/usuario.service";
-import {Usuario} from "../modelos/Usuario";
-import {VecinoService} from "../servicios/vecino.service";
-import {Vecino} from "../modelos/Vecino";
-import {ComunidadService} from "../servicios/comunidad.service";
-import {Comunidad} from "../modelos/Comunidad";
+import { TokenDataDTO } from "../modelos/TokenData";
+import { UsuarioService } from "../servicios/usuario.service";
+import { Usuario } from "../modelos/Usuario";
+import { VecinoService } from "../servicios/vecino.service";
+import { Vecino } from "../modelos/Vecino";
+import { ComunidadService } from "../servicios/comunidad.service";
+import { Comunidad } from "../modelos/Comunidad";
 
 @Component({
   selector: 'app-comunidades',
@@ -22,22 +22,25 @@ import {Comunidad} from "../modelos/Comunidad";
 })
 export class ComunidadesComponent implements OnInit {
 
-  private usuario!: Usuario
-  private vecino!: Vecino
-  listaComunidades: Comunidad[] = []
-  correo!: string
+  private usuario!: Usuario;
+  private vecino!: Vecino;
+  listaComunidades: Comunidad[] = [];
+  todasComunidades: Comunidad[] = []; // Lista original para mantener todas las comunidades
+  correo!: string;
 
-  constructor(private router: Router,
-              private usuarioService: UsuarioService,
-              private vecinoService: VecinoService,
-              private comunidadService: ComunidadService) { }
+  constructor(
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private vecinoService: VecinoService,
+    private comunidadService: ComunidadService
+  ) {}
 
   ngOnInit() {
-    this.inicio()
+    this.inicio();
   }
 
   ionViewWillEnter() {
-    this.inicio()
+    this.inicio();
   }
 
   inicio() {
@@ -63,7 +66,7 @@ export class ComunidadesComponent implements OnInit {
       next: (usuario: Usuario) => {
         this.usuario = usuario;
         if (this.usuario && this.usuario.id) {
-          this.cargarVecino()
+          this.cargarVecino();
         }
       },
       error: (e) => {
@@ -76,18 +79,30 @@ export class ComunidadesComponent implements OnInit {
     if (this.usuario.id) {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
-          this.vecino = data
-          this.listarComunidades()
+          this.vecino = data;
+          this.listarComunidades();
         }
-      })
+      });
     }
   }
 
   listarComunidades() {
-    if (this.vecino.id)
-    this.comunidadService.listarComunidades(this.vecino.id).subscribe({
-      next: data => this.listaComunidades = data
-    })
+    if (this.vecino.id) {
+      this.comunidadService.listarComunidades(this.vecino.id).subscribe({
+        next: data => {
+          this.todasComunidades = data; // Lista original
+          this.listaComunidades = data; // Lista mostrada
+        }
+      });
+    }
+  }
+
+  filtrarComunidades(event: any): void {
+    const texto = event.target?.value?.toLowerCase() || '';
+    this.listaComunidades = this.todasComunidades.filter(comunidad =>
+      comunidad.nombre.toLowerCase().includes(texto) ||
+      comunidad.direccion.toLowerCase().includes(texto)
+    );
   }
 
   navigateToComunidad(comunidad: Comunidad) {
@@ -96,5 +111,4 @@ export class ComunidadesComponent implements OnInit {
       this.router.navigate(['/comunidad/elecciones']);
     }
   }
-
 }
