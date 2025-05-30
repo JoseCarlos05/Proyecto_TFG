@@ -108,7 +108,7 @@ export class CrearSancionComunidadComponent implements OnInit {
 
   cargarVecinos() {
     if (this.comunidad && this.comunidad.id) {
-      this.comunidadService.listarVecinosPorComunidad(this.comunidad.id).subscribe({
+      this.comunidadService.listarVecinosComunidad(this.comunidad.id).subscribe({
         next: (vecinos: Vecino[]) => {
           this.viviendaService.listarViviendasComunidad(this.comunidad.id).subscribe({
             next: (viviendas: Vivienda[]) => {
