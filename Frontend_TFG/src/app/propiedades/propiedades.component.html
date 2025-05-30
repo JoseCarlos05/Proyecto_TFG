@@ -5,7 +5,9 @@
   <div class="textoMedio">
     <p>Propiedades</p>
   </div>
-
+  <div class="div-sin" *ngIf="propiedadesEnFilas.length === 0">
+    <span>No hay propiedades en tu comunidad.</span>
+  </div>
   <ion-grid>
     <ion-row *ngFor="let fila of propiedadesEnFilas" style="margin-bottom: 30px; margin-left: 6px; margin-right: 6px">
       <ion-col size="5" class="tarjeta-verde" *ngFor="let propiedad of fila" (click)="navigateTo(propiedad)">

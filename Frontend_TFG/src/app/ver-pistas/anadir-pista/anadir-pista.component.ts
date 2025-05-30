@@ -128,7 +128,13 @@ export class AnadirPistaComponent  implements OnInit {
   }
 
   agregarHorario() {
-    if (this.nuevaHoraInicio && this.nuevaHoraFin && this.nuevaHoraInicio < this.nuevaHoraFin) {
+    if (!this.nuevaHoraInicio || !this.nuevaHoraFin) {
+      const toast = document.getElementById("min1") as any;
+      toast?.present();
+      return;
+    }
+
+    if (this.nuevaHoraInicio < this.nuevaHoraFin) {
       this.crearPista.horarios.push({
         horaInicio: this.nuevaHoraInicio,
         horaFin: this.nuevaHoraFin
@@ -141,6 +147,7 @@ export class AnadirPistaComponent  implements OnInit {
       toast?.present();
     }
   }
+
 
   eliminarHorario(index: number) {
     this.crearPista.horarios.splice(index, 1);

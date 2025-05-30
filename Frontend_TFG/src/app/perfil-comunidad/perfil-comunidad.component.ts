@@ -217,7 +217,7 @@ export class PerfilComunidadComponent  implements OnInit {
       } else if (this.vecino.id === this.propietario?.id) {
         return `Propietario de la vivienda ${this.viviendaVecino.direccionPersonal}`;
       } else {
-        return `Residiento en la vivienda ${this.viviendaVecino.direccionPersonal}`;
+        return `Residiendo en la vivienda ${this.viviendaVecino.direccionPersonal}`;
       }
     }
     return "";

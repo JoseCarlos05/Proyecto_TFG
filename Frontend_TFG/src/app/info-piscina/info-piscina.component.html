@@ -1,0 +1,34 @@
+<app-header></app-header>
+
+<ion-content fullscreen class="ion-padding tarjeta-wrapper">
+  <div class="tarjeta-container">
+    <div class="tarjeta" [class.reverso]="!mostrarFrente">
+      <ion-img src="assets/icon/cambiar.png" class="cambiar" (click)="toggleTarjeta()" alt="Foto"></ion-img>
+      <!-- Frente -->
+      <div class="frente" *ngIf="mostrarFrente">
+        <div class="contenido-frente">
+          <ion-img src="assets/icon/perfiles/26.png" class="foto" alt="Foto"></ion-img>
+          <div class="texto-frente">
+            <h4>Nombre:{{vecino.nombre}} </h4>
+            <h4>Apellidos: {{vecino.apellidos}}</h4>
+            <p>DNI: {{ vecino.dni }}</p>
+            <p>Fecha Nacimiento: {{vecino.fechaNacimiento}}</p>
+            <p>Acceso: Piscina de la comunidad {{comunidadObjeto.nombre}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reverso -->
+      <div class="reverso-contenido" *ngIf="!mostrarFrente">
+        <h3>Normas de uso:</h3>
+        <ul>
+          <li>Uso exclusivo del titular.</li>
+          <li>Acceso de 9:00 a 21:00.</li>
+          <li>Mostrar en cada ingreso.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<app-footer-comunidad></app-footer-comunidad>

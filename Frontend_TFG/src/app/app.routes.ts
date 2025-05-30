@@ -189,5 +189,9 @@ export const routes: Routes = [
   {
     path: 'ver-reservas-vecino',
     loadComponent: () => import('./ver-reservas-vecino/ver-reservas-vecino.component').then((m) => m.VerReservasVecinoComponent)
+  },
+  {
+    path: 'info-piscina',
+    loadComponent: () => import('./info-piscina/info-piscina.component').then((m) => m.InfoPiscinaComponent)
   }
 ];
