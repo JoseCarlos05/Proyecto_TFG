@@ -68,5 +68,4 @@ export class ViviendaService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post<void>(`${this.apiUrl}/comunidad/editar/vivienda/${idVivienda}`, editarVivienda, options);
   }
-
 }

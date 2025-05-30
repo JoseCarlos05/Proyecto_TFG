@@ -6,7 +6,6 @@
   (click)="volverAtras()">
 </ion-img>
 
-
 <ion-content>
   <div class="contenedor-princial">
     <div class="asunto-gasto">
@@ -28,15 +27,15 @@
         {{ porcentajePagado === 100 ? 'Pagado' : 'Ver más' }}
       </button>
     </div>
-
   </div>
 </ion-content>
+
 <div class="modal-overlay" *ngIf="modalAbierto" (click)="cerrarModal()">
   <div class="modal-contenido" (click)="$event.stopPropagation()">
     <h1>Enviar recordatorio</h1>
     <div class="lista-gastos">
       <label *ngFor="let vecino of vecinoDeudas">
-        <input type="checkbox" [value]="vecinoValor">
+        <input type="checkbox" [value]="vecino.id" (change)="actualizarSeleccion($event)">
         <span class="texto-gasto">{{ vecino.nombre }} {{ vecino.apellidos}}</span>
       </label>
     </div>

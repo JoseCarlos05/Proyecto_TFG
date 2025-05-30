@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {Usuario} from "../../modelos/Usuario";
 import {Comunidad} from "../../modelos/Comunidad";
-import {Gasto} from "../../modelos/Gasto";
 import {ComunidadService} from "../../servicios/comunidad.service";
 import {Router} from "@angular/router";
 import {UsuarioService} from "../../servicios/usuario.service";
 import {GastosService} from "../../servicios/gastos.service";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../../modelos/TokenData";
-import {VecinoDeuda} from "../../modelos/VecinoDeuda";
-import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
+import {VecinoGastos} from "../../modelos/VecinoGastos";
+import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {TipoNotificacion} from "../../modelos/Notificacion";
 
@@ -28,9 +27,9 @@ export class DeudoresComponent  implements OnInit {
   correo?: string;
   private usuario!: Usuario
   private comunidad!: Comunidad
-  vecinoDeudas: VecinoDeuda[] = []
+  deudores: VecinoGastos[] = []
   modalAbierto = false;
-  vecinoSeleccionado: VecinoDeuda | null = null;
+  vecinoSeleccionado: VecinoGastos | null = null;
   constructor(private comunidadService: ComunidadService,
               private router: Router,
               private usuarioService: UsuarioService,
@@ -83,12 +82,12 @@ export class DeudoresComponent  implements OnInit {
     if (this.comunidad.id)
       this.gastosService.listarDeudoresIdComunidad(this.comunidad.id).subscribe({
         next: data => {
-          this.vecinoDeudas = data
+          this.deudores = data
         }
       })
   }
 
-  abrirModal(vecinoDeuda: VecinoDeuda): void {
+  abrirModal(vecinoDeuda: VecinoGastos): void {
     if (this.vecinoSeleccionado == null) {
       this.vecinoSeleccionado = vecinoDeuda;
     }    this.modalAbierto = true;

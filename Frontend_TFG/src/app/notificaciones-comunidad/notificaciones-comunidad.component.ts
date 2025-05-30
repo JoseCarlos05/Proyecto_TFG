@@ -179,8 +179,4 @@ export class NotificacionesComunidadComponent  implements OnInit {
       next: () => this.listarSolicitudes()
     })
   }
-
-  volverAtras(): void {
-    this.router.navigate(['/lista-viviendas']);
-  }
 }

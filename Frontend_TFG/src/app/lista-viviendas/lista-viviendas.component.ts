@@ -32,7 +32,7 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
 })
 export class ListaViviendasComponent  implements OnInit {
 
-  notificacionesPendientes = 3
+  notificacionesPendientes = 0
   private usuario!: Usuario
   private comunidad!: Comunidad
   listaViviendas: Vivienda[] = []

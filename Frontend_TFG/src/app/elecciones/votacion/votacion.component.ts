@@ -15,6 +15,8 @@ import {UsuarioService} from "../../servicios/usuario.service";
 import {VecinoService} from "../../servicios/vecino.service";
 import {Eleccion} from "../../modelos/Eleccion";
 import {EleccionesService} from "../../servicios/elecciones.service";
+import {VecinoUsuarioDTO} from "../../modelos/VecinoUsuarioDTO";
+import {Comunidad} from "../../modelos/Comunidad";
 
 @Component({
     selector: 'app-votacion',
@@ -37,6 +39,8 @@ export class VotacionComponent  implements OnInit {
   yaHaVotado: boolean = false;
   eleccion: Eleccion = {} as Eleccion;
   totalVoto?: number;
+  listaPropietarios: VecinoUsuarioDTO[] = []
+  comunidadObjeto!: Comunidad
 
   voto: Voto = {
     voto: undefined,
@@ -55,6 +59,10 @@ export class VotacionComponent  implements OnInit {
     this.activateRoute.params.subscribe(params => {
       this.idEleccion = Number(params['id']);
     });
+    const comunidad = sessionStorage.getItem('comunidad');
+    if (comunidad) {
+      this.comunidadObjeto = JSON.parse(comunidad);
+    }
     this.getEleccion()
     const token = sessionStorage.getItem('authToken');
     if (token) {
@@ -112,9 +120,16 @@ export class VotacionComponent  implements OnInit {
       this.eleccionesService.totalVoto(this.idEleccion).subscribe({
         next: data => {
           this.totalVoto = data;
+          this.listarPropietarios()
         }
       });
     }
+  }
+
+  listarPropietarios() {
+    this.vecinoService.listarPropietarios(this.comunidadObjeto.id).subscribe({
+      next: data => this.listaPropietarios = data
+    })
   }
 
   votar() {
@@ -132,25 +147,31 @@ export class VotacionComponent  implements OnInit {
   }
 
   emitirVoto(tipo: string) {
-    if (this.yaHaVotado) {
-      this.mostrarAlertaYaHasVotado();
-      return;
+    if (Array.isArray(this.listaPropietarios) || this.vecino.id) {
+      if (!this.listaPropietarios.some(v => v.id === this.vecino.id)) {
+        this.mostrarSoloPropietarios()
+        return;
+      }
+      if (this.yaHaVotado) {
+        this.mostrarAlertaYaHasVotado()
+        return;
+      }
+      if (this.votoEnCurso) {
+        return;
+      }
+
+      this.votoEnCurso = true;
+
+      const tipoVoto: TipoVoto = TipoVoto[tipo as keyof typeof TipoVoto];
+
+      this.voto = {
+        voto: tipoVoto,
+        idEleccion: this.idEleccion,
+        idVecino: this.vecino.id
+      };
+
+      this.confirmarVoto();
     }
-    if (this.votoEnCurso) {
-      return;
-    }
-
-    this.votoEnCurso = true;
-
-    const tipoVoto: TipoVoto = TipoVoto[tipo as keyof typeof TipoVoto];
-
-    this.voto = {
-      voto: tipoVoto,
-      idEleccion: this.idEleccion,
-      idVecino: this.vecino.id
-    };
-
-    this.confirmarVoto();
   }
 
   async confirmarVoto() {
@@ -183,6 +204,15 @@ export class VotacionComponent  implements OnInit {
     const alert = await this.alertController.create({
       header: 'Ya has votado',
       message: 'Solo puedes votar una vez en esta elección.',
+      buttons: ['Aceptar']
+    });
+    await alert.present();
+  }
+
+  async mostrarSoloPropietarios() {
+    const alert = await this.alertController.create({
+      header: 'No eres propietario',
+      message: 'Solo los propietarios de viviendas podrán participar en las elecciones.',
       buttons: ['Aceptar']
     });
     await alert.present();

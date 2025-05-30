@@ -35,8 +35,11 @@ export class EleccionesComponent  implements OnInit {
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
-      this.listarElecciones()
     }
+  }
+
+  ionViewWillEnter() {
+    this.listarElecciones()
   }
 
   listarElecciones() {

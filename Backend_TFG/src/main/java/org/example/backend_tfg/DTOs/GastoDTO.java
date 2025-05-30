@@ -15,5 +15,6 @@ public class GastoDTO {
     private Double total;
     private Double cantidadPagada;
     private Set<Integer> pagados;
+    private Set<Integer> pendientes;
     private Integer idComunidad;
 }

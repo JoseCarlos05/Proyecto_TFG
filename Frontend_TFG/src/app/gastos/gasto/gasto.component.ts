@@ -19,6 +19,7 @@ import {VecinoService} from "../../servicios/vecino.service";
 import {NgIf} from "@angular/common";
 import {filter} from "rxjs";
 import {environment} from "../../../environments/environment";
+import {VecinoUsuarioDTO} from "../../modelos/VecinoUsuarioDTO";
 
 @Component({
   selector: 'app-gasto',
@@ -33,19 +34,20 @@ import {environment} from "../../../environments/environment";
   ]
 })
 export class GastoComponent implements OnInit {
+
   comunidadObjeto!: Comunidad
   gasto: Gasto = {} as Gasto;
   idGasto!: number;
-  numeroPropietarios: number = 0;
   totalPorVecino: number = 0;
   porcentajePagado: number = 0;
   usuario: Usuario = {} as Usuario;
   vecino: Vecino = {} as Vecino;
   correo?: string
+  listaPropietarios: VecinoUsuarioDTO[] =[]
+
   constructor(private router: Router,
               private gastosService: GastosService,
               private activateRoute: ActivatedRoute,
-              private viviendaService: ViviendaService,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService) {
   }
@@ -58,7 +60,6 @@ export class GastoComponent implements OnInit {
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
-      this.numeroViviendas(this.comunidadObjeto.id)
     }
 
     const token = sessionStorage.getItem('authToken');
@@ -82,9 +83,6 @@ export class GastoComponent implements OnInit {
           sessionStorage.removeItem('gasto');
         }
       });
-
-    this.verGasto(this.idGasto)
-    this.calcularPorcentajePagado(this.idGasto)
   }
 
   cargarUsuario(correo: string): void {
@@ -106,6 +104,19 @@ export class GastoComponent implements OnInit {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
           this.vecino = data;
+          this.listarPropietarios()
+        }
+      })
+    }
+  }
+
+  listarPropietarios() {
+    if (this.vecino.id && this.comunidadObjeto.id) {
+      this.vecinoService.listarPropietarios(this.comunidadObjeto.id).subscribe({
+        next: data => {
+          this.listaPropietarios = data
+          this.verGasto(this.idGasto)
+          this.calcularPorcentajePagado(this.idGasto)
         }
       })
     }
@@ -117,18 +128,9 @@ export class GastoComponent implements OnInit {
         next: data => {
           this.gasto = data;
           sessionStorage.setItem('gasto', JSON.stringify(this.gasto));
-          if (this.numeroPropietarios > 0) {
-            this.totalPorVecino = this.gasto.total / this.numeroPropietarios;
-          }
+          this.totalPorVecino = this.gasto.total / (this.gasto.pendientes.length + this.gasto.pagados.length);
         }
       });
-  }
-
-  numeroViviendas(idComunidad: number) {
-    if (idComunidad)
-      this.viviendaService.numeroPropietarios(idComunidad).subscribe({
-        next: data => this.numeroPropietarios = data
-      })
   }
 
   calcularPorcentajePagado(idGasto: number) {
@@ -168,9 +170,24 @@ export class GastoComponent implements OnInit {
   }
 
   estaPagado(gasto: Gasto): boolean {
-    if (!gasto || !Array.isArray(gasto.pagados) || this.vecino.id == null) {
+    if (!gasto || !Array.isArray(gasto.pendientes) || !this.vecino.id) {
       return false;
     }
-    return gasto.pagados.includes(this.vecino.id);
+    return !gasto.pendientes.includes(this.vecino.id);
+  }
+
+  mensajeBotonPagar(gasto: Gasto): string {
+    if (!Array.isArray(this.listaPropietarios) || !this.vecino.id || !gasto || !Array.isArray(gasto.pendientes) || !Array.isArray(gasto.pagados)) {
+      return ''
+    }
+    if (!this.listaPropietarios.some(v => v.id === this.vecino.id)) {
+      return 'Solo los propietarios de vivienda se pueden hacer cargo de los gastos';
+    } else if (!gasto.pagados.includes(this.vecino.id) && !gasto.pendientes.includes(this.vecino.id)) {
+      return 'El pago de este gasto no te corresponde';
+    } else if (gasto.pagados.includes(this.vecino.id)) {
+      return 'Pagado';
+    } else {
+      return 'Pagar'
+    }
   }
 }

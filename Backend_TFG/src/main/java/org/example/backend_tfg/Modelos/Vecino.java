@@ -52,12 +52,20 @@ public class Vecino {
     private Set<Vivienda> viviendas = new HashSet<>(0);
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(name = "vecinos_gastos",
+    @JoinTable(name = "gastos_vecinos_pagados",
             joinColumns = {@JoinColumn(name = "idVecino", nullable = false)} ,
             inverseJoinColumns ={@JoinColumn(name = "idGasto", nullable = false)})
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Set<Gasto> gastos = new HashSet<>(0);
+    private Set<Gasto> gastosPagados = new HashSet<>(0);
+
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(name = "gastos_vecinos_pendientes",
+            joinColumns = {@JoinColumn(name = "idVecino", nullable = false)} ,
+            inverseJoinColumns ={@JoinColumn(name = "idGasto", nullable = false)})
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Gasto> gastosPendientes = new HashSet<>(0);
 
     @ManyToMany(mappedBy = "vecinos",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

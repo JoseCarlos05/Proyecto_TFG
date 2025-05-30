@@ -4,5 +4,6 @@ export interface Gasto {
   total: number
   cantidadPagada: number
   pagados: number[]
+  pendientes: number[]
   idComunidad: number
 }

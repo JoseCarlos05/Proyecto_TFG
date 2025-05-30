@@ -91,4 +91,9 @@ public class VecinoControlador {
     public void eliminarNotificacion(@PathVariable Integer idNotificacion, @PathVariable Integer idVecino){
         vecinoServicio.eliminarNotificacion(idNotificacion, idVecino);
     }
+
+    @GetMapping("/listar/propietarios/{idComunidad}")
+    public List<VecinoUsuarioDTO> listarPropietarios(@PathVariable Integer idComunidad) {
+        return vecinoServicio.listarPropietarios(idComunidad);
+    }
 }

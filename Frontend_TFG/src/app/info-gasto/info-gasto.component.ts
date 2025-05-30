@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
+import {Component, OnInit} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
-import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
 import {IonicModule} from "@ionic/angular";
 import {Usuario} from "../modelos/Usuario";
 import {Comunidad} from "../modelos/Comunidad";
@@ -16,8 +14,8 @@ import {ViviendaService} from "../servicios/vivienda.service";
 import {filter} from "rxjs";
 import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-inferior-comunidad.component";
 import {NgForOf, NgIf} from "@angular/common";
-import {VecinoDeuda} from "../modelos/VecinoDeuda";
 import {Vecino} from "../modelos/Vecino";
+import {TipoNotificacion} from "../modelos/Notificacion";
 
 @Component({
   selector: 'app-info-gasto',
@@ -33,6 +31,7 @@ import {Vecino} from "../modelos/Vecino";
   ]
 })
 export class InfoGastoComponent  implements OnInit {
+
   correo?: string;
   private usuario!: Usuario
   private comunidad!: Comunidad
@@ -44,7 +43,7 @@ export class InfoGastoComponent  implements OnInit {
   modalAbierto = false;
   gastoSeleccionado: Gasto | null = null;
   vecinoDeudas: Vecino[] = []
-  vecinoValor: Vecino = {} as Vecino;
+  idsSeleccionados: number[] = []
 
   constructor(private comunidadService: ComunidadService,
               private router: Router,
@@ -118,9 +117,9 @@ export class InfoGastoComponent  implements OnInit {
           this.gasto = data;
           sessionStorage.setItem('gasto', JSON.stringify(this.gasto));
           if (this.numeroPropietarios > 0) {
-            this.totalPorVecino = this.gasto.total / this.numeroPropietarios;
+            this.totalPorVecino = this.gasto.total / (this.gasto.pagados.length + this.gasto.pendientes.length);
           }
-          this.listarDeudorea()
+          this.listarDeudores()
 
         }
       });
@@ -145,7 +144,7 @@ export class InfoGastoComponent  implements OnInit {
       })
   }
 
-  listarDeudorea() {
+  listarDeudores() {
     if (this.comunidad.id)
       this.gastosService.listarDeudoresIdGasto(this.gasto.id).subscribe({
         next: data => {
@@ -154,13 +153,23 @@ export class InfoGastoComponent  implements OnInit {
       })
   }
 
+  actualizarSeleccion(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const id = +input.value;
+
+    if (input.checked) {
+      this.idsSeleccionados.push(id);
+    } else {
+      this.idsSeleccionados = this.idsSeleccionados.filter(i => i !== id);
+    }
+  }
+
   abrirModal(gasto: Gasto): void {
     if (this.porcentajePagado < 100) {
       this.gastoSeleccionado = gasto;
       this.modalAbierto = true;
     }
   }
-
 
   cerrarModal(): void {
     this.modalAbierto = false;
@@ -172,6 +181,8 @@ export class InfoGastoComponent  implements OnInit {
   }
 
   aceptar(): void {
-    this.cerrarModal();
+    this.comunidadService.enviarNotificacion(this.idsSeleccionados, this.comunidad.id, TipoNotificacion.DEUDA).subscribe({
+      next: () => this.cerrarModal()
+    })
   }
 }

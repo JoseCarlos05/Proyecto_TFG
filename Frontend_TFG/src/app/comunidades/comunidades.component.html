@@ -13,6 +13,11 @@
     <p class="tarjeta-titulo">{{ comunidad.nombre }}</p>
     <p class="tarjeta-subtitulo">{{ comunidad.direccion }}</p>
   </div>
+
+  <div class="div-sin" *ngIf="listaComunidades.length === 0">
+    <span>No estás en ninguna comunidad ahora mismo.
+      Pulsa el botón de <b style="color: #0E8008; font-size: 24px">+</b> para descrubir nuevas comunidades.</span>
+  </div>
 </ion-content>
 
 <app-footer></app-footer>

@@ -55,4 +55,9 @@ export class VecinoService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/vecino/eliminar/notificacion/${idNotificacion}/${idVecino}`, {}, options)
   }
+
+  listarPropietarios(idComunidad: number): Observable<VecinoUsuarioDTO[]> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.get<VecinoUsuarioDTO[]>(`${this.apiUrl}/vecino/listar/propietarios/${idComunidad}`, options)
+  }
 }

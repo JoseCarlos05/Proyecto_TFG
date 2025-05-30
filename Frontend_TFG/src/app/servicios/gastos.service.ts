@@ -2,14 +2,11 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {ComunService} from "./comun.service";
-import {Eleccion} from "../modelos/Eleccion";
 import {Observable} from "rxjs";
 import {Gasto} from "../modelos/Gasto";
-import {InsertarCodigo} from "../modelos/InsertarCodigo";
 import {MarcarPagado} from "../modelos/MarcarPagado";
-import {CrearEleccion} from "../modelos/CrearEleccion";
 import {CrearGasto} from "../modelos/CrearGasto";
-import {VecinoDeuda} from "../modelos/VecinoDeuda";
+import {VecinoGastos} from "../modelos/VecinoGastos";
 import {Vecino} from "../modelos/Vecino";
 
 @Injectable({
@@ -51,9 +48,9 @@ export class GastosService {
     return this.http.post(`${this.apiUrl}/comunidad/crear/gasto`, crearGasto, options);
   }
 
-  listarDeudoresIdComunidad(idComunidad: number): Observable<VecinoDeuda[]> {
+  listarDeudoresIdComunidad(idComunidad: number): Observable<VecinoGastos[]> {
     const options = this.comunService.autorizarPeticion();
-    return this.http.get<VecinoDeuda[]>(`${this.apiUrl}/comunidad/listar/deudores/comunidad/${idComunidad}`, options)
+    return this.http.get<VecinoGastos[]>(`${this.apiUrl}/comunidad/listar/deudores/comunidad/${idComunidad}`, options)
   }
 
   verGastoComunidad(idGasto: number): Observable<Gasto> {

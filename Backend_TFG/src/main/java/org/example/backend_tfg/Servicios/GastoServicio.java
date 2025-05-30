@@ -23,11 +23,9 @@ public class GastoServicio {
 
     private IComunidadRepositorio iComunidadRepositorio;
 
-    private IViviendaRepositorio iViviendaRepositorio;
-
     private IVecinoRepositorio iVecinoRepositorio;
 
-    private ViviendaServicio viviendaServicio;
+    private final VecinoServicio vecinoServicio;
 
     public void crearGasto(CrearGastoDTO crearGastoDTO){
 
@@ -36,12 +34,28 @@ public class GastoServicio {
         nuevoGasto.setConcepto(crearGastoDTO.getConcepto());
         nuevoGasto.setTotal(crearGastoDTO.getTotal());
         nuevoGasto.setCantidadPagada(0.0);
-        nuevoGasto.setPagados(new HashSet<>(0));
+        nuevoGasto.setVecinosPagados(new HashSet<>(0));
+        nuevoGasto.setVecinosPendientes(new HashSet<>(0));
         nuevoGasto.setFechaHora(LocalDateTime.now());
 
         Comunidad comunidad = iComunidadRepositorio.findById(crearGastoDTO.getIdComunidad())
                 .orElseThrow(()-> new RuntimeException("No existe una comunidad con este ID."));
+
         nuevoGasto.setComunidad(comunidad);
+
+        iGastoRepositorio.save(nuevoGasto);
+
+        Set<Vecino> vecinos = new HashSet<>(0);
+        for (VecinoUsuarioDTO v : vecinoServicio.listarPropietarios(crearGastoDTO.getIdComunidad())) {
+            Vecino vecino = iVecinoRepositorio.findById(v.getId())
+                    .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+            vecinos.add(vecino);
+            System.out.println(nuevoGasto);
+            vecino.getGastosPendientes().add(nuevoGasto);
+            iVecinoRepositorio.save(vecino);
+        }
+
+        nuevoGasto.setVecinosPendientes(vecinos);
 
         iGastoRepositorio.save(nuevoGasto);
     }
@@ -72,22 +86,15 @@ public class GastoServicio {
         Gasto gasto = iGastoRepositorio.findById(idGasto)
                 .orElseThrow(() -> new RuntimeException("No existe un gasto con este ID."));
 
-        List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(gasto.getComunidad().getId());
+        int totalVecinos = gasto.getVecinosPendientes().size() + gasto.getVecinosPagados().size();
 
-        int totalVecinos = 0;
-        for (Vivienda vivienda : viviendas) {
-            if (vivienda.getPropietario() != null) {
-                totalVecinos++;
-            }
-        }
-
-        int vecinosPagados = gasto.getPagados().size();
+        int vecinosPendientes = gasto.getVecinosPendientes().size();
 
         if (totalVecinos == 0) {
             return 0.0;
         }
 
-        return (vecinosPagados * 100.0) / totalVecinos;
+        return (1 - ((double) vecinosPendientes / totalVecinos)) * 100;
     }
 
     public void marcarPagado(MarcarPagadoDTO dto){
@@ -97,18 +104,22 @@ public class GastoServicio {
         Vecino vecino = iVecinoRepositorio.findById(dto.getIdVecino())
                 .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
 
-        if (gasto.getPagados() == null) {
-            gasto.setPagados(new HashSet<>());
+        if (!gasto.getVecinosPendientes().contains(vecino) && gasto.getVecinosPagados().contains(vecino)) {
+            throw new RuntimeException("Este vecino ya ha pagado o no le corresponde el pago.");
         }
 
-        Integer numeroPropietarios = viviendaServicio.numeroPropietarios(gasto.getComunidad().getId());
+        Integer totalVecinosDelGasto = gasto.getVecinosPendientes().size() + gasto.getVecinosPagados().size();
         double totalPorVecino;
 
-        if (numeroPropietarios > 0){
-            totalPorVecino = gasto.getTotal()/numeroPropietarios;
+        if (totalVecinosDelGasto > 0){
+            totalPorVecino = gasto.getTotal() / totalVecinosDelGasto;
 
-            gasto.getPagados().add(vecino);
-            vecino.getGastos().add(gasto);
+            gasto.getVecinosPendientes().remove(vecino);
+            vecino.getGastosPendientes().remove(gasto);
+
+            gasto.getVecinosPagados().add(vecino);
+            vecino.getGastosPagados().add(gasto);
+
             gasto.setCantidadPagada(gasto.getCantidadPagada() + totalPorVecino);
 
             iGastoRepositorio.save(gasto);
@@ -120,60 +131,50 @@ public class GastoServicio {
         Gasto gasto = iGastoRepositorio.findById(idGasto)
                 .orElseThrow(() -> new RuntimeException("No existe un gasto con este ID."));
 
-        Comunidad comunidad = gasto.getComunidad();
-        List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(comunidad.getId());
-
-        Set<Vecino> propietarios = new HashSet<>();
-        for (Vivienda vivienda : viviendas) {
-            if (vivienda.getPropietario() != null) {
-                propietarios.add(vivienda.getPropietario());
-            }
-        }
-
-        Set<Vecino> pagadores = gasto.getPagados();
-        propietarios.removeAll(pagadores);
-
         List<VecinoDTO> deudoresDTO = new ArrayList<>();
-        for (Vecino vecino : propietarios) {
+
+        for (Vecino vecino : gasto.getVecinosPendientes()) {
             deudoresDTO.add(VecinoServicio.getVecinoDTO(vecino));
         }
 
         return deudoresDTO;
     }
 
-    public List<VecinoDeudaDTO> listarDeudoresIdComunidad(Integer idComunidad) {List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
-        List<Vecino> propietarios = new ArrayList<>();
-        for (Vivienda vivienda : viviendas) {
-            Vecino propietario = vivienda.getPropietario();
-            if (propietario != null && !propietarios.contains(propietario)) {
-                propietarios.add(propietario);
-            }
-        }
+    public List<VecinoGastosDTO> listarDeudoresIdComunidad(Integer idComunidad) {
+        List<VecinoGastosDTO> listaDeudores = new ArrayList<>();
 
         List<Gasto> gastos = iGastoRepositorio.findByComunidad_Id(idComunidad);
 
-        List<VecinoDeudaDTO> resultado = new ArrayList<>();
+        for (Gasto gasto : gastos) {
+            for (Vecino vecino : gasto.getVecinosPendientes()) {
 
-        for (Vecino propietario : propietarios) {
-            List<GastoDTO> gastosPendientes = new ArrayList<>();
-
-            for (Gasto gasto : gastos) {
-                Set<Vecino> pagadores = gasto.getPagados() != null ? gasto.getPagados() : new HashSet<>();
-
-                if (!pagadores.contains(propietario)) {
-                    gastosPendientes.add(getGastoDTO(gasto));
+                Set<GastoDTO> gastosPagados = new HashSet<>(0);
+                for (Gasto g : vecino.getGastosPagados()) {
+                    gastosPagados.add(getGastoDTO(g));
                 }
-            }
 
-            if (!gastosPendientes.isEmpty()) {
-                VecinoDeudaDTO dto = new VecinoDeudaDTO();
-                dto.setVecino(VecinoServicio.getVecinoDTO(propietario));
-                dto.setGastos(gastosPendientes);
-                resultado.add(dto);
+                Set<GastoDTO> gastosPendientes = new HashSet<>(0);
+                for (Gasto g : vecino.getGastosPendientes()) {
+                    gastosPendientes.add(getGastoDTO(g));
+                }
+
+                VecinoGastosDTO dto = new VecinoGastosDTO();
+                dto.setId(vecino.getId());
+                dto.setNombre(vecino.getNombre());
+                dto.setApellidos(vecino.getApellidos());
+                dto.setTelefono(vecino.getTelefono());
+                dto.setFechaNacimiento(vecino.getFechaNacimiento());
+                dto.setNumeroCuenta(vecino.getNumCuenta());
+                dto.setDni(vecino.getDni());
+                dto.setFotoPerfil(vecino.getFotoPerfil());
+                dto.setGastosPagados(gastosPagados);
+                dto.setGastosPendientes(gastosPendientes);
+
+                listaDeudores.add(dto);
             }
         }
 
-        return resultado;
+        return listaDeudores;
     }
 
     public static GastoDTO getGastoDTO(Gasto g) {
@@ -183,11 +184,17 @@ public class GastoServicio {
         dto.setTotal(g.getTotal());
         dto.setCantidadPagada(g.getCantidadPagada());
 
-        Set<Integer> vecinosID = new HashSet<>();
-        for (Vecino vecino : g.getPagados()) {
-            vecinosID.add(vecino.getId());
+        Set<Integer> pagadosID = new HashSet<>();
+        for (Vecino vecino : g.getVecinosPagados()) {
+            pagadosID.add(vecino.getId());
         }
-        dto.setPagados(vecinosID);
+        dto.setPagados(pagadosID);
+
+        Set<Integer> pendientesID = new HashSet<>();
+        for (Vecino vecino : g.getVecinosPendientes()) {
+            pendientesID.add(vecino.getId());
+        }
+        dto.setPendientes(pendientesID);
 
         dto.setIdComunidad(g.getComunidad().getId());
 

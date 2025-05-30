@@ -34,11 +34,17 @@ public class Gasto {
     @Column(name = "fechaHora", nullable = false)
     private LocalDateTime fechaHora;
 
-    @ManyToMany(mappedBy = "gastos",
+    @ManyToMany(mappedBy = "gastosPagados",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Set<Vecino> pagados = new HashSet<>(0);
+    private Set<Vecino> vecinosPagados = new HashSet<>(0);
+
+    @ManyToMany(mappedBy = "gastosPendientes",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Vecino> vecinosPendientes = new HashSet<>(0);
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comunidad")
