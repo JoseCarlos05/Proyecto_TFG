@@ -224,4 +224,8 @@ export class InfoPistaComponent  implements OnInit {
     await alert.present();
   }
 
+  volverAtras(): void {
+    this.router.navigate(['/ver-pistas-vecino']);
+  }
+
 }

@@ -155,5 +155,9 @@ export class InfoPistaComunidadComponent  implements OnInit {
       this.listarHorarios(fecha);
     }
   }
+
+  volverAtras(): void {
+    this.router.navigate(['/ver-pistas']);
+  }
 }
 

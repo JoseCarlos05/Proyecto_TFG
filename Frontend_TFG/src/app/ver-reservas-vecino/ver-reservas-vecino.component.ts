@@ -104,4 +104,7 @@ export class VerReservasVecinoComponent  implements OnInit {
       })
   }
 
+  volverAtras(): void {
+    this.router.navigate(['/ver-pistas-vecino']);
+  }
 }
