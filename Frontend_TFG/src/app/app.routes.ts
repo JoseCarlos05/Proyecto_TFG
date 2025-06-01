@@ -107,14 +107,6 @@ export const routes: Routes = [
     loadComponent: () => import('./contrato-empleado2/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent2),
   },
   {
-    path: 'poner-comunicados',
-    loadComponent: () => import('./poner-comunicados/poner-comunicados.component').then((m) => m.PonerComunicadosComponent),
-  },
-  {
-    path: 'poner-sanciones',
-    loadComponent: () => import('./poner-sanciones/poner-sanciones.component').then((m) => m.PonerSancionesComponent),
-  },
-  {
     path: 'contrato-empleado',
     loadComponent: () => import('./contrato-empleado/contrato-empleado.component').then((m) => m.ContratoEmpleadoComponent),
   },

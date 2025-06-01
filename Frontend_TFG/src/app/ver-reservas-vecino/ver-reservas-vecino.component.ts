@@ -15,7 +15,7 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
 import {HeaderComponent} from "../header/header.component";
 import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
 import {IonicModule} from "@ionic/angular";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {PistaHorario} from "../modelos/PistaHorario";
 
 @Component({
@@ -28,7 +28,8 @@ import {PistaHorario} from "../modelos/PistaHorario";
     HeaderComponent,
     HeaderComunidadComponent,
     IonicModule,
-    NgForOf
+    NgForOf,
+    NgIf
   ]
 })
 export class VerReservasVecinoComponent  implements OnInit {
