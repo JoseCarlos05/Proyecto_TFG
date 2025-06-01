@@ -45,4 +45,8 @@ public class Eleccion {
     @JoinColumn(name = "comunidad")
     private Comunidad comunidad;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "candidato")
+    private Vecino vecino;
+
 }

@@ -14,4 +14,5 @@ public class CrearEleccionDTO {
     private String motivo;
     private LocalDateTime fechaHora;
     private Integer idComunidad;
+    private Integer idCandidato;
 }

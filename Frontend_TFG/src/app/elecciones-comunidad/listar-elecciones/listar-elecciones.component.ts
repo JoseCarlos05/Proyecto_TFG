@@ -142,6 +142,7 @@ export class ListarEleccionesComponent  implements OnInit {
     }
   }
 
+
   async confirmarEleccion(idEleccion: number) {
     const alert = await this.alertController.create({
       header: 'Confirmar cierre de elección',

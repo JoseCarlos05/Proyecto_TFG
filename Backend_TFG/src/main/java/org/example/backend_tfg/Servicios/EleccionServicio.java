@@ -7,8 +7,10 @@ import org.example.backend_tfg.DTOs.EleccionDTO;
 import org.example.backend_tfg.DTOs.EleccionDetDTO;
 import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Eleccion;
+import org.example.backend_tfg.Modelos.Vecino;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IEleccionRepositorio;
+import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,6 +25,8 @@ public class EleccionServicio {
 
     private IComunidadRepositorio iComunidadRepositorio;
 
+    private IVecinoRepositorio iVecinoRepositorio;
+
     public void crearEleccion(CrearEleccionDTO crearEleccionDTO){
 
         Eleccion nuevaEleccion = new Eleccion();
@@ -33,6 +37,12 @@ public class EleccionServicio {
         nuevaEleccion.setTotalAbstencion(0);
         nuevaEleccion.setTotalEnContra(0);
         nuevaEleccion.setAbierta(true);
+
+        if (crearEleccionDTO.getIdCandidato() != null){
+            Vecino vecino = iVecinoRepositorio.findById(crearEleccionDTO.getIdCandidato())
+                    .orElseThrow(()-> new RuntimeException("No existe un vecino con este ID."));
+            nuevaEleccion.setVecino(vecino);
+        }
 
         Comunidad comunidad = iComunidadRepositorio.findById(crearEleccionDTO.getIdComunidad())
                 .orElseThrow(()-> new RuntimeException("No existe una comunidad con este ID."));
@@ -54,6 +64,16 @@ public class EleccionServicio {
                 if (eleccion.isAbierta() && eleccion.getFechaHora() != null && LocalDateTime.now().isAfter(eleccion.getFechaHora())) {
                     eleccion.setAbierta(false);
                     iEleccionRepositorio.save(eleccion);
+                    if (!eleccion.isAbierta() && eleccion.getVecino().getId() != null &&
+                            eleccion.getTotalAFavor() > eleccion.getTotalEnContra() &&
+                            eleccion.getTotalAFavor() > eleccion.getTotalAbstencion()) {
+
+                        Vecino nuevoPresidente = iVecinoRepositorio.findById(eleccion.getVecino().getId())
+                                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+                        comunidad.setPresidente(nuevoPresidente);
+                        iComunidadRepositorio.save(comunidad);
+                    }
                 }
 
                 listaElecciones.add(getEleccionDTO(eleccion));
@@ -76,6 +96,8 @@ public class EleccionServicio {
         eleccion.setAbierta(false);
         iEleccionRepositorio.save(eleccion);
     }
+
+
 
     public EleccionDetDTO getEleccion(Integer idEleccion) {
         Eleccion eleccion = iEleccionRepositorio.findById(idEleccion)
