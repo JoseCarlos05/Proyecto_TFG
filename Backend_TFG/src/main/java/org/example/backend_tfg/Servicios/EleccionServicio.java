@@ -7,9 +7,11 @@ import org.example.backend_tfg.DTOs.EleccionDTO;
 import org.example.backend_tfg.DTOs.EleccionDetDTO;
 import org.example.backend_tfg.Modelos.Comunidad;
 import org.example.backend_tfg.Modelos.Eleccion;
+import org.example.backend_tfg.Modelos.Usuario;
 import org.example.backend_tfg.Modelos.Vecino;
 import org.example.backend_tfg.Repositorios.IComunidadRepositorio;
 import org.example.backend_tfg.Repositorios.IEleccionRepositorio;
+import org.example.backend_tfg.Repositorios.IUsuarioRepositorio;
 import org.example.backend_tfg.Repositorios.IVecinoRepositorio;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,10 @@ public class EleccionServicio {
     private IComunidadRepositorio iComunidadRepositorio;
 
     private IVecinoRepositorio iVecinoRepositorio;
+
+    private IUsuarioRepositorio iUsuarioRepositorio;
+
+    private EmailServicio emailServicio;
 
     public void crearEleccion(CrearEleccionDTO crearEleccionDTO){
 
@@ -73,6 +79,11 @@ public class EleccionServicio {
 
                         comunidad.setPresidente(nuevoPresidente);
                         iComunidadRepositorio.save(comunidad);
+
+                        Usuario usuario = iUsuarioRepositorio.findById(nuevoPresidente.getUsuario().getId())
+                                .orElseThrow(()-> new RuntimeException("No existe un usuario con este ID."));
+
+                        emailServicio.nuevoPresidente(usuario.getCorreo(), idComunidad);
                     }
                 }
 

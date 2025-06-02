@@ -1,0 +1,34 @@
+<ion-content>
+  <ion-grid id="grid_principal">
+    <ion-row id="fila_icono">
+      <ion-col size-lg="4" size-xl="4" size-md="4" size-sm="6" size-xs="8" id="col_icono">
+        <ion-img id="icono" src="assets/icon/header/logo.png" alt="Icono"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-col size-lg="4" size-xl="4" size-md="4" size-sm="6" size-xs="8">
+
+      <ion-img *ngIf="!esUltimaImagen" class="imagenes" [src]="imagenActual" alt="Imagen dinámica"></ion-img>
+
+      <div *ngIf="!esUltimaImagen" class="indicadores">
+        <div *ngFor="let img of imagenes; let i = index"
+             class="punto"
+             [class.activo]="i === indice">
+        </div>
+      </div>
+
+      <div *ngIf="esUltimaImagen" class="contenedor-mensaje">
+        <p *ngIf="esUltimaImagen" class="mensaje-fin">LiveTogether mejora la gestión de tu comunidad de vecinos con soluciones útiles y prácticas. Tanto presidentes como vecinos pueden usar la app para organizar tareas, comunicarse mejor y tomar decisiones de forma clara y sencilla. Vive en una comunidad más unida, eficiente y bien coordinada.</p>
+      </div>
+
+
+      <ion-button (click)="accionBoton()">
+        {{ esUltimaImagen ? 'Comenzar' : 'Siguiente' }}
+      </ion-button>
+
+    </ion-col>
+  </ion-grid>
+</ion-content>
+
