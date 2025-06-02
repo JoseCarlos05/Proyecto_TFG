@@ -49,11 +49,6 @@ export class ViviendaService {
     return this.http.get<Vivienda>(`${this.apiUrl}/comunidad/ver/info/vivienda/${idVivienda}`, options)
   }
 
-  verPropietario(idPropietario: number): Observable<Vecino> {
-    const options = this.comunService.autorizarPeticion();
-    return this.http.get<Vecino>(`${this.apiUrl}/comunidad/ver/vecino/${idPropietario}`, options)
-  }
-
   crearVivienda(crearVivienda: CrearVivienda): Observable<any> {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/comunidad/crear/vivienda`, crearVivienda, options);

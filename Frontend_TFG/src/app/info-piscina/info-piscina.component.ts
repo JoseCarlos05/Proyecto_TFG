@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {NgIf} from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 import {HeaderComponent} from "../header/header.component";
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {Comunidad} from "../modelos/Comunidad";
@@ -14,6 +14,9 @@ import {PropiedadService} from "../servicios/propiedad.service";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
 import {environment} from "../../environments/environment";
+import * as QRCode from 'qrcode';
+import {ViviendaService} from "../servicios/vivienda.service";
+import {Vivienda} from "../modelos/Vivienda";
 
 @Component({
   selector: 'app-info-piscina',
@@ -24,28 +27,36 @@ import {environment} from "../../environments/environment";
     IonicModule,
     NgIf,
     HeaderComponent,
-    FooterComunidadComponent
+    FooterComunidadComponent,
+    NgOptimizedImage
   ]
 })
 export class InfoPiscinaComponent  implements OnInit {
+  @ViewChild('canvas', { static: false }) canvasRef!: ElementRef;
+
   baseUrl: string = environment.apiUrl;
 
   mostrarFrente = true;
 
-
   comunidadObjeto!: Comunidad
-  usuario: Usuario = {} as Usuario;
-  vecino: Vecino = {} as Vecino;
+  usuario: Usuario = {} as Usuario
+  vecino: Vecino = {} as Vecino
   correo?: string
-  constructor(private router: Router,
-              private gastosService: GastosService,
-              private activateRoute: ActivatedRoute,
-              private usuarioService: UsuarioService,
+  vivienda: Vivienda = {} as Vivienda
+  constructor(private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
-              private propiedadService: PropiedadService) {
+              private viviendaService: ViviendaService) {
   }
 
   ngOnInit() {
+    this.inicio()
+  }
+
+  ionViewWillEnter() {
+    this.inicio()
+  }
+
+  inicio() {
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
@@ -66,6 +77,17 @@ export class InfoPiscinaComponent  implements OnInit {
     }
   }
 
+  generarQR() {
+    const datos = `Este usuario pertenece a la vivienda ${this.vivienda.direccionPersonal} de la comunidad ${this.comunidadObjeto.nombre}.
+    Sus datos son: ${this.vecino.nombre} ${this.vecino.apellidos}, ${this.vecino.dni}, ${this.vecino.fechaNacimiento}, ${this.vecino.telefono}.`
+
+    QRCode.toCanvas(this.canvasRef.nativeElement, datos, {
+      width: 150
+    }, function (error) {
+      if (error) console.error(error);
+    });
+  }
+
   cargarUsuario(correo: string): void {
     this.usuarioService.cargarUsuario(correo).subscribe({
       next: (usuario: Usuario) => {
@@ -84,7 +106,24 @@ export class InfoPiscinaComponent  implements OnInit {
     if (this.usuario.id) {
       this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
         next: data => {
-          this.vecino = data;
+          this.vecino = data
+          this.cargarVivienda()
+        }
+      })
+    }
+  }
+
+  cargarVivienda() {
+    if (this.comunidadObjeto.id && this.vecino.id) {
+      this.viviendaService.listarViviendas(this.comunidadObjeto.id).subscribe({
+        next: data => {
+          for (let vivienda of data) {
+            if (vivienda.idVecinos.includes(this.vecino.id)) {
+              this.vivienda = vivienda
+              break
+            }
+          }
+          this.generarQR()
         }
       })
     }
@@ -103,5 +142,4 @@ export class InfoPiscinaComponent  implements OnInit {
   toggleTarjeta() {
     this.mostrarFrente = !this.mostrarFrente;
   }
-
 }

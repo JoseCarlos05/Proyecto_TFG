@@ -1,34 +1,49 @@
 <app-header></app-header>
 
-<ion-content fullscreen class="ion-padding tarjeta-wrapper">
-  <div class="tarjeta-container">
+<ion-content>
+
+  <div class="tarjeta-escena">
     <div class="tarjeta" [class.reverso]="!mostrarFrente">
-      <ion-img src="assets/icon/cambiar.png" class="cambiar" (click)="toggleTarjeta()" alt="Foto"></ion-img>
-      <!-- Frente -->
-      <div class="frente" *ngIf="mostrarFrente">
-        <div class="contenido-frente">
-          <ion-img src="assets/icon/perfiles/26.png" class="foto" alt="Foto"></ion-img>
-          <div class="texto-frente">
-            <h4>Nombre:{{vecino.nombre}} </h4>
-            <h4>Apellidos: {{vecino.apellidos}}</h4>
-            <p>DNI: {{ vecino.dni }}</p>
-            <p>Fecha Nacimiento: {{vecino.fechaNacimiento}}</p>
-            <p>Acceso: Piscina de la comunidad {{comunidadObjeto.nombre}}</p>
-          </div>
-        </div>
+      <ion-img class="icono-cambio" (click)="toggleTarjeta()" src="/assets/icon/cambiar.png"></ion-img>
+
+      <div class="cara frente">
+        <ion-grid>
+          <ion-row>
+            <ion-col class="perfil-col" size="5">
+              <img [ngSrc]="getImageUrlVecino(this.vecino)" width="100" height="100" class="imagen-redondeada" alt="">
+              <canvas #canvas></canvas>
+            </ion-col>
+            <ion-col class="info-col" size="7">
+              <div>
+                <p>Nombre: {{ vecino.nombre }}</p>
+                <p>Apellidos: {{ vecino.apellidos }}</p>
+                <p>DNI: {{ vecino.dni }}</p>
+                <p>Fecha de nacimiento: {{ vecino.fechaNacimiento }}</p>
+                <p>Teléfono: {{ vecino.telefono }}</p>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
 
-      <!-- Reverso -->
-      <div class="reverso-contenido" *ngIf="!mostrarFrente">
-        <h3>Normas de uso:</h3>
-        <ul>
-          <li>Uso exclusivo del titular.</li>
-          <li>Acceso de 9:00 a 21:00.</li>
-          <li>Mostrar en cada ingreso.</li>
-        </ul>
+      <div class="cara reverso">
+        <div class="contenido-reverso">
+          <h3>Normas de uso:</h3>
+          <ul>
+            <li>Uso exclusivo del titular.</li>
+            <li>Acceso de 9:00 a 21:00.</li>
+            <li>Mostrar en cada ingreso.</li>
+          </ul>
+          <div style="margin-bottom: 30px">
+            <span>Pase de acceso para la piscina de la comunidad {{ comunidadObjeto.nombre }}</span>
+          </div>
+        </div>
+
       </div>
+
     </div>
   </div>
+
 </ion-content>
 
 <app-footer-comunidad></app-footer-comunidad>
