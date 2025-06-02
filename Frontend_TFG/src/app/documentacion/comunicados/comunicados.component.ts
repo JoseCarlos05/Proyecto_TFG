@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule, ToastController} from "@ionic/angular";
 import {Comunidad} from "../../modelos/Comunidad";
 import {NavigationEnd, Router} from "@angular/router";
 import {ComunicadoService} from "../../servicios/comunicado.service";
@@ -10,6 +10,10 @@ import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {QuillModule} from "ngx-quill";
 import {Vecino} from "../../modelos/Vecino";
 import {VecinoService} from "../../servicios/vecino.service";
+import {jwtDecode} from "jwt-decode";
+import {TokenDataDTO} from "../../modelos/TokenData";
+import {Usuario} from "../../modelos/Usuario";
+import {UsuarioService} from "../../servicios/usuario.service";
 
 @Component({
     selector: 'app-comunicados',
@@ -29,11 +33,15 @@ export class ComunicadosComponent  implements OnInit {
   correo?: string
   comunidadObjeto?: Comunidad
   vecinosMap: { [id: number]: Vecino } = {};
-
+  usuario: Usuario = {} as Usuario;
+  vecino: Vecino = {} as Vecino;
   constructor(private router: Router,
               private comunicadoService: ComunicadoService,
               private sanitizer: DomSanitizer,
-              private vecinoService: VecinoService) {
+              private vecinoService: VecinoService,
+              private usuarioService: UsuarioService,
+              private toastController: ToastController,
+              private alertController: AlertController) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -55,9 +63,47 @@ export class ComunicadosComponent  implements OnInit {
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
-      this.listarComunicados();
+    }
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<{ tokenDataDTO: TokenDataDTO }>(token);
+        const tokenDataDTO = decodedToken?.tokenDataDTO;
+        if (tokenDataDTO && tokenDataDTO.correo) {
+          this.correo = tokenDataDTO.correo;
+          this.cargarUsuario(this.correo);
+        }
+      } catch (e) {
+        console.error('Error al decodificar el token:', e);
+      }
     }
   }
+
+  cargarUsuario(correo: string): void {
+    this.usuarioService.cargarUsuario(correo).subscribe({
+      next: (usuario: Usuario) => {
+        this.usuario = usuario;
+        if (this.usuario && this.usuario.id) {
+          this.cargarVecino();
+        }
+      },
+      error: (e) => {
+        console.error("Error al cargar el usuario:", e);
+      }
+    });
+  }
+
+  cargarVecino() {
+    if (this.usuario.id) {
+      this.vecinoService.cargarVecinoPorIdUsuario(this.usuario.id).subscribe({
+        next: data => {
+          this.vecino = data;
+          this.listarComunicados();
+        }
+      })
+    }
+  }
+
 
   listarComunicados() {
     if (this.comunidadObjeto?.id) {
@@ -119,5 +165,47 @@ export class ComunicadosComponent  implements OnInit {
   navigateToCrearComunicado(){
     this.router.navigate(['crear-comunicado']);
 
+  }
+
+  async confirmarEliminacion(idComunicado: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: `¿Estás seguro de que quieres eliminar este comunicado?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this.comunicadoService.eliminarComunicadoVecino(idComunicado).subscribe({
+              next: async () => {
+                this.listaComunicado = this.listaComunicado.filter(c => c.id !== idComunicado);
+                const toast = await this.toastController.create({
+                  message: 'El comunicado ha sido eliminado correctamente.',
+                  duration: 2000,
+                  color: 'success',
+                  position: 'top'
+                });
+                await toast.present();
+              },
+              error: async () => {
+                const toast = await this.toastController.create({
+                  message: 'Error al eliminar el comunicado.',
+                  duration: 2000,
+                  color: 'danger',
+                  position: 'top'
+                });
+                await toast.present();
+              }
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

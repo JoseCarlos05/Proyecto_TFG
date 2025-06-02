@@ -49,7 +49,7 @@ export class OlvidarContrasenaComponent {
         },
         error: (err) => {
           loading.dismiss().then(() => {
-            const toast = document.getElementById("error") as any;
+            const toast = document.getElementById("codigoEnviado") as any;
             toast.present();
           });
         }
@@ -95,7 +95,7 @@ export class OlvidarContrasenaComponent {
         },
         error: async (err) => {
           await loading.dismiss();
-          const toast = document.getElementById("error") as any;
+          const toast = document.getElementById("contrasenaCambiada") as any;
           toast.present();
           this.route.navigate(['/inicio-sesion']);
         }

@@ -38,4 +38,9 @@ public class ComunicadoControlador {
     public void eliminarComunicado(@PathVariable Integer idComunicado) {
         comunicadoServicio.eliminarComunicado(idComunicado);
     }
+
+    @PostMapping("/vecino/eliminar/comunicado/{idComunicado}")
+    public void eliminarComunicadoVecino(@PathVariable Integer idComunicado) {
+        comunicadoServicio.eliminarComunicado(idComunicado);
+    }
 }
