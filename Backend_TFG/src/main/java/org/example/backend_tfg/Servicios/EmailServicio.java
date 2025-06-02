@@ -100,8 +100,8 @@ public class EmailServicio {
     private String generarContrasenaAleatoria() {
         final String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
         SecureRandom random = new SecureRandom();
-        StringBuilder sb = new StringBuilder(12);
-        for (int i = 0; i < 12; i++) {
+        StringBuilder sb = new StringBuilder(16);
+        for (int i = 0; i < 16; i++) {
             int index = random.nextInt(caracteres.length());
             sb.append(caracteres.charAt(index));
         }
