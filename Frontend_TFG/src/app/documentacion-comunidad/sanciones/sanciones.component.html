@@ -14,6 +14,7 @@
       <div class="motivo-div">
         <span>Motivo: </span>
         <span class="inline-text">{{ sancion.motivo }}</span>
+        <ion-img class="cruz-roja" src="assets/icon/cruz-roja.png" (click)="confirmarEliminacion(sancion.id)"></ion-img>
       </div>
     </div>
   </ion-row>

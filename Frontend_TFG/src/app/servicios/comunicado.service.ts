@@ -35,4 +35,9 @@ export class ComunicadoService {
     const options = this.comunService.autorizarPeticion();
     return this.http.post(`${this.apiUrl}/comunidad/crear/comunicado`, comunicado, options);
   }
+
+  eliminarComunicadoComunidad(idComunicado: number): Observable<void> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post<void>(`${this.apiUrl}/comunidad/eliminar/comunicado/${idComunicado}`, {}, options);
+  }
 }
