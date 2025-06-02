@@ -109,7 +109,13 @@ ion-datetime {
   border: 2px solid #0E8008;
 }
 
-.boton{
+.boton {
   --background: #0E8008;
   --color: #FFFFFF;
+}
+
+ion-grid {
+  ion-label {
+    text-align: center;
+  }
 }
