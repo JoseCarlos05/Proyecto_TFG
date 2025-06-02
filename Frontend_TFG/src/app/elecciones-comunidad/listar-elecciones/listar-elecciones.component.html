@@ -1,7 +1,12 @@
 <div *ngFor="let eleccion of listaElecciones" class="eleccion">
   <ion-grid>
     <ion-row>
-      <ion-img src="assets/icon/cerrar.png" *ngIf="eleccion.abierta" class="icono-cerrar" (click)="confirmarEleccion(eleccion.id) "></ion-img>
+      <ion-img
+        src="assets/icon/cerrar.png"
+        *ngIf="eleccion.abierta && !eleccion.motivo.startsWith('Elección de nuevo presidente - Candidato:')"
+        class="icono-cerrar"
+        (click)="confirmarEleccion(eleccion.id)">
+      </ion-img>
     </ion-row>
     <ion-row (click)="verVotos(eleccion)">
       <div style="width: 100%">

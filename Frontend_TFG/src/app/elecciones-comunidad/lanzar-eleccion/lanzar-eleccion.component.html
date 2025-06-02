@@ -1,6 +1,21 @@
+<div class="trespuntitos" (click)="abrirModalOpciones()">
+  <ion-img class="foto3" src="assets/icon/trespuntos.png"></ion-img>
+</div>
+
+
+
 <div class="input-container" id="primerDiv">
   <ion-text>¿Qué votación quieres lanzar?</ion-text>
   <ion-input type="text" [(ngModel)]="crearEleccion.motivo" placeholder="Escribe un enunciado para la votación"></ion-input>
+
+  <div *ngIf="modoCambioPresidente">
+    <ion-text>Selecciona el nuevo presidente:</ion-text>
+    <ion-select [(ngModel)]="idNuevoPresidente" placeholder="Elige un propietario">
+      <ion-select-option *ngFor="let vecino of listaPropietarios" [value]="vecino.id">
+        {{ vecino.nombre }} {{ vecino.apellidos }}
+      </ion-select-option>
+    </ion-select>
+  </div>
 
   <ion-text>Día de finalización</ion-text>
   <ion-input type="date" [(ngModel)]="fecha" (ionChange)="actualizarFechaHora()"></ion-input>

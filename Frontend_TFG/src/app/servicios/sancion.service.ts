@@ -41,4 +41,9 @@ export class SancionService {
     const options = this.comunService.autorizarPeticion();
     return this.http.get<Sancion[]>(`${this.apiUrl}/comunidad/listar/sanciones/${idComunidad}`, options);
   }
+
+  eliminarSancionComunidad(idSancion: number): Observable<void> {
+    const options = this.comunService.autorizarPeticion();
+    return this.http.post<void>(`${this.apiUrl}/comunidad/eliminar/sancion/${idSancion}`, {}, options);
+  }
 }

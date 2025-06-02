@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule, ToastController} from "@ionic/angular";
 import {NgForOf, NgIf} from "@angular/common";
 import {QuillModule} from "ngx-quill";
 import {NavigationEnd, Router} from "@angular/router";
@@ -40,7 +40,9 @@ export class ComunicadosComponent  implements OnInit {
               private comunicadoService: ComunicadoService,
               private sanitizer: DomSanitizer,
               private usuarioService: UsuarioService,
-              private comunidadService: ComunidadService) {
+              private comunidadService: ComunidadService,
+              private toastController: ToastController,
+              private alertController: AlertController) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -156,5 +158,47 @@ export class ComunicadosComponent  implements OnInit {
 
   navigateToCrearComunicado(){
     this.router.navigate(['crear-comunicado-comunidad']);
+  }
+
+  async confirmarEliminacion(idComunicado: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: `¿Estás seguro de que quieres eliminar este comunicado?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this.comunicadoService.eliminarComunicadoComunidad(idComunicado).subscribe({
+              next: async () => {
+                this.listaComunicado = this.listaComunicado.filter(c => c.id !== idComunicado);
+                const toast = await this.toastController.create({
+                  message: 'El comunicado ha sido eliminado correctamente.',
+                  duration: 2000,
+                  color: 'success',
+                  position: 'top'
+                });
+                await toast.present();
+              },
+              error: async () => {
+                const toast = await this.toastController.create({
+                  message: 'Error al eliminar el comunicado.',
+                  duration: 2000,
+                  color: 'danger',
+                  position: 'top'
+                });
+                await toast.present();
+              }
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

@@ -55,4 +55,5 @@ public class EleccionControlador {
     public EleccionDetDTO verEleccionIDComunidad(@PathVariable Integer idEleccion){
         return eleccionServicio.getEleccion(idEleccion);
     }
+
 }

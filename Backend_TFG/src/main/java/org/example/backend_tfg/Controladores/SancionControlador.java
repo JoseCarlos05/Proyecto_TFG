@@ -40,4 +40,9 @@ public class SancionControlador {
     public void crearSancionComunidad(@RequestBody CrearSancionComunidadDTO sancionDTO){
         sancionServicio.crearSancionComunidad(sancionDTO);
     }
+
+    @PostMapping("/comunidad/eliminar/sancion/{idSancion}")
+    public void eliminarSancion(@PathVariable Integer idSancion) {
+        sancionServicio.eliminarSancion(idSancion);
+    }
 }

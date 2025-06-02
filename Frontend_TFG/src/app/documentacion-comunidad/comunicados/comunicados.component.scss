@@ -5,6 +5,7 @@ ion-content {
 
 ion-grid {
   padding: 0;
+  position: relative;
 
   ion-row {
     background-color: #7CDF68;
@@ -31,6 +32,15 @@ ion-grid {
 
     &:first-child {
       border-top: 1px solid black;
+    }
+
+    .cruz-roja {
+      position: absolute;
+      right: 5px;
+      top: -15px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
     }
   }
 }

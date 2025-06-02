@@ -63,10 +63,17 @@ public class SancionServicio {
 
     public static SancionDTO getSancionoDTO(Sancion s) {
         SancionDTO dto = new SancionDTO();
+        dto.setId(s.getId());
         dto.setMotivo(s.getMotivo());
         dto.setSancion(s.getSancion());
         dto.setIdVecino(s.getVecinoAfectado().getId());
         dto.setIdComunidad(s.getComunidad().getId());
         return dto;
+    }
+
+    public void eliminarSancion(Integer idSancion) {
+        Sancion sancion = iSancionRepositorio.findById(idSancion)
+                .orElseThrow(() -> new RuntimeException("Sanción no encontrada"));
+        iSancionRepositorio.delete(sancion);
     }
 }

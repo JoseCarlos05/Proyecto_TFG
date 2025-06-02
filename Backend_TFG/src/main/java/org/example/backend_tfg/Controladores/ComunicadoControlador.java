@@ -33,4 +33,9 @@ public class ComunicadoControlador {
     public void crearComunicadoComunidad(@RequestBody CrearComunicadoComunidadDTO comunicadoDTO) {
         comunicadoServicio.crearComunicadoComunidad(comunicadoDTO);
     }
+
+    @PostMapping("/comunidad/eliminar/comunicado/{idComunicado}")
+    public void eliminarComunicado(@PathVariable Integer idComunicado) {
+        comunicadoServicio.eliminarComunicado(idComunicado);
+    }
 }

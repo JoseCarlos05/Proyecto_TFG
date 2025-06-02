@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FooterComunidadComponent} from "../../footer-comunidad/footer-comunidad.component";
 import {HeaderComponent} from "../../header/header.component";
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule} from "@ionic/angular";
 import {MenuInferiorComunidadComponent} from "../../menu-inferior-comunidad/menu-inferior-comunidad.component";
 import {ComunidadService} from "../../servicios/comunidad.service";
 import {Router} from "@angular/router";
@@ -19,18 +19,21 @@ import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../../modelos/TokenData";
 import {FormsModule} from "@angular/forms";
 import {TipoNotificacion} from "../../modelos/Notificacion";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
-    selector: 'app-lanzar-eleccion',
-    templateUrl: './lanzar-eleccion.component.html',
-    styleUrls: ['./lanzar-eleccion.component.scss'],
-    standalone: true,
+  selector: 'app-lanzar-eleccion',
+  templateUrl: './lanzar-eleccion.component.html',
+  styleUrls: ['./lanzar-eleccion.component.scss'],
+  standalone: true,
   imports: [
     IonicModule,
-    FormsModule
+    FormsModule,
+    NgIf,
+    NgForOf
   ]
 })
-export class LanzarEleccionComponent  implements OnInit {
+export class LanzarEleccionComponent implements OnInit {
   correo?: string;
   private usuario!: Usuario
   private comunidad!: Comunidad
@@ -40,12 +43,21 @@ export class LanzarEleccionComponent  implements OnInit {
   crearEleccion: CrearEleccion = {
     motivo: "",
     fechaHora: "",
-    idComunidad: undefined
+    idComunidad: undefined,
+    idCandidato: undefined
   }
+
+  modoCambioPresidente: boolean = false;
+  listaPropietarios: Vecino[] = [];
+  idNuevoPresidente: number | undefined;
+  nuevoPresidente!: Vecino
+
   constructor(private comunidadService: ComunidadService,
               private router: Router,
               private usuarioService: UsuarioService,
-              private eleccionService: EleccionesService) { }
+              private eleccionService: EleccionesService,
+              private alertController: AlertController) {
+  }
 
   ngOnInit() {
     const token = sessionStorage.getItem('authToken');
@@ -62,7 +74,8 @@ export class LanzarEleccionComponent  implements OnInit {
       }
     } else {
       this.router.navigate(['/']);
-    }}
+    }
+  }
 
   cargarUsuario(correo: string): void {
     this.usuarioService.cargarUsuarioComunidad(correo).subscribe({
@@ -105,10 +118,31 @@ export class LanzarEleccionComponent  implements OnInit {
       return;
     }
 
+    if (this.modoCambioPresidente && this.idNuevoPresidente) {
+
+      this.comunidadService.cargarVecinoPorIdVecinoComunidad(this.idNuevoPresidente).subscribe({
+        next: data => {
+          this.nuevoPresidente = data;
+          this.crearEleccion.motivo += ` - Candidato: ${this.nuevoPresidente.nombre} ${this.nuevoPresidente.apellidos}`;
+          this.crearEleccion.idCandidato = this.idNuevoPresidente;
+
+          this.lanzarEleccion();
+        },
+        error: () => {
+          console.error("Error al cargar el presidente.");
+        }
+      });
+    } else {
+      this.lanzarEleccion();
+    }
+  }
+
+  lanzarEleccion() {
     this.eleccionService.crearEleccion(this.crearEleccion).subscribe({
       next: () => {
         const toast = document.getElementById("exitoCreacion") as any;
         toast.present();
+
         this.crearEleccion = {
           motivo: '',
           fechaHora: '',
@@ -116,6 +150,8 @@ export class LanzarEleccionComponent  implements OnInit {
         };
         this.fecha = '';
         this.hora = '';
+        this.modoCambioPresidente = false;
+
         this.comunidadService.listarPropietariosComunidad(this.comunidad.id).subscribe({
           next: data =>
             this.comunidadService.enviarNotificacion(data.map(vecino => vecino.id), this.comunidad.id, TipoNotificacion.ELECCION)
@@ -128,10 +164,61 @@ export class LanzarEleccionComponent  implements OnInit {
     });
   }
 
+
   actualizarFechaHora() {
     if (this.fecha && this.hora) {
-      const horaSolo = this.hora.split('T')[1]?.substring(0,5);
+      const horaSolo = this.hora.split('T')[1]?.substring(0, 5);
       this.crearEleccion.fechaHora = `${this.fecha}T${horaSolo}`;
     }
   }
+
+  activarCambioPresidente() {
+    this.modoCambioPresidente = true;
+    this.crearEleccion.motivo = "Elección de nuevo presidente";
+
+    if (this.comunidad && this.comunidad.id) {
+      this.comunidadService.listarPropietariosComunidad(this.comunidad.id).subscribe({
+        next: (propietarios: Vecino[]) => {
+          this.listaPropietarios = propietarios;
+        },
+        error: err => {
+          console.error("Error al cargar los propietarios:", err);
+        }
+      });
+    }
+  }
+
+  abrirModalOpciones() {
+    this.alertController.create({
+      header: 'Tipo de votación',
+      message: 'Selecciona el tipo de elección',
+      buttons: [
+        {
+          text: 'Nuevo Presidente',
+          handler: () => {
+            this.seleccionarTipo('presidente');
+          }
+        },
+        {
+          text: 'Personalizado',
+          handler: () => {
+            this.seleccionarTipo('personalizado');
+          }
+        },
+      ]
+    }).then(alert => {
+      alert.present();
+    });
+  }
+
+  seleccionarTipo(tipo: 'presidente' | 'personalizado') {
+    if (tipo === 'presidente') {
+      this.activarCambioPresidente();
+    } else {
+      this.modoCambioPresidente = false;
+      this.crearEleccion.motivo = '';
+    }
+  }
+
+
 }
