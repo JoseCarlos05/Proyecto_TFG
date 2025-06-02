@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ComunicadoDTO {
+    private Integer id;
     private String descripcion;
     private LocalDateTime fecha;
     private Integer idComunidad;

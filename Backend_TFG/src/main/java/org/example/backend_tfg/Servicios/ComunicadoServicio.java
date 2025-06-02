@@ -69,6 +69,7 @@ public class ComunicadoServicio {
 
     public static ComunicadoDTO getComunicadoDTO(Comunicado c) {
         ComunicadoDTO dto = new ComunicadoDTO();
+        dto.setId(c.getId());
         dto.setDescripcion(c.getDescripcion());
         dto.setFecha(c.getFechaHora());
         if (c.getVecino() != null) {
@@ -76,5 +77,11 @@ public class ComunicadoServicio {
         }
         dto.setIdComunidad(c.getComunidad().getId());
         return dto;
+    }
+
+    public void eliminarComunicado(Integer idComunicado) {
+        Comunicado comunicado = iComunicadoRepositorio.findById(idComunicado)
+                .orElseThrow(() -> new RuntimeException("Comunicado no encontrado"));
+        iComunicadoRepositorio.delete(comunicado);
     }
 }

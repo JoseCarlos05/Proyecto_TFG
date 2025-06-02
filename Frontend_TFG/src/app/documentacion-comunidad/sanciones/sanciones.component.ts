@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule, ToastController} from "@ionic/angular";
 import {NgForOf, NgIf} from "@angular/common";
 import {NavigationEnd, Router} from "@angular/router";
 import {filter} from "rxjs";
@@ -36,7 +36,9 @@ export class SancionesComponent implements OnInit {
   constructor(private router: Router,
               private sancionService: SancionService,
               private usuarioService: UsuarioService,
-              private comunidadService: ComunidadService) {
+              private comunidadService: ComunidadService,
+              private toastController: ToastController,
+              private alertController: AlertController) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -126,4 +128,46 @@ export class SancionesComponent implements OnInit {
   }
 
   protected readonly String = String;
+
+  async confirmarEliminacion(idSancion: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: `¿Estás seguro de que quieres eliminar esta sanción?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this.sancionService.eliminarSancionComunidad(idSancion).subscribe({
+              next: async () => {
+                this.listaSanciones = this.listaSanciones.filter(c => c.id !== idSancion);
+                const toast = await this.toastController.create({
+                  message: 'La sanción ha sido eliminado correctamente.',
+                  duration: 2000,
+                  color: 'success',
+                  position: 'top'
+                });
+                await toast.present();
+              },
+              error: async () => {
+                const toast = await this.toastController.create({
+                  message: 'Error al eliminar la sanción.',
+                  duration: 2000,
+                  color: 'danger',
+                  position: 'top'
+                });
+                await toast.present();
+              }
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }
