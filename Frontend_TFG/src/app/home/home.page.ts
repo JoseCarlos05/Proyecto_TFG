@@ -10,22 +10,46 @@ import {
   IonImg,
   IonButton
 } from '@ionic/angular/standalone';
+import {NgForOf, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonContent, IonRow, IonGrid, IonCol, IonImg, IonButton],
+  imports: [IonContent, IonRow, IonGrid, IonCol, IonImg, NgForOf, IonButton, NgIf],
   standalone: true
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit{
+
+  imagenes = ['assets/icon/propiedades/home3.png', 'assets/icon/propiedades/home2.png', 'assets/icon/propiedades/home1.png'];
+  imagenActual = this.imagenes[0];
+  indice = 0;
+  esUltimaImagen = false;
+
 
   constructor(private router: Router) {}
 
-  ngOnInit() {}
+
+  ngOnInit() {
+  }
+
+
+  cambiarImagen() {
+    if (this.indice === this.imagenes.length - 1) {
+      this.esUltimaImagen = true;
+    } else {
+      this.indice++;
+      this.imagenActual = this.imagenes[this.indice];
+      this.esUltimaImagen = false;
+    }
+  }
 
   accionBoton() {
-    this.router.navigate(['/inicio-sesion']);
+    if (this.esUltimaImagen) {
+      this.router.navigate(['/inicio-sesion']);
+    } else {
+      this.cambiarImagen();
+    }
   }
 }

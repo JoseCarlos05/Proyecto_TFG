@@ -83,3 +83,22 @@ ion-content {
 ion-grid {
   padding: 0;
 }
+
+.indicadores {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 5px;
+  transition: background-color 0.3s ease;
+}
+
+.punto.activo {
+  background-color: #0E8008;
+}
