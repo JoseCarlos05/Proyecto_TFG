@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { Login } from "../modelos/Login";
 import { RegistrarVecino } from "../modelos/RegistrarVecino";
 import { RegistrarComunidad } from "../modelos/RegistrarComunidad";
+import {open} from "ionicons/icons";
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,12 @@ export class AuthService {
       token: token,
       nuevaContrasena: nuevaContrasena
     });
-    return this.http.put(`${this.apiUrl}/autorizacion/cambiar-contrasena?${params.toString()}`, {});
+    const payload = { correo, token, nuevaContrasena };
+    return this.http.put(`${this.apiUrl}/autorizacion/cambiar-contrasena?${params.toString()}`, payload);
+  }
+
+  verificarCodigo(correo: string, token: string): Observable<boolean> {
+    const url = `${this.apiUrl}/autorizacion/verificar-codigo`;
+    return this.http.post<boolean>(url, { correo, token });
   }
 }

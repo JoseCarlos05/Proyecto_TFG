@@ -208,4 +208,18 @@ public class UsuarioServicio implements UserDetailsService {
         codigoStorage.remove(correo);
         return true;
     }
+
+    public boolean verificarCodigo(String correo, String codigo) {
+        CodigoRecuperacion codigoRecuperacion = codigoStorage.get(correo);
+        if (codigoRecuperacion == null) {
+            return false;
+        }
+
+        if (codigoRecuperacion.fechaCreacion.plusMinutes(10).isBefore(LocalDateTime.now())) {
+            codigoStorage.remove(correo);
+            return false;
+        }
+
+        return codigoRecuperacion.codigo.equals(codigo);
+    }
 }
