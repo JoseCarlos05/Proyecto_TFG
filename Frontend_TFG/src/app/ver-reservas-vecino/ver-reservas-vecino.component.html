@@ -16,8 +16,12 @@
       <ion-col size="4">
         {{ pista.deporte }}
       </ion-col>
-      <ion-col *ngFor="let horario of pista.horarios" size="8">
-          {{ horario.dia }}: {{ horario.horaInicio }} - {{ horario.horaFin }}
+      <ion-col size="8">
+        <div *ngFor="let horario of pista.horarios">
+          <span>
+            {{ horario.dia }}→ {{ horario.horaInicio }} - {{ horario.horaFin }}
+          </span>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

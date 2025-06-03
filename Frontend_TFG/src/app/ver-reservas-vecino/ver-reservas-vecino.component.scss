@@ -6,10 +6,24 @@ ion-content{
   border: 5px solid #57BF48;
   background-color: white;
   border-radius: 10px;
+  margin-block: 15px;
+
+  ion-col:first-child {
+    display: flex;
+    align-items: center;
+  }
+
+  ion-col:last-child {
+    padding-block: 15px;
+  }
 
   ion-col {
     padding: 10px;
     font-weight: bold;
+
+    div {
+      margin-block: 10px;
+    }
   }
 }
 
@@ -23,6 +37,7 @@ ion-content{
     font-weight: bold;
   }
 }
+
 .texto-col {
   display: flex;
   align-items: center;
