@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<ion-content>
+  <div class="buscador">
+    <ion-searchbar
+      class="searchbar-blanco"
+      placeholder="Buscar en LiveTogether..."
+      showCancelButton="focus"
+      (ionInput)="filtrarComunidades($event)"
+    ></ion-searchbar>
+  </div>
+
+  <div class="tarjeta" (click)="navigateToComunidad(comunidad)" *ngFor="let comunidad of listaComunidades">
+    <p class="tarjeta-titulo">{{ comunidad.nombre }}</p>
+    <p class="tarjeta-subtitulo">{{ comunidad.direccion }}</p>
+    <img
+      class="salir-comunidad" src="assets/icon/salir.png" alt="Salir comunidad" (click)="confirmarSalida($event, comunidad)" *ngIf="comunidad.idPresidente !== vecino.id"
+    />
+  </div>
+
+  <div class="div-sin" *ngIf="listaComunidades.length === 0 && todasComunidades.length !== 0">
+    <span>No se ha encontrado ninguna comunidad.</span>
+  </div>
+  <div class="div-sin" *ngIf="todasComunidades.length === 0">
+    <span>No estás en ninguna comunidad ahora mismo.
+      Pulsa el botón de <b style="color: #0E8008; font-size: 24px">+</b> para descrubir nuevas comunidades.</span>
+  </div>
+</ion-content>
+
+<app-footer></app-footer>

@@ -35,7 +35,8 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": ["src/global.scss", "src/theme/variables.scss", "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css"],
             "scripts": [],
             "browser": "src/main.ts"
           },
@@ -75,6 +76,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "app:build:production"
@@ -129,7 +133,10 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@ionic/angular-toolkit"]
+    "schematicCollections": [
+      "@ionic/angular-toolkit"
+    ],
+    "analytics": "e5c81713-0d5a-4647-b0d6-41d394a26da8"
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

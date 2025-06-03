@@ -1,0 +1,6 @@
+export enum TipoPropiedad {
+  PISTA_DEPORTIVA = "PISTA_DEPORTIVA",
+  PISCINA = "PISCINA",
+  GARAJE = "GARAJE",
+  ZONAS_COMUNES = "ZONAS_COMUNES"
+}

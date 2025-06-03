@@ -1,0 +1,28 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+<div class="fondo">
+  <img
+    class="flecha-retorno"
+    src="assets/icon/FlechaRetorno.png"
+    (click)="volverAtras()" />
+</div>
+
+<ion-content>
+  <div class="textoMedio">
+    <ion-label>Mis reservas</ion-label>
+  </div>
+  <ion-grid>
+    <ion-row *ngFor="let pista of listaPista" class="pista-row">
+      <ion-col size="4">
+        {{ pista.deporte }}
+      </ion-col>
+      <ion-col *ngFor="let horario of pista.horarios" size="8">
+          {{ horario.dia }}: {{ horario.horaInicio }} - {{ horario.horaFin }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="div-sin" *ngIf="listaPista.length === 0">
+    <span>No tienes ninguna pista reservada.</span>
+  </div>
+</ion-content>
+<app-footer-comunidad></app-footer-comunidad>

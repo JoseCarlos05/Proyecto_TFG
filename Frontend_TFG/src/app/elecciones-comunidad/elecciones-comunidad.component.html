@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="seccion" mode="ios">
+    <ion-segment-button value="lanzar-eleccion">
+      <ion-label>Nueva elección</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="listar-elecciones">
+      <ion-label>Mis elecciones</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <app-lanzar-eleccion *ngIf="seccion === 'lanzar-eleccion'"></app-lanzar-eleccion>
+  <app-listar-elecciones *ngIf="seccion === 'listar-elecciones'"></app-listar-elecciones>
+</ion-content>
+
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

@@ -1,0 +1,204 @@
+package org.example.backend_tfg.Servicios;
+
+import lombok.AllArgsConstructor;
+import org.example.backend_tfg.DTOs.EditarViviendaDTO;
+import org.example.backend_tfg.DTOs.RegistrarViviendaDTO;
+import org.example.backend_tfg.DTOs.VecinoDTO;
+import org.example.backend_tfg.DTOs.ViviendaDTO;
+import org.example.backend_tfg.Modelos.*;
+import org.example.backend_tfg.Repositorios.*;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
+
+@Service
+@AllArgsConstructor
+public class ViviendaServicio {
+
+    private IViviendaRepositorio iViviendaRepositorio;
+
+    private IComunidadRepositorio iComunidadRepositorio;
+
+    private IVecinoRepositorio iVecinoRepositorio;
+
+    private IGarajeRepositorio iGarajeRepositorio;
+
+    private ISancionRepositorio iSancionRepositorio;
+
+    public ViviendaDTO verViviendaID(Integer idVivienda){
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+        return getViviendaDTO(vivienda);
+
+    }
+    public void crearVivienda(RegistrarViviendaDTO dto) {
+        Vivienda vivienda = new Vivienda();
+        vivienda.setDireccionPersonal(dto.getDireccionPersonal());
+        vivienda.setNumResidentes(0);
+        Comunidad comunidad = iComunidadRepositorio.findById(dto.getIdComunidad())
+                .orElseThrow(() -> new RuntimeException("No existe una comunidad con este ID."));
+        vivienda.setComunidad(comunidad);
+
+        iViviendaRepositorio.save(vivienda);
+
+        Integer totalGarajes = iGarajeRepositorio.countByComunidad_Id(comunidad.getId());
+
+        Garaje garaje = new Garaje();
+        garaje.setNumeroPlaza("P" + (totalGarajes + 1));
+        garaje.setVivienda(null);
+        garaje.setComunidad(comunidad);
+
+        iGarajeRepositorio.save(garaje);
+
+    }
+
+    public List<ViviendaDTO> listarViviendas(Integer idComunidad){
+
+        List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
+        List<ViviendaDTO> viviendasDTO = new ArrayList<>();
+
+        for (Vivienda v : viviendas) {
+            viviendasDTO.add(getViviendaDTO(v));
+        }
+
+        return viviendasDTO;
+
+    }
+
+    public Set<VecinoDTO> listarResidentes(Integer idVivienda){
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+
+        Set<Vecino> residentes = vivienda.getVecinos();
+        Set<VecinoDTO> vecinoDTOS = new HashSet<>();
+
+
+        for (Vecino vecino: residentes){
+            vecinoDTOS.add(VecinoServicio.getVecinoDTO(vecino));
+        }
+
+        return vecinoDTOS;
+
+    }
+
+    public Integer numeroViviendas(Integer idComunidad){
+       List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
+       int viviendasTotales = 0;
+
+       for (int i = 1; i<= viviendas.size(); i++){
+            viviendasTotales++;
+       }
+
+       return viviendasTotales;
+    }
+
+    public Integer numeroPropietarios(Integer idComunidad){
+        List<Vivienda> viviendas = iViviendaRepositorio.findByComunidad_Id(idComunidad);
+        int propietarios = 0;
+
+        for (Vivienda vivienda : viviendas){
+            if (vivienda.getPropietario() != null) {
+                propietarios++;
+            }
+        }
+
+        return propietarios;
+    }
+
+    public void asignarViviendaVecino(Integer idVivienda, Integer idVecino) {
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+        Vecino vecino = iVecinoRepositorio.findById(idVecino)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+        vivienda.getVecinos().add(vecino);
+        vecino.getViviendas().add(vivienda);
+
+        iViviendaRepositorio.save(vivienda);
+        iVecinoRepositorio.save(vecino);
+    }
+
+    public void asignarPropietarioVivienda(Integer idVivienda, Integer idPropietario) {
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+        Vecino propietario = iVecinoRepositorio.findById(idPropietario)
+                .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+        vivienda.setPropietario(propietario);
+        iViviendaRepositorio.save(vivienda);
+    }
+
+    public void editarNombreVivienda(EditarViviendaDTO editarViviendaDTO, Integer idVivienda){
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("No existe una vivienda con este ID."));
+        vivienda.setDireccionPersonal(editarViviendaDTO.getDireccionPersonal());
+        iViviendaRepositorio.save(vivienda);
+    }
+
+    public static ViviendaDTO getViviendaDTO(Vivienda v) {
+        ViviendaDTO dto = new ViviendaDTO();
+        dto.setId(v.getId());
+        dto.setNumResidentes(v.getNumResidentes());
+        dto.setDireccionPersonal(v.getDireccionPersonal());
+
+        if (v.getPropietario() != null) {
+            dto.setIdPropietario(v.getPropietario().getId());
+        }
+
+        if (v.getComunidad() != null) {
+            dto.setIdComunidad(v.getComunidad().getId());
+        }
+
+        List<Integer> idVecinos = new ArrayList<>();
+        for (Vecino vecino : v.getVecinos()) {
+            idVecinos.add(vecino.getId());
+        }
+
+        if (!idVecinos.isEmpty()) {
+            dto.setIdVecinos(idVecinos);
+        }
+        return dto;
+    }
+
+    public void eliminarResidente(Integer idVivienda, Integer idResidente) {
+        Vivienda vivienda = iViviendaRepositorio.findById(idVivienda)
+                .orElseThrow(() -> new RuntimeException("Vivienda no encontrada"));
+
+        Vecino residente = iVecinoRepositorio.findById(idResidente)
+                .orElseThrow(() -> new RuntimeException("Residente no encontrado"));
+
+        Comunidad comunidad = iComunidadRepositorio.findById(vivienda.getComunidad().getId())
+                .orElseThrow(() -> new RuntimeException("Comunidad no encontrada"));
+
+        List<Sancion> sancions = iSancionRepositorio.findByComunidad_Id(comunidad.getId());
+
+        if (!vivienda.getVecinos().contains(residente)) {
+            throw new RuntimeException("El residente no pertenece a esta vivienda.");
+        }
+
+        if (vivienda.getPropietario() != null && vivienda.getPropietario().getId().equals(residente.getId())) {
+            vivienda.setPropietario(null);
+        }
+
+        vivienda.getVecinos().remove(residente);
+        residente.getViviendas().remove(vivienda);
+        for (Sancion sancion: sancions){
+            if (sancion.getVecinoAfectado() == residente){
+                iSancionRepositorio.delete(sancion);
+            }
+        }
+
+        if (comunidad.getPresidente() != null && residente.getId().equals(comunidad.getPresidente().getId())) {
+            comunidad.setPresidente(null);
+        }
+
+        iViviendaRepositorio.save(vivienda);
+        iVecinoRepositorio.save(residente);
+        iComunidadRepositorio.save(comunidad);
+    }
+
+}

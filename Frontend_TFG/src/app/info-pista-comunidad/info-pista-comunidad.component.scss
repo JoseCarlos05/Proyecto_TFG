@@ -1,0 +1,94 @@
+ion-content{
+  --background: #E7F4E7;
+}
+
+.horario-container {
+  padding: 1rem;
+  overflow-x: hidden;
+}
+
+.tabla {
+  overflow-x: auto;
+  display: block;
+  margin-top: 30px;
+}
+
+.fila {
+  display: flex;
+  min-width: max-content;
+}
+
+.encabezado {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.celda {
+  min-width: 120px;
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: #FFFFFF;
+}
+
+.columna {
+  background-color: #FFFFFF;
+}
+
+.pista-nombre {
+  font-weight: bold;
+  background-color: #e6e6e6;
+}
+
+.colores {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-block: 20px;
+
+  .color-div {
+    margin: 0 auto;
+    align-items: center;
+    display: flex
+  }
+}
+
+.colores-item {
+  width: 15px;
+  height: 20px;
+  border-radius: 4px;
+  margin-bottom: 3px;
+  margin-right: 5px;
+}
+
+.libre {
+  background-color: #19e745;
+}
+
+.ocupado {
+  background-color: #c40e1e;
+}
+
+.boton{
+  width: 50%;
+  --background: #0E8008;
+  color: white;
+  margin: 0 auto 25px;
+}
+
+ion-item {
+  border-bottom: 2px solid black;
+}
+
+.fondo{
+  background: #E7F4E7;
+
+}
+.flecha-retorno {
+  width: 8%;
+  height: auto;
+  cursor: pointer;
+  margin-top: 12px;
+  margin-left: 8px;
+  margin-bottom: 8px;
+}

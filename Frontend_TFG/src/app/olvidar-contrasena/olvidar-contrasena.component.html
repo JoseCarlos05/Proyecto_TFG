@@ -1,0 +1,34 @@
+<ion-content class="login-container">
+  <div class="titulo-container">
+    <h2 class="title">¿Has olvidado tu contraseña?</h2>
+    <h3 class="subtitle">Rellena los siguientes datos para recuperarla</h3>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Email</ion-text>
+    <ion-input type="email" placeholder="Introduce tu email" [(ngModel)]="email" [disabled]="pasoCodigoEnviado"></ion-input>
+  </div>
+
+  <ion-button class="ion-button-codigo" expand="block" (click)="enviarCodigo()" [disabled]="pasoCodigoEnviado">ENVIAR CÓDIGO</ion-button>
+
+  <div>
+    <div class="input-container">
+      <ion-text>Código del email</ion-text>
+      <ion-input type="text" placeholder="Introduce el código" [(ngModel)]="codigo"></ion-input>
+    </div>
+
+    <div class="input-container">
+      <ion-text>Introduce una nueva contraseña</ion-text>
+      <ion-input type="password" placeholder="Introduce una nueva contraseña" [(ngModel)]="nuevaContrasena"></ion-input>
+    </div>
+
+    <ion-button expand="block" (click)="cambiarContrasena()">SIGUIENTE</ion-button>
+  </div>
+</ion-content>
+<ion-toast id="errorEmail" message="El email no es válido" duration="3000" position="top" color="warning"></ion-toast>
+<ion-toast id="errorContrasena" message="La contraseña debe tener al menos 6 caracteres" duration="3000" position="top" color="warning"></ion-toast>
+<ion-toast id="codigoEnviado" message="Código enviado al correo" duration="3000" position="top" color="sucess"></ion-toast>
+<ion-toast id="campoVacioRegistro" message="Por favor, completa todos los campos" duration="3000" position="top" color="warning"></ion-toast>
+<ion-toast id="contrasenaCambiada" message="Contraseña cambiada con éxito" duration="3000" position="top" color="sucess"></ion-toast>
+<ion-toast id="error" message="Error" duration="3000" position="top" color="danger"></ion-toast>
+<ion-toast id="errorCodigo" message="El código del email no es correcto" duration="3000" position="top" color="danger"></ion-toast>

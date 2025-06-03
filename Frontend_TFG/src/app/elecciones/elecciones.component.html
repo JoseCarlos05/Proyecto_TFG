@@ -1,0 +1,18 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+
+<ion-content>
+  <div *ngFor="let eleccion of listaElecciones" class="eleccion" (click)="navigateToVotacion(eleccion)">
+    <p>{{ eleccion.motivo }}</p>
+    <div class="eleccion-info">
+      <span class="fecha">{{calcularFecha(eleccion.fechaHoraCreacion)}}</span>
+      <span [ngClass]="comprobarEstado(eleccion)">{{ comprobarEstado(eleccion) }}</span>
+    </div>
+  </div>
+
+  <div class="div-sin" *ngIf="listaElecciones.length === 0">
+    <span>No hay votaciones en curso en tu comunidad.</span>
+  </div>
+</ion-content>
+
+<app-footer-comunidad></app-footer-comunidad>

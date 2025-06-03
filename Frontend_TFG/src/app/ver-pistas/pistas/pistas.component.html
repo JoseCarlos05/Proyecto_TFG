@@ -1,0 +1,7 @@
+<ion-grid>
+  <ion-row *ngFor="let pista of listaPista" class="pista-row" (click)="navigateToInfoPista(pista.id)">
+    <span class="texto-col">
+      {{ pista.deporte }}
+    </span>
+  </ion-row>
+</ion-grid>

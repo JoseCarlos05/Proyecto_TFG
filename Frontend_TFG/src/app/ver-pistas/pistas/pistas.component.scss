@@ -1,0 +1,24 @@
+ion-content {
+  --background: #E7F4E7;
+}
+
+.pista-row {
+  padding: 10px 0;
+  background-color: white;
+  margin-block: 15px;
+  border-radius: 10px;
+  border: 5px solid #57BF48;
+}
+
+.icono-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.texto-col {
+  font-size: 18px;
+  color: black;
+  font-weight: bold;
+  margin: 0 auto;
+}

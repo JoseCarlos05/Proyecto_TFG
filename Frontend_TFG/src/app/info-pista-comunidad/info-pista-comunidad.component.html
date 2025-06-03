@@ -1,0 +1,51 @@
+<app-header></app-header>
+<div class="fondo">
+  <img
+    class="flecha-retorno"
+    src="assets/icon/FlechaRetorno.png"
+    (click)="volverAtras()" />
+</div>
+<ion-item>
+  <ion-label position="stacked">Seleccionar fecha</ion-label>
+  <ion-input
+    type="date"
+    [value]="fechaSeleccionada"
+    (ionInput)="cogerFecha($event)"
+  ></ion-input>
+</ion-item>
+<ion-content>
+  <ion-grid class="tabla">
+
+    <ion-row class="encabezado">
+      <ion-col class="celda columna">Horas</ion-col>
+      <ion-col class="celda pista-nombre">{{ pista?.deporte }}</ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="listaHorarios.length === 0">
+      <ion-col class="celda">
+        No hay pistas disponibles para este día
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let horario of listaHorarios" class="fila">
+      <ion-col class="celda columna">
+        {{ horario.horaInicio }} - {{ horario.horaFin }}
+      </ion-col>
+      <ion-col class="celda"
+               [ngClass]="getEstadoClase(horario.id)">
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <div class="colores">
+    <div class="color-div">
+      <div class="colores-item libre"></div><span>Libre</span>
+    </div>
+    <div class="color-div">
+      <div class="colores-item ocupado"></div><span>Ocupado</span>
+    </div>
+  </div>
+
+</ion-content>
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

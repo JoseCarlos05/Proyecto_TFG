@@ -1,0 +1,19 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+
+<ion-content>
+  <div class="gastos" *ngFor="let gasto of listaGastos">
+    <div class="gasto" (click)="navigateToGasto(gasto.id)">
+      <span>{{ gasto.concepto }}</span>
+      <div class="estado" [ngClass]="comprobarEstado(gasto)">
+        <span>{{ comprobarEstado(gasto) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="div-sin" *ngIf="listaGastos.length === 0">
+    <span>No hay gastos registrados en tu comunidad.</span>
+  </div>
+</ion-content>
+
+<app-footer-comunidad></app-footer-comunidad>

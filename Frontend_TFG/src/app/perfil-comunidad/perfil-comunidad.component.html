@@ -1,0 +1,116 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+
+<ion-content>
+
+  <ion-grid class="grid-principal">
+    <ion-row class="row-usuario">
+      <ion-col size="3">
+        <img [ngSrc]="getImageUrlVecino(vecinoFoto)" width="100" height="100" class="imagen-redondeada" alt="">
+      </ion-col>
+      <ion-col size="9">
+        <ion-grid>
+          <ion-row>
+            <span class="nombre-usuario" *ngIf="vecino">{{ vecino.nombre }} {{ vecino.apellidos }}</span>
+          </ion-row>
+          <ion-row>
+            <span class="info-usuario">{{ comprobarIdentidad() }}</span>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="interlineado">
+    {{ textoListadoVecino() }}
+  </div>
+
+  <ion-grid class="grid-principal">
+
+    <ion-row class="row-residente" *ngFor="let residente of residentes">
+      <ion-col size="3">
+        <img [ngSrc]="getImageUrlVecino(residente)" width="100" height="100" class="imagen-redondeada" alt="">
+      </ion-col>
+      <ion-col size="9">
+        <ion-grid>
+          <ion-row>
+            <span class="nombre-usuario">{{ residente.nombre }} {{ residente.apellidos }}</span>
+          </ion-row>
+          <ion-row>
+            <span class="info-usuario">{{ comprobarIdentidadResidente(residente) }}</span>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <div class="div-sin" *ngIf="residentes.length === 0">
+    <span>Actualmente no hay más vecinos en la vivienda.</span>
+  </div>
+
+  <div class="interlineado">{{ textoSanciones() }}</div>
+
+  <ion-grid class="grid-principal" *ngIf="sancionesVecino.length > 0">
+    <ion-row class="sancion" *ngFor="let sancion of sancionesVecino">
+      <div class="sancion-div">
+        <span>Sanción: </span>
+        <span>{{ sancion.sancion }}</span>
+      </div>
+      <div class="motivo-div">
+        <span>Motivo: </span>
+        <span>{{ sancion.motivo }}</span>
+      </div>
+    </ion-row>
+  </ion-grid>
+
+  <div class="div-sin" *ngIf="sancionesVecino.length === 0">
+    <span>No hay impuesta ningún tipo de sanción.</span>
+  </div>
+
+  <div class="interlineado">{{ textoDeudas() }}</div>
+
+  <div class="deudas">
+    <div (click)="irGasto(gasto.id)" *ngFor="let gasto of deudasVecino">
+      <span>{{ gasto.concepto }}</span>
+    </div>
+  </div>
+
+  <div class="div-sin" *ngIf="deudasVecino.length === 0">
+    <span>No hay deudas pendientes de tu vivienda.</span>
+  </div>
+
+  <div class="interlineado">Plaza de garaje</div>
+
+  <div class="plaza">
+    <ion-img class="icono-garaje" src="assets/icon/icono-garaje.png"></ion-img>
+    <span>53</span>
+  </div>
+
+</ion-content>
+
+<ion-toast
+  id="toastError"
+  message="Ocurrió un error al cargar los datos."
+  duration="3000"
+  position="top"
+  color="danger"
+></ion-toast>
+
+<ion-toast
+  id="toastSinDatos"
+  message="No se encontraron datos para mostrar."
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+
+<ion-toast
+  id="toastCargado"
+  message="Datos cargados correctamente."
+  duration="3000"
+  position="top"
+  color="success"
+></ion-toast>
+
+<app-footer-comunidad></app-footer-comunidad>

@@ -1,0 +1,50 @@
+<app-header></app-header>
+
+<ion-content>
+  <div class="textoMedio">
+    <p>Propiedades</p>
+  </div>
+  <ion-grid>
+    <ion-row style="margin-bottom: 50px; margin-left: 6px">
+      <ion-col size="5" class="tarjeta-verde" (click)="estaEnComunidad('GARAJE') && navigateToGaraje()">
+        <img
+          [src]="estaEnComunidad('GARAJE') ? 'assets/icon/propiedades/eliminar.png' : 'assets/icon/propiedades/añadir.png'"
+          class="delete"
+          (click)="accionPropiedad('GARAJE', 'Garaje'); $event.stopPropagation()"
+        />
+        <p class="card-title">Garaje</p>
+        <img src="assets/icon/propiedades/garaje.png" alt="Garaje" class="card-image" />
+      </ion-col>
+
+
+      <ion-col size="1"></ion-col>
+
+      <ion-col size="5" class="tarjeta-verde" (click)="estaEnComunidad('PISTA_DEPORTIVA') && navigateToPista()">
+        <img [src]="estaEnComunidad('PISTA_DEPORTIVA') ? 'assets/icon/propiedades/eliminar.png' : 'assets/icon/propiedades/añadir.png'" class="delete"
+             (click)="accionPropiedad('PISTA_DEPORTIVA', 'Pistas deportivas'); $event.stopPropagation()"/>
+        <p class="card-title">Pistas deportivas</p>
+        <img src="assets/icon/propiedades/futbol.png" alt="Futbol" class="card-image" />
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="margin-left: 6px">
+      <ion-col size="5" class="tarjeta-verde">
+        <img [src]="estaEnComunidad('ZONAS_COMUNES') ? 'assets/icon/propiedades/eliminar.png' : 'assets/icon/propiedades/añadir.png'" class="delete"
+             (click)="accionPropiedad('ZONAS_COMUNES', 'Sala común')"/>
+        <p class="card-title">Sala común</p>
+        <img src="assets/icon/propiedades/cafe.png" alt="Sala común" class="card-image" />
+      </ion-col>
+
+      <ion-col size="1"></ion-col>
+
+      <ion-col size="5" class="tarjeta-verde">
+        <img [src]="estaEnComunidad('PISCINA') ? 'assets/icon/propiedades/eliminar.png' : 'assets/icon/propiedades/añadir.png'" class="delete"
+             (click)="accionPropiedad('PISCINA', 'Piscina')"/>
+        <p class="card-title">Piscina</p>
+        <img src="assets/icon/propiedades/piscina.png" alt="Piscina" class="card-image" />
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

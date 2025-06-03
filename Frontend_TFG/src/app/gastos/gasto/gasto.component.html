@@ -1,0 +1,34 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+
+<ion-content>
+  <div class="contenedor-princial">
+    <div class="asunto-gasto">
+      <span>{{gasto.concepto}}</span>
+    </div>
+    <div class="info-gasto">
+      <div>
+        <span>Coste total: {{gasto.total}}€</span>
+      </div>
+      <div>
+        <span>Coste por vecino: {{totalPorVecino}}€</span>
+      </div>
+      <div>
+        <span style="padding-bottom: 5px">Pagado: {{porcentajePagado}}% / {{gasto.total}}€</span>
+        <ion-progress-bar [value]="porcentajePagado / 100" color="success" ></ion-progress-bar>
+      </div>
+
+
+    </div>
+
+    <div class="contenedor-boton">
+      <button
+        [disabled]="estaPagado(gasto)"
+        (click)="iniciarPago()">
+        {{ mensajeBotonPagar(gasto) }}
+      </button>
+    </div>
+  </div>
+</ion-content>
+
+<app-footer-comunidad></app-footer-comunidad>

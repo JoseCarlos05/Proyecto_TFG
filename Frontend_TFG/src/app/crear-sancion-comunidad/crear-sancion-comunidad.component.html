@@ -1,0 +1,37 @@
+<app-header></app-header>
+
+<ion-content>
+  <div class="titulo-container">
+    <h2 class="title">Crear sanción</h2>
+    <h3 class="subtitle">Describa la información que deseas mostrar en su sanción</h3>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Motivo</ion-text>
+    <ion-input
+      [(ngModel)]="crearSancion.motivo"
+      placeholder="Escribe el motivo de la sanción..."
+      type="text"
+    ></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Sanción</ion-text>
+    <ion-input
+      [(ngModel)]="crearSancion.sancion"
+      placeholder="Escribe cuál será la sanción..."
+      type="text"
+    ></ion-input>
+  </div>
+
+  <div class="input-container">
+    <ion-text>Vecino afectado</ion-text>
+    <ion-select [(ngModel)]="crearSancion.idVecino" placeholder="Selecciona un vecino">
+      <ion-select-option *ngFor="let vecino of vecinos" [value]="vecino.id">
+        {{ vecino.nombre }} {{ vecino.apellidos }}
+      </ion-select-option>
+    </ion-select>
+  </div>
+  <ion-button expand="block" (click)="crearSancionMetodo()">Crear</ion-button>
+</ion-content>
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

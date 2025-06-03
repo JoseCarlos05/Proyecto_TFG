@@ -1,0 +1,22 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+
+<ion-content>
+  <div class="textoMedio">
+    <p>Propiedades</p>
+  </div>
+  <div class="div-sin" *ngIf="propiedadesEnFilas.length === 0">
+    <span>No hay propiedades en tu comunidad.</span>
+  </div>
+  <ion-grid>
+    <ion-row *ngFor="let fila of propiedadesEnFilas" style="margin-bottom: 30px; margin-left: 6px; margin-right: 6px">
+      <ion-col size="5" class="tarjeta-verde" *ngFor="let propiedad of fila" (click)="navigateTo(propiedad)">
+        <p class="card-title">{{propiedad.nombre}}</p>
+        <img [src]="obtenerImagenPropiedad(propiedad.tipoPropiedad)" class="card-image" />
+      </ion-col>
+      <ion-col size="1" *ngIf="fila.length === 1"></ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+<app-footer-comunidad></app-footer-comunidad>

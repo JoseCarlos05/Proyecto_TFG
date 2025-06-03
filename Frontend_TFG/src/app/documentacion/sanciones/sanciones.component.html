@@ -1,0 +1,24 @@
+<ion-grid class="grid-principal">
+  <ion-row class="row-principal" *ngFor="let sancion of listaSanciones">
+    <div class="contenedor">
+      <div class="vecino-div">
+        <span>Vecino afectado → </span>
+        <span><u>{{ sancion?.nombreVecino }}</u></span>
+      </div>
+
+      <div class="sancion-div">
+        <span>Sanción: </span>
+        <span>{{ sancion.sancion }}</span>
+      </div>
+
+      <div class="motivo-div">
+        <span>Motivo: </span>
+        <span>{{ sancion.motivo }}</span>
+      </div>
+    </div>
+  </ion-row>
+</ion-grid>
+
+<div class="div-sin" *ngIf="listaSanciones.length === 0">
+  <span>No hay sanciones registrados en tu comunidad.</span>
+</div>

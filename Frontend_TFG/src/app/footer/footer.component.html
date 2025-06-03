@@ -1,0 +1,25 @@
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-img src="assets/icon/footer/perfil.png" class="perfil" (click)="navigateToPerfil()"></ion-img>
+        </ion-col>
+        <ion-col size="4">
+          <ion-img src="assets/icon/footer/casa.png" (click)="navigateToComunidades()" class="casa"></ion-img>
+        </ion-col>
+        <ion-col size="4">
+          <ion-img [id]="popoverId" src="assets/icon/footer/añadir.png" class="añadir"></ion-img>
+          <ion-popover [trigger]="popoverId" triggerAction="click" [dismissOnSelect]="true">
+            <ng-template>
+              <ion-list>
+                <ion-item button (click)="navigateToUnirseComunidad()">Unirse a una comunidad</ion-item>
+                <ion-item button (click)="navigateToCrearComunidad()">Crear una comunidad</ion-item>
+              </ion-list>
+            </ng-template>
+          </ion-popover>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

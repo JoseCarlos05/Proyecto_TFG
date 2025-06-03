@@ -1,0 +1,109 @@
+<app-header></app-header>
+
+<ion-img
+  class="flecha-retorno"
+  src="assets/icon/FlechaRetorno.png"
+  (click)="volverAtras()">
+</ion-img>
+
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="2">
+
+      </ion-col>
+      <ion-col size="8" style="margin-right: -35px">
+        <div class="vivienda">
+          <span *ngIf="vivienda">Vivienda: {{ vivienda.direccionPersonal }}</span>
+        </div>
+      </ion-col>
+      <ion-col size="2">
+        <ion-img src="assets/icon/perfiles/img.png" class="icono-boton editar-icono" (click)="editarNombreVivienda()"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="interlineado">
+    Residentes en la vivienda
+  </div>
+
+  <ion-grid class="grid-principal" *ngIf="residentes.length !== 0">
+
+    <ion-row class="row-residente" *ngFor="let residente of residentes">
+      <ion-col size="3">
+        <img [ngSrc]="getImageUrlVecino(residente)" width="100" height="100" class="imagen-redondeada" alt="Foto de perfil">
+      </ion-col>
+      <ion-col size="6">
+        <ion-grid>
+          <ion-row>
+            <span class="nombre-residente">{{ residente.nombre }} {{ residente.apellidos }}</span>
+          </ion-row>
+          <ion-row>
+            <span class="info-residente">{{ comprobarIdentidad(residente) }}</span>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+      <ion-col size="1.5" *ngIf="!propietario">
+        <ion-img (click)="confirmarAsignacion(residente)" src="assets/icon/icono-llave.png"></ion-img>
+      </ion-col>
+      <ion-col size="1.5">
+        <ion-img src="assets/icon/eliminar-residente.png" class="icono-pequeno" *ngIf="comprobarIdentidad(residente) === 'Residente' || comprobarIdentidad(residente) === 'Propietario de la vivienda'" (click)="confirmarEliminacion(residente)"></ion-img>
+      </ion-col>
+    </ion-row>
+
+    <ion-img src="assets/icon/anadir.png" (click)="generarCodigo()"></ion-img>
+
+  </ion-grid>
+
+  <div class="div-sin" *ngIf="residentes.length === 0">
+    <span>Actualmente no hay residentes en esta vivienda.</span>
+  </div>
+
+  <div class="interlineado">Sanciones</div>
+
+  <ion-grid class="grid-principal" *ngIf="sanciones.length > 0">
+    <ion-row class="sancion" *ngFor="let sancion of sanciones">
+      <div class="sancion-div">
+        <span>Sanción: </span>
+        <span>{{ sancion.sancion }}</span>
+      </div>
+      <div class="motivo-div">
+        <span>Motivo: </span>
+        <span>{{ sancion.motivo }}</span>
+      </div>
+    </ion-row>
+  </ion-grid>
+
+  <div class="div-sin" *ngIf="sanciones.length === 0">
+    <span>No hay sanciones.</span>
+  </div>
+  <div class="div-sin" *ngIf="!propietario">
+    <span>Vivienda aún sin propietario.</span>
+  </div>
+
+  <div class="interlineado">Deudas</div>
+
+  <div class="deudas">
+    <div *ngFor="let gasto of deudas">
+      <span>{{ gasto.concepto }}</span>
+    </div>
+  </div>
+
+  <div class="div-sin" *ngIf="deudas.length === 0">
+    <span>Sin deudas pendientes.</span>
+  </div>
+  <div class="div-sin" *ngIf="!propietario">
+    <span>Vivienda aún sin propietario.</span>
+  </div>
+
+  <div class="interlineado">Plaza de garaje</div>
+
+  <div class="plaza">
+    <ion-img class="icono-garaje" src="assets/icon/icono-garaje.png"></ion-img>
+    <span>53</span>
+  </div>
+
+</ion-content>
+
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>
