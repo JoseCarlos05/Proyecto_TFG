@@ -72,9 +72,15 @@ export class OlvidarContrasenaComponent {
       return;
     }
 
-
     if (this.nuevaContrasena.length < 6) {
       const toast = document.getElementById("errorContrasena") as any;
+      toast.present();
+      return;
+    }
+
+    const codigoValido = await this.authService.verificarCodigo(this.email.trim(), this.codigo.trim()).toPromise();
+    if (!codigoValido) {
+      const toast = document.getElementById("errorCodigo") as any;
       toast.present();
       return;
     }
@@ -92,12 +98,12 @@ export class OlvidarContrasenaComponent {
           this.codigo = '';
           this.nuevaContrasena = '';
           this.pasoCodigoEnviado = false;
+          this.route.navigate(['/inicio-sesion']);
         },
         error: async (err) => {
           await loading.dismiss();
           const toast = document.getElementById("error") as any;
           toast.present();
-          this.route.navigate(['/inicio-sesion']);
         }
       });
   }
