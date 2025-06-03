@@ -15,9 +15,6 @@ import {AnadirPistaComponent} from "./anadir-pista/anadir-pista.component";
     styleUrls: ['./ver-pistas.component.scss'],
     standalone: true,
   imports: [
-    AnadirGastoComponent,
-    DeudoresComponent,
-    GastosComponent,
     HeaderComponent,
     IonicModule,
     MenuInferiorComunidadComponent,

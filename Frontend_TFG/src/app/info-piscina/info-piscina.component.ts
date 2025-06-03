@@ -25,7 +25,6 @@ import {Vivienda} from "../modelos/Vivienda";
   standalone: true,
   imports: [
     IonicModule,
-    NgIf,
     HeaderComponent,
     FooterComunidadComponent,
     NgOptimizedImage

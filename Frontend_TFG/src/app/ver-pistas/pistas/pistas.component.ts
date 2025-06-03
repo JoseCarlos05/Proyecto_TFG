@@ -22,8 +22,6 @@ import {filter} from "rxjs";
   styleUrls: ['./pistas.component.scss'],
   standalone: true,
   imports: [
-    HeaderComponent,
-    MenuInferiorComunidadComponent,
     IonicModule,
     NgForOf
   ]
