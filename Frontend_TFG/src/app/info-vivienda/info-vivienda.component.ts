@@ -139,7 +139,7 @@ export class InfoViviendaComponent implements OnInit {
       this.gastoService.listarGastosComunidad(this.comunidad.id).subscribe({
         next: data => {
           for (const gasto of data) {
-            if (this.propietario && !gasto.pagados.includes(this.propietario.id)) {
+            if (this.propietario && !gasto.pagados.includes(this.propietario.id) && gasto.pendientes.includes(this.propietario.id)) {
               this.deudas.push(gasto)
             }
           }

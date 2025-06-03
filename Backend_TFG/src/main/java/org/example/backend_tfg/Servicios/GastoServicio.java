@@ -143,10 +143,14 @@ public class GastoServicio {
     public List<VecinoGastosDTO> listarDeudoresIdComunidad(Integer idComunidad) {
         List<VecinoGastosDTO> listaDeudores = new ArrayList<>();
 
-        List<Gasto> gastos = iGastoRepositorio.findByComunidad_Id(idComunidad);
+        List<VecinoUsuarioDTO> vecinos = vecinoServicio.listarVecinosIdComunidad(idComunidad);
 
-        for (Gasto gasto : gastos) {
-            for (Vecino vecino : gasto.getVecinosPendientes()) {
+        for (VecinoUsuarioDTO v : vecinos) {
+
+            Vecino vecino = iVecinoRepositorio.findById(v.getId())
+                    .orElseThrow(() -> new RuntimeException("No existe un vecino con este ID."));
+
+            if (!vecino.getGastosPendientes().isEmpty()) {
 
                 Set<GastoDTO> gastosPagados = new HashSet<>(0);
                 for (Gasto g : vecino.getGastosPagados()) {
