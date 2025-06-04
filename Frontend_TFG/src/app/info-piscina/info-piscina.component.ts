@@ -1,16 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {NgIf, NgOptimizedImage} from "@angular/common";
+import {NgOptimizedImage} from "@angular/common";
 import {HeaderComponent} from "../header/header.component";
 import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.component";
 import {Comunidad} from "../modelos/Comunidad";
 import {Usuario} from "../modelos/Usuario";
 import {Vecino} from "../modelos/Vecino";
-import {ActivatedRoute, Router} from "@angular/router";
-import {GastosService} from "../servicios/gastos.service";
 import {UsuarioService} from "../servicios/usuario.service";
 import {VecinoService} from "../servicios/vecino.service";
-import {PropiedadService} from "../servicios/propiedad.service";
 import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
 import {environment} from "../../environments/environment";
