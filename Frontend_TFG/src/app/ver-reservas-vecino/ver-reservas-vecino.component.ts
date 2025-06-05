@@ -99,8 +99,8 @@ export class VerReservasVecinoComponent  implements OnInit {
   }
 
   listarPistas() {
-    if (this.comunidadObjeto?.id)
-      this.pistaService.listarPistasIdVecino(this.vecino.id).subscribe({
+    if (this.comunidadObjeto.id)
+      this.pistaService.listarPistasIdVecino(this.vecino.id, this.comunidadObjeto.id).subscribe({
         next: data => {
           this.listaPista = data
         }

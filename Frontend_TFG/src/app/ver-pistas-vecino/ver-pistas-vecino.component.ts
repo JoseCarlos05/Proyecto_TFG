@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Comunidad} from "../modelos/Comunidad";
 import {Gasto} from "../modelos/Gasto";
 import {Usuario} from "../modelos/Usuario";
@@ -24,13 +24,14 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
     templateUrl: './ver-pistas-vecino.component.html',
     styleUrls: ['./ver-pistas-vecino.component.scss'],
     standalone: true,
-  imports: [
-    IonicModule,
-    NgForOf,
-    HeaderComponent,
-    HeaderComunidadComponent,
-    FooterComunidadComponent
-  ]
+    imports: [
+        IonicModule,
+        NgForOf,
+        HeaderComponent,
+        HeaderComunidadComponent,
+        FooterComunidadComponent,
+        NgIf
+    ]
 })
 export class VerPistasVecinoComponent  implements OnInit {
   comunidadObjeto!: Comunidad

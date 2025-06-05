@@ -13,7 +13,7 @@ import {Pista} from "../../modelos/Pista";
 import {HeaderComponent} from "../../header/header.component";
 import {MenuInferiorComunidadComponent} from "../../menu-inferior-comunidad/menu-inferior-comunidad.component";
 import {IonicModule} from "@ionic/angular";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {filter} from "rxjs";
 
 @Component({
@@ -21,10 +21,11 @@ import {filter} from "rxjs";
   templateUrl: './pistas.component.html',
   styleUrls: ['./pistas.component.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    NgForOf
-  ]
+    imports: [
+        IonicModule,
+        NgForOf,
+        NgIf
+    ]
 })
 export class PistasComponent  implements OnInit {
   correo?: string;
