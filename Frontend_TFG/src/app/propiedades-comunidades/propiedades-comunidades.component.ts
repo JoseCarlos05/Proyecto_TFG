@@ -158,4 +158,8 @@ export class PropiedadesComunidadesComponent  implements OnInit {
     this.router.navigate(["/ver-pistas"])
   }
 
+  navigateToClub(){
+    this.router.navigate(["/club-social-comunidad"])
+  }
+
 }

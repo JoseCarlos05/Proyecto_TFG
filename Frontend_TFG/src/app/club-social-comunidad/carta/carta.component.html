@@ -1,0 +1,82 @@
+<div class="ion-padding">
+
+  <ion-card class="carta-preview" (click)="abrirCartaCompleta()">
+    <ion-card-header>
+      <ion-card-title class="titulo-preview">Carta</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="carta-horizontal">
+        <ion-chip *ngFor="let carta of listaElementos" outline>
+          <ion-label>
+            <strong>{{ carta.nombre }}</strong>
+          </ion-label>
+        </ion-chip>
+      </div>
+      <ion-note class="ion-text-center">Pulsa para ver la carta completa</ion-note>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card style="background-color: #d0f5d0;">
+    <ion-card-header>
+      <ion-card-title>Añadir nuevo elemento</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content >
+      <ion-item >
+        <ion-label style="color: black; margin-bottom: 2px" position="stacked">Nombre</ion-label>
+        <ion-input [(ngModel)]="anadirElemento.nombre" name="nombre" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="color: black; margin-bottom: 2px" position="stacked">Descripción</ion-label>
+        <ion-textarea
+          [(ngModel)]="anadirElemento.descripcion"
+          name="descripcion">
+        </ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="color: black; margin-bottom: 2px" position="stacked">Precio</ion-label>
+        <ion-textarea
+          [(ngModel)]="anadirElemento.precio"
+          name="precio">
+        </ion-textarea>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <div style="text-align: center">
+    <ion-button (click)="anadirElementoMetodo()" type="submit" class="ion-margin-top guardar-boton">Añadir</ion-button>
+  </div>
+  <ion-modal [isOpen]="cartaAbierta" (didDismiss)="cartaAbierta = false">
+    <ng-template>
+      <ion-header >
+        <ion-toolbar class="fondo">
+          <ion-title class="blanco">Carta completa</ion-title>
+          <ion-buttons slot="end">
+            <ion-button class="blanco" (click)="cerrarCartaCompleta()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+          <ion-item *ngFor="let carta of listaElementos" class="circular">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="5"><h4>Plato</h4></ion-col>
+                <ion-col size="4"></ion-col>
+                <ion-col size="3"><h4>Precio</h4></ion-col>
+              </ion-row>
+              <ion-row class="descripcion">
+                <ion-col size="5"><h4>{{ carta.nombre }}</h4></ion-col>
+                <ion-col size="4"></ion-col>
+                <ion-col size="3"><p>{{ carta.precio }} €</p></ion-col>
+              </ion-row>
+              <ion-row class="descripcion"><p>{{ carta.descripcion }}</p></ion-row>
+            </ion-grid>
+          </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</div>

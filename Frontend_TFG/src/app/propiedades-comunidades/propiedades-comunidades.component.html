@@ -28,10 +28,10 @@
     </ion-row>
 
     <ion-row style="margin-left: 6px">
-      <ion-col size="5" class="tarjeta-verde">
+      <ion-col size="5" class="tarjeta-verde" (click)="estaEnComunidad('ZONAS_COMUNES') && navigateToClub()">
         <img [src]="estaEnComunidad('ZONAS_COMUNES') ? 'assets/icon/propiedades/eliminar.png' : 'assets/icon/propiedades/añadir.png'" class="delete"
-             (click)="accionPropiedad('ZONAS_COMUNES', 'Sala común')"/>
-        <p class="card-title">Sala común</p>
+             (click)="accionPropiedad('ZONAS_COMUNES', 'Club social')"/>
+        <p class="card-title">Club social</p>
         <img src="assets/icon/propiedades/cafe.png" alt="Sala común" class="card-image" />
       </ion-col>
 
