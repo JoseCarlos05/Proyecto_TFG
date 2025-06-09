@@ -3,7 +3,7 @@ import {Usuario} from "../../modelos/Usuario";
 import {Comunidad} from "../../modelos/Comunidad";
 import {Gasto} from "../../modelos/Gasto";
 import {ComunidadService} from "../../servicios/comunidad.service";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import {UsuarioService} from "../../servicios/usuario.service";
 import {GastosService} from "../../servicios/gastos.service";
 import {jwtDecode} from "jwt-decode";
@@ -13,19 +13,19 @@ import {Pista} from "../../modelos/Pista";
 import {HeaderComponent} from "../../header/header.component";
 import {MenuInferiorComunidadComponent} from "../../menu-inferior-comunidad/menu-inferior-comunidad.component";
 import {IonicModule} from "@ionic/angular";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
+import {filter} from "rxjs";
 
 @Component({
   selector: 'app-pistas',
   templateUrl: './pistas.component.html',
   styleUrls: ['./pistas.component.scss'],
   standalone: true,
-  imports: [
-    HeaderComponent,
-    MenuInferiorComunidadComponent,
-    IonicModule,
-    NgForOf
-  ]
+    imports: [
+        IonicModule,
+        NgForOf,
+        NgIf
+    ]
 })
 export class PistasComponent  implements OnInit {
   correo?: string;
@@ -35,9 +35,21 @@ export class PistasComponent  implements OnInit {
   constructor(private comunidadService: ComunidadService,
               private router: Router,
               private usuarioService: UsuarioService,
-              private pistaService: PistaService) { }
+              private pistaService: PistaService) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (event.urlAfterRedirects === '/ver-pistas') {
+          this.inicio()
+        }
+      });
+  }
 
   ngOnInit() {
+    this.inicio()
+  }
+
+  inicio() {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
@@ -52,7 +64,8 @@ export class PistasComponent  implements OnInit {
       }
     } else {
       this.router.navigate(['/']);
-    }}
+    }
+  }
 
   cargarUsuario(correo: string): void {
     this.usuarioService.cargarUsuarioComunidad(correo).subscribe({

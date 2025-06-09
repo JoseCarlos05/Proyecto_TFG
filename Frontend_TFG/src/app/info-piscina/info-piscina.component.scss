@@ -10,14 +10,20 @@ ion-content {
 
 .tarjeta-escena {
   perspective: 1000px;
-  width: 70vh;
-  height: 90vw;
   position: absolute;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  transform: rotate(90deg);
   transform-origin: center;
+  width: 80vw;
+  height: 80vh;
+  margin-top: 50px;
+  @media screen and (orientation: portrait) {
+    transform: rotate(90deg) scale(1);
+    width: 70vh;
+    height: 90vw;
+    margin-top: 0;
+  }
 }
 
 .tarjeta {

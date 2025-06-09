@@ -30,7 +30,6 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
     NgForOf,
     HeaderComponent,
     IonicModule,
-    MenuInferiorComunidadComponent,
     FooterComunidadComponent,
     NgIf
   ]

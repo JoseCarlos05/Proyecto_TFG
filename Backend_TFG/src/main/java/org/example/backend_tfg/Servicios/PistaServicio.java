@@ -56,6 +56,7 @@ public class PistaServicio {
                 horario.setHoraFin(hDto.getHoraFin());
                 horario.setDia(dia);
                 horario.setReservado(false);
+                horario.setNotificado(false);
                 horario.setPista(pista);
                 horarios.add(horario);
             }
@@ -77,7 +78,7 @@ public class PistaServicio {
         return pistaDTOS;
     }
 
-    public List<PistaHorarioDTO> listarPistasIdVecino(Integer idVecino) {
+    public List<PistaHorarioDTO> listarPistasIdVecino(Integer idVecino, Integer idComunidad) {
         List<Horario> horarios = iHorarioRepositorio.findByVecino_Id(idVecino);
         List<Pista> pistas = new ArrayList<>();
         List<PistaHorarioDTO> pistaDTOS = new ArrayList<>();
@@ -89,23 +90,24 @@ public class PistaServicio {
             }
         }
         for (Pista pista : pistas) {
-            List<HorarioCompletoDTO> horarioDTOS = new ArrayList<>();
+            if (pista.getComunidad().getId().equals(idComunidad)) {
+                List<HorarioCompletoDTO> horarioDTOS = new ArrayList<>();
 
-            PistaHorarioDTO pistaDTO = getPistaHorarioDTO(pista);
+                PistaHorarioDTO pistaDTO = getPistaHorarioDTO(pista);
 
-            for (Horario horario : horarios) {
-                if (horario.getPista().equals(pista)) {
-                    horarioDTOS.add(getHorarioDTO(horario));
+                for (Horario horario : horarios) {
+                    if (horario.getPista().equals(pista)) {
+                        horarioDTOS.add(getHorarioDTO(horario));
+                    }
                 }
-            }
 
-            pistaDTO.setHorarios(horarioDTOS);
-            pistaDTOS.add(pistaDTO);
+                pistaDTO.setHorarios(horarioDTOS);
+                pistaDTOS.add(pistaDTO);
+            }
         }
 
         return pistaDTOS;
     }
-
 
     public void reservarPista(Integer idHorario, Integer idVecino){
         Horario horario = iHorarioRepositorio.findById(idHorario)
@@ -129,6 +131,21 @@ public class PistaServicio {
         }
 
         return horarioCompletos;
+    }
+
+    public boolean comprobarProximasReservas(Integer idVecino, Integer idComunidad) {
+        for (PistaHorarioDTO pista : listarPistasIdVecino(idVecino, idComunidad)) {
+            for (HorarioCompletoDTO horario : pista.getHorarios()) {
+                if (horario.getDia().isEqual(LocalDate.now()) && !horario.isNotificado()) {
+                    Horario h = iHorarioRepositorio.findById(horario.getId())
+                            .orElseThrow(() -> new RuntimeException("No existe un horario con este ID"));
+                    h.setNotificado(true);
+                    iHorarioRepositorio.save(h);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static PistaDTO getPistaDTO(Pista p) {
@@ -155,6 +172,7 @@ public class PistaServicio {
         dto.setHoraInicio(h.getHoraInicio());
         dto.setHoraFin(h.getHoraFin());
         dto.setReservado(h.isReservado());
+        dto.setNotificado(h.isNotificado());
         dto.setDia(h.getDia());
         if (h.getPista() != null){
             dto.setIdPista(h.getPista().getId());

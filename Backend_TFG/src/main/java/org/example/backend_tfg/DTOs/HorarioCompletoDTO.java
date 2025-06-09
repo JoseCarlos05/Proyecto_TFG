@@ -17,4 +17,5 @@ public class HorarioCompletoDTO {
     private boolean reservado;
     private Integer idPista;
     private Integer idVecino;
+    private boolean notificado;
 }

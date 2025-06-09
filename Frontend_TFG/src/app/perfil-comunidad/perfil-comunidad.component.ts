@@ -199,7 +199,7 @@ export class PerfilComunidadComponent  implements OnInit {
     this.gastosService.listarGastos(this.comunidad.id).subscribe({
       next: data => {
         for (const gasto of data) {
-          if (this.propietario && !gasto.pagados.includes(idPropietario)) {
+          if (this.propietario && !gasto.pagados.includes(idPropietario) && gasto.pendientes.includes(this.propietario.id)) {
             this.deudasVecino.push(gasto)
           }
         }

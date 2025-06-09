@@ -8,13 +8,9 @@
     <ion-segment-button value="sanciones">
       <ion-label>Sanciones</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="archivos">
-      <ion-label>Archivos</ion-label>
-    </ion-segment-button>
   </ion-segment>
   <app-comunicados *ngIf="seccion === 'comunicados'"></app-comunicados>
   <app-sanciones *ngIf="seccion === 'sanciones'"></app-sanciones>
-  <app-archivos *ngIf="seccion === 'archivos'"></app-archivos>
 </ion-content>
 
 <app-menu-inferior-comunidad></app-menu-inferior-comunidad>

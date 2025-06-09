@@ -4,7 +4,7 @@ import {CommonModule} from "@angular/common";
 import {Router} from "@angular/router";
 import {FooterComponent} from "../footer/footer.component";
 import {HeaderComponent} from "../header/header.component";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
 import {UsuarioService} from "../servicios/usuario.service";
 import {Usuario} from "../modelos/Usuario";
@@ -15,6 +15,8 @@ import {Comunidad} from "../modelos/Comunidad";
 import {ViviendaService} from "../servicios/vivienda.service";
 import {Vivienda} from "../modelos/Vivienda";
 import {Observable} from "rxjs";
+import {TipoNotificacion} from "../modelos/Notificacion";
+import {PistaService} from "../servicios/pista.service";
 
 @Component({
   selector: 'app-comunidades',
@@ -39,7 +41,8 @@ export class ComunidadesComponent implements OnInit {
               private comunidadService: ComunidadService,
               private viviendaService: ViviendaService,
               private alertController: AlertController,
-              private toastController: ToastController) { }
+              private toastController: ToastController,
+              private pistaService: PistaService) { }
 
   ngOnInit() {
     this.inicio()
@@ -116,9 +119,23 @@ export class ComunidadesComponent implements OnInit {
   }
 
   navigateToComunidad(comunidad: Comunidad) {
-    if (comunidad?.id) {
-      sessionStorage.setItem('comunidad', JSON.stringify(comunidad));
-      this.router.navigate(['/comunidad/elecciones']);
+    if (comunidad?.id && this.vecino.id) {
+      const ids: number[] = [this.vecino.id]
+      this.pistaService.comprobarReservas(this.vecino.id, comunidad.id).subscribe({
+        next: data => {
+          if (data) {
+            this.comunidadService.enviarNotificacionVecino(ids, comunidad.id, TipoNotificacion.RESERVA).subscribe({
+              next: () => {
+                sessionStorage.setItem('comunidad', JSON.stringify(comunidad));
+                this.router.navigate(['/comunidad/perfil']);
+              }
+            })
+          } else {
+            sessionStorage.setItem('comunidad', JSON.stringify(comunidad));
+            this.router.navigate(['/comunidad/perfil']);
+          }
+        }
+      })
     }
   }
 

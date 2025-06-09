@@ -6,12 +6,15 @@
 </div>
 
 <ion-content>
-<ion-grid>
-  <ion-row *ngFor="let pista of listaPista" class="pista-row" (click)="navigateToInfoPista(pista.id)">
-    <span class="texto-col">
-      {{ pista.deporte }}
-    </span>
-  </ion-row>
-</ion-grid>
+  <ion-grid>
+    <ion-row *ngFor="let pista of listaPista" class="pista-row" (click)="navigateToInfoPista(pista.id)">
+      <span class="texto-col">
+        {{ pista.deporte }}
+      </span>
+    </ion-row>
+  </ion-grid>
+  <div class="div-sin" *ngIf="listaPista.length === 0">
+    <span>Actualmente no hay pistas deportivas registradas.</span>
+  </div>
 </ion-content>
 <app-footer-comunidad></app-footer-comunidad>

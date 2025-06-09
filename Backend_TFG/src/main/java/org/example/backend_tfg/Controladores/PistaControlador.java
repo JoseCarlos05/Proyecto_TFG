@@ -58,9 +58,14 @@ public class PistaControlador {
         pistaServicio.reservarPista(idHorario, idVecino);
     }
 
-    @GetMapping("/vecino/listar/pistas/vecino/{idVecino}")
-    public List<PistaHorarioDTO> listarPistasIdVecino(@PathVariable Integer idVecino){
-        return pistaServicio.listarPistasIdVecino(idVecino);
+    @GetMapping("/vecino/listar/pistas/vecino/{idVecino}/{idComunidad}")
+    public List<PistaHorarioDTO> listarPistasIdVecino(@PathVariable Integer idVecino, @PathVariable Integer idComunidad){
+        return pistaServicio.listarPistasIdVecino(idVecino, idComunidad);
+    }
+
+    @GetMapping("/vecino/comprobar/reservas/{idVecino}/{idComunidad}")
+    public boolean comprobarReservasPista(@PathVariable Integer idVecino, @PathVariable Integer idComunidad){
+        return pistaServicio.comprobarProximasReservas(idVecino, idComunidad);
     }
 
 }

@@ -41,15 +41,18 @@ export class VerReservasVecinoComponent  implements OnInit {
   listaPista: PistaHorario[] = []
 
   constructor(private router: Router,
-              private gastosService: GastosService,
-              private activateRoute: ActivatedRoute,
-              private viviendaService: ViviendaService,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
               private pistaService: PistaService) {
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.inicio()
+  }
+
+  inicio() {
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
@@ -68,7 +71,6 @@ export class VerReservasVecinoComponent  implements OnInit {
         console.error('Error al decodificar el token:', e);
       }
     }
-
   }
 
   cargarUsuario(correo: string): void {
@@ -97,8 +99,8 @@ export class VerReservasVecinoComponent  implements OnInit {
   }
 
   listarPistas() {
-    if (this.comunidadObjeto?.id)
-      this.pistaService.listarPistasIdVecino(this.vecino.id).subscribe({
+    if (this.comunidadObjeto.id)
+      this.pistaService.listarPistasIdVecino(this.vecino.id, this.comunidadObjeto.id).subscribe({
         next: data => {
           this.listaPista = data
         }

@@ -30,8 +30,6 @@ import {TipoNotificacion} from "../modelos/Notificacion";
     IonicModule,
     FormsModule,
     HeaderComponent,
-    HeaderComunidadComponent,
-    FooterComunidadComponent,
     QuillModule,
     MenuInferiorComunidadComponent,
     CommonModule,
