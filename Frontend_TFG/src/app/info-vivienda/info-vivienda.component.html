@@ -28,7 +28,11 @@
     Residentes en la vivienda
   </div>
 
-  <ion-grid class="grid-principal" *ngIf="residentes.length !== 0">
+  <div class="div-sin" *ngIf="residentes.length === 0">
+    <span>Actualmente no hay residentes en esta vivienda.</span>
+  </div>
+
+  <ion-grid class="grid-principal">
 
     <ion-row class="row-residente" *ngFor="let residente of residentes">
       <ion-col size="3">
@@ -55,10 +59,6 @@
     <ion-img src="assets/icon/anadir.png" (click)="generarCodigo()"></ion-img>
 
   </ion-grid>
-
-  <div class="div-sin" *ngIf="residentes.length === 0">
-    <span>Actualmente no hay residentes en esta vivienda.</span>
-  </div>
 
   <div class="interlineado">Sanciones</div>
 
