@@ -193,5 +193,9 @@ export const routes: Routes = [
   {
     path: 'club-social',
     loadComponent: () => import('./club-social/club-social.component').then((m) => m.ClubSocialComponent)
-  }
+  },
+  {
+    path: 'ver-reservas-club',
+    loadComponent: () => import('./ver-resevas-club/ver-resevas-club.component').then((m) => m.VerResevasClubComponent)
+  },
 ];

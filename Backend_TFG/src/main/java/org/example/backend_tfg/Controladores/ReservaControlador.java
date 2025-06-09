@@ -21,9 +21,9 @@ public class ReservaControlador {
         reservaServicio.reservar(dto);
     }
 
-    @GetMapping("/vecino/listar/reserva/club/{idVecino}")
-    public List<ReservaDTO> listarReserva(@PathVariable Integer idVecino){
-        return reservaServicio.misReservas(idVecino);
+    @GetMapping("/vecino/listar/reserva/club/{idVecino}/{idComunidad}")
+    public List<ReservaDTO> listarReserva(@PathVariable Integer idVecino, @PathVariable Integer idComunidad){
+        return reservaServicio.misReservas(idVecino, idComunidad);
     }
 
     @GetMapping("/comunidad/listar/reserva/club/{idComunidad}")

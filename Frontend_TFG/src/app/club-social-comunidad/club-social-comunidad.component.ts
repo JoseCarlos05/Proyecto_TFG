@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {ArchivosComponent} from "../documentacion-comunidad/archivos/archivos.component";
 import {ComunicadosComponent} from "../documentacion-comunidad/comunicados/comunicados.component";
 import {HeaderComponent} from "../header/header.component";
 import {IonicModule} from "@ionic/angular";
@@ -16,7 +15,6 @@ import {ReservasComponent} from "./reservas/reservas.component";
     styleUrls: ['./club-social-comunidad.component.scss'],
     standalone: true,
   imports: [
-    ArchivosComponent,
     ComunicadosComponent,
     HeaderComponent,
     IonicModule,

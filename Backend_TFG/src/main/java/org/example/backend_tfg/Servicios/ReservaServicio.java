@@ -42,8 +42,8 @@ public class ReservaServicio {
         iReservaRepositorio.save(reserva);
     }
 
-    public List<ReservaDTO> misReservas(Integer idVecino){
-        List<Reserva> reservas = iReservaRepositorio.findByVecino_Id(idVecino);
+    public List<ReservaDTO> misReservas(Integer idVecino, Integer idComunidad){
+        List<Reserva> reservas = iReservaRepositorio.findByVecino_IdAndComunidad_Id(idVecino, idComunidad);
         List<ReservaDTO> reservaDTOS = new ArrayList<>();
         for (Reserva reserva: reservas){
             reservaDTOS.add(getReservaDTO(reserva));

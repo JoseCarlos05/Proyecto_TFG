@@ -15,6 +15,7 @@ import {ReservaService} from "../../servicios/reserva.service";
 import {CrearEleccion} from "../../modelos/CrearEleccion";
 import {Reserva} from "../../modelos/Reserva";
 import {TipoNotificacion} from "../../modelos/Notificacion";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-reserva-vecino',
@@ -47,7 +48,8 @@ export class ReservaVecinoComponent  implements OnInit {
   constructor(private sancionService: SancionService,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
-              private reservaService: ReservaService) { }
+              private reservaService: ReservaService,
+              private router: Router) { }
 
   ngOnInit() {
     const comunidad = sessionStorage.getItem('comunidad');
@@ -142,4 +144,7 @@ export class ReservaVecinoComponent  implements OnInit {
     }
   }
 
+  misReservas(): void {
+    this.router.navigate(['/ver-reservas-club']);
+  }
 }

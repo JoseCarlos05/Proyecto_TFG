@@ -15,9 +15,9 @@ export class ReservaService {
 
   constructor(private http: HttpClient, private comunService: ComunService) { }
 
-  listarReserva(idVecino: number): Observable<Reserva[]> {
+  listarReserva(idVecino: number, idComunidad: number): Observable<Reserva[]> {
     const options = this.comunService.autorizarPeticion();
-    return this.http.get<Reserva[]>(`${this.apiUrl}/vecino/listar/reserva/club/${idVecino}`, options)
+    return this.http.get<Reserva[]>(`${this.apiUrl}/vecino/listar/reserva/club/${idVecino}/${idComunidad}`, options)
   }
 
   reservarClub(reservar: Reserva): Observable<any> {
