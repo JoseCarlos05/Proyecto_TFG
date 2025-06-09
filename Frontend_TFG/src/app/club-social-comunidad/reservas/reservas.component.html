@@ -1,3 +1,16 @@
-<p>
-  reservas works!
-</p>
+  <div class="textoMedio">
+    <ion-label>Reservas</ion-label>
+  </div>
+  <ion-grid>
+    <ion-row *ngFor="let reserva of listaReserva" class="pista-row">
+      <ion-col>
+        {{ obtenerNombreVecino(reserva.idVecino) }}, {{ reserva.numeroPersonas }} personas
+      </ion-col>
+      <ion-col>
+        Día y hora: {{ reserva.fechaHora | date:'dd/MM/yyyy HH:mm' }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="div-sin" *ngIf="listaReserva.length === 0">
+    <span>No tienes hay ninguna reserva hecha.</span>
+  </div>
