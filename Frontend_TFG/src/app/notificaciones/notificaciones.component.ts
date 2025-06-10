@@ -98,12 +98,12 @@ export class NotificacionesComponent  implements OnInit {
   }
 
   cargarNotificaciones() {
-    this.notificaciones = []
+    this.notificaciones = [];
     this.vecinoService.verNotificaciones(this.vecino.id, this.comunidad.id).subscribe({
       next: data => {
-        this.notificaciones = data
+        this.notificaciones = data.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
       }
-    })
+    });
   }
 
   getImageUrlVecino(vecino: Vecino): string {

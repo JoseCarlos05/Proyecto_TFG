@@ -117,10 +117,9 @@ export class InfoGastoComponent  implements OnInit {
           this.gasto = data;
           sessionStorage.setItem('gasto', JSON.stringify(this.gasto));
           if (this.numeroPropietarios > 0) {
-            this.totalPorVecino = this.gasto.total / (this.gasto.pagados.length + this.gasto.pendientes.length);
+            this.totalPorVecino = Number((this.gasto.total / (this.gasto.pagados.length + this.gasto.pendientes.length)).toFixed(2));
           }
           this.listarDeudores()
-
         }
       });
   }

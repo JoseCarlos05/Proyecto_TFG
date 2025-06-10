@@ -99,12 +99,20 @@ export class VerReservasVecinoComponent  implements OnInit {
   }
 
   listarPistas() {
-    if (this.comunidadObjeto.id)
+    if (this.comunidadObjeto.id) {
       this.pistaService.listarPistasIdVecino(this.vecino.id, this.comunidadObjeto.id).subscribe({
         next: data => {
-          this.listaPista = data
+          this.listaPista = data.map(pista => ({
+            ...pista,
+            horarios: pista.horarios.sort((a, b) => {
+              const fechaA = new Date(`${a.dia}T${a.horaInicio}`);
+              const fechaB = new Date(`${b.dia}T${b.horaInicio}`);
+              return fechaA.getTime() - fechaB.getTime();
+            })
+          }));
         }
-      })
+      });
+    }
   }
 
   volverAtras(): void {

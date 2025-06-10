@@ -26,7 +26,8 @@ import {MenuInferiorComunidadComponent} from "../menu-inferior-comunidad/menu-in
     HeaderComponent,
     IonicModule,
     NgForOf,
-    MenuInferiorComunidadComponent
+    MenuInferiorComunidadComponent,
+    NgIf
   ]
 })
 export class ListaViviendasComponent implements OnInit {

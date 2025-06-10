@@ -41,6 +41,8 @@ export class CartaVecinoComponent  implements OnInit {
               private elemetoCartaService: ElementoCartaService) { }
 
   ngOnInit() {
+    this.cartaAbierta = false;
+
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
@@ -83,7 +85,6 @@ export class CartaVecinoComponent  implements OnInit {
           this.vecino = data
           this.listarElememtoMetodo()
           this.verCarta()
-
         }
       })
     }
@@ -108,7 +109,6 @@ export class CartaVecinoComponent  implements OnInit {
       });
     }
   }
-
 
   abrirCartaCompleta() {
     this.cartaAbierta = true;

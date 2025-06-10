@@ -63,6 +63,8 @@ export class CartaComponent implements OnInit{
   }
 
   inicio() {
+    this.cartaAbierta = false;
+
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
@@ -78,7 +80,6 @@ export class CartaComponent implements OnInit{
     } else {
       this.router.navigate(['/']);
     }
-
   }
 
   cargarUsuario(correo: string): void {
@@ -155,8 +156,6 @@ export class CartaComponent implements OnInit{
       }
     });
   }
-
-
 
   abrirCartaCompleta() {
     this.cartaAbierta = true;

@@ -98,12 +98,15 @@ export class VerResevasClubComponent  implements OnInit {
   }
 
   listarReserva() {
-    if (this.comunidadObjeto?.id)
+    if (this.comunidadObjeto?.id) {
       this.reservaService.listarReserva(this.vecino.id, this.comunidadObjeto.id).subscribe({
         next: data => {
-          this.listaReserva = data
+          this.listaReserva = data.sort((a, b) => {
+            return new Date(b.fechaHora).getTime() - new Date(a.fechaHora).getTime();
+          });
         }
-      })
+      });
+    }
   }
 
   volverAtras(): void {

@@ -10,6 +10,7 @@ import {FormsModule} from "@angular/forms";
 import {CartaVecinoComponent} from "./carta-vecino/carta-vecino.component";
 import {VerReservasVecinoComponent} from "../ver-reservas-vecino/ver-reservas-vecino.component";
 import {ReservaVecinoComponent} from "./reserva-vecino/reserva-vecino.component";
+import {HeaderComunidadComponent} from "../header-comunidad/header-comunidad.component";
 
 @Component({
     selector: 'app-club-social',
@@ -27,7 +28,8 @@ import {ReservaVecinoComponent} from "./reserva-vecino/reserva-vecino.component"
     FormsModule,
     CartaVecinoComponent,
     VerReservasVecinoComponent,
-    ReservaVecinoComponent
+    ReservaVecinoComponent,
+    HeaderComunidadComponent
   ]
 })
 export class ClubSocialComponent  implements OnInit {

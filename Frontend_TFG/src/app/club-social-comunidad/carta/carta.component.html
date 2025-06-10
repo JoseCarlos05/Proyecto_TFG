@@ -2,14 +2,14 @@
 
   <ion-card class="carta-preview" (click)="abrirCartaCompleta()">
     <ion-card-header>
-      <ion-card-title class="titulo-preview">Carta</ion-card-title>
+      <ion-card-title class="titulo-preview">Carta del club social</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <div class="carta-horizontal">
         <ion-chip *ngFor="let carta of listaElementos" outline>
           <ion-label>
-            <strong>{{ carta.nombre }}</strong>
+            {{ carta.nombre }}
           </ion-label>
         </ion-chip>
       </div>
@@ -17,36 +17,27 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card style="background-color: #d0f5d0;">
+  <ion-card class="formulario-elemento">
     <ion-card-header>
       <ion-card-title>Añadir nuevo elemento</ion-card-title>
     </ion-card-header>
 
     <ion-card-content >
-      <ion-item >
-        <ion-label style="color: black; margin-bottom: 2px" position="stacked">Nombre</ion-label>
-        <ion-input [(ngModel)]="anadirElemento.nombre" name="nombre" required></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label style="color: black; margin-bottom: 2px" position="stacked">Descripción</ion-label>
-        <ion-textarea
-          [(ngModel)]="anadirElemento.descripcion"
-          name="descripcion">
-        </ion-textarea>
-      </ion-item>
-
-      <ion-item>
-        <ion-label style="color: black; margin-bottom: 2px" position="stacked">Precio</ion-label>
-        <ion-textarea
-          [(ngModel)]="anadirElemento.precio"
-          name="precio">
-        </ion-textarea>
-      </ion-item>
+      <div>
+        <ion-item>
+          <ion-input type="text" label="Nombre" labelPlacement="floating" placeholder="Introduce el nombre del alimento" [(ngModel)]="anadirElemento.nombre" name="nombre" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" label="Descripción" labelPlacement="floating" placeholder="Descripción opcional" [(ngModel)]="anadirElemento.descripcion" name="descripcion"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="number" label="Precio" labelPlacement="floating" placeholder="Precio del alimento (€)" [(ngModel)]="anadirElemento.precio" name="precio" required></ion-input>
+        </ion-item>
+      </div>
     </ion-card-content>
   </ion-card>
   <div style="text-align: center">
-    <ion-button (click)="anadirElementoMetodo()" type="submit" class="ion-margin-top guardar-boton">Añadir</ion-button>
+    <ion-button (click)="anadirElementoMetodo()" type="submit" class="ion-margin-top guardar-boton" [disabled]="!anadirElemento.nombre || !anadirElemento.precio">Añadir</ion-button>
   </div>
   <ion-modal [isOpen]="cartaAbierta" (didDismiss)="cartaAbierta = false">
     <ng-template>
@@ -63,13 +54,11 @@
           <ion-item *ngFor="let carta of listaElementos" class="circular">
             <ion-grid>
               <ion-row>
-                <ion-col size="5"><h4>Plato</h4></ion-col>
-                <ion-col size="4"></ion-col>
+                <ion-col size="9"><h4>Plato</h4></ion-col>
                 <ion-col size="3"><h4>Precio</h4></ion-col>
               </ion-row>
-              <ion-row class="descripcion">
-                <ion-col size="5"><h4>{{ carta.nombre }}</h4></ion-col>
-                <ion-col size="4"></ion-col>
+              <ion-row class="precio">
+                <ion-col size="9"><h4>{{ carta.nombre }}</h4></ion-col>
                 <ion-col size="3"><p>{{ carta.precio }} €</p></ion-col>
               </ion-row>
               <ion-row class="descripcion"><p>{{ carta.descripcion }}</p></ion-row>

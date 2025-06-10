@@ -1,7 +1,7 @@
 export interface Reserva{
   id?: number;
   numeroPersonas: string;
-  fechaHora:  string;
+  fechaHora: string;
   idVecino?: number;
   idComunidad?: number;
 }
