@@ -12,3 +12,9 @@ RUN ./mvnw dependency:resolve dependency:go-offline
 COPY src/ src/
 
 RUN ./mvnw clean package -DskipTests
+
+RUN ls -l target/
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "target/Backend_TFG-0.0.1-SNAPSHOT.jar"]
