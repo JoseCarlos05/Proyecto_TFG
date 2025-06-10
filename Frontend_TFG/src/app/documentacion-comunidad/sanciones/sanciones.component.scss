@@ -17,10 +17,10 @@ ion-img {
   width: 60px;
 }
 
-ion-grid {
+.grid-principal {
   padding: 0;
 
-  ion-row {
+  .row-principal {
     background-color: #7CDF68;
     border: 1px solid black;
     border-top: none;
@@ -56,7 +56,6 @@ ion-grid {
       }
 
       .motivo-div {
-        position: relative;
         text-align: center;
         font-weight: bold;
         background-color: white;
@@ -64,20 +63,38 @@ ion-grid {
         color: black;
         border-top: 2px solid black;
 
-        span:first-child {
-          font-style: italic;
-        }
+        .motivo-grid {
+          padding: 0;
 
-        .cruz-roja {
-          position: absolute;
-          bottom: 0px;
-          right: 4px;
-          width: 26px;
-          height: 26px;
-          cursor: pointer;
+          ion-row {
+            padding: 0;
+          }
+
+          ion-col {
+            padding-top: 15px;
+            text-align: center;
+            margin: 0 auto;
+          }
+
+          ion-col:last-child {
+            padding-top: 10px;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+          }
+
+          span:first-child {
+            font-style: italic;
+          }
+
+          .cruz-roja {
+            width: 26px;
+            cursor: pointer;
+            margin-right: 0;
+            margin-left: 10px;
+          }
         }
       }
-
     }
   }
 }

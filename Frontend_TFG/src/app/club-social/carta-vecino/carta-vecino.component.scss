@@ -1,0 +1,68 @@
+.carta-preview {
+  max-height: 150px;
+  overflow: hidden;
+  background-color: #d0f5d0;
+  margin-top: -20px;
+}
+
+.titulo-preview {
+  font-size: 1rem;
+  font-weight: bold;
+  color: black;
+  margin: 0 auto;
+}
+
+.carta-horizontal {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 0.5rem;
+}
+
+ion-chip {
+  margin-right: 6px;
+  flex-shrink: 0;
+  background-color: white;
+}
+
+ion-content {
+  --background: #E7F4E7;
+}
+
+ion-label{
+  font-size: 1rem;
+}
+
+.guardar-boton {
+  --background: #0E8008;
+  --color: #FFFFFF;
+  width: 40%;
+  max-width: 400px;
+  height: 50px;
+  margin: 20px auto;
+  font-weight: bold;
+  border-radius: 25%;
+}
+
+.descripcion {
+  margin-left: 8px;
+}
+
+.precio {
+  margin-top: -20px;
+}
+
+.circular {
+  margin-bottom: 15px;
+  border-radius: 25px;
+  border: 5px solid #7CDF68;
+  --background: white;
+}
+
+ion-toolbar {
+  --background: #0E8008;
+}
+
+.blanco {
+  color: #FFFFFF;
+}

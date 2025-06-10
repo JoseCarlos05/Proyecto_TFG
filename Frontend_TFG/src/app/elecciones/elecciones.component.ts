@@ -32,17 +32,23 @@ export class EleccionesComponent  implements OnInit {
               private eleccionesService: EleccionesService) { }
 
   ngOnInit() {
+    this.inicio()
+  }
+
+  ionViewWillEnter() {
+    this.inicio()
+  }
+
+  inicio(){
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
     }
-  }
-
-  ionViewWillEnter() {
     this.listarElecciones()
   }
 
   listarElecciones() {
+    this.listaElecciones = []
     if (this.comunidadObjeto?.id) {
       this.eleccionesService.listarElecciones(this.comunidadObjeto.id).subscribe({
         next: data => {

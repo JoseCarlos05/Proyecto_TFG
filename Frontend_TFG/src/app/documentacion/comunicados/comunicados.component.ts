@@ -104,9 +104,8 @@ export class ComunicadosComponent  implements OnInit {
     }
   }
 
-
   listarComunicados() {
-    if (this.comunidadObjeto?.id) {
+    if (this.comunidadObjeto && this.comunidadObjeto.id) {
       this.comunicadoService.listarComunicados(this.comunidadObjeto.id).subscribe({
         next: data => {
           this.listaComunicado = data.sort((a, b) => {

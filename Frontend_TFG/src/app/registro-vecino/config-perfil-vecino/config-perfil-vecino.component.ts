@@ -102,6 +102,14 @@ export class ConfigPerfilVecinoComponent implements OnInit {
       return;
     }
 
+    const ahora = new Date();
+    const fechaNacimiento = new Date(this.registroVecino.fechaNacimiento);
+
+    if (fechaNacimiento >= ahora) {
+      const toast = document.getElementById("diaIncorrecto") as any;
+      toast.present();
+      return;
+    }
 
     this.authService.registroVecino(this.registroVecino).subscribe({
       next: () => {

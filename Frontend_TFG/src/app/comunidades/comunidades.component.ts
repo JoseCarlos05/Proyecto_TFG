@@ -4,7 +4,7 @@ import {CommonModule} from "@angular/common";
 import {Router} from "@angular/router";
 import {FooterComponent} from "../footer/footer.component";
 import {HeaderComponent} from "../header/header.component";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import {TokenDataDTO} from "../modelos/TokenData";
 import {UsuarioService} from "../servicios/usuario.service";
 import {Usuario} from "../modelos/Usuario";
@@ -15,6 +15,10 @@ import {Comunidad} from "../modelos/Comunidad";
 import {ViviendaService} from "../servicios/vivienda.service";
 import {Vivienda} from "../modelos/Vivienda";
 import {Observable} from "rxjs";
+import {TipoNotificacion} from "../modelos/Notificacion";
+import {PistaService} from "../servicios/pista.service";
+import {VecinoGastos} from "../modelos/VecinoGastos";
+import {GastosService} from "../servicios/gastos.service";
 
 @Component({
   selector: 'app-comunidades',
@@ -39,7 +43,9 @@ export class ComunidadesComponent implements OnInit {
               private comunidadService: ComunidadService,
               private viviendaService: ViviendaService,
               private alertController: AlertController,
-              private toastController: ToastController) { }
+              private toastController: ToastController,
+              private pistaService: PistaService,
+              private gastosService: GastosService) { }
 
   ngOnInit() {
     this.inicio()
@@ -116,9 +122,23 @@ export class ComunidadesComponent implements OnInit {
   }
 
   navigateToComunidad(comunidad: Comunidad) {
-    if (comunidad?.id) {
-      sessionStorage.setItem('comunidad', JSON.stringify(comunidad));
-      this.router.navigate(['/comunidad/elecciones']);
+    if (comunidad?.id && this.vecino.id) {
+      const ids: number[] = [this.vecino.id]
+      this.pistaService.comprobarReservas(this.vecino.id, comunidad.id).subscribe({
+        next: data => {
+          if (data) {
+            this.comunidadService.enviarNotificacionVecino(ids, comunidad.id, TipoNotificacion.RESERVA).subscribe({
+              next: () => {
+                sessionStorage.setItem('comunidad', JSON.stringify(comunidad));
+                this.router.navigate(['/comunidad/perfil']);
+              }
+            })
+          } else {
+            sessionStorage.setItem('comunidad', JSON.stringify(comunidad));
+            this.router.navigate(['/comunidad/perfil']);
+          }
+        }
+      })
     }
   }
 
@@ -136,26 +156,49 @@ export class ComunidadesComponent implements OnInit {
         {
           text: 'Salir',
           role: 'destructive',
-          handler: () => {
+          handler: async () => {
             if (this.vecino?.id && comunidad?.id) {
-              this.cargarViviendas(comunidad.id).subscribe({
-                next: (viviendas: Vivienda[]) => {
-                  const vivienda = viviendas.find(v => Array.isArray(v.idVecinos) && v.idVecinos.includes(this.vecino.id));
-                  if (vivienda && vivienda.id) {
-                    this.viviendaService.salirComunidad(vivienda.id, this.vecino.id).subscribe({
-                      next: async () => {
-                        this.listaComunidades = this.listaComunidades.filter(c => c.id !== comunidad.id);
-                        const toast = await this.toastController.create({
-                          message: 'Has salido correctamente de la comunidad.',
-                          duration: 2000,
-                          color: 'success',
-                          position: 'top'
-                        });
-                        await toast.present();
-                      },
+              this.gastosService.listarDeudoresIdComunidadVecino(comunidad.id).subscribe({
+                next: async (deudores: VecinoGastos[]) => {
+                  const deudor = deudores.find(d => d.id === this.vecino.id && d.gastosPendientes.length > 0);
+                  if (deudor) {
+                    const toast = await this.toastController.create({
+                      message: `No puedes salir de la comunidad. Tienes gastos pendientes.`,
+                      duration: 3000,
+                      color: 'danger',
+                      position: 'top'
+                    });
+                    await toast.present();
+                  } else {
+                    this.cargarViviendas(comunidad.id).subscribe({
+                      next: (viviendas: Vivienda[]) => {
+                        const vivienda = viviendas.find(v => Array.isArray(v.idVecinos) && v.idVecinos.includes(this.vecino.id));
+                        if (vivienda && vivienda.id) {
+                          this.viviendaService.salirComunidad(vivienda.id, this.vecino.id).subscribe({
+                            next: async () => {
+                              this.listaComunidades = this.listaComunidades.filter(c => c.id !== comunidad.id);
+                              const toast = await this.toastController.create({
+                                message: 'Has salido correctamente de la comunidad.',
+                                duration: 2000,
+                                color: 'success',
+                                position: 'top'
+                              });
+                              await toast.present();
+                            },
+                            error: async () => {
+                              const toast = await this.toastController.create({
+                                message: 'Error al salir de la comunidad.',
+                                duration: 2000,
+                                color: 'danger',
+                                position: 'top'
+                              });
+                              await toast.present();
+                            }
+                          });
+                        }                       },
                       error: async () => {
                         const toast = await this.toastController.create({
-                          message: 'Error al salir de la comunidad.',
+                          message: 'Error al obtener las viviendas.',
                           duration: 2000,
                           color: 'danger',
                           position: 'top'
@@ -163,22 +206,16 @@ export class ComunidadesComponent implements OnInit {
                         await toast.present();
                       }
                     });
-                  } else {
-                    this.toastController.create({
-                      message: 'No se encontró tu vivienda en esta comunidad.',
-                      duration: 2000,
-                      color: 'warning',
-                      position: 'top'
-                    }).then(toast => toast.present());
                   }
                 },
-                error: () => {
-                  this.toastController.create({
-                    message: 'Error al obtener las viviendas.',
+                error: async () => {
+                  const toast = await this.toastController.create({
+                    message: 'Error al verificar los gastos pendientes.',
                     duration: 2000,
                     color: 'danger',
                     position: 'top'
-                  }).then(toast => toast.present());
+                  });
+                  await toast.present();
                 }
               });
             }
@@ -189,4 +226,5 @@ export class ComunidadesComponent implements OnInit {
 
     await alert.present();
   }
+
 }

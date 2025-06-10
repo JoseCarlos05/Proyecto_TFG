@@ -33,6 +33,9 @@ public class Horario {
     @Column(name = "reservado", nullable = false)
     private boolean reservado;
 
+    @Column(name = "notificado", nullable = false)
+    private boolean notificado;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pista", nullable = false)
     @EqualsAndHashCode.Exclude

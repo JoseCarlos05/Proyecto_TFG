@@ -98,12 +98,12 @@ export class NotificacionesComponent  implements OnInit {
   }
 
   cargarNotificaciones() {
-    this.notificaciones = []
+    this.notificaciones = [];
     this.vecinoService.verNotificaciones(this.vecino.id, this.comunidad.id).subscribe({
       next: data => {
-        this.notificaciones = data
+        this.notificaciones = data.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
       }
-    })
+    });
   }
 
   getImageUrlVecino(vecino: Vecino): string {
@@ -157,9 +157,9 @@ export class NotificacionesComponent  implements OnInit {
     } else if (tipo === TipoNotificacion.SANCION) {
       return `${this.vecino.nombre} ${this.vecino.apellidos}, se le informa que acaba de ser sancionado. Haga click para ver detalles`
     } else if (tipo === TipoNotificacion.RESERVA) {
-      return `Le recordamos que tiene una reserva de una propiedad de la comunidad progamada para mañana`
+      return `Le recordamos que tiene una reserva de una propiedad de esta comunidad progamada para dentro de poco. Haga click para ver detalles`
     } else if (tipo === TipoNotificacion.ELECCION) {
-      return `Se acaba de crear una nueva elección en la comunidad. Pulsa para ir a votar`
+      return `Se acaba de crear una nueva elección en la comunidad. Pulse para ir a votar`
     }
     return ''
   }
@@ -171,6 +171,8 @@ export class NotificacionesComponent  implements OnInit {
       this.router.navigate(['/comunidad/gastos'])
     } else if (notificacion.tipo === TipoNotificacion.ELECCION) {
       this.router.navigate(['/comunidad/elecciones'])
+    } else if (notificacion.tipo === TipoNotificacion.RESERVA) {
+      this.router.navigate(['/ver-reservas-vecino'])
     }
 
     this.vecinoService.eliminarNotificacion(this.vecino.id, notificacion.id!).subscribe({

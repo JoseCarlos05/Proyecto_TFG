@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Comunidad} from "../modelos/Comunidad";
 import {Gasto} from "../modelos/Gasto";
 import {Usuario} from "../modelos/Usuario";
@@ -24,13 +24,14 @@ import {FooterComunidadComponent} from "../footer-comunidad/footer-comunidad.com
     templateUrl: './ver-pistas-vecino.component.html',
     styleUrls: ['./ver-pistas-vecino.component.scss'],
     standalone: true,
-  imports: [
-    IonicModule,
-    NgForOf,
-    HeaderComponent,
-    HeaderComunidadComponent,
-    FooterComunidadComponent
-  ]
+    imports: [
+        IonicModule,
+        NgForOf,
+        HeaderComponent,
+        HeaderComunidadComponent,
+        FooterComunidadComponent,
+        NgIf
+    ]
 })
 export class VerPistasVecinoComponent  implements OnInit {
   comunidadObjeto!: Comunidad
@@ -40,15 +41,18 @@ export class VerPistasVecinoComponent  implements OnInit {
   listaPista: Pista[] = []
 
   constructor(private router: Router,
-              private gastosService: GastosService,
-              private activateRoute: ActivatedRoute,
-              private viviendaService: ViviendaService,
               private usuarioService: UsuarioService,
               private vecinoService: VecinoService,
               private pistaService: PistaService) {
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.inicio()
+  }
+
+  inicio() {
     const comunidad = sessionStorage.getItem('comunidad');
     if (comunidad) {
       this.comunidadObjeto = JSON.parse(comunidad);
@@ -67,7 +71,6 @@ export class VerPistasVecinoComponent  implements OnInit {
         console.error('Error al decodificar el token:', e);
       }
     }
-
   }
 
   cargarUsuario(correo: string): void {

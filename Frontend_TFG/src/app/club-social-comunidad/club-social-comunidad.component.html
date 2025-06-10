@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="seccion" mode="ios">
+    <ion-segment-button value="carta">
+      <ion-label>Carta</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="reservas">
+      <ion-label>Reservas</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <app-carta *ngIf="seccion === 'carta'"></app-carta>
+  <app-reservas *ngIf="seccion === 'reservas'"></app-reservas>
+</ion-content>
+
+<app-menu-inferior-comunidad></app-menu-inferior-comunidad>

@@ -1,0 +1,38 @@
+<div class="fondo">
+  <ion-button (click)="misReservas()">Ver mis reservas</ion-button>
+</div>
+
+<div class="input-container" id="primerDiv">
+  <ion-text>¿Cuántas personas?</ion-text>
+  <ion-input type="text" [(ngModel)]="reservar.numeroPersonas" placeholder="¿Cuántas personas quieres reservar?"></ion-input>
+
+  <ion-text>Día de reserva</ion-text>
+  <ion-input type="date" [(ngModel)]="fecha" (ionChange)="actualizarFechaHora()"></ion-input>
+
+  <ion-text>Hora de reserva</ion-text>
+  <ion-datetime locale="es" [(ngModel)]="hora" (ionChange)="actualizarFechaHora()" presentation="time" displayFormat="HH:mm" pickerFormat="HH:mm"  name="horaFinalizacion"></ion-datetime>
+
+</div>
+<ion-button expand="block" class="guardar-boton" (click)="reservarMetodo()" >Reservar</ion-button>
+
+<ion-toast
+  id="diaIncorrecto"
+  message="La fecha no puede ser anterior de la actual."
+  duration="3000"
+  position="top"
+  color="danger"
+></ion-toast>
+<ion-toast
+  id="campoVacio"
+  message="Por favor, completa todos los campos"
+  duration="3000"
+  position="top"
+  color="warning"
+></ion-toast>
+<ion-toast
+  id="exitoCreacion"
+  message="Elección creada con éxito"
+  duration="3000"
+  position="top"
+  color="success"
+></ion-toast>

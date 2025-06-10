@@ -6,7 +6,6 @@ import {FormsModule} from "@angular/forms";
 import {ComunicadosComponent} from "./comunicados/comunicados.component";
 import {SancionesComponent} from "./sanciones/sanciones.component";
 import {NgIf} from "@angular/common";
-import {ArchivosComponent} from "./archivos/archivos.component";
 
 @Component({
   selector: 'app-documentacion-comunidad',
@@ -19,8 +18,7 @@ import {ArchivosComponent} from "./archivos/archivos.component";
     FormsModule,
     ComunicadosComponent,
     SancionesComponent,
-    NgIf,
-    ArchivosComponent
+    NgIf
   ],
   standalone: true
 })

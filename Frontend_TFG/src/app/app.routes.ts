@@ -185,5 +185,17 @@ export const routes: Routes = [
   {
     path: 'info-piscina',
     loadComponent: () => import('./info-piscina/info-piscina.component').then((m) => m.InfoPiscinaComponent)
-  }
+  },
+  {
+    path: 'club-social-comunidad',
+    loadComponent: () => import('./club-social-comunidad/club-social-comunidad.component').then((m) => m.ClubSocialComunidadComponent)
+  },
+  {
+    path: 'club-social',
+    loadComponent: () => import('./club-social/club-social.component').then((m) => m.ClubSocialComponent)
+  },
+  {
+    path: 'ver-reservas-club',
+    loadComponent: () => import('./ver-resevas-club/ver-resevas-club.component').then((m) => m.VerResevasClubComponent)
+  },
 ];

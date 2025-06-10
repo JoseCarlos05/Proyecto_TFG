@@ -1,0 +1,17 @@
+<app-header></app-header>
+<app-header-comunidad></app-header-comunidad>
+
+<ion-content>
+  <ion-segment [(ngModel)]="seccion" mode="ios">
+    <ion-segment-button value="carta-vecino">
+      <ion-label>Carta</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="reserva-vecino">
+      <ion-label>Reserva</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <app-carta-vecino *ngIf="seccion === 'carta-vecino'"></app-carta-vecino>
+  <app-reserva-vecino *ngIf="seccion === 'reserva-vecino'"></app-reserva-vecino>
+</ion-content>
+
+<app-footer-comunidad></app-footer-comunidad>
