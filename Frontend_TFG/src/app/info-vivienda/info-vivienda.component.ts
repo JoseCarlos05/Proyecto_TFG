@@ -23,6 +23,7 @@ import {Sancion} from "../modelos/Sancion";
 import {Gasto} from "../modelos/Gasto";
 import {SancionService} from "../servicios/sancion.service";
 import {EditarVivienda} from "../modelos/EditarVivienda";
+import {VecinoGastos} from "../modelos/VecinoGastos";
 
 @Component({
   selector: 'app-info-vivienda',
@@ -51,6 +52,7 @@ export class InfoViviendaComponent implements OnInit {
   residentes: Vecino[] = []
   sanciones: Sancion[] = []
   deudas: Gasto[] = []
+  deudores: VecinoGastos[] = []
 
   editarVivienda: EditarVivienda = {
     direccionPersonal: ""
@@ -64,7 +66,8 @@ export class InfoViviendaComponent implements OnInit {
               private viviendaService: ViviendaService,
               private sancionService: SancionService,
               private alertController: AlertController,
-              private toastController: ToastController) {
+              private toastController: ToastController,
+              private gastosService: GastosService) {
   }
 
   ngOnInit() {
@@ -239,6 +242,30 @@ export class InfoViviendaComponent implements OnInit {
           handler: () => {
             alert.dismiss()
           }
+        },
+        {
+          text: 'Copiar',
+          role: 'confirm',
+          handler: async () => {
+            try {
+              await navigator.clipboard.writeText(codigo);
+              const toast = await this.toastController.create({
+                message: 'Código copiado al portapapeles',
+                duration: 2000,
+                color: 'success',
+                position: 'top'
+              });
+              await toast.present();
+            } catch (e) {
+              const toast = await this.toastController.create({
+                message: 'Error al copiar el código',
+                duration: 2000,
+                color: 'danger',
+                position: 'top'
+              });
+              await toast.present();
+            }
+          }
         }
       ]
     });
@@ -292,19 +319,32 @@ export class InfoViviendaComponent implements OnInit {
         {
           text: 'Eliminar',
           role: 'destructive',
-          handler: () => {
-            this.viviendaService.eliminarResidente(this.vivienda.id, residente.id).subscribe({
-              next: () => {
-                this.listarResidentes();
-              },
-              error: async () => {
-                const toast = await this.toastController.create({
-                  message: 'Residente eliminado correctamente.',
-                  duration: 2000,
-                  color: 'success',
-                  position: 'top'
-                });
-                await toast.present();
+          handler: async () => {
+            this.gastosService.listarDeudoresIdComunidad(this.comunidad.id).subscribe({
+              next: async (deudores: VecinoGastos[]) => {
+                const deudor = deudores.find(d => d.id === residente.id && d.gastosPendientes.length > 0);
+                if (deudor) {
+                  const toast = await this.toastController.create({
+                    message: `No se puede eliminar. ${residente.nombre} tiene gastos pendientes.`,
+                    duration: 3000,
+                    color: 'danger',
+                    position: 'top'
+                  });
+                  await toast.present();
+                } else {
+                  this.viviendaService.eliminarResidente(this.vivienda.id, residente.id).subscribe({
+                    next: async () => {
+                      const toast = await this.toastController.create({
+                        message: 'Residente eliminado correctamente.',
+                        duration: 2000,
+                        color: 'success',
+                        position: 'top'
+                      });
+                      await toast.present();
+                      this.listarResidentes();
+                    }
+                  });
+                }
               }
             });
           }
@@ -319,5 +359,15 @@ export class InfoViviendaComponent implements OnInit {
     this.router.navigate(['/lista-viviendas']);
   }
 
+  verificarEliminacion() {
+    this.gastosService.listarDeudoresIdComunidad(this.comunidad.id).subscribe({
+      next: data => {
+        this.deudores = data
+      },
+      error: () => {
+        console.error("Error al cargar el presidente.");
+      }
+    });
+  }
 
 }
