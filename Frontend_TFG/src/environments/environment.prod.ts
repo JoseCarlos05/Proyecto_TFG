@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: '/api',
-  socketUrl: '/ws'
+  apiUrl: 'https://livetogether-backend.onrender.com',
+  socketUrl: 'https://livetogether-backend.onrender.com'
 };

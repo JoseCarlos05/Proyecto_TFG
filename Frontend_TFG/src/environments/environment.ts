@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: '/api',
-  socketUrl: '/ws'
+  apiUrl: 'https://livetogether-backend.onrender.com',
+  socketUrl: 'https://livetogether-backend.onrender.com'
 };
 
 /*

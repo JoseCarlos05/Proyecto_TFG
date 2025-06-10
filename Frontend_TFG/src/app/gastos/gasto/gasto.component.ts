@@ -154,7 +154,7 @@ export class GastoComponent implements OnInit {
   }
 
   async crearSesionPago(): Promise<string> {
-    const respuesta = await fetch('http://localhost:8080/api/pago/crear-sesion', {
+    const respuesta = await fetch('https://livetogether-backend.onrender.com/api/pago/crear-sesion', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

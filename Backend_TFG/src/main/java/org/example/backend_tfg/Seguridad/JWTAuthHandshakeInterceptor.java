@@ -50,7 +50,7 @@ public class JWTAuthHandshakeInterceptor implements HandshakeInterceptor {
         }
 
         response.setStatusCode(HttpStatus.FORBIDDEN);
-        response.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:4200");
+        response.getHeaders().add("Access-Control-Allow-Origin", "https://livetogether-frontend.onrender.com");
         response.getHeaders().add("Vary", "Origin");
         return false;
     }
